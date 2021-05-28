@@ -168,29 +168,29 @@ class ListViewActivity : AppCompatActivity() {
 //                )
 //            )
 //        )
-    templates = listOf(
-        ListViewTemplate(
-            case = null,
-            view = Container(
-                children = listOf(
-                    Button(
-                        text = expressionOf("@{item.name} - @{item.cpf}"),
-                        onPress = listOf(
-                            SetContext(
-                                contextId = "insideContext",
-                                path = "[0].name",
-                                value = "Updated John"
+        templates = listOf(
+            ListViewTemplate(
+                case = null,
+                view = Container(
+                    children = listOf(
+                        Button(
+                            text = expressionOf("@{item.name} - @{item.cpf}"),
+                            onPress = listOf(
+                                SetContext(
+                                    contextId = "insideContext",
+                                    path = "[0].name",
+                                    value = "Updated John"
+                                )
                             )
-                        )
-                    ).applyStyle(
-                        Style(
-                            size = Size(width = 300.unitReal(), height = 80.unitReal())
+                        ).applyStyle(
+                            Style(
+                                size = Size(width = 300.unitReal(), height = 80.unitReal())
+                            )
                         )
                     )
                 )
             )
-        )
-    ),
+        ),
     ).applyStyle(
         Style(
             backgroundColor = "#CCC"

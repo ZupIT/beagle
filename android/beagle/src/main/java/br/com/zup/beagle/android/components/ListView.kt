@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.list.ListAdapter
 import br.com.zup.beagle.android.components.list.ListViewModels
 import br.com.zup.beagle.android.components.list.ListViewTemplate
@@ -104,6 +103,11 @@ constructor(
      * @param key points to a unique value present in each dataSource item
      * used as a suffix in the component ids within the Widget.
      */
+    @Deprecated(message = "It was deprecated in version 1.7 and will be removed in a future version. " +
+        "Use templates instead template",
+        replaceWith = ReplaceWith(
+            "ListView(direction, context, onInit, dataSource, onScrollEnd, scrollEndThreshold," +
+                "iteratorName, key, templates)"))
     constructor(
         direction: ListDirection,
         context: ContextData? = null,
@@ -299,7 +303,7 @@ constructor(
         recyclerView.apply {
             adapter = contextAdapter
             layoutManager = getLayoutManager(context)
-            setHasFixedSize(true) // TODO - dar uma olhada nesse cara
+            setHasFixedSize(true)
         }
     }
 
