@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.list
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
@@ -32,6 +33,7 @@ import br.com.zup.beagle.android.utils.toAndroidId
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+@SuppressLint("LongParameterList")
 internal class ListAdapter(
     val orientation: Int,
     val template: ServerDrivenComponent?,
