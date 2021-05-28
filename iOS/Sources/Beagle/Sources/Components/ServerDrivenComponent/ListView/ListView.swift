@@ -87,7 +87,6 @@ public struct ListView: Widget, HasContext, InitiableComponent {
         return "__list_\(Int.random(in: 0...Int.max))"
     }
 
-    
     /// Creates a list with content of the children. Deprecated: use the dataSource and template instead of children.
     /// - Parameters:
     ///   - children: Defines each cell of the ListView.
