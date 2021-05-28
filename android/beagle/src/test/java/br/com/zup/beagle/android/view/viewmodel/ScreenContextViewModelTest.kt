@@ -177,6 +177,23 @@ class ScreenContextViewModelTest {
     }
 
     @Test
+    fun `GIVEN ScreenContextViewModel WHEN evaluateExpressionForGivenContext THEN should use both context and evaluate`() {
+        // Given
+        val originView = mockk<View>()
+        val bind = mockk<Bind.Expression<String>>()
+        val givenContext = ContextData(id = "context", value = "")
+        val contexts = listOf(ContextData(id = "contextInViewTree", value = ""))
+        val expectedContexts = contexts + givenContext
+        every { contextDataManager.getContextsFromBind(originView, bind) } returns contexts
+
+        // When
+        screenContextViewModel.evaluateExpressionForGivenContext(originView, givenContext, bind)
+
+        // Then
+        verify(exactly = 1) { contextDataEvaluation.evaluateBindExpression(expectedContexts, bind) }
+    }
+
+    @Test
     fun `GIVEN ScreenContextViewModel WHEN clearContexts THEN should call clearContexts`() {
         // When
         screenContextViewModel.clearContexts()

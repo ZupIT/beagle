@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             R.id.gridView -> goToFragment(GridViewFragment.newInstance())
             R.id.webView -> goToFragment(WebViewFragment.newInstance())
             R.id.composeComponent -> goToFragment(ComposeComponentFragment.newInstance())
-            R.id.sampleBff -> startActivity(newServerDrivenIntent<ServerDrivenActivity>(ScreenRequest("https://run.mocky.io/v3/d4723e72-b88b-4e76-bedb-c05e5fd4b4a9")))
+            R.id.sampleBff -> startActivity(newServerDrivenIntent<ServerDrivenActivity>(ScreenRequest(SAMPLE_ENDPOINT)))
         }
     }
 

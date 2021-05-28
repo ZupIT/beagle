@@ -59,31 +59,16 @@ class ListViewActivity : AppCompatActivity() {
         dataSource = expressionOf("@{outsideContext}"),
         direction = ListDirection.VERTICAL,
         isScrollIndicatorVisible = true,
-//        template = Container(
-//            children = listOf(
-//                Text(text = expressionOf("@{item}")),
-//                list
-//            )
-//        ).applyStyle(
-//            Style(
-//                size = Size(width = 100.unitPercent(), height = 600.unitReal())
-//            )
-//        )
-    templates = listOf(
-        ListViewTemplate(
-            case = null,
-            view = Container(
-                children = listOf(
-                    Text(text = expressionOf("@{item}")),
-                    list
-                )
-            ).applyStyle(
-                Style(
-                    size = Size(width = 100.unitPercent(), height = 600.unitReal())
-                )
+        template = Container(
+            children = listOf(
+                Text(text = expressionOf("@{item}")),
+                list
+            )
+        ).applyStyle(
+            Style(
+                size = Size(width = 100.unitPercent(), height = 600.unitReal())
             )
         )
-    )
     )
 
     data class Person(
