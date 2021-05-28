@@ -34,7 +34,7 @@ public struct FormInput: ServerDrivenComponent, AutoInitiableAndDecodable {
     /// Message that is showed to the user if the validation fails.
     public let errorMessage: String?
     
-    /// Any Widget that conforms to InputWidget will do here.
+    /// It's required that child component implements `InputValue`
     /// It could be an EditText view in Android, a Radio button in HTML,
     /// an UITextField in iOS or any other type of view that can receive and store input from users.
     public let child: ServerDrivenComponent

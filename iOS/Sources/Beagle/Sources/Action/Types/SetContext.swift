@@ -26,7 +26,7 @@ public struct SetContext: AnalyticsAction {
     /// New value to be applied in the context.
     public let value: DynamicObject
     
-    /// Defines a analytics configuration for this action.
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
 
     public init(

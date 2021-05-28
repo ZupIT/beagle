@@ -18,11 +18,11 @@
 @available(*, deprecated, message: "use SimpleForm and SubmitForm instead")
 public struct Form: ServerDrivenComponent, AutoInitiableAndDecodable {
     
-    /// Defines the actions you want to be when click in the form.
+    /// Defines the actions triggered when clicking in the form.
     public let onSubmit: [Action]?
     
-    /// You should provide an hierarchy of visual components on which form will act upon.
-    /// It's important to have somewhere in your component hierarchy input components
+    /// You should provide a hierarchy of visual components on which the form will act upon.
+    /// It's important to have input components somewhere in your component's hierarchy
     /// `FormInput` and a submit component `FormSubmit`.
     public let child: ServerDrivenComponent
     

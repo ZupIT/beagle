@@ -38,7 +38,7 @@ public struct SendRequest: Action, AutoInitiableAndDecodable, AnalyticsAction {
     /// Actions to be executed in request completion case.
     public var onFinish: [Action]?
     
-    /// Defines a analytics configuration for this action.
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
     
 // sourcery:inline:auto:SendRequest.Init

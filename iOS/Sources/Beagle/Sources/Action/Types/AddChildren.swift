@@ -26,7 +26,7 @@ public struct AddChildren: AnalyticsAction {
     /// Defines the placement of where the children will be inserted in the list or if the contents of the list will be replaced.
     public var mode: Mode = .append
     
-    /// Defines a analytics configuration for the `AddChildren` action.
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
     
     internal var staticValue: [ServerDrivenComponent]?

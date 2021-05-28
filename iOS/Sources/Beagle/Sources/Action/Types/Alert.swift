@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-/// This action will show an alert natively, such as an error alert indicating alternative flows, business system errors and others.
+/// This action will show an alert natively, such as an error alert, indicating alternative flows, business system errors and others.
 public struct Alert: AnalyticsAction, AutoInitiableAndDecodable {
     
-    /// Defines the title on the Alert.
+    /// Defines the title on the alert.
     public let title: Expression<String>?
     
-    /// Defines the Alert message.
+    /// Defines the alert message.
     public let message: Expression<String>
     
-    /// Defines action of button positive in alert.
+    /// Defines the action of the button positive in the alert.
     public let onPressOk: Action?
     
-    /// Define text of button positive in alert.
+    /// Defines the text of the button positive in the alert.
     public let labelOk: String?
     
-    /// Defines a analytics configuration for this action.
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
 
 // sourcery:inline:auto:Alert.Init

@@ -20,13 +20,13 @@ public struct Condition: AnalyticsAction, AutoInitiableAndDecodable {
     /// Condition should represents a boolean.
     public let condition: Expression<Bool>
     
-    /// Defines action if the condition returns true.
+    /// Defines the actions triggered if the condition returns true.
     public let onTrue: [Action]?
     
-    /// Defines action if the condition returns false.
+    /// Defines the actions triggered if the condition returns false.
     public let onFalse: [Action]?
     
-    /// Defines a analytics configuration for this action.
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
 
 // sourcery:inline:auto:Condition.Init

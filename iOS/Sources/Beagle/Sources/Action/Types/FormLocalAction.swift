@@ -23,7 +23,7 @@ public struct FormLocalAction: AnalyticsAction, AutoInitiable {
     /// Sending data for the action.
     public let data: [String: String]
     
-    /// Defines a analytics configuration for this action.
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
 
 // sourcery:inline:auto:FormLocalAction.Init

@@ -23,19 +23,19 @@ public struct Confirm: AnalyticsAction, AutoInitiableAndDecodable {
     /// Defines the alert message.
     public let message: Expression<String>
     
-    /// Defines action of button positive in alert.
+    /// Defines the action of the button positive in the alert.
     public let onPressOk: Action?
     
-    /// Defines action of button negative in alert.
+    /// Defines the action of the button negative in the alert.
     public let onPressCancel: Action?
     
-    /// Defines text of button positive in alert.
+    /// Defines the text of the button positive in the alert.
     public let labelOk: String?
     
-    /// define text of button negative in alert.
+    /// Defines the text of the button negative in the alert.
     public let labelCancel: String?
     
-    /// Defines a analytics configuration for this action.
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
 
 // sourcery:inline:auto:Confirm.Init
