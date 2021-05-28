@@ -294,7 +294,6 @@ constructor(
             viewFactory,
             ListViewModels(rootView),
             templates,
-            rootView,
             recyclerView,
         )
         recyclerView.apply {

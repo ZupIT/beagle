@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.components.list
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
@@ -44,7 +43,6 @@ internal class ListAdapter(
     val viewFactory: ViewFactory,
     val listViewModels: ListViewModels,
     val templateList: List<ListViewTemplate>? = null,
-    val rootView: RootView,
     val originView: View,
 ) : RecyclerView.Adapter<ListViewHolder>() {
 
@@ -74,6 +72,13 @@ internal class ListAdapter(
             ListViewTemplateJson(template.case, serializer.serializeComponent(template.view))
         }
     }
+
+    // This structure keeps track of known view types. This was made to improve performance due to the fact that
+    // getItemViewType method is called many times for the same adapter position.
+    // If you're extending this class or using it as a guide to your own implementation, it's important to notice that
+    // everytime the adapter's content changes, this structure must be invalidated or updated. This includes swapping
+    // items in the list or changing data inside an item that will cause the viewType for the item to change.
+    private val knownViewTypes = mutableMapOf<Int, Int>()
 
     // Saves the default template index
     private val defaultTemplateIndex = getDefaultTemplateIndex()
@@ -130,55 +135,46 @@ internal class ListAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-
-        // TODO: criar uma lista para armazenar os viewTypes já evaluados
-        // TODO: sempre que a lista do adapter mudar, reiniciar a lista
-        // TODO: documentar para o usuário, que se ele alterar um item do adapter, ou mudar um item de posição,
-        // ele deve invalidar essa lista, ou atualizar o viewType para as posições que mudarem
-        Log.e("ListView", "getItemViewType - $position")
-        val itemContext = ContextData(id = iteratorName, value = adapterItems[position].data)
-        val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-        var index = 0
-        var found = false
-        run loop@{
-            templateJsonList?.forEach {
-                when (it.case) {
-                    is Bind.Expression -> {
-                        if (viewModel.evaluateExpressionForGivenContext(originView, itemContext, it.case) as Boolean) {
-                            found = true
-                            return@loop
+        return knownViewTypes.getOrPut(position) {
+            val itemContext = ContextData(id = iteratorName, value = adapterItems[position].data)
+            val viewModel = listViewModels.contextViewModel
+            var index = 0
+            var found = false
+            run loop@{
+                templateJsonList?.forEach {
+                    when (it.case) {
+                        is Bind.Expression -> {
+                            if (viewModel.evaluateExpressionForGivenContext(originView, itemContext, it.case) as Boolean) {
+                                found = true
+                                return@loop
+                            }
+                        }
+                        else -> {
+                            if (it.case != null && it.case.value as Boolean) {
+                                found = true
+                                return@loop
+                            }
                         }
                     }
-                    else -> {
-                        if (it.case != null && it.case.value as Boolean) {
-                            found = true
-                            return@loop
-                        }
-                    }
+                    index++
                 }
-                index++
             }
+            if (found) index else defaultTemplateIndex
         }
-
-        return if (found) index else defaultTemplateIndex
     }
 
     private fun getTemplateByViewType(viewType: Int): String {
-        Log.e("ListView", "viewType - $viewType")
         return templateJsonList?.getOrNull(viewType)?.viewJson ?: (templateJson ?: NOT_FOUND_TEMPLATE)
     }
 
-    private fun getDefaultTemplateIndex() : Int {
+    private fun getDefaultTemplateIndex(): Int {
         return templateList?.indexOfFirst {
             it.case == null
         } ?: -1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        Log.e("ListView", "onCreateViewHolder - $viewType")
-        // pega o template conforme o viewType
         val jsonTemplate = getTemplateByViewType(viewType)
-        //val newTemplate = serializer.deserializeComponent(templateJson)
         val newTemplate = serializer.deserializeComponent(jsonTemplate)
         val view = generateView(newTemplate)
         val viewHolder = ListViewHolder(
@@ -186,7 +182,6 @@ internal class ListAdapter(
             newTemplate,
             serializer,
             listViewModels,
-            //templateJson,
             jsonTemplate,
             iteratorName
         )
@@ -216,7 +211,6 @@ internal class ListAdapter(
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        Log.e("ListView", "onBindViewHolder - $position")
         holder.onBind(parentListViewSuffix, key, adapterItems[position], position, recyclerId)
     }
 
@@ -245,6 +239,7 @@ internal class ListAdapter(
     private fun clearAdapterContent() {
         adapterItems = emptyList()
         createdViewHolders.clear()
+        knownViewTypes.clear()
     }
 
     private fun notifyListViewIdViewModel(adapterPreviouslyEmpty: Boolean, componentId: String?) {
@@ -295,7 +290,6 @@ internal class ListAdapter(
             this.viewFactory,
             this.listViewModels,
             this.templateList,
-            this.rootView,
             this.originView
         )
     }
