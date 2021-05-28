@@ -22,7 +22,7 @@ import br.com.zup.beagle.widget.context.valueOfNullable
 
 data class ListViewTemplate (
     /**
-     * Condition to tell if this is the template to render or not. Optional. If omitted, we consider it to be the
+     * Condition to tell if this is the template to render or not. Optional. If omitted, we consider it to be the 
      * default template, i.e, it's used whenever no other template can be used.
      */
     val case: Bind<Boolean>?,
