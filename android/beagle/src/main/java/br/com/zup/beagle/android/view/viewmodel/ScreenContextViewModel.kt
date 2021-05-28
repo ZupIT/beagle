@@ -28,7 +28,7 @@ import br.com.zup.beagle.android.context.ContextDataManager
 import br.com.zup.beagle.android.context.ImplicitContextManager
 import br.com.zup.beagle.android.utils.Observer
 
-@SuppressLint("TooManyFunctions")
+@Suppress("TooManyFunctions")
 internal class ScreenContextViewModel(
     private val contextDataManager: ContextDataManager = ContextDataManager(),
     private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation(),
