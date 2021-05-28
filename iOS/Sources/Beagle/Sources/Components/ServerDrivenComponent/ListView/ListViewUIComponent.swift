@@ -309,13 +309,6 @@ extension ListViewUIComponent: UICollectionViewDelegateFlowLayout {
         let keyPath = model.direction.sizeKeyPath
         if let calculatedSize = itemsSize[itemHash] {
             size[keyPath: keyPath] = calculatedSize[keyPath: keyPath]
-        } else if #available(iOS 12.0, *) {
-            // Intentionally empty.
-            // Bellow iOS 12, if the size is 0, the size changes made at
-            // cell method `preferredLayoutAttributesFitting` won't apply.
-            // To fix it the size is set to 1.
-        } else if size[keyPath: keyPath] == 0 {
-            size[keyPath: keyPath] = 1
         }
         return size
     }
