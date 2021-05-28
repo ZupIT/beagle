@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import android.annotation.SuppressLint
 import android.view.View
 import androidx.lifecycle.ViewModel
 import br.com.zup.beagle.android.action.Action
