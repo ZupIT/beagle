@@ -45,7 +45,8 @@ data class ListView(
     val iteratorName: String = "item",
     val isScrollIndicatorVisible: Boolean = false,
     val key: String? = null,
-    val useParentScroll: Boolean? = null
+    val useParentScroll: Boolean? = null,
+    val templates: List<ListViewTemplate>? = null,
 ) : Widget(), ContextComponent {
 
     /**
@@ -80,6 +81,11 @@ data class ListView(
      * @param key points to a unique value present in each dataSource item
      * used as a suffix in the component ids within the Widget.
      */
+    @Deprecated(message = "It was deprecated in version 1.7 and will be removed in a future version. " +
+        "Use templates instead template",
+        replaceWith = ReplaceWith(
+            "ListView(direction, context, onInit, dataSource, onScrollEnd, scrollEndThreshold," +
+                "iteratorName, key, useParentScroll, templates)"))
     constructor(
         direction: ListDirection,
         context: ContextData? = null,
@@ -105,6 +111,49 @@ data class ListView(
         isScrollIndicatorVisible,
         key,
         useParentScroll
+    )
+
+    /**
+     * @param direction define the list direction.
+     * @param context define the contextData that be set to component.
+     * @param onInit allows to define a list of actions to be performed when the Widget is displayed.
+     * @param dataSource it's an expression that points to a list of values used to populate the Widget.
+     * @param onScrollEnd list of actions performed when the list is scrolled to the end.
+     * @param scrollEndThreshold sets the scrolled percentage of the list to trigger onScrollEnd.
+     * @param isScrollIndicatorVisible this attribute enables or disables the scroll bar.
+     * @param iteratorName is the context identifier of each cell.
+     * @param key points to a unique value present in each dataSource item
+     * used as a suffix in the component ids within the Widget.
+     * @param templates Multiple templates support. The template to use will be decided according to the property `case`
+     * of the template. The first template where `case` is `true` is the template chosen to render an item. If for every
+     * template `case` is `false`, then, the first template where `case` is omitted (default template) is used.
+     */
+    constructor(
+        direction: ListDirection,
+        context: ContextData? = null,
+        onInit: List<Action>? = null,
+        dataSource: Bind<List<Any>>,
+        onScrollEnd: List<Action>? = null,
+        scrollEndThreshold: Int? = null,
+        isScrollIndicatorVisible: Boolean = false,
+        iteratorName: String = "item",
+        key: String? = null,
+        useParentScroll: Boolean? = null,
+        templates: List<ListViewTemplate>,
+    ) : this(
+        null,
+        direction,
+        context,
+        onInit,
+        dataSource,
+        null,
+        onScrollEnd,
+        scrollEndThreshold,
+        iteratorName,
+        isScrollIndicatorVisible,
+        key,
+        useParentScroll,
+        templates,
     )
 
     companion object
