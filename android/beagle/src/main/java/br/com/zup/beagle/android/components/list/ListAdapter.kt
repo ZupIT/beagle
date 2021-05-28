@@ -141,7 +141,8 @@ internal class ListAdapter(
                 templateJsonList?.forEach {
                     when (it.case) {
                         is Bind.Expression -> {
-                            if (viewModel.evaluateExpressionForGivenContext(originView, itemContext, it.case) as Boolean) {
+                            if (viewModel.evaluateExpressionForGivenContext(
+                                    originView, itemContext, it.case) as Boolean) {
                                 found = true
                                 return@loop
                             }

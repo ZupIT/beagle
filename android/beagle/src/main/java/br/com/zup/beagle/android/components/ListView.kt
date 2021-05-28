@@ -195,7 +195,8 @@ constructor(
 
     override fun buildView(rootView: RootView): View {
         this.rootView = rootView
-        return if (children.isNullOrEmpty() && (template != null || templates != null) && dataSource != null) {
+        val hasTemplate = template != null || templates != null
+        return if (children.isNullOrEmpty() && hasTemplate && dataSource != null) {
             buildNewListView()
         } else {
             buildOldListView()

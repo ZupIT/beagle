@@ -20,8 +20,8 @@ import br.com.zup.beagle.android.context.Bind
 
 data class ListViewTemplateJson (
     /**
-     * Condition to tell if this is the template to render or not. Optional. If omitted, we consider it to be the default template,
-     * i.e, it's used whenever no other template can be used.
+     * Condition to tell if this is the template to render or not. Optional. If omitted, we consider it to be the
+     * default template, i.e, it's used whenever no other template can be used.
      */
     val case: Bind<Boolean>?,
     /**
