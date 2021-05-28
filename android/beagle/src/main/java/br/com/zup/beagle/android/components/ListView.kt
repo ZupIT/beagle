@@ -21,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.Action
@@ -126,6 +127,9 @@ constructor(
     )
 
     @Transient
+    var numColums: Int = 0
+
+    @Transient
     private val viewFactory: ViewFactory = ViewFactory()
 
     @Transient
@@ -146,6 +150,15 @@ constructor(
             buildNewListView()
         } else {
             buildOldListView()
+        }
+    }
+
+    private fun getLayoutManager(context: Context): RecyclerView.LayoutManager {
+        return if (numColums <= 0) {
+            val orientation = listDirectionToRecyclerViewOrientation()
+            LinearLayoutManager(context, orientation, false)
+        } else {
+            GridLayoutManager(context, numColums)
         }
     }
 
@@ -238,9 +251,8 @@ constructor(
         )
         recyclerView.apply {
             adapter = contextAdapter
-            layoutManager = LinearLayoutManager(context, orientation, false).apply {
-                setHasFixedSize(true)
-            }
+            layoutManager = getLayoutManager(context)
+            setHasFixedSize(true)
         }
     }
 

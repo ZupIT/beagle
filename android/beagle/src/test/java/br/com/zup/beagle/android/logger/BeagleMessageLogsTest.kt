@@ -62,9 +62,9 @@ internal class BeagleMessageLogsTest {
         unmockkAll()
     }
 
-    @DisplayName("When trying to receive or pass invalid data")
     @Nested
-    inner class Exception {
+    @DisplayName("When receive valid data")
+    inner class Succeed {
 
         @Test
         @DisplayName("Then the log Http RequestData should call BeagleLogger info")
@@ -78,10 +78,10 @@ internal class BeagleMessageLogsTest {
             // Then
             assertEquals("""
             *** HTTP REQUEST ***
-            Uri=${requestData.uri}
-            Method=${requestData.method}
-            Headers=${requestData.headers}
-            Body=${requestData.body}
+            Url=${requestData.url}
+            Method=${requestData.httpAdditionalData.method}
+            Headers=${requestData.httpAdditionalData.headers}
+            Body=${requestData.httpAdditionalData.body}
         """.trimIndent(), beagleLoggerInfoSlot.captured)
         }
 
@@ -103,37 +103,12 @@ internal class BeagleMessageLogsTest {
         """.trimIndent(), beagleLoggerInfoSlot.captured)
         }
 
-        @Test
-        @DisplayName("Then the log to invalid http client should call BeagleLogger info")
-        fun `check message log for http client`() {
-            // Given
-            val throwable = mockk<Throwable>()
 
-            // When
-            BeagleMessageLogs.logUnknownHttpError(throwable)
+    }
 
-            // Then
-            verify(exactly = 1) {
-                BeagleLoggerProxy.error(
-                    "Exception thrown while trying to call http client.", throwable)
-            }
-        }
-
-        @Test
-        @DisplayName("Then the log to invalid deserialization should call BeagleLogger info")
-        fun `check message log for invalid deserialization`() {
-            // Given
-            val json = RandomData.string()
-
-            // When
-            BeagleMessageLogs.logDeserializationError(json, exception)
-
-            // Then
-            verify(exactly = 1) {
-                BeagleLoggerProxy.error(
-                    "Exception thrown while trying to deserialize the following json: $json", exception)
-            }
-        }
+    @Nested
+    @DisplayName("When some data are not found")
+    inner class Warning {
 
         @Test
         @DisplayName("Then the log to WidgetViewFactory not found should call BeagleLogger info")
@@ -149,16 +124,6 @@ internal class BeagleMessageLogsTest {
             Did you miss to create a WidgetViewFactory for Widget ${widget::class.java.simpleName}
         """.trimIndent()
             verify(exactly = 1) { BeagleLoggerProxy.warning(message) }
-        }
-
-        @Test
-        @DisplayName("Then the log of support for action bar should call BeagleLogger info")
-        fun `check message log for support action bar`() {
-            // When
-            BeagleMessageLogs.logActionBarAlreadyPresentOnView(exception)
-
-            // Then
-            verify(exactly = 1) { BeagleLoggerProxy.error("SupportActionBar is already present", exception) }
         }
 
         @Test
@@ -207,6 +172,105 @@ internal class BeagleMessageLogsTest {
         }
 
         @Test
+        @DisplayName("Then the log to attempt to multiple expressions should call BeagleLogger info")
+        fun `check the attempt log to use multiple expressions in a type that is not string`() {
+            // When
+            BeagleMessageLogs.multipleExpressionsInValueThatIsNotString()
+
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.warning(
+                    "You are trying to use multiple expressions in a type that is not string!")
+            }
+        }
+
+        @Test
+        @DisplayName("Then in an attempt to use a reserved keyword in a Global Context the log " +
+            "should call BeagleLogger info")
+        fun `check the message log to global keyword reserved in a global context`() {
+            // When
+            BeagleMessageLogs.globalKeywordIsReservedForGlobalContext()
+
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.warning("Context name global is a reserved keyword for Global Context only")
+            }
+        }
+
+        @Test
+        @DisplayName("Then in an attempt to found a nonexistent function")
+        fun `check the log to found a nonexistent function`() {
+            val functionName = RandomData.string()
+
+            // When
+            BeagleMessageLogs.functionWithNameDoesNotExist(functionName)
+
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.warning("Function with named $functionName does not exist.")
+            }
+        }
+
+        @Test
+        @DisplayName("Then in an attempt to add a prefetch in an expression")
+        fun `check the log to add a prefetch in an expression`() {
+            // When
+            BeagleMessageLogs.expressionNotSupportInPreFetch()
+
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.warning("Expression is not support in prefetch")
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("When trying to receive or pass invalid data")
+    inner class Error {
+
+        @Test
+        @DisplayName("Then the log to invalid http client should call BeagleLogger info")
+        fun `check message log for http client`() {
+            // Given
+            val throwable = mockk<Throwable>()
+
+            // When
+            BeagleMessageLogs.logUnknownHttpError(throwable)
+
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.error(
+                    "Exception thrown while trying to call http client.", throwable)
+            }
+        }
+
+        @Test
+        @DisplayName("Then the log to invalid deserialization should call BeagleLogger info")
+        fun `check message log for invalid deserialization`() {
+            // Given
+            val json = RandomData.string()
+
+            // When
+            BeagleMessageLogs.logDeserializationError(json, exception)
+
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.error(
+                    "Exception thrown while trying to deserialize the following json: $json", exception)
+            }
+        }
+
+        @Test
+        @DisplayName("Then the log of support for action bar should call BeagleLogger info")
+        fun `check message log for support action bar`() {
+            // When
+            BeagleMessageLogs.logActionBarAlreadyPresentOnView(exception)
+
+            // Then
+            verify(exactly = 1) { BeagleLoggerProxy.error("SupportActionBar is already present", exception) }
+        }
+
+        @Test
         @DisplayName("Then the context access log should call BeagleLogger info")
         fun `check log for context access`() {
             // When
@@ -228,175 +292,123 @@ internal class BeagleMessageLogsTest {
             // Then
             verify(exactly = 1) { BeagleLoggerProxy.error("Error while trying to change context.", exception) }
         }
-    }
 
-    @Test
-    @DisplayName("Then the log to attempt to notify the change of context should call BeagleLogger info")
-    fun `check the message log to context change attempt`() {
-        // When
-        BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(exception)
+        @Test
+        @DisplayName("Then the log to attempt to notify the change of context should call BeagleLogger info")
+        fun `check the message log to context change attempt`() {
+            // When
+            BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(exception)
 
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.error("Error while trying to notify context changes.", exception)
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.error("Error while trying to notify context changes.", exception)
+            }
         }
-    }
 
-    @Test
-    @DisplayName("Then the log to attempt to evaluate binding should call BeagleLogger info")
-    fun `check the evaluate binding attempt log`() {
-        // When
-        BeagleMessageLogs.errorWhileTryingToEvaluateBinding(exception)
+        @Test
+        @DisplayName("Then the log to attempt to evaluate binding should call BeagleLogger info")
+        fun `check the evaluate binding attempt log`() {
+            // When
+            BeagleMessageLogs.errorWhileTryingToEvaluateBinding(exception)
 
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.error("Error while trying to evaluate binding.", exception)
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.error("Error while trying to evaluate binding.", exception)
+            }
         }
-    }
 
-    @Test
-    @DisplayName("Then the log to attempt to multiple expressions should call BeagleLogger info")
-    fun `check the attempt log to use multiple expressions in a type that is not string`() {
-        // When
-        BeagleMessageLogs.multipleExpressionsInValueThatIsNotString()
+        @Test
+        @DisplayName("Then the color parses log should call Beagle Logger info")
+        fun `check the message log for attempted parses color`() {
+            val color = RandomData.string()
 
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.warning(
-                "You are trying to use multiple expressions in a type that is not string!")
+            // When
+            BeagleMessageLogs.errorWhenMalformedColorIsProvided(color, exception)
+
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.error(
+                    "Could not parses color $color", exception)
+            }
         }
-    }
 
-    @Test
-    @DisplayName("Then the color parses log should call Beagle Logger info")
-    fun `check the message log for attempted parses color`() {
-        val color = RandomData.string()
+        @Test
+        @DisplayName("Then the message log to not found value should call BeagleLogger info")
+        fun `check the message log to not found value`() {
+            val value = RandomData.string()
 
-        // When
-        BeagleMessageLogs.errorWhenMalformedColorIsProvided(color, exception)
+            // When
+            BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(value)
 
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.error(
-                "Could not parses color $color", exception)
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.error("Could not found value for $value")
+            }
         }
-    }
 
-    @Test
-    @DisplayName("Then the message log to not found value should call BeagleLogger info")
-    fun `check the message log to not found value`() {
-        val value = RandomData.string()
+        @Test
+        @DisplayName("Then the message log for the invalid simple form should call BeagleLogger info")
+        fun `check the attempt message log found simple form not found`() {
+            // When
+            BeagleMessageLogs.logNotFoundSimpleForm()
 
-        // When
-        BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(value)
-
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.error("Could not found value for $value")
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.error("Not found simple form in the parents")
+            }
         }
-    }
 
-    @Test
-    @DisplayName("Then the message log for the invalid simple form should call BeagleLogger info")
-    fun `check the attempt message log found simple form not found`() {
-        // When
-        BeagleMessageLogs.logNotFoundSimpleForm()
+        @Test
+        @DisplayName("Then in an attempt to set an invalid image the log should call BeagleLogger info")
+        fun `check the message log when an invalid image is set`() {
+            val image = RandomData.string()
+            // When
+            BeagleMessageLogs.errorWhileTryingToSetInvalidImage(image, exception)
 
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.error("Not found simple form in the parents")
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.error("Could not find image $image", exception)
+            }
         }
-    }
 
-    @Test
-    @DisplayName("Then in an attempt to set an invalid image the log should call BeagleLogger info")
-    fun `check the message log when an invalid image is set`() {
-        val image = RandomData.string()
-        // When
-        BeagleMessageLogs.errorWhileTryingToSetInvalidImage(image, exception)
+        @Test
+        @DisplayName("Then in an attempt to parse an expression")
+        fun `check the message log to parse an expression`() {
+            val expression = RandomData.string()
 
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.error("Could not find image $image", exception)
+            // When
+            BeagleMessageLogs.errorWhileTryingParseExpressionFunction(expression, exception)
+
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.error("Error while trying to parse expression: $expression", exception)
+            }
         }
-    }
 
-    @Test
-    @DisplayName("Then in an attempt to use a reserved keyword in a Global Context the log " +
-        "should call BeagleLogger info")
-    fun `check the message log to global keyword reserved in a global context`() {
-        // When
-        BeagleMessageLogs.globalKeywordIsReservedForGlobalContext()
+        @Test
+        @DisplayName("Then in an attempt to execute an expression function")
+        fun `check the message log to execute an expression function`() {
+            // When
+            BeagleMessageLogs.errorWhileTryingExecuteExpressionFunction(exception)
 
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.warning("Context name global is a reserved keyword for Global Context only")
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.error("Error while trying to execute expression function.", exception)
+            }
         }
-    }
 
-    @Test
-    @DisplayName("Then in an attempt to parse an expression")
-    fun `check the message log to parse an expression`() {
-        val expression = RandomData.string()
+        @Test
+        @DisplayName("Then in an attempt to put a child in a view with a specific id")
+        fun `check the log to put a child in a view with a specific id`() {
+            val id = RandomData.string()
 
-        // When
-        BeagleMessageLogs.errorWhileTryingParseExpressionFunction(expression, exception)
+            // When
+            BeagleMessageLogs.errorWhileTryingToAddViewWithAddChildrenAction(id)
 
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.error("Error while trying to parse expression: $expression", exception)
-        }
-    }
-
-    @Test
-    @DisplayName("Then in an attempt to execute an expression function")
-    fun `check the message log to execute an expression function`() {
-        // When
-        BeagleMessageLogs.errorWhileTryingExecuteExpressionFunction(exception)
-
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.error("Error while trying to execute expression function.", exception)
-        }
-    }
-
-    @Test
-    @DisplayName("Then in an attempt to found a nonexistent function")
-    fun `check the log to found a nonexistent function`() {
-        val functionName = RandomData.string()
-
-        // When
-        BeagleMessageLogs.functionWithNameDoesNotExist(functionName)
-
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.warning("Function with named $functionName does not exist.")
-        }
-    }
-
-    @Test
-    @DisplayName("Then in an attempt to put a child in a view with a specific id")
-    fun `check the log to put a child in a view with a specific id`() {
-        val id = RandomData.string()
-
-        // When
-        BeagleMessageLogs.errorWhileTryingToAddViewWithAddChildrenAction(id)
-
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.error("The view with id:$id cannot receive children")
-        }
-    }
-
-    @Test
-    @DisplayName("Then in an attempt to add a prefetch in an expression")
-    fun `check the log to add a prefetch in an expression`() {
-        // When
-        BeagleMessageLogs.expressionNotSupportInPreFetch()
-
-        // Then
-        verify(exactly = 1) {
-            BeagleLoggerProxy.warning("Expression is not support in prefetch")
+            // Then
+            verify(exactly = 1) {
+                BeagleLoggerProxy.error("The view with id:$id cannot receive children")
+            }
         }
     }
 

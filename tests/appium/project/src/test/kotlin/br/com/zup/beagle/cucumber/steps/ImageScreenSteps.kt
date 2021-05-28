@@ -19,10 +19,9 @@ package br.com.zup.beagle.cucumber.steps
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
+import org.junit.Assert
 
-private const val IMAGE_SCREEN_HEADER = "Beagle Image"
-private const val IMAGE_TEXT_1 = "Image"
-private const val IMAGE_TEXT_2 = "Image with contentMode = FIT_XY"
+private const val TEXT_CONTAINED_IN_IMAGE_SCREEN = "without size"
 
 class ImageScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/image"
@@ -34,13 +33,11 @@ class ImageScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the image screen$")
     fun checkImageScreen() {
-        waitForElementWithTextToBeClickable(IMAGE_SCREEN_HEADER, false, false)
+        waitForElementWithTextToBeClickable(TEXT_CONTAINED_IN_IMAGE_SCREEN, likeSearch = true, ignoreCase = false)
     }
 
-    @Then("^image screen should render all image attributes correctly$")
-    fun checkImageScreenTexts() {
-        waitForElementWithTextToBeClickable(IMAGE_TEXT_1, false, false)
-        waitForElementWithTextToBeClickable(IMAGE_TEXT_2, false, false)
-
+    @Then("^take a screenshot from ImageScreenBuilder and assert it is identical to the (.*) image$")
+    fun checkImageAttributes(imageDbToCompare: String) {
+        Assert.assertTrue(compareCurrentScreenWithDatabase(imageDbToCompare))
     }
 }

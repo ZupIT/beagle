@@ -25,7 +25,6 @@ import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.view.viewmodel.Response
-import java.net.URI
 
 internal fun SendRequestInternal.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
 
@@ -37,11 +36,7 @@ internal object SendRequestActionMapper {
         val headers = sendRequest.headers ?: mapOf()
         val urlFormatted = sendRequest.url.formatUrl()
         return RequestData(
-            uri = URI(urlFormatted),
-            method = method,
-            headers = headers,
-            body = sendRequest.data?.toString(),
-            url = urlFormatted ?: "",
+            url = urlFormatted,
             httpAdditionalData = HttpAdditionalData(
                 method = method,
                 body = sendRequest.data?.toString(),

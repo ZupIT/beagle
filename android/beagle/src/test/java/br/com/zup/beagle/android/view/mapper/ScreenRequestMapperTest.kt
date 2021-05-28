@@ -27,11 +27,12 @@ import br.com.zup.beagle.android.view.ScreenRequest
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
-import org.junit.jupiter.api.AfterEach
 import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.net.URI
 
 private val PATH = RandomData.httpUrl()
 private val SCREEN_REQUEST = ScreenRequest(
@@ -40,15 +41,14 @@ private val SCREEN_REQUEST = ScreenRequest(
     headers = mapOf("header" to "teste"),
 )
 private val EXPECTED_RESULT = RequestData(
-    uri = URI(""),
-    body = "body",
-    headers = mapOf("header" to "teste"),
+    url = PATH,
     httpAdditionalData = HttpAdditionalData(
         headers = mapOf("header" to "teste"),
         body = "body",
     ),
 )
 
+@DisplayName("Given a ScreenRequestMapper")
 class ScreenRequestMapperTest {
 
     private val urlBuilder: UrlBuilder = mockk()
@@ -56,7 +56,7 @@ class ScreenRequestMapperTest {
 
     @BeforeEach
     fun setUp() {
-        every { urlBuilder.format(environment.beagleSdk.config.baseUrl, SCREEN_REQUEST.url) } returns ""
+        every { urlBuilder.format(environment.beagleSdk.config.baseUrl, SCREEN_REQUEST.url) } returns PATH
     }
 
     @AfterEach
@@ -64,49 +64,56 @@ class ScreenRequestMapperTest {
         unmockkAll()
     }
 
-    @Test
-    fun `should return request data when using extension function to mapper`() {
-        // When
-        val requestData = SCREEN_REQUEST.toRequestData(urlBuilder, environment)
+    @Nested
+    @DisplayName("When toRequestData is called")
+    inner class ToRequestData {
 
-        // Then
-        assertEquals(EXPECTED_RESULT, requestData)
-    }
+        @Test
+        @DisplayName("Then should convert to RequestData via extension function")
+        fun requestDataViaExtension() {
+            // When
+            val requestData = SCREEN_REQUEST.toRequestData(urlBuilder, environment)
 
-    @Test
-    fun `should return request data when mapper`() {
-        // When
-        val requestData = ScreenRequestMapper.toRequestData(urlBuilder, environment, SCREEN_REQUEST)
-
-        // Then
-        assertEquals(EXPECTED_RESULT, requestData)
-    }
-
-    @Test
-    fun `should return request data with correct method when mapper`() {
-        // Given
-        val screenRequests = listOf(
-            SCREEN_REQUEST.copy(method = ScreenMethod.GET),
-            SCREEN_REQUEST.copy(method = ScreenMethod.POST),
-            SCREEN_REQUEST.copy(method = ScreenMethod.PUT),
-            SCREEN_REQUEST.copy(method = ScreenMethod.DELETE),
-            SCREEN_REQUEST.copy(method = ScreenMethod.HEAD),
-            SCREEN_REQUEST.copy(method = ScreenMethod.PATCH)
-        )
-
-        // When
-        val result = mutableListOf<RequestData>()
-        screenRequests.forEach {
-            result.add(ScreenRequestMapper.toRequestData(urlBuilder, environment, it))
+            // Then
+            assertEquals(EXPECTED_RESULT, requestData)
         }
 
-        // Then
-        val expectedResult = screenRequests.map {
-            val method = HttpMethod.valueOf(it.method.name)
-            val httpAdditionalData = EXPECTED_RESULT.httpAdditionalData.copy(method = method)
-            EXPECTED_RESULT.copy(method = method, httpAdditionalData = httpAdditionalData)
-        }
-        assertEquals(expectedResult, result)
-    }
+        @Test
+        @DisplayName("Then should return RequestData via mapper")
+        fun requestDataViaMapper() {
+            // When
+            val requestData = ScreenRequestMapper.toRequestData(urlBuilder, environment, SCREEN_REQUEST)
 
+            // Then
+            assertEquals(EXPECTED_RESULT, requestData)
+        }
+
+        @Test
+        @DisplayName("Then should return RequestData with correct method")
+        fun requestDataMethod() {
+            // Given
+            val screenRequests = listOf(
+                SCREEN_REQUEST.copy(method = ScreenMethod.GET),
+                SCREEN_REQUEST.copy(method = ScreenMethod.POST),
+                SCREEN_REQUEST.copy(method = ScreenMethod.PUT),
+                SCREEN_REQUEST.copy(method = ScreenMethod.DELETE),
+                SCREEN_REQUEST.copy(method = ScreenMethod.HEAD),
+                SCREEN_REQUEST.copy(method = ScreenMethod.PATCH)
+            )
+
+            // When
+            val result = mutableListOf<RequestData>()
+            screenRequests.forEach {
+                result.add(ScreenRequestMapper.toRequestData(urlBuilder, environment, it))
+            }
+
+            // Then
+            val expectedResult = screenRequests.map {
+                val method = HttpMethod.valueOf(it.method.name)
+                val httpAdditionalData = EXPECTED_RESULT.httpAdditionalData.copy(method = method)
+                EXPECTED_RESULT.copy(method = method, httpAdditionalData = httpAdditionalData)
+            }
+            assertEquals(expectedResult, result)
+        }
+    }
 }

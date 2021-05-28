@@ -58,6 +58,10 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.openNativeRoute(.init(route: .listViewEndpoint))]
                 )
                 Button(
+                    text: "Grid View",
+                    onPress: [Navigate.openNativeRoute(.init(route: .gridViewEndpoint))]
+                )
+                Button(
                     text: "Image",
                     onPress: [Navigate.openNativeRoute(.init(route: .imageEndpoint))]
                 )

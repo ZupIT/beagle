@@ -34,5 +34,4 @@ import org.junit.runner.RunWith
     features = ["src/test/resources/features"],
     plugin = ["br.com.zup.beagle.setup.SuiteSetupPlugin"]
 )
-class Runner {
-}
+class Runner

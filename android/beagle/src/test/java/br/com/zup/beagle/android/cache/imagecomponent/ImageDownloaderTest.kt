@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.android.cache.imagecomponent
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.DisplayMetrics
 import android.util.LruCache
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
@@ -38,6 +40,8 @@ class ImageDownloaderTest {
     private val bitmapId = url + contentWidth + contentHeight
     private val inputStream: InputStream = mockk(relaxed = true)
     private val javaUrl: URL = mockk(relaxed = true)
+    private val context: Context = mockk(relaxed = true)
+    private val optionsSlot = slot<BitmapFactory.Options>()
 
     @BeforeEach
     fun setUp() {
@@ -52,7 +56,7 @@ class ImageDownloaderTest {
         every { LruImageCache.put(any(), any()) } just runs
         every { URLFactory.createURL(any()) } returns javaUrl
         every { javaUrl.openStream() } returns inputStream
-        every { BitmapFactory.decodeStream(inputStream) } returns bitmap
+        every { BitmapFactory.decodeStream(inputStream, null, capture(optionsSlot)) } returns bitmap
         every { Bitmap.createScaledBitmap(
             any(),
             contentWidth,
@@ -78,13 +82,13 @@ class ImageDownloaderTest {
             every { bitmap.height } returns contentHeight
 
             // When
-            val bitmap = imageDownloader.getRemoteImage(url, contentWidth, contentHeight)
+            val bitmap = imageDownloader.getRemoteImage(url, contentWidth, contentHeight, context)
 
             // Then
             verify(exactly = 1) { LruImageCache.put(bitmapId, bitmap) }
             verify(exactly = 1) { LruImageCache.get(bitmapId) }
-            assertEquals(contentWidth, bitmap.width)
-            assertEquals(contentHeight, bitmap.height)
+            assertEquals(contentWidth, bitmap?.width)
+            assertEquals(contentHeight, bitmap?.height)
         }
 
         @DisplayName("Then should load bitmap from cache when exists")
@@ -94,12 +98,32 @@ class ImageDownloaderTest {
             every { LruImageCache.get(any()) } returns bitmapImproved
 
             // When
-            val bitmap = imageDownloader.getRemoteImage(url, contentWidth, contentHeight)
+            val bitmap = imageDownloader.getRemoteImage(url, contentWidth, contentHeight, context)
 
             // Then
             verify(exactly = 1) { LruImageCache.get(bitmapId) }
-            assertEquals(contentWidth, bitmap.width)
-            assertEquals(contentHeight, bitmap.height)
+            assertEquals(contentWidth, bitmap?.width)
+            assertEquals(contentHeight, bitmap?.height)
+        }
+
+        @DisplayName("Then should apply options to BitmapFactory")
+        @Test
+        fun loadBitmapWithOptions() = runBlocking {
+            // Given
+            val density = 440
+            every { context.resources } returns mockk {
+                every { displayMetrics } returns mockk {
+                    densityDpi = density
+                }
+            }
+
+            // When
+            imageDownloader.getRemoteImage(url, contentWidth, contentHeight, context)
+
+            // Then
+            assertEquals(DisplayMetrics.DENSITY_DEFAULT, optionsSlot.captured.inDensity)
+            assertEquals(density, optionsSlot.captured.inScreenDensity)
+            assertEquals(density, optionsSlot.captured.inTargetDensity)
         }
     }
 }

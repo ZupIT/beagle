@@ -54,7 +54,7 @@ object GlobalContext {
      * @param path represents the path that it will save this information.
      */
     fun set(value: Any, path: String? = null) {
-        val result = contextDataManipulator.set(globalContext, path, value)
+        val result = contextDataManipulator.set(globalContext, path, value.normalizeContextValue())
         notifyContextChanges(result)
     }
 

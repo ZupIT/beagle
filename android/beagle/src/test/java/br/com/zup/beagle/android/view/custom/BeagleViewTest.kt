@@ -37,6 +37,7 @@ import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
 import br.com.zup.beagle.android.widget.ActivityRootView
 import com.facebook.yoga.YogaNode
+import com.facebook.yoga.YogaNodeFactory
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -52,7 +53,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import java.net.URI
 
 @Config(application = ApplicationTest::class)
 @RunWith(AndroidJUnit4::class)
@@ -98,7 +98,8 @@ internal class BeagleViewTest : BaseTest() {
         val yogaNode = mockk<YogaNode>(relaxed = true, relaxUnitFun = true)
         val view = View(application)
         mockkStatic(YogaNode::class)
-        every { YogaNode.create() } returns yogaNode
+        mockkStatic(YogaNodeFactory::class)
+        every { YogaNodeFactory.create() } returns yogaNode
         every { yogaNode.data } returns view
     }
 
@@ -129,7 +130,7 @@ internal class BeagleViewTest : BaseTest() {
     @Test
     fun `Given a Beagle View When loadView with Request Data Then should call fetch component`() {
         // Given
-        val requestDataFake = RequestData(url = url, uri = URI(url))
+        val requestDataFake = RequestData(url = url)
 
         // when
         beagleView.loadView(requestDataFake)

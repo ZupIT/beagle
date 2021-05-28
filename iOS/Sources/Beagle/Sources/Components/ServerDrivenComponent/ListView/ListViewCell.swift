@@ -107,7 +107,9 @@ final class ListViewCell: UICollectionViewCell {
         let container = TemplateContainer(template: template)
         container.parentContext = listView
         listView.listController.dependencies.style(container).setup(
-            Style().flex(Flex().flexDirection(flexDirection).shrink(0))
+            Style()
+                .size(Size().minWidth(1).minHeight(1))
+                .flex(Flex().flexDirection(flexDirection).shrink(0))
         )
         templateContainer = container
         contentView.addSubview(container)
@@ -168,7 +170,11 @@ final class ListViewCell: UICollectionViewCell {
             yoga.flexShrink = shrink + 1
             yoga.flexShrink = shrink
         }
-        contentView.frame = listView.bounds
+        
+        var rect = listView.bounds
+        rect.size.width = (rect.width / CGFloat(listView.model.columns)).rounded(.down)
+        
+        contentView.frame = rect
         listView.listController.dependencies.style(contentView).applyLayout()
         
         let size = container.bounds.size
