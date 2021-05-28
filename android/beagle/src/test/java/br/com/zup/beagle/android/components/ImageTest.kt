@@ -20,7 +20,9 @@ import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
@@ -30,8 +32,10 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
+import io.mockk.verifyOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -47,7 +51,8 @@ internal class ImageTest : BaseComponentTest() {
 
     private val imageView: RoundedImageView = mockk(relaxed = true, relaxUnitFun = true)
     private val scaleTypeSlot = slot<ImageView.ScaleType>()
-    private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
+    private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()),
+        cornerRadius = CornerRadius(radius = 10.0))
 
     private lateinit var imageLocal: Image
     private lateinit var imageRemote: Image
@@ -57,9 +62,12 @@ internal class ImageTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
+        mockkStatic("br.com.zup.beagle.android.utils.NumberExtensionsKt")
+
         every { anyConstructed<ViewFactory>().makeImageView(rootView.getContext(), any()) } returns imageView
         every { beagleSdk.designSystem } returns mockk(relaxed = true)
         every { beagleSdk.designSystem!!.image(any()) } returns IMAGE_RES
+        every { 10.0.dp() } returns 20.0
 
         imageLocal = Image(ImagePath.Local("imageName"))
         imageRemote = Image(ImagePath.Remote(DEFAULT_URL, ImagePath.Local("imageName"))).applyStyle(style)
@@ -82,7 +90,7 @@ internal class ImageTest : BaseComponentTest() {
         @Test
         @DisplayName("Then it should return a imageView if imagePath is remote")
         fun testsIfViewIsBuiltAsImageViewWhenImagePathIsRemote() {
-            //Given
+            // Given
             imageRemote = Image(ImagePath.Remote(""))
 
             // When
@@ -90,6 +98,32 @@ internal class ImageTest : BaseComponentTest() {
 
             // Then
             assertTrue(view is ImageView)
+        }
+
+        @Test
+        @DisplayName("Then it should clear drawable if placeholder is null")
+        fun testsIfClearDrawableWhenPlaceholderIsNull() {
+            // Given
+            imageRemote = Image(ImagePath.Remote(url = ""))
+
+            // When
+            val view = imageRemote.buildView(rootView)
+
+            // Then
+            verify(exactly = 1) { (view as ImageView).setImageDrawable(null) }
+        }
+
+        @Test
+        @DisplayName("Then it should not clear drawable with placeholder")
+        fun testsIfDrawableNullWasNotCalledWithPlaceholder() {
+            // Given
+            imageRemote = Image(ImagePath.Remote(url = "", placeholder = ImagePath.Local("imageName")))
+
+            // When
+            val view = imageRemote.buildView(rootView)
+
+            // Then
+            verify(exactly = 0) { (view as ImageView).setImageDrawable(null) }
         }
     }
 
@@ -113,17 +147,55 @@ internal class ImageTest : BaseComponentTest() {
         }
 
         @Test
-        @DisplayName("Then adjustViewBounds should be TRUE as default")
+        @DisplayName("Then adjustViewBounds should be TRUE if there is size")
         fun testsIfTheAdjustViewBoundsIsSetTrue() {
             // Given
+            val image = imageLocal.applyStyle(Style(size = Size(width = 100.unitReal())))
             val adjustViewBoundsSlot = slot<Boolean>()
             every { imageView.adjustViewBounds = capture(adjustViewBoundsSlot) } just Runs
 
             // When
-            imageLocal.buildView(rootView)
+            image.buildView(rootView)
 
             // Then
             assertEquals(true, adjustViewBoundsSlot.captured)
+        }
+
+        @Test
+        @DisplayName("Then adjustViewBounds should not be set when both width and height are not null")
+        fun testsIfTheAdjustViewBoundsIsNotSet() {
+            // Given
+            val image = imageLocal.applyStyle(
+                Style(
+                    size = Size(
+                        width = 100.unitReal(),
+                        height = 100.unitReal(),
+                    )
+                )
+            )
+
+            // When
+            image.buildView(rootView)
+
+            // Then
+            verify(exactly = 0) { imageView.adjustViewBounds = any() }
+        }
+
+        @Test
+        @DisplayName("Then adjustViewBounds should be set before scaleType")
+        fun testsIfTheAdjustViewBoundsIsSetBeforeScaleType() {
+            // Given
+            val image = imageLocal.applyStyle(Style(size = Size(width = 100.unitReal())))
+            every { imageView.scaleType = any() } just Runs
+
+            // When
+            image.buildView(rootView)
+
+            // Then
+            verifyOrder {
+                imageView.adjustViewBounds = any()
+                imageView.scaleType = any()
+            }
         }
 
         @Test
@@ -167,7 +239,19 @@ internal class ImageTest : BaseComponentTest() {
             imageRemote.buildView(rootView)
 
             // Then
-            verify(exactly = 1) { imageView.setImageResource(IMAGE_RES) }
+            verify(atLeast = 1) { imageView.setImageResource(IMAGE_RES) }
+        }
+
+        @Test
+        @DisplayName("Then set corner radius correctly")
+        fun testCornerRadius() {
+            // When
+            imageRemote.buildView(rootView)
+
+            // Then
+            verify {
+                anyConstructed<ViewFactory>().makeImageView(rootView.getContext(), 20.0)
+            }
         }
     }
 }

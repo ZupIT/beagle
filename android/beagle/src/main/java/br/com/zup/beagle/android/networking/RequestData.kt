@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.networking
 
+import android.os.Parcel
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 import java.net.URI
 
 /**
@@ -27,11 +27,12 @@ import java.net.URI
  * @param method HTTP method.
  * @param headers Header items for the request.
  * @param body Content that will be delivered with the request.
- * @param httpAdditionalData pass additional data to the request
+ * @param url Server URL in string format.
+ * @param httpAdditionalData pass additional data to the request.
  *
  */
-@Parcelize
-data class RequestData(
+@Suppress("DataClassPrivateConstructor")
+data class RequestData private constructor(
     @Deprecated(
         message = "It was deprecated in version 1.7.0 and will be removed in a future version. " +
             "Use field url.", replaceWith = ReplaceWith("url = ")
@@ -52,6 +53,59 @@ data class RequestData(
             "Use field httpAdditionalData.", replaceWith = ReplaceWith("httpAdditionalData = ")
     )
     val body: String? = null,
-    val url: String? = "",
+    var url: String = "",
     val httpAdditionalData: HttpAdditionalData = HttpAdditionalData(),
-) : Parcelable
+) : Parcelable {
+
+    constructor(
+        url: String,
+        httpAdditionalData: HttpAdditionalData = HttpAdditionalData(),
+    ) : this(
+        uri = URI(url),
+        method = httpAdditionalData.method,
+        headers = httpAdditionalData.headers,
+        body = httpAdditionalData.body,
+        url = url,
+        httpAdditionalData = httpAdditionalData
+    )
+
+    @Deprecated(
+        message = "It was deprecated in version 1.8.0 and will be removed in a future version. " +
+            "Use the constructor with url and httpAdditionalData params instead.",
+        replaceWith = ReplaceWith("RequestData(url = url, httpAdditionalData = httpAdditionalData)"),
+    )
+    constructor(
+        uri: URI,
+        method: HttpMethod = HttpMethod.GET,
+        headers: Map<String, String> = mapOf(),
+        body: String? = null,
+    ) : this(
+        uri = uri,
+        method = method,
+        headers = headers,
+        body = body,
+        url = uri.toString(),
+        httpAdditionalData = HttpAdditionalData(method, headers, body)
+    )
+
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel?, flags: Int) {
+        dest?.writeString(url)
+        dest?.writeParcelable(httpAdditionalData, flags)
+    }
+
+    companion object {
+        @JvmField
+        val CREATOR: Parcelable.Creator<RequestData> = object : Parcelable.Creator<RequestData> {
+            override fun createFromParcel(source: Parcel) =
+                RequestData(
+                    url = source.readString() ?: "",
+                    httpAdditionalData = source.readParcelable(HttpAdditionalData::class.java.classLoader)
+                        ?: HttpAdditionalData(),
+                )
+
+            override fun newArray(size: Int) = arrayOfNulls<RequestData?>(size)
+        }
+    }
+}

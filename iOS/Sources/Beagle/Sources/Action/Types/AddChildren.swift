@@ -15,12 +15,14 @@
  */
 
 /// Action that insert children components in a node hierarchy
-public struct AddChildren: AnalyticsAction, AutoInitiableAndDecodable {
+public struct AddChildren: AnalyticsAction {
     
     public let componentId: String
-    public let value: [ServerDrivenComponent]
+    public let value: DynamicObject
     public var mode: Mode = .append
     public let analytics: ActionAnalyticsConfig?
+    
+    internal var staticValue: [ServerDrivenComponent]?
     
     public enum Mode: String, Codable {
         case append = "APPEND"
@@ -28,7 +30,6 @@ public struct AddChildren: AnalyticsAction, AutoInitiableAndDecodable {
         case replace = "REPLACE"
     }
 
-// sourcery:inline:auto:AddChildren.Init
     public init(
         componentId: String,
         value: [ServerDrivenComponent],
@@ -36,9 +37,26 @@ public struct AddChildren: AnalyticsAction, AutoInitiableAndDecodable {
         analytics: ActionAnalyticsConfig? = nil
     ) {
         self.componentId = componentId
-        self.value = value
+        self.value = .empty
+        self.staticValue = value
         self.mode = mode
         self.analytics = analytics
     }
-// sourcery:end
+    
+    // MARK: Decodable
+    
+    enum CodingKeys: String, CodingKey {
+        case componentId
+        case value
+        case mode
+        case analytics
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        componentId = try container.decode(String.self, forKey: .componentId)
+        value = try container.decode(DynamicObject.self, forKey: .value)
+        mode = try container.decodeIfPresent(Mode.self, forKey: .mode) ?? .append
+        analytics = try container.decodeIfPresent(ActionAnalyticsConfig.self, forKey: .analytics)
+    }
 }

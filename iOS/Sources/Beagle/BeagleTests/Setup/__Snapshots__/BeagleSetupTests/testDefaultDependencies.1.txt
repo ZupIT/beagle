@@ -62,7 +62,7 @@
       ▿ (2 elements)
         - key: "beagle:submitform"
         - value: SubmitForm
-    ▿ componentDecoders: 19 key/value pairs
+    ▿ componentDecoders: 20 key/value pairs
       ▿ (2 elements)
         - key: "beagle:button"
         - value: Button
@@ -78,6 +78,9 @@
       ▿ (2 elements)
         - key: "beagle:formsubmit"
         - value: FormSubmit
+      ▿ (2 elements)
+        - key: "beagle:gridview"
+        - value: GridView
       ▿ (2 elements)
         - key: "beagle:image"
         - value: Image

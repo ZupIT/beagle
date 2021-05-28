@@ -492,22 +492,6 @@ class ListViewHolderTest : BaseTest() {
     @Nested
     inner class OnViewRecycled {
 
-        @DisplayName("Then should clear itemView imageView drawables")
-        @Test
-        fun clearImageViewsDrawables() {
-            // Given
-            val itemView = mockk<ImageView>(relaxed = true)
-
-            // When
-            listViewHolder = ListViewHolder(itemView, template, serializer, listViewModels, jsonTemplate, iteratorName)
-            listViewHolder.onViewRecycled()
-
-            // Then
-            verify(exactly = 1) {
-                itemView.setImageDrawable(null)
-            }
-        }
-
         @DisplayName("Then should set all itemView ids to -1")
         @Test
         fun clearItemViewIds() {

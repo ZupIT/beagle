@@ -366,7 +366,6 @@ internal class ListViewHolder(
     fun onViewRecycled() {
         isRecycled = true
         clearIds(itemView)
-        clearNestedImageDrawables()
     }
 
     private fun clearIds(view: View) {
@@ -375,12 +374,6 @@ internal class ListViewHolder(
             view.children.forEach {
                 clearIds(it)
             }
-        }
-    }
-
-    private fun clearNestedImageDrawables() {
-        directNestedImageViews.forEach {
-            it.setImageDrawable(null)
         }
     }
 

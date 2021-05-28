@@ -66,7 +66,7 @@ class Dependencies : Plugin<Project> {
         const val junit5 = "5.7.0"
         const val junit4 = "4.13"
 
-        const val yoga = "1.16.0"
+        const val yoga = "1.19.0"
 
         const val jni = "0.0.4"
 
@@ -120,7 +120,7 @@ class Dependencies : Plugin<Project> {
 
         const val soLoader = "com.facebook.soloader:soloader:${Versions.soLoader}"
 
-        const val yoga = "com.facebook.yoga.android:yoga-layout:${Versions.yoga}"
+        const val yoga = "br.com.zup.beagle:beagle-yoga-layout:${Versions.yoga}"
 
         const val jni = "com.facebook.fbjni:fbjni:${Versions.jni}"
 

@@ -17,6 +17,7 @@
 		3D8E5C81254234A3002B92E2 /* NetworkClientDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E5C7725423176002B92E2 /* NetworkClientDefault.swift */; };
 		3DCE5356254320D600D3B0A4 /* BeagleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCE5355254320D600D3B0A4 /* BeagleConfig.swift */; };
 		4F36AB2E251E7A5A0036F839 /* GlobalContextScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F36AB2D251E7A5A0036F839 /* GlobalContextScreen.swift */; };
+		5C5B90EB2638971B0005BD93 /* GridViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B90EA2638971B0005BD93 /* GridViewScreen.swift */; };
 		6E2C784D2419853A00448728 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C784C2419853A00448728 /* Constants.swift */; };
 		6E4EE6C1240E970000624DFB /* ScreenDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4EE6C0240E970000624DFB /* ScreenDeepLink.swift */; };
 		6E4EE6C7240E9C0B00624DFB /* ViewLayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4EE6C6240E9C0B00624DFB /* ViewLayoutHelper.swift */; };
@@ -115,6 +116,7 @@
 		3D8E5C7925423176002B92E2 /* HttpRequestBuilderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequestBuilderTest.swift; sourceTree = "<group>"; };
 		3DCE5355254320D600D3B0A4 /* BeagleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleConfig.swift; sourceTree = "<group>"; };
 		4F36AB2D251E7A5A0036F839 /* GlobalContextScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalContextScreen.swift; sourceTree = "<group>"; };
+		5C5B90EA2638971B0005BD93 /* GridViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridViewScreen.swift; sourceTree = "<group>"; };
 		6E2C784C2419853A00448728 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6E4EE6C0240E970000624DFB /* ScreenDeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenDeepLink.swift; sourceTree = "<group>"; };
 		6E4EE6C6240E9C0B00624DFB /* ViewLayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewLayoutHelper.swift; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 				98A7F36B23A926C600E88C70 /* TabBarScreen.swift */,
 				6E4EE6C6240E9C0B00624DFB /* ViewLayoutHelper.swift */,
 				98E08D2224228DD200FBD21B /* WebViewScreen.swift */,
+				5C5B90EA2638971B0005BD93 /* GridViewScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -681,6 +684,7 @@
 				93E4897F25423DD200293568 /* DoublyLinkedList.swift in Sources */,
 				C09F4102249AAC87002605EE /* SingleCustomActionableContainer.swift in Sources */,
 				C09F40FE249AAAEE002605EE /* CustomActionableContainer.swift in Sources */,
+				5C5B90EB2638971B0005BD93 /* GridViewScreen.swift in Sources */,
 				3D3400D725D2E49F0079CD6F /* AnalyticsProviderDemo.swift in Sources */,
 				C0479F59243282F00040E30C /* AnalyticsMock.swift in Sources */,
 				C8A2F6F32464C1F9002198B1 /* Equality.generated.swift in Sources */,
@@ -862,8 +866,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SZSQ274898;
 				INFOPLIST_FILE = BeagleDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -882,8 +886,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SZSQ274898;
 				INFOPLIST_FILE = BeagleDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

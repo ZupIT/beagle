@@ -3,8 +3,7 @@ import createBeagleService, {
   logger,
   NavigationController,
   NetworkOptions,
-  Strategy,
-  Operation
+  Strategy
 } from '@zup-it/beagle-web'
 import { createCustomActionMap } from './action'
 import { createBeagleView, getView } from './view'
@@ -13,6 +12,7 @@ import { callFunction } from './function'
 import { httpClient, respondHttpRequest } from './http-client'
 import { resolvePromise, rejectPromise } from './promise'
 import { createCustomOperationMap } from './operation'
+import logToFlutter from './utils/flutter-js-logger'
 
 interface StartParams {
   baseUrl: string,
@@ -39,9 +39,7 @@ window.beagle = (() => {
         ...other,
       })
 
-      logger.setCustomLogFunction((_, ...messages) => {
-        console.log(messages.join(' '))
-      })
+      logger.setCustomLogFunction(logToFlutter)
     },
     createBeagleView: (networkOptions?: NetworkOptions, initialControllerId?: string) => createBeagleView(service, networkOptions, initialControllerId),
     httpClient: { respond: respondHttpRequest },

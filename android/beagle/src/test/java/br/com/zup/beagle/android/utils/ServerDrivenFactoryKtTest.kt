@@ -16,16 +16,26 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.test.core.app.ApplicationProvider
+import br.com.zup.beagle.android.MyBeagleSetup
+import br.com.zup.beagle.android.networking.HttpAdditionalData
+import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
+import br.com.zup.beagle.android.setup.BeagleSdk
+import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.view.ScreenMethod
+import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenActivity
+import br.com.zup.beagle.android.view.mapper.toRequestData
 import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
@@ -35,11 +45,18 @@ private const val KEY = "FIRST_SCREEN_REQUEST_KEY"
 @RunWith(RobolectricTestRunner::class)
 internal class ServerDrivenFactoryKtTest {
 
-    @DisplayName("When create new server driven intent Then should add parameter in bundle")
     @Test
-    fun testCreateIntentWithCorrectBundle() {
+    @DisplayName("When newServerDrivenIntent is called Then should pass RequestData through bundle")
+    fun testCreateIntentWithRequestDataInBundle() {
         // Given
-        val requestData = mockk<RequestData>()
+        val requestData = RequestData(
+            url = RandomData.string(),
+            httpAdditionalData = HttpAdditionalData(
+                method = HttpMethod.POST,
+                headers = mapOf("key" to "value"),
+                body = RandomData.string()
+            ),
+        )
         val context = ApplicationProvider.getApplicationContext<Context>()
 
         // When
@@ -49,6 +66,33 @@ internal class ServerDrivenFactoryKtTest {
         val expected = Intent()
         val bundle = Bundle()
         bundle.putParcelable(KEY, requestData)
+        expected.putExtras(bundle)
+
+        assertEquals(expected.extras!!.size(), result.extras!!.size())
+        assertEquals(expected.extras!!.get(KEY), result.extras!!.get(KEY))
+    }
+
+    @Test
+    @DisplayName("When newServerDrivenIntent is called Then should pass RequestData through bundle")
+    fun testCreateIntentWithScreenRequestBundle() {
+        // Given
+        val screenRequest = ScreenRequest(
+            url = RandomData.string(),
+            method = ScreenMethod.POST,
+            headers = mapOf("key" to "value"),
+            body = RandomData.string()
+        )
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        BeagleSdk.setInTestMode()
+        MyBeagleSetup().init(context as Application)
+
+        // When
+        val result = context.newServerDrivenIntent<ServerDrivenActivity>(screenRequest)
+
+        // Then
+        val expected = Intent()
+        val bundle = Bundle()
+        bundle.putParcelable(KEY, screenRequest.toRequestData())
         expected.putExtras(bundle)
 
         assertEquals(expected.extras!!.size(), result.extras!!.size())

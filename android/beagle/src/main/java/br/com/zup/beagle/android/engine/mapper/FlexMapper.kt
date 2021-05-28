@@ -31,12 +31,13 @@ import com.facebook.yoga.YogaEdge
 import com.facebook.yoga.YogaFlexDirection
 import com.facebook.yoga.YogaJustify
 import com.facebook.yoga.YogaNode
+import com.facebook.yoga.YogaNodeFactory
 import com.facebook.yoga.YogaPositionType
 import com.facebook.yoga.YogaWrap
 
 internal class FlexMapper {
 
-    fun makeYogaNode(style: Style): YogaNode = YogaNode.create().apply {
+    fun makeYogaNode(style: Style): YogaNode = YogaNodeFactory.create().apply {
         flexDirection = makeYogaFlexDirection(style.flex?.flexDirection) ?: YogaFlexDirection.COLUMN
         wrap = makeYogaWrap(style.flex?.flexWrap) ?: YogaWrap.NO_WRAP
         justifyContent = makeYogaJustify(style.flex?.justifyContent) ?: YogaJustify.FLEX_START

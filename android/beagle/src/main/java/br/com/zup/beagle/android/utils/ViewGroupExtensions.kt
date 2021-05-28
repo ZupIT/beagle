@@ -47,7 +47,7 @@ fun ViewGroup.loadView(
 ) {
     loadView(
         viewGroup = this,
-        rootView = ActivityRootView(activity, this.id, requestData.url ?: ""),
+        rootView = ActivityRootView(activity, this.id, requestData.url),
         requestData = requestData,
         listener = null,
         newListener = null,
@@ -65,7 +65,7 @@ fun ViewGroup.loadView(
 ) {
     loadView(
         viewGroup = this,
-        rootView = FragmentRootView(fragment, this.id, requestData.url ?: ""),
+        rootView = FragmentRootView(fragment, this.id, requestData.url),
         requestData = requestData,
         listener = null,
         newListener = null,
@@ -85,7 +85,7 @@ fun ViewGroup.loadView(
 ) {
     loadView(
         this,
-        ActivityRootView(activity, this.id, requestData.url ?: ""),
+        ActivityRootView(activity, this.id, requestData.url),
         requestData,
         null,
         listener,
@@ -104,7 +104,7 @@ fun ViewGroup.loadView(
     listener: OnServerStateChanged? = null,
 ) {
     loadView(this,
-        FragmentRootView(fragment, this.id, requestData.url ?: ""),
+        FragmentRootView(fragment, this.id, requestData.url),
         requestData,
         null,
         listener
