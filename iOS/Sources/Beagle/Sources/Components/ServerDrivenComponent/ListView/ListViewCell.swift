@@ -110,7 +110,9 @@ final class ListViewCell: UICollectionViewCell {
         let container = TemplateContainer(template: template)
         container.parentContext = listView
         listView.listController.dependencies.style(container).setup(
-            Style().flex(Flex().flexDirection(flexDirection).shrink(0))
+            Style()
+                .size(Size().minWidth(1).minHeight(1))
+                .flex(Flex().flexDirection(flexDirection).shrink(0))
         )
         templateContainer = container
         contentView.addSubview(container)
