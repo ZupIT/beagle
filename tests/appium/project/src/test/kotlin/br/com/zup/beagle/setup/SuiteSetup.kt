@@ -96,7 +96,7 @@ object SuiteSetup {
         val capabilities = DesiredCapabilities()
 
         // enable this capability when debugging
-        capabilities.setCapability("newCommandTimeout", 100000);
+        //capabilities.setCapability("newCommandTimeout", 100000);
 
         if (isAndroid()) {
 
