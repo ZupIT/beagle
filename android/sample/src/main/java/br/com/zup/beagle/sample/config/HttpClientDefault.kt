@@ -36,21 +36,17 @@ typealias OnError = (responseData: ResponseData) -> Unit
 
 @BeagleComponent
 class HttpClientDefault : HttpClient, CoroutineScope {
-
     private val job = Job()
     override val coroutineContext = job + CoroutineDispatchers.IO
-
-
     override fun execute(
         request: RequestData,
         onSuccess: OnSuccess,
-        onError: OnError,
+        onError: OnError
     ): RequestCall {
         if (getOrDeleteOrHeadHasData(request)) {
             onError(ResponseData(-1, data = byteArrayOf()))
             return createRequestCall()
         }
-
         launch {
             try {
                 val responseData = doHttpRequest(request)
@@ -59,10 +55,8 @@ class HttpClientDefault : HttpClient, CoroutineScope {
                 onError(ex.responseData)
             }
         }
-
         return createRequestCall()
     }
-
     private fun getOrDeleteOrHeadHasData(request: RequestData): Boolean {
         val method = request.httpAdditionalData.method
         val body = request.httpAdditionalData.body
@@ -71,31 +65,28 @@ class HttpClientDefault : HttpClient, CoroutineScope {
             method == HttpMethod.HEAD) &&
             body != null
     }
-
     @Throws(BeagleApiException::class)
     private fun doHttpRequest(
-        request: RequestData,
+        request: RequestData
     ): ResponseData {
         val urlConnection: HttpURLConnection
-
         try {
             val uri = URI(request.url)
             urlConnection = uri.toURL().openConnection() as HttpURLConnection
         } catch (e: Exception) {
             throw BeagleApiException(ResponseData(-1, data = byteArrayOf()), request)
         }
-        
-        request.httpAdditionalData.headers.forEach {
+        request.httpAdditionalData.headers?.forEach {
             urlConnection.setRequestProperty(it.key, it.value)
         }
 
-        addRequestMethod(urlConnection, request.httpAdditionalData.method)
-
-        val body = request.httpAdditionalData.body
-        if (body != null) {
-            setRequestBody(urlConnection, request)
+        request.httpAdditionalData.method?.let { method ->
+            addRequestMethod(urlConnection, method)
         }
 
+        request.httpAdditionalData.body?.run {
+            setRequestBody(urlConnection, request)
+        }
         try {
             return createResponseData(urlConnection)
         } catch (e: Exception) {
@@ -104,20 +95,22 @@ class HttpClientDefault : HttpClient, CoroutineScope {
             urlConnection.disconnect()
         }
     }
-
-    private fun tryFormatException(urlConnection: HttpURLConnection, request: RequestData): BeagleApiException {
+    private fun tryFormatException(
+        urlConnection: HttpURLConnection,
+        request: RequestData
+    ): BeagleApiException {
         val response = urlConnection.getSafeError() ?: byteArrayOf()
         val statusCode = urlConnection.getSafeResponseCode()
         val statusText = urlConnection.getSafeResponseMessage()
-        val responseData = ResponseData(statusCode = statusCode,
-            data = response, statusText = statusText)
-
+        val responseData = ResponseData(
+            statusCode = statusCode,
+            data = response,
+            statusText = statusText,
+        )
         return BeagleApiException(responseData, request)
     }
-
     private fun addRequestMethod(urlConnection: HttpURLConnection, method: HttpMethod) {
         val methodValue = method.toString()
-
         if (method == HttpMethod.PATCH || method == HttpMethod.HEAD) {
             urlConnection.setRequestProperty("X-HTTP-Method-Override", methodValue)
             urlConnection.requestMethod = "POST"
@@ -125,16 +118,15 @@ class HttpClientDefault : HttpClient, CoroutineScope {
             urlConnection.requestMethod = methodValue
         }
     }
-
     private fun setRequestBody(urlConnection: HttpURLConnection, request: RequestData) {
-        urlConnection.setRequestProperty("Content-Length", request.httpAdditionalData.body?.length.toString())
         try {
+            urlConnection.doOutput = true
             urlConnection.outputStream.write(request.httpAdditionalData.body?.toByteArray())
+            urlConnection.outputStream.flush()
         } catch (e: Exception) {
             throw BeagleApiException(ResponseData(-1, data = byteArrayOf()), request)
         }
     }
-
     private fun createResponseData(urlConnection: HttpURLConnection): ResponseData {
         return ResponseData(
             statusCode = urlConnection.responseCode,
@@ -152,7 +144,6 @@ class HttpClientDefault : HttpClient, CoroutineScope {
             }
         )
     }
-
     private fun createRequestCall() = object : RequestCall {
         override fun cancel() {
             this@HttpClientDefault.cancel()

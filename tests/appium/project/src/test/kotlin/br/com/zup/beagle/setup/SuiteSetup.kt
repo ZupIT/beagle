@@ -94,6 +94,10 @@ object SuiteSetup {
         var browserstackUser = System.getProperty("browserstack_user")
         var browserstackKey = System.getProperty("browserstack_key")
         val capabilities = DesiredCapabilities()
+
+        // enable this capability when debugging
+        //capabilities.setCapability("newCommandTimeout", 100000);
+
         if (isAndroid()) {
 
             val appPackage = "br.com.zup.beagle.appiumapp"

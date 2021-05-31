@@ -51,7 +51,17 @@ class GenericSteps : AbstractStep() {
     }
 
     @Then("^a dialog should appear on the screen with text (.*)$")
-    fun checkDialog(string : String){
+    fun checkDialog(string: String) {
         waitForElementWithTextToBeClickable(string, true, true)
+    }
+
+    @Then("^the screen should show an element with the place holder (.*)$")
+    fun checkElementByPlaceHolder(placeHolderText: String) {
+        waitForElementWithValueToBeClickable(placeHolderText, likeSearch = false, ignoreCase = false)
+    }
+
+    @Then("^the screen should show an element with the title (.*)$")
+    fun checkElementByTitle(titleText: String) {
+        waitForElementWithTextToBeClickable(titleText, likeSearch = false, ignoreCase = false)
     }
 }

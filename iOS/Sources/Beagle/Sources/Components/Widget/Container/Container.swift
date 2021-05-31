@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
+/// The container component is a general container that can hold other components inside.
 public struct Container: Widget, HasContext, InitiableComponent, AutoDecodable {
-    // MARK: - Public Properties
+    
+    /// Defines a list of components that are part of the container.
     public let children: [ServerDrivenComponent]?
+    
+    /// Properties that all widgets have in common.
     public var widgetProperties: WidgetProperties
+    
+    /// it is a parameter that allows you to define a list of actions to be performed when the Widget is displayed.
     public let onInit: [Action]?
+    
+    /// Defines the contextData that be set to container.
     public let context: Context?
+    
+    /// References a native style configured to be applied on this container.
     public let styleId: String?
 
     public init(

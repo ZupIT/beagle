@@ -17,12 +17,22 @@
 import Foundation
 import UIKit
 
+/// Typically displayed at the top of the window, containing buttons for navigating within a hierarchy of screens.
 public struct NavigationBar: Decodable, AutoInitiable {
-
+    
+    /// Defines the title on the navigation bar.
     public let title: String
+    
+    /// Could define a custom layout for your action bar/navigation bar.
     public let styleId: String?
+    
+    /// Enables a back button into your action bar/navigation bar.
     public let showBackButton: Bool?
+    
+    /// Defines accessibility details for the back button.
     public let backButtonAccessibility: Accessibility?
+    
+    /// Defines a List of navigation bar items.
     public let navigationBarItems: [NavigationBarItem]?
 
 // sourcery:inline:auto:NavigationBar.Init
@@ -42,12 +52,22 @@ public struct NavigationBar: Decodable, AutoInitiable {
 // sourcery:end
 }
 
+/// Defines a item that could be showed in navigation bar.
 public struct NavigationBarItem: Decodable, AccessibilityComponent, IdentifiableComponent {
     
+    /// Id use to identifier the current component.
     public let id: String?
+    
+    /// Defines an image for your navigation bar.
     public let image: StringOrExpression?
+    
+    /// Defines the text of the item.
     public let text: String
+    
+    /// Defines an action to be called when the item is clicked on.
     public let action: Action
+    
+    /// Defines Accessibility details for the item.
     public let accessibility: Accessibility?
 
     public init(

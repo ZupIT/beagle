@@ -16,10 +16,16 @@
 
 import Foundation
 
+/// The `Touchable` component defines a click listener.
 public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoInitiableAndDecodable {
-    // MARK: - Public Properties
+    
+    /// Defines an `Action` to be executed when the child component is clicked.
     public let onPress: [Action]
+    
+    /// Defines the event that will be triggered when clicked.
     public let clickAnalyticsEvent: AnalyticsClick?
+    
+    /// Defines the widget that will trigger the `Action`.
     public let child: ServerDrivenComponent
 
 // sourcery:inline:auto:Touchable.Init

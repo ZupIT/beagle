@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-/// Action that insert children components in a node hierarchy
+/// The `AddChildren` action is responsible for adding a component to a component hierarchy.
 public struct AddChildren: AnalyticsAction {
     
+    /// Defines the widget's id, in which you want to add the views.
     public let componentId: String
+    
+    /// Defines the list of children you want to add.
     public let value: DynamicObject
+    
+    /// Defines the placement of where the children will be inserted in the list or if the contents of the list will be replaced.
     public var mode: Mode = .append
+    
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
     
     internal var staticValue: [ServerDrivenComponent]?

@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
+/// Defines an `ImageView` using the server driven information received through Beagle.
 public struct Image: Widget, AutoDecodable {
 
-    // MARK: - Public Properties
+    /// Defines where the source of the image is.
     public let path: Expression<ImagePath>
+    
+    /// Defines how the declared image will fit the view.
     public let mode: ImageContentMode?
+    
+    /// Properties that all widgets have in common.
     public var widgetProperties: WidgetProperties
     
     public init(

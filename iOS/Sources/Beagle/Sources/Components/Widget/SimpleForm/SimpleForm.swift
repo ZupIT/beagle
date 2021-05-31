@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
+/// Component will define a submit handler for a `SimpleForm`.
 public struct SimpleForm: ServerDrivenComponent, HasContext, AutoInitiableAndDecodable {
     
+    /// Defines the contextData that be set to form.
     public var context: Context?
+    
+    /// Defines the actions you want to execute when action submit form.
     public let onSubmit: [Action]?
+    
+    /// This event is executed every time a form is submitted, but because of a validation error, the onSubmit event is not run.
     public let onValidationError: [Action]?
+    
+    /// Defines the items on the simple form.
     public let children: [ServerDrivenComponent]?
+    
+    /// Properties that all widgets have in common.
     public var widgetProperties: WidgetProperties
     
 // sourcery:inline:auto:SimpleForm.Init

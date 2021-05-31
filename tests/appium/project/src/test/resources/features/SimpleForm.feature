@@ -14,28 +14,27 @@
 # limitations under the License.
 #
 
-@simpleform @android @ios
+@simpleForm @android @ios
 Feature: SimpleForm Component Validation
 
-    As a Beagle developer/user
-    I'd like to make sure my SimpleForm component works as expected
-    In order to guarantee that my application never fails
+  As a Beagle developer/user
+  I'd like to make sure my SimpleForm component works as expected
+  In order to guarantee that my application never fails
 
+  Background:
+    Given that I'm on the simple form screen
 
-    Background:
-        Given that I'm on the simple form screen
+  Scenario: SimpleForm 01 - Validate if SimpleForm children components appear on the screen
+    Then the screen should show an element with the place holder Type in your email
+    Then the screen should show an element with the place holder Type in your name
+    Then the screen should show an element with the title Click to Submit
 
-    Scenario: SimpleForm 01 - Checking if simpleForm children components appear on the screen
-        Then checks that the textInput with the place holder Type in your email is on the screen
-        Then checks that the textInput with the place holder Type in your name is on the screen
-        Then checks that the button with the title Click to Submit is on the screen
+  Scenario Outline: SimpleForm 02 - Validate the operation of the onSubmit attribute
+    When I click on textInput with place holder Type in your email and insert the value <email>
+    And I click on textInput with place holder Type in your name and insert the value <name>
+    And I click on button Click to Submit
+    Then a dialog should appear on the screen with text the email: <email> and the name: <name>
 
-    Scenario Outline: SimpleForm 02 - Verification of the operation of the onSubmit attribute
-        When I click on textInput for email with Type in your email and insert my <email>
-        When I click on textInput for name with Type in your name and insert my <name>
-        When I click to Click to Submit
-        Then verify if the email: <email> and the name: <name> appear correctly
-
-        Examples:
-            | email                | name     |
-            | teste@simpleform.com | joao     |
+    Examples:
+      | email                | name |
+      | teste@simpleform.com | joao |
