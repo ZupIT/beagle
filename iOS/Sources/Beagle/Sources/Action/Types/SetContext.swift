@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
+/// The `SetContext` action is responsible for changing the value of a context.
 public struct SetContext: AnalyticsAction {
+    
+    /// Id of the context to be changed.
     public let contextId: String
+    
+    /// Specific path to be changed inside of an context.
     public let path: Path?
+    
+    /// New value to be applied in the context.
     public let value: DynamicObject
+    
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
 
     public init(

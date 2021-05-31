@@ -16,13 +16,27 @@
 
 import UIKit
 
+/// This class works like a regular input type in HTML.
+/// It will handle data input by the user on a screen to submit, for example, a user name in a login screen.
 @available(*, deprecated, message: "use SimpleForm and SubmitForm instead")
 public struct FormInput: ServerDrivenComponent, AutoInitiableAndDecodable {
     
+    /// This attribute will define the input name tag on this item.
+    /// This is the tag name used when a request is made using a form component.
     public let name: String
+    
+    /// Defines if it is required to fill this field.
     public let required: Bool?
+    
+    /// Defines a string value set in your local pre-configured Validators to check if the form input is valid.
     public let validator: String?
+    
+    /// Message that is showed to the user if the validation fails.
     public let errorMessage: String?
+    
+    /// It's required that child component implements `InputValue`
+    /// It could be an EditText view in Android, a Radio button in HTML,
+    /// an UITextField in iOS or any other type of view that can receive and store input from users.
     public let child: ServerDrivenComponent
 
 // sourcery:inline:auto:FormInput.Init

@@ -14,14 +14,25 @@
  * limitations under the License.
  */
 
+/// Defines a button natively using the server driven information received through Beagle.
 public struct Button: Widget, ClickedOnComponent, AutoInitiableAndDecodable {
     
-    // MARK: - Public Properties
+    /// Defines the button text content.
     public let text: Expression<String>
+    
+    /// References a native style configured to be applied on this button.
     public let styleId: String?
+    
+    /// Attribute to define actions when this component is pressed.
     public let onPress: [Action]?
+    
+    /// Enables or disables the button.
     public let enabled: Expression<Bool>?
+    
+    /// Attribute to define click event name.
     public var clickAnalyticsEvent: AnalyticsClick?
+    
+    /// Properties that all widgets have in common.
     public var widgetProperties: WidgetProperties
 
 // sourcery:inline:auto:Button.Init

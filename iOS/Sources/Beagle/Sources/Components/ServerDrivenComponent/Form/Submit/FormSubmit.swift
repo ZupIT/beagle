@@ -16,11 +16,14 @@
 
 import UIKit
 
+/// Component that will define a submit handler for a form.
 @available(*, deprecated, message: "use SimpleForm and SubmitForm instead")
 public struct FormSubmit: ServerDrivenComponent, AutoInitiableAndDecodable {
     
-    // MARK: - Public Properties
+    /// Defines the submit handler. It is generally set as a button to be clicked after a form is filled up.
     public let child: ServerDrivenComponent
+    
+    /// Allows a button to be clicked on. Default is true
     public var enabled: Bool?
 
 // sourcery:inline:auto:FormSubmit.Init

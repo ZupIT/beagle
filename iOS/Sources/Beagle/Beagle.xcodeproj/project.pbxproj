@@ -637,7 +637,6 @@
 		9398CB0F255591310003A010 /* RepresentableByParsableString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepresentableByParsableString.swift; sourceTree = "<group>"; };
 		9399377F26248FDA00809705 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		93A2EE1B24EC4BB00085B3CF /* AddChildren+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddChildren+Extensions.swift"; sourceTree = "<group>"; };
-		93A73AB7262DEE50000A01E6 /* ContainerWithoutChildren.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ContainerWithoutChildren.json; sourceTree = "<group>"; };
 		93A73ADE262E0E30000A01E6 /* listViewWithoutChildren.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = listViewWithoutChildren.json; sourceTree = "<group>"; };
 		93A73AE2262E0E71000A01E6 /* listViewWithTemplate.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = listViewWithTemplate.json; sourceTree = "<group>"; };
 		93B9743F23A2833600B0D1CF /* NetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
@@ -1717,7 +1716,6 @@
 			children = (
 				9398CA9B255338AD0003A010 /* AnalyticsModels.swift */,
 				9398CA9C255338AD0003A010 /* Events.swift */,
-				93A73AB7262DEE50000A01E6 /* ContainerWithoutChildren.json */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";

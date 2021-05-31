@@ -14,13 +14,22 @@
  * limitations under the License.
  */
 
+/// A text widget will define a text view natively using the server driven information received through Beagle.
 public struct Text: Widget, AutoDecodable {
     
-    // MARK: - Public Properties
+    /// Defines the text view content.
     public let text: Expression<String>
+    
+    /// References a style configured to be applied on this text view.
     public let styleId: String?
+    
+    /// Defines the text content alignment inside the text view.
     public let alignment: Expression<Alignment>?
+    
+    /// Defines the text color natively.
     public let textColor: Expression<String>?
+    
+    /// Properties that all widgets have in common.
     public var widgetProperties: WidgetProperties
 
     public init(
