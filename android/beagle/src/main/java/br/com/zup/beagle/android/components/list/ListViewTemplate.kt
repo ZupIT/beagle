@@ -18,8 +18,10 @@ package br.com.zup.beagle.android.components.list
 
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
+import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+@BeagleJson
 data class ListViewTemplate (
     /**
      * Condition to tell if this is the template to render or not. Optional. If omitted, we consider it to be the
