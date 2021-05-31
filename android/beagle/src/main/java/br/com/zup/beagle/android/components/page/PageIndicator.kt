@@ -40,7 +40,7 @@ class PageIndicator(
     val unselectedColor: String,
     var numberOfPages: Int? = null,
     var currentPage: Bind<Int>? = null,
-) : WidgetView(), PageIndicatorComponent {
+) : PageIndicatorComponent {
 
     constructor(
         selectedColor: String,
