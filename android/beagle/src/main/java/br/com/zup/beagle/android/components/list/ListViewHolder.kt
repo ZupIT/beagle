@@ -382,4 +382,6 @@ internal class ListViewHolder(
             it.requestLayout()
         }
     }
+
+    fun getTemplate() = template
 }
