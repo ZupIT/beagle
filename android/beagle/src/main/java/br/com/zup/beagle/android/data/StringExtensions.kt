@@ -16,24 +16,24 @@
 
 package br.com.zup.beagle.android.data
 
+import br.com.zup.beagle.android.networking.HttpAdditionalData
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import java.net.URI
 
 internal fun String.toRequestData(urlBuilder: UrlBuilder = UrlBuilderFactory().make(),
                                   beagleEnvironment: BeagleEnvironment = BeagleEnvironment,
                                   method: HttpMethod = HttpMethod.GET): RequestData {
     val newUrl = this.formatUrl(urlBuilder, beagleEnvironment)
     return RequestData(
-        uri = URI(newUrl),
-        method = method
+        url = newUrl,
+        httpAdditionalData = HttpAdditionalData(method = method)
     )
 }
 
-internal fun String.formatUrl(urlBuilder: UrlBuilder = UrlBuilderFactory().make(),
-                              beagleEnvironment: BeagleEnvironment = BeagleEnvironment): String? {
-    return urlBuilder.format(beagleEnvironment.beagleSdk.config.baseUrl, this)
-}
+internal fun String.formatUrl(
+    urlBuilder: UrlBuilder = UrlBuilderFactory().make(),
+    beagleEnvironment: BeagleEnvironment = BeagleEnvironment,
+) = urlBuilder.format(beagleEnvironment.beagleSdk.config.baseUrl, this) ?: ""

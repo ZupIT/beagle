@@ -57,7 +57,20 @@ fun <T : StyleComponent> T.flex(block: Flex.() -> Unit): T = setFlex(block)
 @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",
     ReplaceWith("Styled(component, { })"))
 fun <T : Widget> T.applyStyle(style: Style) = this.apply {
-    this.style = style
+    this.style = style.copy(
+        flex = Flex(
+            flexDirection = style.flex.flexDirection ?: this.style?.flex?.flexDirection,
+            flexWrap = style.flex.flexWrap ?: this.style?.flex?.flexWrap ,
+            justifyContent = style.flex.justifyContent ?: this.style?.flex?.justifyContent,
+            alignItems = style.flex.alignItems ?: this.style?.flex?.alignItems,
+            alignSelf = style.flex.alignSelf ?: this.style?.flex?.alignSelf,
+            alignContent = style.flex.alignContent ?: this.style?.flex?.alignContent,
+            basis = style.flex.basis ?: this.style?.flex?.basis,
+            flex = style.flex.flex ?: this.style?.flex?.flex,
+            grow = style.flex.grow ?: this.style?.flex?.grow,
+            shrink = style.flex.shrink ?: this.style?.flex?.shrink
+        )
+    )
 }
 
 @Deprecated("It was deprecated in version 1.7.0 and will be removed in a future version.",

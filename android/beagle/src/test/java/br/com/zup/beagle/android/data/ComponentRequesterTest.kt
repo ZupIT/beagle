@@ -32,15 +32,14 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
-import java.net.URI
+import org.junit.jupiter.api.Test
 
 private val URL = RandomData.string()
-private val REQUEST_DATA = RequestData(url = URL, uri = URI(""))
+private val REQUEST_DATA = RequestData(url = URL)
 
 @DisplayName("Given a Component Requester")
 @ExperimentalCoroutinesApi

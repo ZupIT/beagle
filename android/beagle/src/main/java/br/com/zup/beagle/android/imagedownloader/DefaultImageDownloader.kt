@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.imagedownloader
 
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
 import br.com.zup.beagle.android.cache.imagecomponent.ImageDownloader
@@ -35,15 +34,17 @@ internal class DefaultImageDownloader : BeagleImageDownloader {
     override fun download(url: String, imageView: ImageView, rootView: RootView) {
         imageView.post {
             rootView.getLifecycleOwner().lifecycleScope.launch(CoroutineDispatchers.IO) {
-                val bitmap = try {
-                    imageDownloader.getRemoteImage(url.formatUrl() ?: url, imageView.width, imageView.height)
+                try {
+                    val formattedUrl = url.formatUrl().takeIf { it.isNotEmpty() } ?: url
+                    val bitmap = imageDownloader.getRemoteImage(
+                        formattedUrl,
+                        imageView.width,
+                        imageView.height,
+                        rootView.getContext(),
+                    )
+                    setImage(imageView, bitmap)
                 } catch (e: Exception) {
                     BeagleMessageLogs.errorWhileTryingToDownloadImage(url, e)
-                    null
-                }
-
-                bitmap?.let {
-                    setImage(imageView, bitmap)
                 }
             }
         }
@@ -51,9 +52,7 @@ internal class DefaultImageDownloader : BeagleImageDownloader {
 
     private suspend fun setImage(view: ImageView, bitmap: Bitmap?) {
         withContext(CoroutineDispatchers.Main) {
-            view.context?.let {
-                view.setImageDrawable(BitmapDrawable(it.resources, bitmap))
-            }
+            view.setImageBitmap(bitmap)
         }
     }
 }

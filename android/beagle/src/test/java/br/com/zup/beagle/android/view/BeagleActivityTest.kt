@@ -17,37 +17,29 @@
 package br.com.zup.beagle.android.view
 
 import android.app.Application
-import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseSoLoaderTest
-import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.MyBeagleSetup
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.networking.RequestData
-import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
-import com.facebook.yoga.YogaNode
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkStatic
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -55,7 +47,6 @@ import org.junit.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import java.net.URI
 
 @Config(application = ApplicationTest::class)
 @RunWith(AndroidJUnit4::class)
@@ -75,7 +66,7 @@ class BeagleActivityTest : BaseSoLoaderTest() {
 
     @Before
     fun mockBeforeTest() {
-        coEvery { componentRequester.fetchComponent(RequestData(uri = URI(""), url = "/url")) } returns component
+        coEvery { componentRequester.fetchComponent(RequestData(url = "/url")) } returns component
         beagleViewModel = BeagleScreenViewModel(ioDispatcher = TestCoroutineDispatcher(), componentRequester)
         prepareViewModelMock(beagleViewModel)
         val activityScenario: ActivityScenario<ServerDrivenActivity> = ActivityScenario.launch(ServerDrivenActivity::class.java)
@@ -89,7 +80,7 @@ class BeagleActivityTest : BaseSoLoaderTest() {
     fun `Given a screen request When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
         // Given
         val url = "/url"
-        val screenRequest = RequestData(uri = URI(""), url = url)
+        val screenRequest = RequestData(url = url)
         prepareViewModelMock(analyticsViewModel)
         every { analyticsViewModel.createScreenReport(capture(screenIdentifierSlot)) } just Runs
 
@@ -104,7 +95,7 @@ class BeagleActivityTest : BaseSoLoaderTest() {
     @Test
     fun `Given a screen with id When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
         // Given
-        val screenRequest = RequestData(uri = URI(""), url = "")
+        val screenRequest = RequestData(url = "")
         val screenId = "myScreen"
         val screen = Screen(id = screenId, child = component)
 
@@ -122,7 +113,7 @@ class BeagleActivityTest : BaseSoLoaderTest() {
     @Test
     fun `Given a screen with identifier When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
         // Given
-        val screenRequest = RequestData(uri = URI(""), url = "")
+        val screenRequest = RequestData(url = "")
         val screenIdentifier = "myScreen"
         val screen = Screen(identifier = screenIdentifier, child = component)
 

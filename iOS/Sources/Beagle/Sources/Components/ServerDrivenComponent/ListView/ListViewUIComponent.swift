@@ -57,7 +57,7 @@ final class ListViewUIComponent: UIView {
     private var cellsContextManager = CellsContextManager()
     private var itemsSize = [Int: CGSize]()
     
-    let model: Model
+    var model: Model
     
     var items: [DynamicObject]? {
         didSet {
@@ -219,6 +219,7 @@ extension ListViewUIComponent {
         var onScrollEnd: [Action]?
         var scrollEndThreshold: CGFloat
         var isScrollIndicatorVisible: Bool
+        var columns: Int = 1
     }
 }
 
@@ -296,6 +297,7 @@ extension ListViewUIComponent: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var size = collectionView.frame.size
+        size.width = (size.width / CGFloat(model.columns)).rounded(.down)
         guard let items = items, indexPath.item < items.count else {
             return size
         }
@@ -307,13 +309,6 @@ extension ListViewUIComponent: UICollectionViewDelegateFlowLayout {
         let keyPath = model.direction.sizeKeyPath
         if let calculatedSize = itemsSize[itemHash] {
             size[keyPath: keyPath] = calculatedSize[keyPath: keyPath]
-        } else if #available(iOS 12.0, *) {
-            // Intentionally empty.
-            // Bellow iOS 12, if the size is 0, the size changes made at
-            // cell method `preferredLayoutAttributesFitting` won't apply.
-            // To fix it the size is set to 1.
-        } else if size[keyPath: keyPath] == 0 {
-            size[keyPath: keyPath] = 1
         }
         return size
     }

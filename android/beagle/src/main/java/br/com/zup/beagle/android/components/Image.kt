@@ -59,7 +59,6 @@ data class Image constructor(
         val imageView: RoundedImageView = getImageView(rootView)
 
         observeBindChanges(rootView, imageView, path) { pathType ->
-
             when (pathType) {
                 is ImagePath.Local -> {
                     loadLocalImage(rootView, imageView, pathType)
@@ -73,9 +72,15 @@ data class Image constructor(
         return imageView
     }
 
-    private fun getImageView(rootView: RootView) = viewFactory.makeImageView(rootView.getContext(),
-        getCornerRadius()).apply {
-        adjustViewBounds = true
+    private fun getImageView(rootView: RootView) = viewFactory.makeImageView(
+        rootView.getContext(),
+        getCornerRadius(),
+    ).apply {
+        style?.size?.let { size ->
+            if (size.width == null || size.height == null) {
+                adjustViewBounds = true
+            }
+        }
         scaleType = viewMapper.toScaleType(mode ?: ImageContentMode.FIT_CENTER)
     }
 
@@ -94,19 +99,29 @@ data class Image constructor(
                     }
                 }
             }
-
         }
     }
 
     private fun loadRemoteImage(rootView: RootView, imageView: ImageView, pathType: ImagePath.Remote) {
-        pathType.placeholder?.let { local ->
-            loadLocalImage(rootView, imageView, local)
-        }
+        loadPlaceholder(pathType, rootView, imageView)
 
         observeBindChanges(rootView, imageView, pathType.url) { url ->
-            imageView.setImageDrawable(null)
+            loadPlaceholder(pathType, rootView, imageView) {
+                imageView.setImageDrawable(null)
+            }
             downloadImage(imageView, url ?: "", rootView)
         }
+    }
+
+    private fun loadPlaceholder(
+        pathType: ImagePath.Remote,
+        rootView: RootView,
+        imageView: ImageView,
+        fallback: (() -> Unit)? = null,
+    ) {
+        pathType.placeholder?.let { local ->
+            loadLocalImage(rootView, imageView, local)
+        } ?: fallback?.invoke()
     }
 
     private fun downloadImage(imageView: ImageView, url: String, rootView: RootView) =

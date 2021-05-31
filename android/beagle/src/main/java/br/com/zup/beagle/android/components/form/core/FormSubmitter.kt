@@ -20,18 +20,18 @@ import android.net.Uri
 import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.data.BeagleApi
+import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.exception.BeagleException
+import br.com.zup.beagle.android.networking.HttpAdditionalData
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderFactory
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.net.URI
 import kotlin.coroutines.CoroutineContext
 
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
@@ -62,17 +62,19 @@ internal class FormSubmitter(
 
     private fun createRequestData(form: FormRemoteAction, formsValue: Map<String, String>): RequestData {
         val action = createUrl(form, formsValue)
-        val newUrl = urlBuilder.format(BeagleEnvironment.beagleSdk.config.baseUrl, action)
+        val newUrl = action.formatUrl(urlBuilder = urlBuilder)
 
         return RequestData(
-            uri = URI(newUrl),
-            method = when (form.method) {
-                FormMethodType.POST -> HttpMethod.POST
-                FormMethodType.GET -> HttpMethod.GET
-                FormMethodType.PUT -> HttpMethod.PUT
-                FormMethodType.DELETE -> HttpMethod.DELETE
-            },
-            body = createBody(form, formsValue)
+            url = newUrl,
+            httpAdditionalData = HttpAdditionalData(
+                method = when (form.method) {
+                    FormMethodType.POST -> HttpMethod.POST
+                    FormMethodType.GET -> HttpMethod.GET
+                    FormMethodType.PUT -> HttpMethod.PUT
+                    FormMethodType.DELETE -> HttpMethod.DELETE
+                },
+                body = createBody(form, formsValue)
+            )
         )
     }
 
