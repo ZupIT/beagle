@@ -153,16 +153,13 @@ extension UIView {
     
     // MARK: Get/Set Context
     
-    func getContext(with id: String, implicitContext: Context? = nil) -> Observable<Context>? {
+    func getContext(with id: String) -> Observable<Context>? {
         let global = dependencies.globalContext
         if global.isGlobal(id: id) {
             return global.context
         }
-        if let implicitContext = implicitContext, implicitContext.id == id {
-            return Observable(value: implicitContext)
-        }
         guard let context = contextMap[id] else {
-            let observable = (parentContext ?? superview)?.getContext(with: id, implicitContext: implicitContext)
+            let observable = (parentContext ?? superview)?.getContext(with: id)
             return observable
         }
         return context

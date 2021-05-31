@@ -64,7 +64,14 @@ public extension Expression {
     func evaluate(with view: UIView?, implicitContext: Context? = nil) -> T? {
         switch self {
         case let .expression(expression):
-            return view?.evaluateExpression(expression, implicitContext: implicitContext).transform()
+            if let implicitContext = implicitContext {
+                let auxView = UIView()
+                auxView.parentContext = view
+                auxView.setContext(implicitContext)
+                return evaluate(with: auxView)
+            }
+            
+            return view?.evaluateExpression(expression).transform()
         case let .value(value):
             return value
         }
