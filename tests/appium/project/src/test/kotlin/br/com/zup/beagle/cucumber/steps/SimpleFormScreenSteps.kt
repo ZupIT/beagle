@@ -25,7 +25,7 @@ import io.cucumber.java.en.When
 class SimpleFormScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/simpleform"
 
-    @Before("@simpleform")
+    @Before("@simpleForm")
     fun setup() {
         loadBffScreen()
     }
@@ -35,31 +35,12 @@ class SimpleFormScreenSteps : AbstractStep() {
         waitForElementWithValueToBeClickable("SimpleForm", false, false)
     }
 
-    @Then("^checks that the textInput with the place holder (.*) is on the screen$")
-    fun checkTextInputEmailInSimpleForm(field: String) {
-        waitForElementWithValueToBeClickable(field, false, false)
-    }
-
-    @Then("^checks that the button with the title (.*) is on the screen$")
-    fun checkButtonOnScreen(textButton: String) {
-        waitForElementWithValueToBeClickable(textButton, false, false)
-    }
-
-    @When("^I click on textInput for email with (.*) and insert my (.*)$")
-    fun insertEmailInTextInput(hint: String, email: String) {
-        var element: MobileElement = waitForElementWithValueToBeClickable(hint, false, false)
+    @When("^I click on textInput with place holder (.*) and insert the value (.*)$")
+    fun insertEmailInTextInput(placeHolderText: String, value: String) {
+        var element: MobileElement = waitForElementWithValueToBeClickable(placeHolderText, false, false)
         element.click()
-        element.sendKeys(email)
-        hideKeyboard()
+        element.sendKeys(value)
 
-    }
-
-    @When("^I click on textInput for name with (.*) and insert my (.*)$")
-    fun insertNameInTextInput(hint: String, name: String) {
-        var element: MobileElement = waitForElementWithValueToBeClickable(hint, false, false)
-        element.click()
-        element.sendKeys(name)
-        hideKeyboard()
     }
 
     @When("^I click to (.*)$")
@@ -67,10 +48,4 @@ class SimpleFormScreenSteps : AbstractStep() {
         waitForElementWithValueToBeClickable(submit, false, false).click()
     }
 
-    @Then("^verify if (.*) appear correctly$")
-    fun checkIfTextInputDataIsEqualAlert(alertData: String) {
-        waitForElementWithValueToBeClickable(alertData, false, false)
-        waitForElementWithValueToBeClickable("Registered data", false, false)
-
-    }
 }
