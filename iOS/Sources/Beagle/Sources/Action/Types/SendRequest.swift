@@ -14,15 +14,31 @@
  * limitations under the License.
  */
 
+/// SendRequest is used to make HTTP requests.
 public struct SendRequest: Action, AutoInitiableAndDecodable, AnalyticsAction {
     
+    /// Server URL.
     public let url: Expression<String>
+    
+    /// HTTP method.
     public let method: Expression<HTTPMethod>?
+    
+    /// Content that will be delivered with the request.
     public let data: DynamicObject?
+    
+    /// Header items for the request.
     public let headers: Expression<[String: String]>?
+    
+    /// Actions to be executed in request success case.
     public let onSuccess: [Action]?
+    
+    /// Actions to be executed in request error case.
     public let onError: [Action]?
+    
+    /// Actions to be executed in request completion case.
     public var onFinish: [Action]?
+    
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
     
 // sourcery:inline:auto:SendRequest.Init

@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
+/// `SubmitForm` is a specific action of the `SimpleForm` component when executing it calls SimpleForm's onSubmit attribute.
 public struct SubmitForm: AnalyticsAction, AutoInitiable {
+    
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
 
 // sourcery:inline:auto:SubmitForm.Init

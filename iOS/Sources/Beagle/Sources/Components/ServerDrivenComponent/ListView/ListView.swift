@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+/// ListView is a Layout component that will define a list of views natively. These views could be any ServerDrivenComponent.
 public struct ListView: Widget, HasContext, InitiableComponent, AutoInitiable {
     
     /// Defines the context of the component.
@@ -118,6 +119,10 @@ public struct ListView: Widget, HasContext, InitiableComponent, AutoInitiable {
         return "__list_\(Int.random(in: 0...Int.max))"
     }
 
+    /// Creates a list with content of the children. Deprecated: use the dataSource and template instead of children.
+    /// - Parameters:
+    ///   - children: Defines each cell of the ListView.
+    ///   - direction: Defines the list direction.
     @available(*, deprecated, message: "use the dataSource and templates instead of children")
     public init(
         children: [ServerDrivenComponent]? = nil,

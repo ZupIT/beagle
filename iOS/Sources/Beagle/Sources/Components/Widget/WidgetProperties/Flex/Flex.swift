@@ -41,7 +41,7 @@ public class Flex: Decodable, AutoEquatable, AutoInitiable {
     /// Describes how any space within a container should be distributed among its children along the main axis.
     public var flex: Double?
     
-    /// Define the proportion with which an item should grow if necessary.
+    /// Defines the proportion with which an item should grow if necessary.
     public var grow: Double?
     
     /// Describes how to shrink children along the main axis in the case that the total size of the children overflow the size of the container on the main axis.
