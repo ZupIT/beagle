@@ -80,6 +80,9 @@ public struct ListView: Widget, HasContext, InitiableComponent, AutoInitiable {
     }
 // sourcery:end
     
+    // MARK: Deprecated initializers
+    
+    @available(*, deprecated, message: "use the templates instead of template")
     public init(
         context: Context? = nil,
         onInit: [Action]? = nil,
@@ -108,8 +111,6 @@ public struct ListView: Widget, HasContext, InitiableComponent, AutoInitiable {
         )
     }
 
-    // MARK: Deprecated initializers
-    
     private static func templateFor(children: [ServerDrivenComponent], direction: Direction?) -> ServerDrivenComponent {
         let style = Style(flex: Flex(flexDirection: direction?.flexDirection))
         return Container(children: children, widgetProperties: .init(style: style))
