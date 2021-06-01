@@ -23,6 +23,7 @@ final class ListViewCell: UICollectionViewCell {
     private(set) var itemKey: String?
     private(set) var viewsIdentifier = [UIView: String]()
     private(set) var viewContexts = [UIView: [Context]]()
+    private(set) var templateIndex: Int?
     
     private var bindings = [() -> Void]()
     private var onInits = [(actions: [Action], view: UIView)]()
@@ -59,14 +60,16 @@ final class ListViewCell: UICollectionViewCell {
         hash: Int,
         key: String,
         item: DynamicObject,
+        templateIndex: Int,
         contexts: DynamicDictionary?,
         listView: ListViewUIComponent
     ) {
         self.itemHash = hash
         self.itemKey = key
         self.listView = listView
+        self.templateIndex = templateIndex
         
-        let container = templateContainer(for: listView)
+        let container = templateContainer(for: listView, templateIndex: templateIndex)
         if let contexts = contexts {
             restoreContexts(contexts)
             container.setContext(Context(id: listView.model.iteratorName, value: item))
@@ -98,12 +101,12 @@ final class ListViewCell: UICollectionViewCell {
         }
     }
     
-    private func templateContainer(for listView: ListViewUIComponent) -> TemplateContainer {
+    private func templateContainer(for listView: ListViewUIComponent, templateIndex: Int) -> TemplateContainer {
         if let templateContainer = self.templateContainer {
             return templateContainer
         }
         let flexDirection = listView.model.direction.flexDirection
-        let template = listView.renderer.render(listView.model.template)
+        let template = listView.renderer.render(listView.model.templates[templateIndex].view)
         let container = TemplateContainer(template: template)
         container.parentContext = listView
         listView.listController.dependencies.style(container).setup(

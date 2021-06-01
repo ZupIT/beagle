@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,25 +15,27 @@
  */
 
 /// GridView is a Layout component that will define a list of views natively. These views could be any ServerDrivenComponent.
-public struct GridView: Widget, HasContext, InitiableComponent {
+public struct GridView: Widget, HasContext, InitiableComponent, AutoInitiableAndDecodable {
     
     /// Defines the context of the component.
     public var context: Context?
     
-    /// Allows to define a list of actions to be performed when the ListView is displayed.
+    /// Allows to define a list of actions to be performed when the GridView is displayed.
     public let onInit: [Action]?
     
-    /// It's an expression that points to a list of values used to populate the ListView.
+    /// It's an expression that points to a list of values used to populate the GridView.
     public let dataSource: Expression<[DynamicObject]>
     
-    /// Points to a unique value present in each dataSource item used as a suffix in the component ids within the ListView.
+    /// Points to a unique value present in each dataSource item used as a suffix in the component ids within the GridView.
     public let key: String?
     
-    /// Sets number of columns
+    /// Number of columns in the grid.
     public let numColumns: Int
     
-    /// Represents each cell in the list through a ServerDrivenComponent.
-    public let template: ServerDrivenComponent
+    /// Templates available to the grid items.
+    /// The grid will use the first template which matches the `Template.case`.
+    /// When there is no match, the first template without a `case` will be used.
+    public let templates: [Template]
     
     /// Is the context identifier of each cell.
     public let iteratorName: String?
@@ -51,13 +52,14 @@ public struct GridView: Widget, HasContext, InitiableComponent {
     /// Properties that all widgets have in common.
     public var widgetProperties: WidgetProperties
     
+// sourcery:inline:auto:GridView.Init
     public init(
         context: Context? = nil,
         onInit: [Action]? = nil,
         dataSource: Expression<[DynamicObject]>,
         key: String? = nil,
         numColumns: Int,
-        template: ServerDrivenComponent,
+        templates: [Template],
         iteratorName: String? = nil,
         onScrollEnd: [Action]? = nil,
         scrollEndThreshold: Int? = nil,
@@ -69,43 +71,12 @@ public struct GridView: Widget, HasContext, InitiableComponent {
         self.dataSource = dataSource
         self.key = key
         self.numColumns = numColumns
-        self.template = template
+        self.templates = templates
         self.iteratorName = iteratorName
         self.onScrollEnd = onScrollEnd
         self.scrollEndThreshold = scrollEndThreshold
         self.isScrollIndicatorVisible = isScrollIndicatorVisible
         self.widgetProperties = widgetProperties
     }
-}
-
-extension GridView: Decodable {
-
-    enum CodingKeys: String, CodingKey {
-        case children
-        case context
-        case onInit
-        case dataSource
-        case key
-        case numColumns
-        case template
-        case iteratorName
-        case onScrollEnd
-        case scrollEndThreshold
-        case isScrollIndicatorVisible
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        iteratorName = try container.decodeIfPresent(String.self, forKey: .iteratorName)
-        template = try container.decode(forKey: .template)
-        dataSource = try container.decode(Expression<[DynamicObject]>.self, forKey: .dataSource)
-        numColumns = try container.decode(Int.self, forKey: .numColumns)
-        key = try container.decodeIfPresent(String.self, forKey: .key)
-        context = try container.decodeIfPresent(Context.self, forKey: .context)
-        onInit = try container.decodeIfPresent(forKey: .onInit)
-        onScrollEnd = try container.decodeIfPresent(forKey: .onScrollEnd)
-        scrollEndThreshold = try container.decodeIfPresent(Int.self, forKey: .scrollEndThreshold)
-        isScrollIndicatorVisible = try container.decodeIfPresent(Bool.self, forKey: .isScrollIndicatorVisible)
-        widgetProperties = try WidgetProperties(listFrom: decoder)
-    }
+// sourcery:end
 }

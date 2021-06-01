@@ -52,7 +52,9 @@ class BeagleLoggerTests: XCTestCase {
             Log.navigation(.invalidExternalUrl(path: "invalidExternalURLPath")),
             Log.navigation(.unableToOpenExternalUrl(path: "validURLButWasUnableToOpen")),
 
-            Log.decode(.decodingError(type: "error"))
+            Log.decode(.decodingError(type: "error")),
+            
+            Log.collection(.templateNotFound(item: "item:10"))
         ]
 
         // When

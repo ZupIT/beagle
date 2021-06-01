@@ -52,3 +52,5 @@ invalidExternalUrl(path: "invalidExternalURLPath")
 unableToOpenExternalUrl(path: "validURLButWasUnableToOpen")
 
 Could not decode: error. Check if that type has been registered.
+
+Could not find a template for `item:10`.

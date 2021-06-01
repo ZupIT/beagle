@@ -32,19 +32,20 @@ struct GridViewScreen: DeeplinkScreen {
     }
     
     var screen: Screen {
-        return infinityScrollScreen
-    }
-    
-    var infinityScrollScreen: Screen {
         return Screen(
             navigationBar: NavigationBar(title: "GridView"),
-            context: Context(id: "database", value: .string(Self.moviesDatabase))
-        ) {
-            infinityScrollListView
-        }
+            child: gridView,
+            context: Context(
+                id: "values",
+                value: [
+                    "database": .string(Self.moviesDatabase),
+                    "masterpiece": 7.0
+                ]
+            )
+        )
     }
     
-    var infinityScrollListView: GridView {
+    var gridView: GridView {
         return GridView(
             context: Context(
                 id: "moviePage",
@@ -52,10 +53,11 @@ struct GridViewScreen: DeeplinkScreen {
             ),
             dataSource: "@{moviePage.results}",
             numColumns: 3,
-            template: movieTemplate,
+            templates: [movieTemplate, badMovieTemplate],
+            iteratorName: "movie",
             onScrollEnd: [
                 SendRequest(
-                    url: "@{database}/trending.@{sum(moviePage.page, 1)}.json",
+                    url: "@{values.database}/trending.@{sum(moviePage.page, 1)}.json",
                     method: .value(.get),
                     onSuccess: [
                         SetContext(
@@ -73,14 +75,24 @@ struct GridViewScreen: DeeplinkScreen {
         )
     }
     
-    var movieTemplate: Container {
-        return Container(
+    var badMovieTemplate: Template {
+        return Template(
+            case: "@{lt(movie.vote_average, values.masterpiece)}",
+            view: Text(
+                #"People don't think "@{movie.title}" is a masterpiece, try something else."#,
+                widgetProperties: .init(style: Style().margin(EdgeValue().all(10)))
+            )
+        )
+    }
+    
+    var movieTemplate: Template {
+        return Template(view: Container(
             widgetProperties: .init(
                 style: Style()
                     .padding(EdgeValue().all(2))
             )
         ) {
-            Image(.value(.remote(.init(url: "https://image.tmdb.org/t/p/w500@{item.poster_path}"))))
-        }
+            Image(.value(.remote(.init(url: "https://image.tmdb.org/t/p/w500@{movie.poster_path}"))))
+        })
     }
 }

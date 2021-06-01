@@ -93,7 +93,9 @@ final class ListViewUIComponent: UIView {
         layout.scrollDirection = model.direction.scrollDirection
         
         let collection = listController.collectionView
-        collection.register(ListViewCell.self, forCellWithReuseIdentifier: "ListViewCell")
+        model.templates.enumerated().forEach { index, _ in
+            collection.register(ListViewCell.self, forCellWithReuseIdentifier: "ListViewCell\(index)")
+        }
         collection.dataSource = self
         collection.delegate = self
         collection.showsHorizontalScrollIndicator = model.isScrollIndicatorVisible
@@ -214,7 +216,7 @@ extension ListViewUIComponent {
     struct Model {
         var key: Path?
         var direction: ListView.Direction
-        var template: ServerDrivenComponent
+        var templates: [Template]
         var iteratorName: String
         var onScrollEnd: [Action]?
         var scrollEndThreshold: CGFloat
@@ -238,11 +240,16 @@ extension ListViewUIComponent: UICollectionViewDataSource {
         let itemKey = keyFor(item)
         let hash = hashFor(item: item, withKey: itemKey)
         
-        if let cell = cellsReadyToDisplay[hash] {
+        guard let templateIndex = templateIndexFor(item: item, in: collectionView) else {
+            let info = "\(model.iteratorName):\(itemKey ?? String(indexPath.item))"
+            dependencies.logger.log(Log.collection(.templateNotFound(item: info)))
+            return UICollectionViewCell()
+        }
+        if let cell = cellsReadyToDisplay[hash], cell.templateIndex == templateIndex {
             return cell
         }
         
-        let collectionCell = dequeueCellWithoutPendingActions(collectionView, indexPath: indexPath, itemHash: hash)
+        let collectionCell = dequeueCellWithoutPendingActions(collectionView, indexPath: indexPath, itemHash: hash, templateIndex: templateIndex)
         guard let cell = collectionCell as? ListViewCell else {
             return collectionCell
         }
@@ -252,20 +259,42 @@ extension ListViewUIComponent: UICollectionViewDataSource {
         let key = itemKey ?? String(indexPath.item)
         let contexts = cellsContextManager.contexts(for: hash)
         
-        cell.configure(hash: hash, key: key, item: item, contexts: contexts, listView: self)
+        cell.configure(hash: hash, key: key, item: item, templateIndex: templateIndex, contexts: contexts, listView: self)
         cellsReadyToDisplay[hash] = cell
         return cell
     }
     
-    private func dequeueCellWithoutPendingActions(_ collection: UICollectionView, indexPath: IndexPath, itemHash: Int) -> UICollectionViewCell {
-        let dequeuedCell = collection.dequeueReusableCell(withReuseIdentifier: "ListViewCell", for: indexPath)
+    private func templateIndexFor(item: DynamicObject, in collectionView: UICollectionView) -> Int? {
+        var templateIndex: Int?
+        let implicitContext = Context(id: model.iteratorName, value: item)
+        for (offset, element) in model.templates.enumerated() {
+            if let condition = element.case {
+                let result = condition.evaluate(with: collectionView, implicitContext: implicitContext)
+                if result == true {
+                    return offset
+                }
+            } else if templateIndex == nil {
+                templateIndex = offset
+            }
+        }
+        return templateIndex
+    }
+    
+    private func dequeueCellWithoutPendingActions(
+        _ collection: UICollectionView,
+        indexPath: IndexPath,
+        itemHash: Int,
+        templateIndex: Int
+    ) -> UICollectionViewCell {
+        let identifier = "ListViewCell\(templateIndex)"
+        let dequeuedCell = collection.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         if let cell = dequeuedCell as? ListViewCell, cell.hasPendingActions {
             if cell.itemHash == itemHash {
                 return cell
             } else if let cellItemHash = cell.itemHash {
                 cellsReadyToDisplay[cellItemHash] = cell
             }
-            return dequeueCellWithoutPendingActions(collection, indexPath: indexPath, itemHash: itemHash)
+            return dequeueCellWithoutPendingActions(collection, indexPath: indexPath, itemHash: itemHash, templateIndex: templateIndex)
         }
         return dequeuedCell
     }

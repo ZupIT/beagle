@@ -1,6 +1,5 @@
-// Generated using Sourcery 1.0.0 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 1.4.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
-
 /*
 * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
 *
@@ -205,6 +204,39 @@ extension FormSubmit {
     }
 }
 
+// MARK: GridView Decodable
+extension GridView {
+
+    enum CodingKeys: String, CodingKey {
+        case context
+        case onInit
+        case dataSource
+        case key
+        case numColumns
+        case templates
+        case iteratorName
+        case onScrollEnd
+        case scrollEndThreshold
+        case isScrollIndicatorVisible
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        context = try container.decodeIfPresent(Context.self, forKey: .context)
+        onInit = try container.decodeIfPresent(forKey: .onInit)
+        dataSource = try container.decode(Expression<[DynamicObject]>.self, forKey: .dataSource)
+        key = try container.decodeIfPresent(String.self, forKey: .key)
+        numColumns = try container.decode(Int.self, forKey: .numColumns)
+        templates = try container.decode([Template].self, forKey: .templates)
+        iteratorName = try container.decodeIfPresent(String.self, forKey: .iteratorName)
+        onScrollEnd = try container.decodeIfPresent(forKey: .onScrollEnd)
+        scrollEndThreshold = try container.decodeIfPresent(Int.self, forKey: .scrollEndThreshold)
+        isScrollIndicatorVisible = try container.decodeIfPresent(Bool.self, forKey: .isScrollIndicatorVisible)
+        widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
 // MARK: Image Decodable
 extension Image {
 
@@ -391,6 +423,22 @@ extension TabBar {
         styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
         currentTab = try container.decodeIfPresent(Expression<Int>.self, forKey: .currentTab)
         onTabSelection = try container.decodeIfPresent(forKey: .onTabSelection)
+    }
+}
+
+// MARK: Template Decodable
+extension Template {
+
+    enum CodingKeys: String, CodingKey {
+        case `case`
+        case view
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        `case` = try container.decodeIfPresent(Expression<Bool>.self, forKey: .`case`)
+        view = try container.decode(forKey: .view)
     }
 }
 
