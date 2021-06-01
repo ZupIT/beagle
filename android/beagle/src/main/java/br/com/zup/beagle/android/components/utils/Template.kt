@@ -14,24 +14,27 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.list
+package br.com.zup.beagle.android.components.utils
 
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 @BeagleJson
-data class ListViewTemplate (
+data class Template(
     /**
      * Condition to tell if this is the template to render or not. Optional. If omitted, we consider it to be the
      * default template, i.e, it's used whenever no other template can be used.
      */
-    val case: Bind<Boolean>?,
+    val case: Bind<Boolean>? = null,
     /**
      * The template itself: view to render
      */
     val view: ServerDrivenComponent,
-){
-    constructor(case: String, view: ServerDrivenComponent): this(expressionOrValueOf(case), view)
+) {
+    constructor(case: String, view: ServerDrivenComponent) : this(expressionOrValueOf(case), view)
+
+    constructor(case: Boolean, view: ServerDrivenComponent) : this(valueOf(case), view)
 }
