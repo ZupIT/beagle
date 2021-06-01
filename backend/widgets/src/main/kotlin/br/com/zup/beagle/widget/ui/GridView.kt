@@ -40,8 +40,8 @@ import br.com.zup.beagle.widget.context.ContextData
 data class GridView(
     override val context: ContextData? = null,
     val onInit: List<Action>? = null,
-    val dataSource: Bind<List<Any>>? = null,
-    val templates: List<Template>? = null,
+    val dataSource: Bind<List<Any>>,
+    val templates: List<Template>,
     val onScrollEnd: List<Action>? = null,
     val scrollEndThreshold: Int? = null,
     val isScrollIndicatorVisible: Boolean = false,
