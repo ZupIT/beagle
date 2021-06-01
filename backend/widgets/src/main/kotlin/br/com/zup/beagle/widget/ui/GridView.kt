@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.Bind
@@ -27,7 +26,9 @@ import br.com.zup.beagle.widget.context.ContextData
  * @param context define the contextData that be set to component.
  * @param onInit allows to define a list of actions to be performed when the Widget is displayed.
  * @param dataSource it's an expression that points to a list of values used to populate the Widget.
- * @param template represents each cell in the list through a ServerDrivenComponent.
+ * @param templates Multiple templates support. The template to use will be decided according to the property `case`
+ * of the template. The first template where `case` is `true` is the template chosen to render an item. If for every
+ * template `case` is `false`, then, the first template where `case` is omitted (default template) is used.
  * @param onScrollEnd list of actions performed when the list is scrolled to the end.
  * @param scrollEndThreshold sets the scrolled percentage of the list to trigger onScrollEnd.
  * @param isScrollIndicatorVisible this attribute enables or disables the scroll bar.
@@ -40,7 +41,7 @@ data class GridView(
     override val context: ContextData? = null,
     val onInit: List<Action>? = null,
     val dataSource: Bind<List<Any>>? = null,
-    val template: ServerDrivenComponent? = null,
+    val templates: List<Template>? = null,
     val onScrollEnd: List<Action>? = null,
     val scrollEndThreshold: Int? = null,
     val isScrollIndicatorVisible: Boolean = false,

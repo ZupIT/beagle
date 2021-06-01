@@ -46,7 +46,7 @@ class ListViewFragment : Fragment(R.layout.fragment_list_view) {
         btNestedImageList.setOnClickListener {
             startActivity(
                 context?.newServerDrivenIntent<ServerDrivenActivity>(
-                    ScreenRequest("https://run.mocky.io/v3/9df55f30-9c82-4837-988d-f3d751d6f4e6")
+                    ScreenRequest("https://run.mocky.io/v3/9aa31d46-15c8-4bdf-95a3-01491e468846")
                 )
             )
         }

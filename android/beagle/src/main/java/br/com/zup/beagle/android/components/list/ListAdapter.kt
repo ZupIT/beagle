@@ -22,6 +22,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.AsyncAction
 import br.com.zup.beagle.android.action.AsyncActionStatus
+import br.com.zup.beagle.android.components.utils.Template
+import br.com.zup.beagle.android.components.utils.TemplateJson
 import br.com.zup.beagle.android.context.AsyncActionData
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
@@ -40,7 +42,7 @@ internal class ListAdapter(
     val key: String? = null,
     val viewFactory: ViewFactory,
     val listViewModels: ListViewModels,
-    val templateList: List<ListViewTemplate>? = null,
+    val templateList: List<Template>? = null,
     val originView: View,
 ) : RecyclerView.Adapter<ListViewHolder>() {
 
@@ -67,7 +69,7 @@ internal class ListAdapter(
     // Each access generate a new instance of the template to avoid reference conflict
     private val templateJsonList = templateList?.let {
         it.map { template ->
-            ListViewTemplateJson(template.case, serializer.serializeComponent(template.view))
+            TemplateJson(template.case, serializer.serializeComponent(template.view))
         }
     }
 
@@ -264,7 +266,9 @@ internal class ListAdapter(
     private fun getRecyclerId(componentId: String?): Int {
         val id = recyclerId.takeIf {
             it != View.NO_ID
-        } ?: componentId?.toAndroidId()
+        } ?: componentId?.toAndroidId()?.takeIf {
+            it != View.NO_ID
+        }
         return id ?: createTempId()
     }
 
