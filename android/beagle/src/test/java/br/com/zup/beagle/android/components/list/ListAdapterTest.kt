@@ -32,6 +32,7 @@ import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.components.utils.Template
 import br.com.zup.beagle.android.context.AsyncActionData
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOf
@@ -87,19 +88,19 @@ class ListAdapterTest : BaseTest() {
     private val observerSlot = slot<Observer<AsyncActionData>>()
     private val templateList by lazy {
         listOf(
-            ListViewTemplate(
+            Template(
                 case = expressionOf("@{eq(item, 'stub 1')}"),
                 view = Container(children = listOf(Text(text = "test")))
             ),
-            ListViewTemplate(
+            Template(
                 case = expressionOf("@{eq(item, 'stub 2')}"),
                 view = Text(text = "test")
             ),
-            ListViewTemplate(
+            Template(
                 case = null,
                 view = Button(text = "button test")
             ),
-            ListViewTemplate(
+            Template(
                 case = expressionOf("@{eq(item, 'stub 5')}"),
                 view = Image(ImagePath.Remote(url = "test"))
             ),
@@ -302,15 +303,15 @@ class ListAdapterTest : BaseTest() {
     fun `Given a ListAdapter When call getItemViewType Then should return -1 when there is no default template`() {
         val expectedIndex = -1
         val templateList = listOf(
-            ListViewTemplate(
+            Template(
                 case = expressionOf("@{eq(item, 'stub 1')}"),
                 view = Container(children = listOf())
             ),
-            ListViewTemplate(
+            Template(
                 case = expressionOf("@{eq(item, 'stub 2')}"),
                 view = Container(children = listOf())
             ),
-            ListViewTemplate(
+            Template(
                 case = expressionOf("@{eq(item, 'stub 5')}"),
                 view = Container(children = listOf())
             ),
@@ -418,7 +419,7 @@ class ListAdapterTest : BaseTest() {
         val expectedTemplate = Container()
         val expectedViewType = -1
         val templateListWithNoDefault = listOf(
-            ListViewTemplate(
+            Template(
                 case = expressionOf("@{eq(item, 'stub 1')}"),
                 view = Container(children = listOf(Text(text = "test")))
             ),

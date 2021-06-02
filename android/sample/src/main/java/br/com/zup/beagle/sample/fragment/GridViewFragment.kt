@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.components.utils.Template
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.utils.toView
@@ -57,20 +58,24 @@ class GridViewFragment : Fragment() {
                 "16", "17", "18", "19", "20")
         ),
         dataSource = expressionOf("@{outsideContext}"),
-        template = Container(
-            children = listOf(
-                Image(
-                    ImagePath.Local("imageBeagle"),
-                    mode = ImageContentMode.FIT_CENTER
+        templates = listOf(
+            Template(
+                view = Container(
+                    children = listOf(
+                        Image(
+                            ImagePath.Local("imageBeagle"),
+                            mode = ImageContentMode.FIT_CENTER
+                        ).applyStyle(
+                            Style(
+                                margin = EdgeValue(all = 5.unitReal())
+                            )
+                        )
+                    )
                 ).applyStyle(
                     Style(
-                        margin = EdgeValue(all = 5.unitReal())
+                        size = Size(width = 100.unitReal(), height = 100.unitReal())
                     )
                 )
-            )
-        ).applyStyle(
-            Style(
-                size = Size(width = 100.unitReal(), height = 100.unitReal())
             )
         )
     )

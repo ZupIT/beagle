@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.components.utils.Template
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.testutil.InstantExecutorExtension
@@ -55,7 +56,7 @@ class GridViewTest : BaseComponentTest() {
     )
     private val onInit = listOf(SendRequest("http://www.init.com"))
     private val dataSource = expressionOf<List<Any>>("@{context}")
-    private val template by lazy { Container(children = listOf(Text(expressionOf("@{item.name}")))) }
+    private val templates by lazy { listOf(Template(view = Container(children = listOf(Text(expressionOf("@{item.name}")))))) }
     private val onScrollEnd = listOf(mockk<Action>(relaxed = true))
     private val iteratorName = "list"
     private val key = "id"
@@ -67,7 +68,7 @@ class GridViewTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
-        gridView = GridView(context, onInit, dataSource, template, onScrollEnd, iteratorName = iteratorName, key = key, numColumns = numColumns)
+        gridView = GridView(context, onInit, dataSource, templates, onScrollEnd, iteratorName = iteratorName, key = key, numColumns = numColumns)
 
         every { anyConstructed<ViewFactory>().makeBeagleRecyclerView(rootView.getContext()) } returns beagleRecyclerView
         every { beagleRecyclerView.layoutManager = capture(layoutManagerSlot) } just Runs

@@ -46,7 +46,7 @@ data class ListView(
     val isScrollIndicatorVisible: Boolean = false,
     val key: String? = null,
     val useParentScroll: Boolean? = null,
-    val templates: List<ListViewTemplate>? = null,
+    val templates: List<Template>? = null,
 ) : Widget(), ContextComponent {
 
     /**
@@ -139,7 +139,7 @@ data class ListView(
         iteratorName: String = "item",
         key: String? = null,
         useParentScroll: Boolean? = null,
-        templates: List<ListViewTemplate>,
+        templates: List<Template>,
     ) : this(
         null,
         direction,

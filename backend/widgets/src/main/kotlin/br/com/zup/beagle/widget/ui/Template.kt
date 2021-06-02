@@ -20,16 +20,16 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOfNullable
 
-data class ListViewTemplate (
+data class Template(
     /**
      * Condition to tell if this is the template to render or not. Optional. If omitted, we consider it to be the
      * default template, i.e, it's used whenever no other template can be used.
      */
-    val case: Bind<Boolean>?,
+    val case: Bind<Boolean>? = null,
     /**
      * The template itself: view to render
      */
     val view: ServerDrivenComponent,
-){
-    constructor(case: Boolean, view: ServerDrivenComponent): this(valueOfNullable(case), view)
+) {
+    constructor(case: Boolean, view: ServerDrivenComponent) : this(valueOfNullable(case), view)
 }

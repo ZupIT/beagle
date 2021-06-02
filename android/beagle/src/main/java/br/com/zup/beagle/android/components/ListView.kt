@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.list.ListAdapter
 import br.com.zup.beagle.android.components.list.ListViewModels
-import br.com.zup.beagle.android.components.list.ListViewTemplate
+import br.com.zup.beagle.android.components.utils.Template
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
@@ -69,7 +69,7 @@ constructor(
     val isScrollIndicatorVisible: Boolean = false,
     val iteratorName: String = "item",
     val key: String? = null,
-    val templates: List<ListViewTemplate>? = null,
+    val templates: List<Template>? = null,
 ) : WidgetView(), ContextComponent, OnInitiableComponent by OnInitiableComponentImpl(onInit) {
 
     /**
@@ -159,7 +159,7 @@ constructor(
         isScrollIndicatorVisible: Boolean = false,
         iteratorName: String = "item",
         key: String? = null,
-        templates: List<ListViewTemplate>,
+        templates: List<Template>,
     ) : this(
         null,
         direction,
