@@ -15,7 +15,17 @@
 
 # Workflow used as a reference for triggering Appium tests
 name: Beagle Appium Tests
-on: workflow_dispatch
+on:
+  workflow_dispatch
+  push:
+    branches:
+      - master
+    paths:
+      - 'android/**'
+      - 'common/**'
+      - 'backend/**'
+      - 'tests/**'
+      - 'iOS/**'
 
 jobs:
   appium_tests:
