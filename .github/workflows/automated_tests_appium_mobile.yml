@@ -18,7 +18,7 @@ name: Beagle Appium tests trigger
 on:
   workflow_dispatch:
   # invoked by merges to master (pushing a branch to master)
-  # src: https://github:community/t/trigger-workflow-only-on-pull-request-merge/17359/2:
+  # src: https://github.community/t/trigger-workflow-only-on-pull-request-merge/17359/2
   push:
     branches:
       - master
