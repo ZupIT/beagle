@@ -17,9 +17,9 @@
 name: Beagle Appium Android Tests
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
   workflow_run:
-    workflows: [ "Beagle Appium Tests" ]
+    workflows: [ "Beagle Appium tests trigger" ]
     types:
       - completed
 
