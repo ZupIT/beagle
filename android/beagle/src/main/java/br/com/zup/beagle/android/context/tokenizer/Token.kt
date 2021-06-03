@@ -41,19 +41,19 @@ internal open class GenericToken(
     val type: TokenType
 ) : Token(value)
 
-internal class TokenBinding(
+internal data class TokenBinding(
     override val value: String
 ) : TokenValue(value)
 
-internal class TokenNumber(
+internal data class TokenNumber(
     override val value: Number
 ) : TokenValue(value)
 
-internal class TokenString(
+internal data class TokenString(
     override val value: String
 ) : TokenValue(value)
 
-internal class TokenBoolean(
+internal data class TokenBoolean(
     override val value: Boolean
 ) : TokenValue(value)
 
@@ -72,7 +72,7 @@ internal class InvalidToken : Token(Any()) {
     }
 }
 
-internal class TokenFunction(
+internal data class TokenFunction(
     val name: String,
     override val value: List<Token>
 ) : Token(value)
