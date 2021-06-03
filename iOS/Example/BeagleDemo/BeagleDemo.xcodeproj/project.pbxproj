@@ -10,7 +10,6 @@
 		2576F469250ACF6C000CDB2A /* NativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2576F468250ACF6C000CDB2A /* NativeViewController.swift */; };
 		25C762AC251147F800AB4D33 /* ConditionActionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C762AB251147F800AB4D33 /* ConditionActionScreen.swift */; };
 		3D3400D725D2E49F0079CD6F /* AnalyticsProviderDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3400D625D2E49F0079CD6F /* AnalyticsProviderDemo.swift */; };
-		3D37850A250FF68800780F92 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 3D378509250FF68800780F92 /* SnapshotTesting */; };
 		3D37850C250FF6AC00780F92 /* NativeScreenTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37850B250FF6AC00780F92 /* NativeScreenTest.swift */; };
 		3D8E5C7C25423198002B92E2 /* HttpRequestBuilderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E5C7925423176002B92E2 /* HttpRequestBuilderTest.swift */; };
 		3D8E5C80254234A0002B92E2 /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E5C7625423176002B92E2 /* HttpRequestBuilder.swift */; };
@@ -28,6 +27,7 @@
 		932925B22327E0E400A61F01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932925B12327E0E400A61F01 /* AppDelegate.swift */; };
 		932925BB2327E0E500A61F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 932925BA2327E0E500A61F01 /* Assets.xcassets */; };
 		932925BE2327E0E500A61F01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 932925BC2327E0E500A61F01 /* LaunchScreen.storyboard */; };
+		934337282669640400E71837 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 934337272669640400E71837 /* SnapshotTesting */; };
 		93A2EE1624E57E120085B3CF /* OperationsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2EE1524E57E120085B3CF /* OperationsScreen.swift */; };
 		93A2EE1A24EC49E90085B3CF /* AddChildrenScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A2EE1924EC49E90085B3CF /* AddChildrenScreen.swift */; };
 		93D24A742514F9DA005A5CBD /* BeagleViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D24A732514F9DA005A5CBD /* BeagleViewScreen.swift */; };
@@ -195,7 +195,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D37850A250FF68800780F92 /* SnapshotTesting in Frameworks */,
+				934337282669640400E71837 /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,7 +537,7 @@
 			);
 			name = BeagleDemoTests;
 			packageProductDependencies = (
-				3D378509250FF68800780F92 /* SnapshotTesting */,
+				934337272669640400E71837 /* SnapshotTesting */,
 			);
 			productName = BeagleDemoTests;
 			productReference = C09F410E249BDEE8002605EE /* BeagleDemoTests.xctest */;
@@ -572,7 +572,7 @@
 			);
 			mainGroup = 932925A52327E0E400A61F01;
 			packageReferences = (
-				3D378508250FF68800780F92 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				934337262669640400E71837 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
 			productRefGroup = 932925AF2327E0E400A61F01 /* Products */;
 			projectDirPath = "";
@@ -974,20 +974,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3D378508250FF68800780F92 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+		934337262669640400E71837 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing.git";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.7.2;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.9.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3D378509250FF68800780F92 /* SnapshotTesting */ = {
+		934337272669640400E71837 /* SnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3D378508250FF68800780F92 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			package = 934337262669640400E71837 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = SnapshotTesting;
 		};
 /* End XCSwiftPackageProductDependency section */
