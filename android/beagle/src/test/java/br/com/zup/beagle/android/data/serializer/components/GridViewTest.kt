@@ -55,13 +55,13 @@ class GridViewTest : BaseTest() {
         moshi = BeagleMoshi.createMoshi()
     }
 
-    @DisplayName("When try deserialize json grid view")
+    @DisplayName("When try serialize json grid view")
     @Nested
-    inner class DeserializeJsonGridViewTest {
+    inner class SerializeJsonGridViewTest {
 
         @DisplayName("Then should return correct object")
         @Test
-        fun testDeserializeJsonGridView() {
+        fun testSerializeJsonGridView() {
             // Given
             val json = makeJsonGridView()
 
@@ -74,13 +74,13 @@ class GridViewTest : BaseTest() {
         }
     }
 
-    @DisplayName("When try deserialize object grid view")
+    @DisplayName("When try serialize object grid view")
     @Nested
-    inner class DeserializeObjectGridViewTest {
+    inner class SerializeObjectGridViewTest {
 
         @DisplayName("Then should return correct json")
         @Test
-        fun testDeserializeJsonGridView() {
+        fun testSerializeJsonGridView() {
             // Given
             val gridView = makeObjectGridView()
 
