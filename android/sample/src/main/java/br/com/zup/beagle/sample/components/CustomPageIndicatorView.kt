@@ -18,6 +18,7 @@ package br.com.zup.beagle.sample.components
 
 import android.content.Context
 import android.graphics.Color
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -25,8 +26,7 @@ import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.sample.R
-import kotlinx.android.synthetic.main.custom_page_indicator.view.btContinue
-import kotlinx.android.synthetic.main.custom_page_indicator.view.btBack
+import br.com.zup.beagle.sample.databinding.CustomPageIndicatorBinding
 
 typealias OnIndexChanged = (index: Int) -> Unit
 
@@ -36,21 +36,19 @@ class CustomPageIndicatorView(context: Context) : RelativeLayout(context) {
     private val unselectedColor: Int = Color.GRAY
     private var selectedItem = 0
     private var pagesCount = 0
-    private val llPageIndicator: LinearLayout
     private var onIndexChanged: OnIndexChanged? = null
+    private val binding: CustomPageIndicatorBinding = CustomPageIndicatorBinding.inflate(LayoutInflater.from(context))
+
 
     init {
-        inflate(context, R.layout.custom_page_indicator, this)
-        llPageIndicator = findViewById(R.id.llPageIndicator)
+        addView(binding.root)
         bind()
     }
 
     private fun bind() {
-        val btBack = findViewById<Button>(R.id.btBack)
-        val btContinue = findViewById<Button>(R.id.btContinue)
         var newIndex: Int
 
-        btContinue.setOnClickListener {
+        binding.btContinue.setOnClickListener {
             newIndex = selectedItem + 1
             if (newIndex < pagesCount) {
                 setCurrentIndex(newIndex)
@@ -58,7 +56,7 @@ class CustomPageIndicatorView(context: Context) : RelativeLayout(context) {
             }
         }
 
-        btBack.setOnClickListener {
+        binding.btBack.setOnClickListener {
             newIndex = selectedItem - 1
             if (newIndex >= 0) {
                 setCurrentIndex(newIndex)
@@ -78,7 +76,7 @@ class CustomPageIndicatorView(context: Context) : RelativeLayout(context) {
                 dot.setColorFilter(unselectedColor)
             }
 
-            llPageIndicator.addView(dot)
+            binding.llPageIndicator.addView(dot)
 
             val dotParams = dot.layoutParams as LinearLayout.LayoutParams
             val defaultSize = 10.dp()
@@ -98,8 +96,8 @@ class CustomPageIndicatorView(context: Context) : RelativeLayout(context) {
     }
 
     fun setCurrentIndex(newIndex: Int) {
-        (llPageIndicator.getChildAt(selectedItem) as ImageView).setColorFilter(unselectedColor)
-        (llPageIndicator.getChildAt(newIndex) as ImageView).setColorFilter(selectedColor)
+        (binding.llPageIndicator.getChildAt(selectedItem) as ImageView).setColorFilter(unselectedColor)
+        (binding.llPageIndicator.getChildAt(newIndex) as ImageView).setColorFilter(selectedColor)
         selectedItem = newIndex
     }
 
@@ -108,10 +106,10 @@ class CustomPageIndicatorView(context: Context) : RelativeLayout(context) {
     }
 
     fun setContinueButtonVisibility(visibility: Int) {
-        btContinue.visibility = visibility
+        binding.btContinue.visibility = visibility
     }
 
     fun setBackButtonVisibility(visibility: Int) {
-        btBack.visibility = visibility
+        binding.btBack.visibility = visibility
     }
 }

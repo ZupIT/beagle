@@ -15,14 +15,14 @@
  */
 buildscript {
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.13.0'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.15.1'
     }
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.4.10" apply false
-    id "io.gitlab.arturbosch.detekt" version "1.14.2" apply false
+    id "org.jetbrains.kotlin.jvm" version "1.5.10" apply false
+    id "io.gitlab.arturbosch.detekt" version "1.17.1" apply false
     id "br.com.zup.beagle.dependencies" apply false
     id "org.jetbrains.dokka" version "1.4.20"
 }
@@ -32,9 +32,6 @@ allprojects {
     apply plugin: "kotlin"
     apply plugin: "br.com.zup.beagle.dependencies"
 
-    repositories {
-        jcenter()
-    }
 
     detekt {
         config = files("$rootDir/../config/detekt-default-config.yml")

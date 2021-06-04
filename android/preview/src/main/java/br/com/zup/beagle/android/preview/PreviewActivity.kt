@@ -21,14 +21,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import br.com.zup.beagle.android.preview.databinding.ActivityPreviewBinding
+import br.com.zup.beagle.android.utils.loadView
 import br.com.zup.beagle.android.utils.renderScreen
-import kotlinx.android.synthetic.main.activity_preview.*
 
 private const val ENDPOINT_KEY = "ENDPOINT_KEY"
 private const val RECONNECT_INTERVAL_KEY = "RECONNECT_INTERVAL_KEY"
 private const val DEFAULT_INTERVAL = 1000L
 
 class PreviewActivity : AppCompatActivity(), WebSocketListener {
+
+    private lateinit var binding: ActivityPreviewBinding
 
     private val reconnectInterval by lazy {
         intent.extras?.getLong(RECONNECT_INTERVAL_KEY, DEFAULT_INTERVAL) ?: DEFAULT_INTERVAL
@@ -50,7 +53,9 @@ class PreviewActivity : AppCompatActivity(), WebSocketListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_preview)
+        binding = ActivityPreviewBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         beaglePreview = BeaglePreview(endpoint, reconnectInterval)
         beaglePreview.startListening(this)
@@ -77,7 +82,7 @@ class PreviewActivity : AppCompatActivity(), WebSocketListener {
     override fun onMessage(message: String) {
         runOnUiThread {
             if (!message.startsWith("Welcome")) {
-                flPreview.renderScreen(activity = this@PreviewActivity, screenJson = message)
+                binding.flPreview.loadView(activity = this@PreviewActivity, screenJson = message)
             } else {
                 toast?.cancel()
                 toast = Toast.makeText(this@PreviewActivity, message, Toast.LENGTH_SHORT)
