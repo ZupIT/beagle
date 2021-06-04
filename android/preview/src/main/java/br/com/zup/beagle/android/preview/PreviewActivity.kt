@@ -23,7 +23,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.preview.databinding.ActivityPreviewBinding
 import br.com.zup.beagle.android.utils.loadView
-import br.com.zup.beagle.android.utils.renderScreen
 
 private const val ENDPOINT_KEY = "ENDPOINT_KEY"
 private const val RECONNECT_INTERVAL_KEY = "RECONNECT_INTERVAL_KEY"
