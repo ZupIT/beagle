@@ -57,7 +57,7 @@ class Dependencies : Plugin<Project> {
     }
 
     object Versions {
-        const val kotlin = "1.4.10"
+        const val kotlin = "1.5.10"
         const val kotlinPoet = "1.7.2"
         const val junit5 = "5.7.0"
         const val googleAutoService = "1.0-rc7"

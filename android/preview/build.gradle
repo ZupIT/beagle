@@ -18,7 +18,6 @@ import br.com.zup.beagle.Dependencies
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'de.mannodermaus.android-junit5'
 
 android {
@@ -54,6 +53,10 @@ android {
         unitTests.all {
             useJUnitPlatform()
         }
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 

@@ -141,6 +141,7 @@ empty-blocks:
   EmptyClassBlock:
     active: true
   EmptyDefaultConstructor:
+    excludes: ['**/test/**']
     active: true
   EmptyDoWhileBlock:
     active: true
@@ -220,6 +221,7 @@ exceptions:
 #     - Throwable
     allowedExceptionNameRegex: '_|(ignore|expected).*'
   TooGenericExceptionThrown:
+    excludes: ['**/test/**']
     active: true
     exceptionNames:
      - Error
@@ -395,9 +397,11 @@ naming:
     excludeClassPattern: '$^'
     ignoreOverridden: true
   InvalidPackageDeclaration:
+    excludes: ['**/test/**']
     active: true
     rootPackage: ''
   MatchingDeclarationName:
+    excludes: ['**/test/**']
     active: true
     mustBeFirst: true
   MemberNameEqualsClassName:
@@ -551,6 +555,7 @@ style:
     ignoreOverridden: false
     ignoreUsageInGenerics: false
   FunctionOnlyReturningConstant:
+    excludes: ['**/test/**']
     active: true
     ignoreOverridableFunction: true
     excludedFunctions: 'describeContents'
@@ -580,12 +585,14 @@ style:
   MandatoryBracesLoops:
     active: false
   MaxLineLength:
+    excludes: ['**/test/**']
     active: true
     maxLineLength: 120
     excludePackageStatements: true
     excludeImportStatements: true
     excludeCommentStatements: false
   MayBeConst:
+    excludes: ['**/test/**']
     active: true
   ModifierOrder:
     active: true
@@ -631,6 +638,7 @@ style:
     active: false
     acceptableDecimalLength: 5
   UnnecessaryAbstractClass:
+    excludes: ['**/test/**']
     active: true
     excludeAnnotatedClasses: ['dagger.Module']
   UnnecessaryAnnotationUseSiteTarget:
@@ -646,6 +654,7 @@ style:
   UntilInsteadOfRangeTo:
     active: false
   UnusedImports:
+    excludes: ['**/test/**']
     active: true
   UnusedPrivateClass:
     active: true

@@ -60,6 +60,7 @@ platform :android do
   lane :deploy_to_production do
     sh "bash ./release/maven_signing.sh"
     deploy_to_stage
+    gradle(project_dir: "android", task: "closeAndReleaseRepository")
   end
 end
 
@@ -222,6 +223,7 @@ platform :backend do
   lane :deploy_to_production do
     sh "bash ./release/maven_signing.sh"
     deploy_to_stage
+    gradle(project_dir: "backend", task: "closeAndReleaseRepository")
   end
 end
 
