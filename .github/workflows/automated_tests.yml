@@ -31,44 +31,7 @@ jobs:
                     restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
             -   name: Start backend in background
                 run: bash fastlane/automatedTests/start_test_backend.sh
-
-            -   name: Cache android gradle dependencies
-                uses: actions/cache@v2
-                env:
-                    gradle-cache-key: android-tests-gradle-cache
-                    gradle-path: ~/.gradle
-                with:
-                    path: ${{ env.gradle-path }}
-                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('android/buildSrc/**') }}
-                    restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
-            -   name: Cache android platform
-                uses: actions/cache@v2
-                env:
-                    android-platform-cache-key: android-platform-cache
-                    android-platform-path: /Users/runner/Library/Android/sdk/platforms
-                with:
-                    path: ${{ env.android-platform-path }}
-                    key: ${{ runner.os }}-build-${{ env.android-platform-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
-            -   name: Cache android system-images
-                uses: actions/cache@v2
-                env:
-                    android-system-images-cache-key: android-system-images-cache
-                    android-system-images-path: /Users/runner/Library/Android/sdk/system-images
-                with:
-                    path: ${{ env.android-system-images-path }}
-                    key: ${{ runner.os }}-build-${{ env.android-system-images-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
-            -   name: Cache android avd
-                uses: actions/cache@v2
-                env:
-                    android-avd-cache-key: android-avd-cache
-                    android-avd-path: ~/.android
-                with:
-                    path: ${{ env.android-avd-path }}
-                    key: ${{ runner.os }}-build-${{ env.android-avd-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
-            -   name: Test Android
-                run: bash fastlane/automatedTests/run_android_automation.sh
-                env:
-                    ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
+                
 
             -   name: Test iOS
                 run: bundle exec fastlane automated_tests run_ios_automation

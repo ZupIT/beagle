@@ -48,7 +48,6 @@ platform :android do
   lane :pull_request_verification do
     gradle(project_dir: "android", task: "clean detekt lintDebug test")
     gradle(project_dir: "android", task: "sample:assembleDebug sample:assembleDebugAndroidTest")
-    gradle(project_dir: "android", task: "automatedTest:assembleDebug automatedTest:assembleDebugAndroidTest")
   end
 
   desc "Deploy current code to stage"
