@@ -592,6 +592,7 @@ style:
     excludeImportStatements: true
     excludeCommentStatements: false
   MayBeConst:
+    excludes: ['**/test/**']
     active: true
   ModifierOrder:
     active: true

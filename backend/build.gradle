@@ -18,6 +18,10 @@ buildscript {
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10'
         classpath 'com.vanniktech:gradle-maven-publish-plugin:0.15.1'
     }
+
+    repositories {
+        mavenCentral()
+    }
 }
 
 plugins {
@@ -49,5 +53,9 @@ allprojects {
             jvmTarget = JavaVersion.VERSION_1_8
             javaParameters = true
         }
+    }
+
+    repositories {
+        mavenCentral()
     }
 }
