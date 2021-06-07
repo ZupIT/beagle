@@ -21,6 +21,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'de.mannodermaus.android-junit5'
 apply plugin: 'kotlin-parcelize'
+apply plugin: "org.jetbrains.dokka"
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
@@ -115,13 +116,3 @@ dependencies {
 }
 
 apply from: new File('./../../maven-publish.gradle')
-
-/**
- *  https://github.com/cotechde/dokka-hugo-plugin
- *  To run this task by ./gradlew dokkaHugo
- */
-task dokkaHugo(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    dependencies {
-        dokkaHugoPlugin 'com.github.cotechde:dokka-hugo-plugin:master-SNAPSHOT'
-    }
-}
