@@ -64,7 +64,6 @@ dependencies {
     implementation Dependencies.AndroidxLibraries.appcompat
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.webSocket
-    implementation Dependencies.GeneralLibraries.simpleLogger
 
     implementation project(Dependencies.Modules.core)
 
@@ -78,7 +77,6 @@ dependencies {
     testImplementation Dependencies.TestLibraries.junitVintageEngine
     testImplementation Dependencies.TestLibraries.testRunner
     testImplementation Dependencies.TestLibraries.testExt
-    testImplementation Dependencies.TestLibraries.espressoCore
     testImplementation Dependencies.TestLibraries.testCore
     testImplementation Dependencies.TestLibraries.testRules
     testImplementation Dependencies.GeneralLibraries.yoga
