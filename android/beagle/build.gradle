@@ -72,6 +72,15 @@ android {
 
 }
 
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-reflect') {
+            details.useVersion Dependencies.Versions.kotlin
+        }
+    }
+}
+
 dependencies {
     implementation Dependencies.AndroidxLibraries.appcompat
     implementation Dependencies.AndroidxLibraries.coreKtx
@@ -79,7 +88,6 @@ dependencies {
     implementation Dependencies.AndroidxLibraries.viewModel
     implementation Dependencies.AndroidxLibraries.viewModelExtensions
 
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
     api project(Dependencies.Modules.androidAnnotation)

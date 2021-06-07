@@ -62,7 +62,6 @@ android {
 
 dependencies {
     implementation Dependencies.AndroidxLibraries.appcompat
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.webSocket
 
     implementation project(Dependencies.Modules.core)

@@ -68,7 +68,6 @@ dependencies {
     implementation Dependencies.AndroidxLibraries.coreKtx
 
     implementation Dependencies.GeneralLibraries.multidex
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
     debugImplementation project(Dependencies.Modules.preview)

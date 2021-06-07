@@ -89,7 +89,7 @@ class Dependencies : Plugin<Project> {
 
         const val incap = "0.3"
 
-        const val kotlinCompileTesting = "1.4.2"
+        const val kotlinCompileTesting = "1.3.1"
 
         const val multidex = "2.0.1"
     }
@@ -110,7 +110,6 @@ class Dependencies : Plugin<Project> {
     }
 
     object GeneralLibraries {
-        const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
         const val kotlinCoroutines =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
 
