@@ -496,4 +496,12 @@ abstract class AbstractStep {
         SuiteSetup.restartApp()
     }
 
+    protected fun elementExists(locator: By): Boolean{
+        return AppiumUtil.elementExists(getDriver(), locator, 2000)
+    }
+
+    protected fun childElementExists(parentElement: MobileElement, childLocator: By): Boolean{
+        return AppiumUtil.childElementExists(getDriver(), parentElement, childLocator, 2000)
+    }
+
 }
