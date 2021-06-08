@@ -39,17 +39,6 @@ Here we provide two options for running the android project, by using the Androi
 	
 <img src="https://i.ibb.co/17dn6Nw/Captura-de-Tela-2020-09-28-a-s-14-12-42.png" height="256" />
 
-
-## iOS
-
-Select the AutomatedTests scheme and run the Test action (command + U)
-
-**Selecting tests to run:**
-
-* Select the AutomatedTestsUITests scheme and add the tests you want to run on the "Arguments passed on launch" in the format -Tags:tabview, see image below:
-	
-<img src="https://i.ibb.co/M2GhFCF/Captura-de-Tela-2020-09-28-a-s-14-04-37.png" height="256" />
-
 ## Next steps
 
 * Document default emulators to run the tests

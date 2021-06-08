@@ -228,26 +228,8 @@ platform :backend do
 end
 
 ###
-###  Automated tests
+###  Release Notes
 ###
-
-platform :automated_tests do
-  desc "Run iOS automated tests"
-  lane :run_ios_automation do
-    xcversion(version: "~> 11.5.0")
-    #TODO pass bff url to test
-    scan(
-      workspace: "iOS/Beagle.xcworkspace/",
-      scheme: "AutomatedTestsUITests",
-      device: "iPhone 11",
-    )
-  end
-
-  desc "Cleanup"
-  lane :cleanup do
-    sh("curl -XPOST localhost:8080/actuator/shutdown")
-  end
-end
 
 desc "Generate release notes"
 private_lane :release_notes do |params|
