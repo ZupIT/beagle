@@ -57,17 +57,17 @@ class ScrollViewScreenSteps : AbstractStep() {
     }
 
 
-    @When("^I confirm that the ScrollView 1 is not showing a button by default$")
-    fun confirmScrollView1IsNotShowingButton() {
+    @When("^I confirm that the ScrollView 1 is not showing a button with text \"(.*)\" by default$")
+    fun confirmScrollView1IsNotShowingButton(buttonText: String) {
         scrollViewElement1 = getScrollViewElement(1)
-        Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement1!!))
+        Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement1!!, buttonText))
 
     }
 
-    @When("^I confirm that the ScrollView 2 is showing a button by default$")
-    fun confirmScrollView2IsShowingButton() {
+    @When("^I confirm that the ScrollView 2 is showing a button with text \"(.*)\" by default$")
+    fun confirmScrollView2IsShowingButton(buttonText: String) {
         scrollViewElement2 = getScrollViewElement(2)
-        Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!))
+        Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!, buttonText))
 
     }
 
@@ -76,33 +76,17 @@ class ScrollViewScreenSteps : AbstractStep() {
         when (scrollViewElementNumber) {
             1 -> checkScrollView1NewTexts()
             2 -> checkScrollView2NewTexts()
-//            else -> //checkScrollView3NewTexts()
+            else -> checkScrollView3NewTexts()
         }
     }
 
-    @Then("^I should view a button by scrolling ScrollView (.*) to the end$")
-    fun checkButtonVisible(scrollViewElementNumber: Int) {
+    @Then("^I should view a button with text \"(.*)\" by scrolling ScrollView (.*) to the end$")
+    fun checkButtonVisible(buttonText: String, scrollViewElementNumber: Int) {
         when (scrollViewElementNumber) {
-            1 -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement1!!))
-            2 -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!))
+            1 -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement1!!, buttonText))
+            2 -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!, buttonText))
             else -> throw Exception("Invalid ScrollView number. Only 1 and 2 are possible for this verification")
         }
-    }
-
-    private fun isButtonShowingInsideOfScrollView(scrollViewElement: MobileElement): Boolean {
-        var locator: By
-
-        if (SuiteSetup.isIos()) {
-            locator = MobileBy.iOSClassChain("**/XCUIElementTypeButton")
-        } else {
-            locator = By.xpath(".//android.widget.Button")
-        }
-
-        if (childElementExists(scrollViewElement, locator)) {
-            return waitForChildElementToBePresent(scrollViewElement, locator).isDisplayed
-        }
-
-        return false
     }
 
     private fun checkScrollView1NewTexts() {
@@ -116,11 +100,10 @@ class ScrollViewScreenSteps : AbstractStep() {
         var textElement2 = textElementsTemp.elementAt(1)
         var textElement3 = textElementsTemp.elementAt(2)
 
-        // ScrollView 1 original state: three elements showing but the button
+        // ScrollView 1 original state: three text elements showing
         Assert.assertEquals(text1, textElement1.text)
         Assert.assertEquals(text2, textElement2.text)
         Assert.assertEquals(text3, textElement3.text)
-        Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement1!!))
 
         // ScrollView 1 second state: new texts showing instead of text 2 and 3
         textElement2.click()
@@ -162,11 +145,10 @@ class ScrollViewScreenSteps : AbstractStep() {
         var textElement3 = textElementsTemp.elementAt(2)
 
 
-        // ScrollView 1 original state: four elements showing, including the button
+        // ScrollView 1 original state: four text elements showing
         Assert.assertEquals(text1, textElement1.text)
         Assert.assertEquals(text2, textElement2.text)
         Assert.assertEquals(text3, textElement3.text)
-        Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!))
 
         // ScrollView 2 second state: new texts showing instead of text 2 and 3
         textElement2.click()
@@ -202,6 +184,58 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     }
 
+    private fun checkScrollView3NewTexts() {
+
+//        val text1 = "Vertical"
+//        val text2 = "Click to see the new text in vertical"
+//        val text3 = "Click to see the text change, rotate and scroll vertically"
+//
+//        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement2!!)
+//        var textElement1 = textElementsTemp.elementAt(0)
+//        var textElement2 = textElementsTemp.elementAt(1)
+//        var textElement3 = textElementsTemp.elementAt(2)
+//
+//
+//        // ScrollView 1 original state: four elements showing, including the button
+//        Assert.assertEquals(text1, textElement1.text)
+//        Assert.assertEquals(text2, textElement2.text)
+//        Assert.assertEquals(text3, textElement3.text)
+//        Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!))
+//
+//        // ScrollView 2 second state: new texts showing instead of text 2 and 3
+//        textElement2.click()
+//        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2!!, text2))
+//        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement2!!, NEW_TEXT_PREFIX).last()
+//        Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
+//        Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
+//
+//        // Scrolls to text3
+//        if (SuiteSetup.isIos()) {
+//            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement2!!, SwipeDirection.DOWN)
+//        } else {
+//            AppiumUtil.androidScrollToElementByText(
+//                getDriver(),
+//                0,
+//                text3,
+//                isHorizontalScroll = false
+//            )
+//        }
+//
+//        textElement3.click()
+//        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2!!, text3))
+//        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement2!!, NEW_TEXT_PREFIX).last()
+//        Assert.assertTrue(textElement3.text.startsWith(NEW_TEXT_PREFIX))
+//        Assert.assertTrue(textElement3.text.endsWith(NEW_TEXT_SUFFIX))
+//
+//        // ScrollView 2 third state: scrolls until the end
+//        if (SuiteSetup.isIos()) {
+//            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement2!!, SwipeDirection.DOWN)
+//        } else {
+//            AppiumUtil.androidScrollToElementByText(getDriver(), 0, "vertical scroll", isHorizontalScroll = false)
+//        }
+
+    }
+
     private fun getScrollViewElement(scrollViewElementNumber: Int): MobileElement? {
         var locator: By?
 
@@ -220,13 +254,13 @@ class ScrollViewScreenSteps : AbstractStep() {
                     By.xpath("//android.widget.ScrollView//android.widget.ScrollView[.//android.widget.TextView[@text='Vertical']]")
                 }
             }
-//            3 -> {
-//                if (SuiteSetup.isIos()) {
-//
-//                } else {
-//
-//                }
-//            }
+            3 -> {
+                locator = if (SuiteSetup.isIos()) {
+                    MobileBy.iOSClassChain("**/XCUIElementTypeScrollView/**/XCUIElementTypeScrollView[\$type == 'XCUIElementTypeTextView' AND value == 'Vertical scroll within scroll'\$]")
+                } else {
+                    By.xpath("//android.widget.ScrollView//android.widget.ScrollView[.//android.widget.TextView[@text='Vertical scroll within scroll']]")
+                }
+            }
             else -> {
                 throw Exception("Invalid ScrollView number")
             }
@@ -284,6 +318,22 @@ class ScrollViewScreenSteps : AbstractStep() {
         }
 
         return childElementExists(scrollViewElement, locator)
+    }
+
+    private fun isButtonShowingInsideOfScrollView(scrollViewElement: MobileElement, buttonText: String): Boolean {
+        var locator: By
+
+        if (SuiteSetup.isIos()) {
+            locator = MobileBy.iOSClassChain("**/XCUIElementTypeButton[`name == \"$buttonText\"`]")
+        } else {
+            locator = By.xpath(".//android.widget.Button[@text='$buttonText']")
+        }
+
+        if (childElementExists(scrollViewElement, locator)) {
+            return waitForChildElementToBePresent(scrollViewElement, locator).isDisplayed
+        }
+// waitForChildElementToBePresent(scrollViewElement, MobileBy.iOSClassChain("**/XCUIElementTypeButton[`value == \"$buttonText\"`]"))
+        return false
     }
 
 
