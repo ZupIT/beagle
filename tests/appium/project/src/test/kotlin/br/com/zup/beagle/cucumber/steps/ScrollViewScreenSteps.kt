@@ -57,18 +57,40 @@ class ScrollViewScreenSteps : AbstractStep() {
     }
 
 
-    @When("^I confirm that the ScrollView 1 is not showing a button with text \"(.*)\" by default$")
-    fun confirmScrollView1IsNotShowingButton(buttonText: String) {
-        scrollViewElement1 = getScrollViewElement(1)
-        Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement1!!, buttonText))
-
+    @When("^I confirm that the ScrollView (.*) is not showing a button with text \"(.*)\" by default$")
+    fun confirmScrollView1IsNotShowingButton(scrollViewElementNumber: Int, buttonText: String) {
+        when (scrollViewElementNumber) {
+            1 -> {
+                scrollViewElement1 = getScrollViewElement(1)
+                Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement1!!, buttonText))
+            }
+            2 -> {
+                scrollViewElement2 = getScrollViewElement(2)
+                Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement2!!, buttonText))
+            }
+            else -> {
+                scrollViewElement3 = getScrollViewElement(3)
+                Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement3!!, buttonText))
+            }
+        }
     }
 
-    @When("^I confirm that the ScrollView 2 is showing a button with text \"(.*)\" by default$")
-    fun confirmScrollView2IsShowingButton(buttonText: String) {
-        scrollViewElement2 = getScrollViewElement(2)
-        Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!, buttonText))
-
+    @When("^I confirm that the ScrollView (.*) is showing a button with text \"(.*)\" by default$")
+    fun confirmScrollView2IsShowingButton(scrollViewElementNumber: Int, buttonText: String) {
+        when (scrollViewElementNumber) {
+            1 -> {
+                scrollViewElement1 = getScrollViewElement(1)
+                Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement1!!, buttonText))
+            }
+            2 -> {
+                scrollViewElement2 = getScrollViewElement(2)
+                Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!, buttonText))
+            }
+            else -> {
+                scrollViewElement3 = getScrollViewElement(3)
+                Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement3!!, buttonText))
+            }
+        }
     }
 
     @When("^I expand all the items of ScrollView (.*), checking their new values$")
@@ -85,7 +107,7 @@ class ScrollViewScreenSteps : AbstractStep() {
         when (scrollViewElementNumber) {
             1 -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement1!!, buttonText))
             2 -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!, buttonText))
-            else -> throw Exception("Invalid ScrollView number. Only 1 and 2 are possible for this verification")
+            else ->  Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement3!!, buttonText))
         }
     }
 
