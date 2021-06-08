@@ -38,10 +38,10 @@
 		931B6E32237610B300DE73FD /* FunctiontalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B6E31237610B300DE73FD /* FunctiontalUtils.swift */; };
 		9327116523F1C9D100778B56 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327116423F1C9D100778B56 /* Widget.swift */; };
 		932925E02327E11000A61F01 /* Beagle.h in Headers */ = {isa = PBXBuildFile; fileRef = 932925D22327E11000A61F01 /* Beagle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		933078EE24AE4F00009D92F2 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 933078ED24AE4F00009D92F2 /* SnapshotTesting */; };
 		9337F82D249A466B00B0A260 /* SetContext+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9337F82C249A466B00B0A260 /* SetContext+Extensions.swift */; };
+		934337222669639400E71837 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 934337212669639400E71837 /* SnapshotTesting */; };
+		93433725266963C600E71837 /* YogaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 93433724266963C600E71837 /* YogaKit */; };
 		935278F62499728400AB9D1F /* DynamicObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278F52499728400AB9D1F /* DynamicObject+Extensions.swift */; };
-		9356CB552620C7940021EFC6 /* YogaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9356CB542620C7940021EFC6 /* YogaKit */; };
 		9356CBB0262481BE0021EFC6 /* FormLocalActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9356CB82262481BE0021EFC6 /* FormLocalActionTests.swift */; };
 		9356CBB1262481BE0021EFC6 /* NavigateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9356CB83262481BE0021EFC6 /* NavigateTests.swift */; };
 		9356CBB2262481BE0021EFC6 /* AddChildrenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9356CB84262481BE0021EFC6 /* AddChildrenTests.swift */; };
@@ -743,7 +743,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9356CB552620C7940021EFC6 /* YogaKit in Frameworks */,
+				93433725266963C600E71837 /* YogaKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -752,7 +752,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5CE41EC2332B9B600295277 /* Beagle.framework in Frameworks */,
-				933078EE24AE4F00009D92F2 /* SnapshotTesting in Frameworks */,
+				934337222669639400E71837 /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2245,7 +2245,7 @@
 			);
 			name = Beagle;
 			packageProductDependencies = (
-				9356CB542620C7940021EFC6 /* YogaKit */,
+				93433724266963C600E71837 /* YogaKit */,
 			);
 			productName = BeagleUI;
 			productReference = 932925CF2327E11000A61F01 /* Beagle.framework */;
@@ -2266,7 +2266,7 @@
 			);
 			name = BeagleTests;
 			packageProductDependencies = (
-				933078ED24AE4F00009D92F2 /* SnapshotTesting */,
+				934337212669639400E71837 /* SnapshotTesting */,
 			);
 			productName = BeagleFrameworkTests;
 			productReference = E5CE41E72332B9B600295277 /* BeagleTests.xctest */;
@@ -2301,8 +2301,8 @@
 			);
 			mainGroup = 932925C52327E11000A61F01;
 			packageReferences = (
-				933078EC24AE4F00009D92F2 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
-				9356CB532620C7940021EFC6 /* XCRemoteSwiftPackageReference "yoga" */,
+				934337202669639400E71837 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				93433723266963C600E71837 /* XCRemoteSwiftPackageReference "yoga" */,
 			);
 			productRefGroup = 932925D02327E11000A61F01 /* Products */;
 			projectDirPath = "";
@@ -2992,33 +2992,33 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		933078EC24AE4F00009D92F2 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+		934337202669639400E71837 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing.git";
 			requirement = {
-				kind = exactVersion;
-				version = 1.7.2;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.9.0;
 			};
 		};
-		9356CB532620C7940021EFC6 /* XCRemoteSwiftPackageReference "yoga" */ = {
+		93433723266963C600E71837 /* XCRemoteSwiftPackageReference "yoga" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ZupIT/yoga.git";
 			requirement = {
-				branch = "spm-support";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.19.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		933078ED24AE4F00009D92F2 /* SnapshotTesting */ = {
+		934337212669639400E71837 /* SnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 933078EC24AE4F00009D92F2 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			package = 934337202669639400E71837 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = SnapshotTesting;
 		};
-		9356CB542620C7940021EFC6 /* YogaKit */ = {
+		93433724266963C600E71837 /* YogaKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9356CB532620C7940021EFC6 /* XCRemoteSwiftPackageReference "yoga" */;
+			package = 93433723266963C600E71837 /* XCRemoteSwiftPackageReference "yoga" */;
 			productName = YogaKit;
 		};
 /* End XCSwiftPackageProductDependency section */

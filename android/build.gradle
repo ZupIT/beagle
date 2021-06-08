@@ -1,3 +1,5 @@
+import br.com.zup.beagle.Dependencies
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -27,9 +29,10 @@ buildscript {
     }
 }
 
+
 plugins {
     id "io.gitlab.arturbosch.detekt" version "1.17.1"
-    id "com.github.ben-manes.versions" version "0.33.0"
+    id "com.github.ben-manes.versions" version "0.39.0"
     id "br.com.zup.beagle.dependencies"
     id "org.jetbrains.dokka" version "1.4.32"
 }
@@ -43,6 +46,16 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+
+    // temporary solution to all libraries updated to the last version of kotlin
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-reflect') {
+                details.useVersion Dependencies.Versions.kotlin
+            }
+        }
     }
 }
 

@@ -79,7 +79,6 @@ dependencies {
     implementation Dependencies.AndroidxLibraries.viewModel
     implementation Dependencies.AndroidxLibraries.viewModelExtensions
 
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
     api project(Dependencies.Modules.androidAnnotation)
@@ -109,7 +108,6 @@ dependencies {
 
     testImplementation Dependencies.TestLibraries.testRunner
     testImplementation Dependencies.TestLibraries.testExt
-    testImplementation Dependencies.TestLibraries.espressoCore
     testImplementation Dependencies.TestLibraries.testCore
     testImplementation Dependencies.TestLibraries.testRules
     testImplementation Dependencies.TestLibraries.robolectric
