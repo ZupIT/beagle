@@ -64,9 +64,20 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     }
 
+    @When("^I confirm that the ScrollView 2 is showing a button by default$")
+    fun confirmScrollView2IsShowingButton() {
+        scrollViewElement2 = getScrollViewElement(2)
+        Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!))
+
+    }
+
     @When("^I expand all the items of ScrollView (.*), checking their new values$")
     fun checkScrollViewNewTexts(scrollViewElementNumber: Int) {
-        checkScrollView1NewTexts()
+        when (scrollViewElementNumber) {
+            1 -> checkScrollView1NewTexts()
+            2 -> checkScrollView2NewTexts()
+//            else -> //checkScrollView3NewTexts()
+        }
     }
 
     @Then("^I should view a button by scrolling ScrollView (.*) to the end$")
@@ -104,8 +115,6 @@ class ScrollViewScreenSteps : AbstractStep() {
         var textElement1 = textElementsTemp.elementAt(0)
         var textElement2 = textElementsTemp.elementAt(1)
         var textElement3 = textElementsTemp.elementAt(2)
-        val locationTemp = Point(scrollViewElement1!!.location.x + scrollViewElement1!!.size.width,
-            scrollViewElement1!!.location.y + scrollViewElement1!!.size.height)
 
         // ScrollView 1 original state: three elements showing but the button
         Assert.assertEquals(text1, textElement1.text)
@@ -116,7 +125,7 @@ class ScrollViewScreenSteps : AbstractStep() {
         // ScrollView 1 second state: new texts showing instead of text 2 and 3
         textElement2.click()
         Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement1!!, text2))
-        textElement2 = getScrollViewChildTextElements(scrollViewElement1!!).elementAt(1)
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement1!!, NEW_TEXT_PREFIX).last()
         Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
         Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
 
@@ -128,7 +137,7 @@ class ScrollViewScreenSteps : AbstractStep() {
 
         textElement3.click()
         Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement1!!, text3))
-        textElement3 = getScrollViewChildTextElements(scrollViewElement1!!).elementAt(0)
+        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement1!!, NEW_TEXT_PREFIX).last()
         Assert.assertTrue(textElement3.text.startsWith(NEW_TEXT_PREFIX))
         Assert.assertTrue(textElement3.text.endsWith(NEW_TEXT_SUFFIX))
 
@@ -141,26 +150,76 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     }
 
+    private fun checkScrollView2NewTexts() {
+
+        val text1 = "Vertical"
+        val text2 = "Click to see the new text in vertical"
+        val text3 = "Click to see the text change, rotate and scroll vertically"
+
+        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement2!!)
+        var textElement1 = textElementsTemp.elementAt(0)
+        var textElement2 = textElementsTemp.elementAt(1)
+        var textElement3 = textElementsTemp.elementAt(2)
+
+
+        // ScrollView 1 original state: four elements showing, including the button
+        Assert.assertEquals(text1, textElement1.text)
+        Assert.assertEquals(text2, textElement2.text)
+        Assert.assertEquals(text3, textElement3.text)
+        Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!))
+
+        // ScrollView 2 second state: new texts showing instead of text 2 and 3
+        textElement2.click()
+        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2!!, text2))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement2!!, NEW_TEXT_PREFIX).last()
+        Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
+        Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
+
+        // Scrolls to text3
+        if (SuiteSetup.isIos()) {
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement2!!, SwipeDirection.DOWN)
+        } else {
+            AppiumUtil.androidScrollToElementByText(
+                getDriver(),
+                0,
+                text3,
+                isHorizontalScroll = false
+            )
+        }
+
+        textElement3.click()
+        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2!!, text3))
+        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement2!!, NEW_TEXT_PREFIX).last()
+        Assert.assertTrue(textElement3.text.startsWith(NEW_TEXT_PREFIX))
+        Assert.assertTrue(textElement3.text.endsWith(NEW_TEXT_SUFFIX))
+
+        // ScrollView 2 third state: scrolls until the end
+        if (SuiteSetup.isIos()) {
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement2!!, SwipeDirection.DOWN)
+        } else {
+            AppiumUtil.androidScrollToElementByText(getDriver(), 0, "vertical scroll", isHorizontalScroll = false)
+        }
+
+    }
+
     private fun getScrollViewElement(scrollViewElementNumber: Int): MobileElement? {
         var locator: By?
 
         when (scrollViewElementNumber) {
             1 -> {
-                if (SuiteSetup.isIos()) {
-                    locator =
-                        MobileBy.iOSClassChain("**/XCUIElementTypeScrollView/**/XCUIElementTypeScrollView[\$type == 'XCUIElementTypeTextView' AND value == 'Horizontal'\$]")
+                locator = if (SuiteSetup.isIos()) {
+                    MobileBy.iOSClassChain("**/XCUIElementTypeScrollView/**/XCUIElementTypeScrollView[\$type == 'XCUIElementTypeTextView' AND value == 'Horizontal'\$]")
                 } else {
-                    locator =
-                        By.xpath("//android.widget.ScrollView//android.widget.HorizontalScrollView[.//android.widget.TextView[@text='Horizontal']]")
+                    By.xpath("//android.widget.ScrollView//android.widget.HorizontalScrollView[.//android.widget.TextView[@text='Horizontal']]")
                 }
             }
-//            2 -> {
-//                if (SuiteSetup.isIos()) {
-//
-//                } else {
-//
-//                }
-//            }
+            2 -> {
+                locator = if (SuiteSetup.isIos()) {
+                    MobileBy.iOSClassChain("**/XCUIElementTypeScrollView/**/XCUIElementTypeScrollView[\$type == 'XCUIElementTypeTextView' AND value == 'Vertical'\$]")
+                } else {
+                    By.xpath("//android.widget.ScrollView//android.widget.ScrollView[.//android.widget.TextView[@text='Vertical']]")
+                }
+            }
 //            3 -> {
 //                if (SuiteSetup.isIos()) {
 //
@@ -177,21 +236,21 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     }
 
-    private fun getScrollViewChildTextElementByText(
+    private fun getScrollViewChildrenTextElementByText(
         scrollViewElement: MobileElement,
         elementTextQuery: String
-    ): MobileElement {
+    ): Collection<MobileElement> {
         var locator: By?
 
         if (SuiteSetup.isIos()) {
             locator =
-                MobileBy.iOSClassChain("**/XCUIElementTypeTextView[`value == \"$elementTextQuery\"`]")
+                MobileBy.iOSClassChain("**/XCUIElementTypeTextView[`value BEGINSWITH \"$elementTextQuery\"`]")
         } else {
             locator =
-                By.xpath(".//android.widget.TextView[@text='$elementTextQuery']")
+                By.xpath(".//android.widget.TextView[starts-with(@text,'$elementTextQuery')]")
         }
 
-        return waitForChildElementToBePresent(scrollViewElement, locator)
+        return waitForChildrenElementsToBePresent(scrollViewElement, locator)
     }
 
     private fun getScrollViewChildTextElements(

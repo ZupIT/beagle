@@ -30,7 +30,11 @@ Feature: ScrollView Component Validation
     And I expand all the items of ScrollView 1, checking their new values
     Then I should view a button by scrolling ScrollView 1 to the end
 
-# ScrollView 2 -- logica de primeiro mostrar tudo, mas dps q expande o primeiro elemento, nao mostra o resto, validar
+  Scenario: ScrollView 02  - interact with elements of the ScrollView 2
+    When I confirm that the ScrollView 2 is showing a button by default
+    And I expand all the items of ScrollView 2, checking their new values
+    Then I should view a button by scrolling ScrollView 2 to the end
+
 
 # ScrollView 3 -- logica de primeiro mnostrar tudo (segundo elkement eh um outro scrollvist), mas dps...
 
