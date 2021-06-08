@@ -23,8 +23,6 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
-
     implementation Dependencies.MoshiLibraries.moshi
 }
 

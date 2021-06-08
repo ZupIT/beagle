@@ -54,8 +54,6 @@ android {
 }
 
 dependencies {
-
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.yoga
     implementation Dependencies.GeneralLibraries.soLoader
     implementation Dependencies.TestLibraries.junit4
