@@ -39,8 +39,6 @@ didReceiveAction(Beagle.Navigate(_beagleAction_: "beagle:opennativeroute", analy
 
 didReceiveAction(Beagle.Navigate(_beagleAction_: "beagle:opennativeroute", analytics: nil, route: Beagle.Expression<Swift.String>.value("path"), data: Optional(["key": "value"]), shouldResetApplication: false))
 
-errorTryingToPopScreenOnNavigatorWithJustOneScreen
-
 unableToPrefetchWhenUrlIsExpression
 
 Beagle Navigator couldn't find a deep link screen with path: path. Check your deep link handler, or the path in the navigate action
