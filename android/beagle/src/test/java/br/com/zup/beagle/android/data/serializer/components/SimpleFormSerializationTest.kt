@@ -77,37 +77,28 @@ class SimpleFormSerializationTest : BaseComponentSerializationTest() {
             "id": "contextId",
             "value": true
         },
-        "onSubmit": [
-        {
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }],
+        "onSubmit": [${makeAlertActionJson()}],
         "children": [
         {
             "_beagleComponent_": "beagle:text",
             "text": "Test"
         }],
-        "onValidationError": [
-        {
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }]
+        "onValidationError": [${makeAlertActionJson()}]
+    }
+"""
+
+    private fun makeAlertActionJson() = """
+    {
+        "_beagleAction_": "beagle:alert",
+        "title": "A title",
+        "message": "A message",
+        "onPressOk": {
+             "_beagleAction_": "beagle:alert",
+             "title": "Another title",
+             "message": "Another message",
+             "labelOk": "Ok"
+        },
+        "labelOk": "Ok"
     }
 """
 

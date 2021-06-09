@@ -131,45 +131,9 @@ class SendRequestSerializationTest : BaseActionSerializationTest() {
             "a": true,
             "b": "a"
         },
-        "onSuccess":
-        [{
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }],
-        "onError":
-        [{
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }],
-        "onFinish":
-        [{
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }]
+        "onSuccess":[${makeAlertActionJson()}],
+        "onError":[${makeAlertActionJson()}],
+        "onFinish":[${makeAlertActionJson()}]
     }
 """
 
@@ -183,45 +147,24 @@ class SendRequestSerializationTest : BaseActionSerializationTest() {
             "a": true,
             "b": "a"
         },
-        "onSuccess":
-        [{
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }],
-        "onError":
-        [{
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }],
-        "onFinish":
-        [{
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }]
+        "onSuccess":[${makeAlertActionJson()}],
+        "onError":[${makeAlertActionJson()}],
+        "onFinish":[${makeAlertActionJson()}]
+    }
+"""
+
+    private fun makeAlertActionJson() = """
+    {
+        "_beagleAction_": "beagle:alert",
+        "title": "A title",
+        "message": "A message",
+        "onPressOk": {
+             "_beagleAction_": "beagle:alert",
+             "title": "Another title",
+             "message": "Another message",
+             "labelOk": "Ok"
+        },
+        "labelOk": "Ok"
     }
 """
 

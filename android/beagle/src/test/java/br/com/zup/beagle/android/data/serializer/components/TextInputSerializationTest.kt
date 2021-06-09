@@ -111,45 +111,9 @@ class TextInputInputSerializationTest : BaseComponentSerializationTest() {
         "error": "error",
         "showError": true,
         "styleId": "styleId",
-        "onChange": [
-        {
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }],
-        "onFocus": [
-        {
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }],
-        "onBlur": [
-        {
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }],
+        "onChange": [${makeAlertActionJson()}],
+        "onFocus": [${makeAlertActionJson()}],
+        "onBlur": [${makeAlertActionJson()}],
         "enabled": false
     }
 """
@@ -164,46 +128,25 @@ class TextInputInputSerializationTest : BaseComponentSerializationTest() {
         "error": "@{error}",
         "showError": "@{true}",
         "styleId": "styleId",
-        "onChange": [
-        {
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }],
-        "onFocus": [
-        {
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }],
-        "onBlur": [
-        {
-            "_beagleAction_": "beagle:alert",
-            "title": "A title",
-            "message": "A message",
-            "onPressOk": {
-                 "_beagleAction_": "beagle:alert",
-                 "title": "Another title",
-                 "message": "Another message",
-                 "labelOk": "Ok"
-            },
-            "labelOk": "Ok"
-        }],
+        "onChange": [${makeAlertActionJson()}],
+        "onFocus": [${makeAlertActionJson()}],
+        "onBlur": [${makeAlertActionJson()}],
         "enabled": "@{false}"
+    }
+"""
+
+    private fun makeAlertActionJson() = """
+    {
+        "_beagleAction_": "beagle:alert",
+        "title": "A title",
+        "message": "A message",
+        "onPressOk": {
+             "_beagleAction_": "beagle:alert",
+             "title": "Another title",
+             "message": "Another message",
+             "labelOk": "Ok"
+        },
+        "labelOk": "Ok"
     }
 """
 
