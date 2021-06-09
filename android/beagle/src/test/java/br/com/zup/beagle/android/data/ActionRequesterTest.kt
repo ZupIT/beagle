@@ -18,11 +18,11 @@ package br.com.zup.beagle.android.data
 
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
-import br.com.zup.beagle.android.data.serializer.makeFormLocalActionJson
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -36,11 +36,17 @@ import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals
 
-private val JSON_SUCCESS = makeFormLocalActionJson()
+private val JSON_SUCCESS = """
+    {
+        "_beagleAction_": "beagle:formLocalAction",
+        "name": "${RandomData.string()}",
+        "data": {}
+    }
+"""
 
 @ExperimentalCoroutinesApi
 class ActionRequesterTest {

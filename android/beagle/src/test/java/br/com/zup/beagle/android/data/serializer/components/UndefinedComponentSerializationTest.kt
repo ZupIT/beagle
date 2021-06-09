@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.data.serializer.components
 
 import br.com.zup.beagle.android.components.form.FormInput
+import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -70,11 +71,28 @@ class UndefinedComponentSerializationTest : BaseComponentSerializationTest() {
 
         @DisplayName("Then should return an UndefinedWidget of type InputWidget JSONObject")
         @Test
-        fun serializeUndefinedComponentOfTypeInputWidgetTest() {
+        fun testSerializeUndefinedComponentOfTypeInputWidget() {
             // Given
             val component = FormInput(
                 name = RandomData.string(),
                 child = UndefinedWidget()
+            )
+
+            // When
+            val jsonComponent =
+                moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
+
+            // Then
+            Assertions.assertNotNull(JSONObject(jsonComponent))
+        }
+
+        @DisplayName("Then should return an UndefinedWidget of type PageIndicator JSONObject")
+        @Test
+        fun testSerializeUndefinedComponentOfTypePageIndicatorComponent() {
+            // Given
+            val component = PageView(
+                children = listOf(),
+                pageIndicator = UndefinedWidget()
             )
 
             // When
