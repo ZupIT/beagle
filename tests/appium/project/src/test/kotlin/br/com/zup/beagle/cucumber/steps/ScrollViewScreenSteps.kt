@@ -171,7 +171,7 @@ class ScrollViewScreenSteps : AbstractStep() {
         var textElement3 = textElementsTemp.elementAt(2)
 
 
-        // ScrollView 1 original state: four text elements showing
+        // ScrollView 2 original state: three text elements showing
         Assert.assertEquals(text1, textElement1.text)
         Assert.assertEquals(text2, textElement2.text)
         Assert.assertEquals(text3, textElement3.text)
@@ -233,7 +233,7 @@ class ScrollViewScreenSteps : AbstractStep() {
         Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
         Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
 
-        // Scrolls to the botton
+        // Scrolls to the bottom
         if (SuiteSetup.isIos()) {
             // 2x to make sure it reached the bottom of the scroll element
             AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement3!!, SwipeDirection.DOWN)
