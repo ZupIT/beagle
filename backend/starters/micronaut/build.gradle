@@ -18,6 +18,7 @@ import br.com.zup.beagle.Dependencies
 
 apply plugin: "org.jetbrains.dokka"
 apply plugin: 'kotlin-kapt'
+apply from: rootProject.file('../jacoco.gradle')
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlinReflect

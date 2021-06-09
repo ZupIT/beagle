@@ -1,0 +1,71 @@
+/*
+ * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = '0.8.2'
+}
+
+def fileFilter = ['**/R.class',
+                  '**/R$*x.class',
+                  '**/BuildConfig.*',
+                  '**/Manifest*.*',
+                  '**/*Test*.*',
+                  '**/*$*',
+                  'android/**/*.*',
+                  '**/*Function*',
+                  '**/*_impl*',
+                  '**/*.DefaultImpls.*',
+                  '**/beagle/view/*.class']
+
+task jacocoTestReport(type: JacocoReport, overwrite: true) {
+
+    def kotlinSrc = "$project.projectDir/src/main/kotlin"
+    def javaSrc = "$project.projectDir/src/main/java"
+    def javaClasses = fileTree(dir: "$project.buildDir/intermediates/javac/debug", excludes: fileFilter)
+    def kotlinClasses = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def kotlinLibClasses = fileTree(dir: "$project.buildDir/classes/kotlin/main", excludes: fileFilter)
+
+    def dependencyTasks
+    if (project.plugins.hasPlugin('com.android.application')) {
+        dependencyTasks = ['testDebugUnitTest']
+        //FIXME uncomment below this if you want instrumented tests on your report
+//        dependencyTasks = ['testDebugUnitTest', 'createDebugCoverageReport']
+    } else if (project.plugins.hasPlugin("com.android.library")) {
+        dependencyTasks = ['testDebugUnitTest']
+    } else {
+        dependencyTasks = ['test']
+    }
+
+    dependsOn {
+        dependencyTasks
+    }
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    getSourceDirectories().setFrom([javaSrc, kotlinSrc])
+    getClassDirectories().setFrom([javaClasses, kotlinClasses, kotlinLibClasses])
+    getExecutionData().setFrom([fileTree(dir: project.buildDir, includes: [
+        'jacoco/testDebugUnitTest.exec', 'jacoco/test.exec', 'outputs/code-coverage/connected/**/*.ec'
+    ])], [fileTree(dir: "${System.env.VDTESTING_DOWNLOADED_FILES_DIR}", includes: [
+        '*sdcard_coverage.ec'
+    ])])
+
+}
