@@ -16,12 +16,15 @@
 
 package br.com.zup.beagle.android.data.serializer.components
 
+import br.com.zup.beagle.android.action.Alert
 import br.com.zup.beagle.android.components.ListView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.utils.Template
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.core.ListDirection
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -74,10 +77,26 @@ class ListViewSerializationTest : BaseComponentSerializationTest() {
     private fun makeListViewJson() = """
     {
        "_beagleComponent_":"beagle:listview",
+       "children": [{
+          "_beagleComponent_":"beagle:text",
+          "text":"Test"
+       }],
        "direction":"VERTICAL",
+       "context": {
+            "id": "contextId",
+            "value": true
+        },
+       "onInit": [${makeAlertJson()}],
        "dataSource":"@{characters}",
-       "isScrollIndicatorVisible":false,
-       "iteratorName":"item",
+       "template": {
+          "_beagleComponent_":"beagle:text",
+          "text":"Name:@{item.name}"
+       },
+       "onScrollEnd": [${makeAlertJson()}],
+       "scrollEndThreshold": 80,
+       "isScrollIndicatorVisible": false,
+       "iteratorName": "itemTest",
+       "key": "key",
        "templates":[
           {
              "case":"@{eq(item.race,'Half-skaa')}",
@@ -95,8 +114,33 @@ class ListViewSerializationTest : BaseComponentSerializationTest() {
     }
 """
 
+    private fun makeAlertJson() = """
+    {
+        "_beagleAction_": "beagle:alert",
+        "title": "A title",
+        "message": "A message",
+        "onPressOk": {
+             "_beagleAction_": "beagle:alert",
+             "title": "Another title",
+             "message": "Another message",
+             "labelOk": "Ok"
+        },
+        "labelOk": "Ok"
+    }
+"""
+
     private fun makeObjectListView() = ListView(
+        children = listOf(Text("Test")),
+        direction = ListDirection.VERTICAL,
+        context = ContextData(id = "contextId", value = true),
+        onInit = listOf(makeObjectAlert()),
         dataSource = expressionOf("@{characters}"),
+        template = Text("Name:@{item.name}"),
+        onScrollEnd = listOf(makeObjectAlert()),
+        scrollEndThreshold = 80,
+        isScrollIndicatorVisible = false,
+        iteratorName = "itemTest",
+        key = "key",
         templates = listOf(
             Template(
                 case = expressionOf("@{eq(item.race,'Half-skaa')}"),
@@ -105,6 +149,17 @@ class ListViewSerializationTest : BaseComponentSerializationTest() {
                 )
             )
         ),
-        iteratorName = "item"
+
+    )
+
+    private fun makeObjectAlert() = Alert(
+        title = "A title",
+        message = "A message",
+        labelOk = "Ok",
+        onPressOk = Alert(
+            title = "Another title",
+            message = "Another message",
+            labelOk = "Ok"
+        )
     )
 }
