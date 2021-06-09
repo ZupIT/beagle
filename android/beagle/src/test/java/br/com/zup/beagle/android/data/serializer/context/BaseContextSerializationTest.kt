@@ -14,24 +14,21 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.mockdata
+package br.com.zup.beagle.android.data.serializer.context
 
-import android.view.View
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
-import io.mockk.mockk
+import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.data.serializer.BeagleMoshi
+import com.squareup.moshi.Moshi
+import org.junit.jupiter.api.BeforeEach
 
-interface PersonInterface
+abstract class BaseContextSerializationTest : BaseTest() {
 
-data class Person(val names: ArrayList<String>): PersonInterface
+    protected lateinit var moshi: Moshi
 
-data class CustomWidget(
-    val arrayList: ArrayList<Person>?,
-    val pair: Pair<Person, String>?,
-    val charSequence: CharSequence?,
-    val personInterface: PersonInterface
-) : WidgetView() {
-    override fun buildView(rootView: RootView): View {
-        return mockk()
+    @BeforeEach
+    override fun setUp() {
+        super.setUp()
+
+        moshi = BeagleMoshi.createMoshi()
     }
 }

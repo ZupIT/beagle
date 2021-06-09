@@ -39,17 +39,6 @@ fun makeFlexJson() = """
     }
 """
 
-fun makeScreenJson() = """
-    {
-        "_beagleComponent_": "beagle:screenComponent",
-        "navigationBar": {
-            "title": "${RandomData.string()}",
-            "showBackButton": true
-        },
-        "child": ${makeContainerJson()}
-    }
-"""
-
 fun makeContainerJson() = """
     {
         "_beagleComponent_": "beagle:container",
@@ -111,6 +100,31 @@ fun makeListViewJson() = """
             "_beagleComponent_": "beagle:text",
             "text": "@{category}"
         }
+    }
+"""
+
+fun makeGridViewJson() = """
+    {
+        "_beagleComponent_": "beagle:gridView",
+        "context": {
+            "id": "context",
+            "value": {
+                "categories": [
+                    "stub 1",
+                    "stub 2",
+                    "stub 3"
+                ]
+            }
+        },
+        "dataSource": "@{context.categories}",
+        "iteratorName": "category",
+        "templates": [ 
+            {
+            "_beagleComponent_": "beagle:text",
+            "text": "@{category}"
+            }
+        ],
+        "numColumns": 3
     }
 """
 

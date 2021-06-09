@@ -16,52 +16,28 @@
 
 package br.com.zup.beagle.android.data.serializer.components
 
-import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.GridView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.utils.Template
-import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
-import br.com.zup.beagle.android.context.normalizeContextValue
-import br.com.zup.beagle.android.data.serializer.BeagleMoshi
-import br.com.zup.beagle.android.mockdata.TypeAdapterResolverImpl
 import br.com.zup.beagle.core.ServerDrivenComponent
-import com.squareup.moshi.Moshi
-import io.mockk.every
-import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given a Moshi Adapter")
-class GridViewTest : BaseTest() {
+class GridViewSerializationTest : BaseComponentSerializationTest() {
 
-    private lateinit var moshi: Moshi
-
-    @BeforeEach
-    override fun setUp() {
-        super.setUp()
-
-        every { beagleSdk.formLocalActionHandler } returns mockk(relaxed = true)
-        every { beagleSdk.registeredWidgets() } returns listOf()
-        every { beagleSdk.registeredActions() } returns listOf()
-        every { beagleSdk.typeAdapterResolver } returns TypeAdapterResolverImpl()
-
-        moshi = BeagleMoshi.createMoshi()
-    }
-
-    @DisplayName("When try serialize json grid view")
+    @DisplayName("When try to deserialize json grid view")
     @Nested
-    inner class SerializeJsonGridViewTest {
+    inner class DeserializeJsonGridViewTest {
 
         @DisplayName("Then should return correct object")
         @Test
-        fun testSerializeJsonGridView() {
+        fun testDeserializeJsonGridView() {
             // Given
             val json = makeJsonGridView()
 
