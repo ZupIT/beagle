@@ -32,6 +32,7 @@ plugins {
     id "com.github.ben-manes.versions" version "0.33.0"
     id "br.com.zup.beagle.dependencies"
     id "org.jetbrains.dokka" version "1.4.20"
+    id "org.sonarqube" version "3.2.0"
 }
 
 allprojects {
@@ -42,6 +43,29 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+
+    afterEvaluate {
+
+        sonarqube {
+            properties {
+                property "sonar.projectKey", "ZupIT_beagle_android"
+                property "sonar.sources", "."
+                property "sonar.projectName", "ZupIT_beagle_android"
+                property "sonar.organization", "t64zgssdey"
+                property "sonar.host.url", "https://sonarcloud.io"
+
+
+                sonar.sources=.
+                sonar.projectKey=pos-android-service-container
+                detekt.sonar.kotlin.config.path="$rootDir/../config/detekt-default-config.yml"
+                sonar.java.binaries=target/classes,kotlin-sdk/build/tmp/kotlin-classes
+                sonar.sources=database/src/main/kotlin
+                sonar.tests=database/src/test/kotlin
+                sonar.java.coveragePlugin=jacoco
+                sonar.jacoco.reportPaths=database/build/jacoco/testDebugUnitTest.exec
+            }
+        }
     }
 }
 
