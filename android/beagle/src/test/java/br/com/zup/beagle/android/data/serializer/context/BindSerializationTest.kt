@@ -20,13 +20,10 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
-import br.com.zup.beagle.android.data.serializer.makeBindComponent
-import br.com.zup.beagle.android.data.serializer.makeInternalObject
 import br.com.zup.beagle.android.mockdata.ComponentBinding
 import br.com.zup.beagle.android.mockdata.InternalObject
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import com.google.protobuf.Internal
 import io.mockk.every
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
