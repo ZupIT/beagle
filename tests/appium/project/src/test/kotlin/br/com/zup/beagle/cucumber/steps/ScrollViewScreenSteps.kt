@@ -37,9 +37,9 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     // cache
     companion object {
-        var scrollViewElement1: MobileElement? = null
-        var scrollViewElement2: MobileElement? = null
-        var scrollViewElement3: MobileElement? = null
+        lateinit var scrollViewElement1: MobileElement
+        lateinit var scrollViewElement2: MobileElement
+        lateinit var scrollViewElement3: MobileElement
     }
 
     @Before("@scrollview")
