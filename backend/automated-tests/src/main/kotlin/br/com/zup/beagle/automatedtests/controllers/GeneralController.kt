@@ -74,7 +74,7 @@ class GeneralController {
     @GetMapping(IMAGE_WEB, produces = [MediaType.IMAGE_JPEG_VALUE])
     fun getImageWeb(@PathVariable type: String): ResponseEntity<InputStreamResource> {
 
-        val imageFile = ClassPathResource("images/" + if (type == "1") "beagle1.jpg" else "beagle2.jpg")
+        val imageFile = ClassPathResource("static/images/" + if (type == "1") "beagle1.jpg" else "beagle2.jpg")
         return ResponseEntity
             .ok()
             .contentType(MediaType.IMAGE_JPEG)
