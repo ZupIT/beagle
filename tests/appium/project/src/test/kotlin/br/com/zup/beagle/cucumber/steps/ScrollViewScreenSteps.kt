@@ -74,10 +74,10 @@ class ScrollViewScreenSteps : AbstractStep() {
                 Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement1, buttonText))
             }
             2 -> {
-                Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement2!!, buttonText))
+                Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement2, buttonText))
             }
             else -> {
-                Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement3!!, buttonText))
+                Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement3, buttonText))
             }
         }
     }
@@ -86,13 +86,13 @@ class ScrollViewScreenSteps : AbstractStep() {
     fun confirmScrollView2IsShowingButton(scrollViewElementNumber: Int, buttonText: String) {
         when (scrollViewElementNumber) {
             1 -> {
-                Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement1!!, buttonText))
+                Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement1, buttonText))
             }
             2 -> {
-                Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!, buttonText))
+                Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2, buttonText))
             }
             else -> {
-                Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement3!!, buttonText))
+                Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement3, buttonText))
             }
         }
     }
@@ -109,9 +109,9 @@ class ScrollViewScreenSteps : AbstractStep() {
     @Then("^I should view a button with text \"(.*)\" by scrolling ScrollView (.*) to the end$")
     fun checkButtonVisible(buttonText: String, scrollViewElementNumber: Int) {
         when (scrollViewElementNumber) {
-            1 -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement1!!, buttonText))
-            2 -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2!!, buttonText))
-            else -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement3!!, buttonText))
+            1 -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement1, buttonText))
+            2 -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2, buttonText))
+            else -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement3, buttonText))
         }
     }
 
@@ -121,7 +121,7 @@ class ScrollViewScreenSteps : AbstractStep() {
         val text2 = "Click to see the new text in horizontal"
         val text3 = "Click to see the text change, rotate and scroll horizontally"
 
-        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement1!!)
+        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement1)
         var textElement1 = textElementsTemp.elementAt(0)
         var textElement2 = textElementsTemp.elementAt(1)
         var textElement3 = textElementsTemp.elementAt(2)
@@ -133,26 +133,26 @@ class ScrollViewScreenSteps : AbstractStep() {
 
         // ScrollView 1 second state: new texts showing instead of text 2 and 3
         textElement2.click()
-        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement1!!, text2))
-        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement1!!, NEW_TEXT_PREFIX).last()
+        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement1, text2))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement1, NEW_TEXT_PREFIX).last()
         Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
         Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
 
         if (SuiteSetup.isIos()) {
-            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement1!!, SwipeDirection.RIGHT)
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement1, SwipeDirection.RIGHT)
         } else {
             AppiumUtil.androidScrollToElementByText(getDriver(), 1, text2, isHorizontalScroll = true)
         }
 
         textElement3.click()
-        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement1!!, text3))
-        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement1!!, NEW_TEXT_PREFIX).last()
+        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement1, text3))
+        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement1, NEW_TEXT_PREFIX).last()
         Assert.assertTrue(textElement3.text.startsWith(NEW_TEXT_PREFIX))
         Assert.assertTrue(textElement3.text.endsWith(NEW_TEXT_SUFFIX))
 
         // ScrollView 1 third state: scrolls until the end
         if (SuiteSetup.isIos()) {
-            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement1!!, SwipeDirection.RIGHT)
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement1, SwipeDirection.RIGHT)
         } else {
             AppiumUtil.androidScrollToElementByText(getDriver(), 1, "horizontal scroll", isHorizontalScroll = true)
         }
@@ -165,7 +165,7 @@ class ScrollViewScreenSteps : AbstractStep() {
         val text2 = "Click to see the new text in vertical"
         val text3 = "Click to see the text change, rotate and scroll vertically"
 
-        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement2!!)
+        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement2)
         var textElement1 = textElementsTemp.elementAt(0)
         var textElement2 = textElementsTemp.elementAt(1)
         var textElement3 = textElementsTemp.elementAt(2)
@@ -178,14 +178,14 @@ class ScrollViewScreenSteps : AbstractStep() {
 
         // ScrollView 2 second state: new texts showing instead of text 2 and 3
         textElement2.click()
-        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2!!, text2))
-        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement2!!, NEW_TEXT_PREFIX).last()
+        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2, text2))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement2, NEW_TEXT_PREFIX).last()
         Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
         Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
 
         // Scrolls to text3
         if (SuiteSetup.isIos()) {
-            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement2!!, SwipeDirection.DOWN)
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement2, SwipeDirection.DOWN)
         } else {
             AppiumUtil.androidScrollToElementByText(
                 getDriver(),
@@ -196,14 +196,14 @@ class ScrollViewScreenSteps : AbstractStep() {
         }
 
         textElement3.click()
-        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2!!, text3))
-        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement2!!, NEW_TEXT_PREFIX).last()
+        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2, text3))
+        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement2, NEW_TEXT_PREFIX).last()
         Assert.assertTrue(textElement3.text.startsWith(NEW_TEXT_PREFIX))
         Assert.assertTrue(textElement3.text.endsWith(NEW_TEXT_SUFFIX))
 
         // ScrollView 2 third state: scrolls until the end
         if (SuiteSetup.isIos()) {
-            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement2!!, SwipeDirection.DOWN)
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement2, SwipeDirection.DOWN)
         } else {
             AppiumUtil.androidScrollToElementByText(getDriver(), 0, "vertical scroll", isHorizontalScroll = false)
         }
@@ -216,7 +216,7 @@ class ScrollViewScreenSteps : AbstractStep() {
         val text2 = "Click to see the new text"
         val text3 = "Horizontal scroll within scroll"
 
-        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement3!!)
+        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement3)
         var textElement1 = textElementsTemp.elementAt(0)
         var textElement2 = textElementsTemp.elementAt(1)
         var textElement3 = textElementsTemp.elementAt(2)
@@ -228,16 +228,16 @@ class ScrollViewScreenSteps : AbstractStep() {
 
         // ScrollView 3 second state: only the new text showing
         textElement2.click()
-        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement3!!, text2))
-        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement3!!, NEW_TEXT_PREFIX).last()
+        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement3, text2))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement3, NEW_TEXT_PREFIX).last()
         Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
         Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
 
         // Scrolls to the bottom
         if (SuiteSetup.isIos()) {
             // 2x to make sure it reached the bottom of the scroll element
-            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement3!!, SwipeDirection.DOWN)
-            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement3!!, SwipeDirection.DOWN)
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement3, SwipeDirection.DOWN)
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement3, SwipeDirection.DOWN)
         } else {
             AppiumUtil.androidScrollToElementByText(
                 getDriver(),
@@ -250,7 +250,7 @@ class ScrollViewScreenSteps : AbstractStep() {
         // Scrolls to button "horizontal direction"
         if (SuiteSetup.isIos()) {
             val childScrollViewElement = waitForChildElementToBePresent(
-                scrollViewElement3!!,
+                scrollViewElement3,
                 MobileBy.iOSClassChain("**/XCUIElementTypeScrollView")
             )
             // 2x to make sure it reached the end of the scroll element
