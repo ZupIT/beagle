@@ -56,13 +56,13 @@ class ScrollViewScreenSteps : AbstractStep() {
     fun cacheScrollView(scrollViewElementNumber: Int) {
         when (scrollViewElementNumber) {
             1 -> {
-                scrollViewElement1 = getScrollViewElement(1)
+                scrollViewElement1 = getScrollViewElement(1)!!
             }
             2 -> {
-                scrollViewElement2 = getScrollViewElement(2)
+                scrollViewElement2 = getScrollViewElement(2)!!
             }
             else -> {
-                scrollViewElement3 = getScrollViewElement(3)
+                scrollViewElement3 = getScrollViewElement(3)!!
             }
         }
     }
