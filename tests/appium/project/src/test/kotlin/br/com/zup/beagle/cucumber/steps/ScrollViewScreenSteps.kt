@@ -71,7 +71,7 @@ class ScrollViewScreenSteps : AbstractStep() {
     fun confirmScrollView1IsNotShowingButton(scrollViewElementNumber: Int, buttonText: String) {
         when (scrollViewElementNumber) {
             1 -> {
-                Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement1!!, buttonText))
+                Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement1, buttonText))
             }
             2 -> {
                 Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement2!!, buttonText))
