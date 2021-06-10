@@ -107,5 +107,3 @@ jobs:
           name: failed_tests_screenshots
           path: tests/appium/project/build/screenshots/
 
-      - name: Cleanup
-        run: bundle exec fastlane automated_tests cleanup

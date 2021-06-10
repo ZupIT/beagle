@@ -18,8 +18,8 @@ import br.com.zup.beagle.Dependencies
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileOptions {
@@ -60,7 +60,6 @@ dependencies {
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
     implementation Dependencies.GsonLibraries.gson
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.AndroidxLibraries.coreKtx
     implementation Dependencies.AndroidxLibraries.appcompat
     implementation Dependencies.GeneralLibraries.kotlinCoroutines

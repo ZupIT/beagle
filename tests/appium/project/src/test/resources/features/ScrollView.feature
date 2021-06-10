@@ -14,59 +14,32 @@
 # limitations under the License.
 #
 
-@scrollview @android @ios @inProgress
+@scrollview @android @ios
 Feature: ScrollView Component Validation
 
-    As a Beagle developer/user
-    I'd like to make sure my scrollView component works as expected
-    In order to guarantee that my application never fails
+  As a Beagle developer/user
+  I'd like to make sure my scrollView component works as expected
+  In order to guarantee that my application never fails
 
-    Background:
-        Given that I'm on the scrollview screen
+  Background:
+    Given that I'm on the scrollview screen
 
-    Scenario: ScrollView 01 - scrollView component performs horizontal scroll correctly
-        When I have a horizontal scroll configured
-        Then scrollview screen should perform the scroll action horizontally
+  Scenario: ScrollView 01  - interact with elements of the ScrollView 1
+    When I access ScrollView 1
+    And I confirm that the ScrollView 1 is not showing a button with text "horizontal scroll" by default
+    And I expand all the items of ScrollView 1, checking their new values
+    Then I should view a button with text "horizontal scroll" by scrolling ScrollView 1 to the end
 
-    Scenario Outline: ScrollView 02 - scrollView component should be render the correctly texts and perform the scroll horizontal
-        When I press on text scroll horizontal <textScrollHorizontal>
-        Then the text should change for the next and the scrollview should perform horizontally <textScrollHorizontal>
+  Scenario: ScrollView 02  - interact with elements of the ScrollView 2
+    When I access ScrollView 2
+    And I confirm that the ScrollView 2 is showing a button with text "vertical scroll" by default
+    And I expand all the items of ScrollView 2, checking their new values
+    Then I should view a button with text "vertical scroll" by scrolling ScrollView 2 to the end
 
-        Examples:
-            | textScrollHorizontal                    |
-            | Click to see the new text in horizontal |
-
-    Scenario Outline: ScrollView 03 - scrollView component should be render the correctly texts in horizontal even if the screen is rotated
-        When I press on text to be scrolled and rotated <textScrollViewRotate>
-        Then the text horizontal of scrollview rotate should change
-        And the scrollview rotate should perform horizontally <textScrollViewRotate>
-        And even if the screen is rotated the scrollview must be perform horizontally <textScrollViewRotate>
-
-        Examples:
-            | textScrollViewRotate                                         |
-            | Click to see the text change, rotate and scroll horizontally |
-
-    Scenario: ScrollView 04 - scrollView component performs vertical scroll correctly
-        When I have a vertical scroll configured
-        Then scrollview screen should perform the scroll action vertically
-
-    Scenario Outline: ScrollView 05 - scrollView component should be render the correctly texts and perform the scroll vertically
-        When I press on text scrollview vertical <textScrollVertical>
-        Then the text should change
-        And the scrollview should perform vertically <textScrollVertical>
-
-        Examples:
-            | textScrollVertical                    |
-            | Click to see the new text in vertical |
-
-    Scenario Outline: ScrollView 06 - scrollView component should be render the correctly texts in vertical even if the screen is rotated
-        When I press on text scrollview to be rotate <textScrollRotate>
-        Then the text vertical of scrollview rotate should change
-        And the scrollview rotate should perform vertically <textScrollRotate>
-        And even if the screen is rotated the scrollview must be perform vertically <textScrollRotate>
-
-        Examples:
-            | textScrollRotate                                           |
-            | Click to see the text change, rotate and scroll vertically |
-
-
+  Scenario: ScrollView 03  - interact with elements of the ScrollView 3
+    When I access ScrollView 3
+    And I confirm that the ScrollView 3 is showing a button with text "vertical direction" by default
+    And I confirm that the ScrollView 3 is not showing a button with text "horizontal direction" by default
+    And I expand all the items of ScrollView 3, checking their new values
+    Then I should view a button with text "vertical direction" by scrolling ScrollView 3 to the end
+    And I should view a button with text "horizontal direction" by scrolling ScrollView 3 to the end

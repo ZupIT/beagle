@@ -17,6 +17,7 @@
 package br.com.zup.beagle.utils
 
 import io.appium.java_client.AppiumDriver
+import io.appium.java_client.MobileBy
 import io.appium.java_client.MobileDriver
 import io.appium.java_client.MobileElement
 import io.appium.java_client.android.AndroidDriver
@@ -417,6 +418,34 @@ object AppiumUtil {
         Thread.sleep(animationTime.toLong())
     }
 
+    /**
+     * src: http://appium.io/docs/en/writing-running-appium/tutorial/swipe/android-multiple/
+     */
+    @Synchronized
+    fun androidScrollToElementByText(
+        driver: MobileDriver<*>,
+        scrollElementIndex: Int,
+        elementText: String,
+        isHorizontalScroll: Boolean
+    ) {
+        if (isHorizontalScroll) {
+            driver.findElement(
+                MobileBy.AndroidUIAutomator(
+                    "new UiScrollable(new UiSelector().scrollable(true)" +
+                            ".instance($scrollElementIndex)).setAsHorizontalList()" +
+                            ".scrollIntoView(new UiSelector().text(\"$elementText\"))"
+                )
+            )
+        }else{
+            driver.findElement(
+                MobileBy.AndroidUIAutomator(
+                    "new UiScrollable(new UiSelector().scrollable(true)" +
+                            ".instance($scrollElementIndex))" +
+                            ".scrollIntoView(new UiSelector().text(\"$elementText\"))"
+                )
+            )
+        }
+    }
 
     /**
      * Waits for an element to be found on the screen element tree. This does not
@@ -598,6 +627,20 @@ object AppiumUtil {
         return false
     }
 
+    @Synchronized
+    fun childElementExists(
+        driver: MobileDriver<*>,
+        parentElement: MobileElement,
+        childLocator: By,
+        timeoutInMilliseconds: Long
+    ): Boolean {
+        try {
+            waitForChildElementToBePresent(driver, parentElement, childLocator, timeoutInMilliseconds)
+            return true // element found
+        } catch (e: Exception) {
+        }
+        return false
+    }
 
     /**
      * Tries to set a value for timeoutInMilliseconds

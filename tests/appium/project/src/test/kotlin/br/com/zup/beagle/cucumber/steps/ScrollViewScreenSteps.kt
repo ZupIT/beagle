@@ -16,38 +16,31 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import br.com.zup.beagle.setup.SuiteSetup
+import br.com.zup.beagle.utils.AppiumUtil
+import br.com.zup.beagle.utils.SwipeDirection
+import io.appium.java_client.MobileBy
+import io.appium.java_client.MobileElement
 import io.cucumber.java.Before
-import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
+import org.junit.Assert
+import org.openqa.selenium.By
 
 private const val SCROLLVIEW_SCREEN_HEADER = "Beagle ScrollView"
-private const val PARAGRAPH =
-    """Lorem ipsum diam luctus mattis arcu accumsan, at curabitur hac in dictum senectus neque,
-    orci lorem aenean euismod leo. eu nunc tellus proin eget euismod lorem curabitur habitant nisi himenaeos 
-    habitasse at quam, convallis potenti scelerisque aenean habitant viverra mollis fusce convallis dui
-    urna aliquam. diam tristique etiam fermentum etiam nunc eget vel, ante nam eleifend habitant per senectus diam,
-    bibendum lectus enim ultrices litora viverra. lorem fusce leo hendrerit himenaeos elementum aliquet nec,
-    vestibulum luctus pretium diam tellus ligula conubia elit, a sodales torquent fusce massa euismod. et magna 
-    imperdiet conubia sed netus vitae justo maecenas proin lorem, sapien nisi porttitor dolor facilisis pharetra 
-    nam class. Morbi nullam odio accumsan quam urna sit tortor vulputate mi fames, elit molestie gravida ipsum
-    dictumst aenean curabitur ultrices consectetur pharetra, auctor aenean diam pellentesque condimentum risus 
-    diam scelerisque rutrum. conubia sem tincidunt cras venenatis tristique nisl duis rhoncus blandit, sed mattis 
-    vulputate accumsan suscipit tristique imperdiet dui, ornare ipsum tempor viverra elementum consectetur euismod
-    dapibus. ultricies in consectetur libero nam ultrices egestas quis volutpat ut nec sagittis eu, elementum
-    malesuada ullamcorper dapibus donec aenean mattis odio mi nulla gravida. tellus metus imperdiet justo mattis 
-    eros sodales potenti nibh nisl tincidunt, metus etiam cubilia amet donec primis sapien erat dictumst. Accumsan 
-    etiam himenaeos tempor integer habitasse curae ac, tincidunt laoreet taciti nisl habitasse conubia, maecenas nec
-    velit vitae amet varius. scelerisque vel fringilla consequat justo curabitur nam massa vitae, tempus tempor 
-    sit torquent massa malesuada ullamcorper, laoreet elementum nam pharetra tempus nam mauris. sociosqu dictum 
-    malesuada lectus suscipit ullamcorper aliquet pulvinar semper laoreet, vulputate aliquam nibh odio donec ligula
-     bibendum suspendisse, facilisis ut lobortis lacus tortor hendrerit integer posuere. phasellus egestas dui hac 
-    auctor faucibus purus accumsan arcu, sem vivamus rhoncus pharetra aliquam ornare curabitur rutrum, ut venenatis
-     proin iaculis orci gravida molestie."""
+private const val NEW_TEXT_PREFIX = "Lorem ipsum diam luctus"
+private const val NEW_TEXT_SUFFIX = "proin iaculis orci gravida molestie."
 
 class ScrollViewScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/scrollview"
+
+    // cache
+    companion object {
+        lateinit var scrollViewElement1: MobileElement
+        lateinit var scrollViewElement2: MobileElement
+        lateinit var scrollViewElement3: MobileElement
+    }
 
     @Before("@scrollview")
     fun setup() {
@@ -56,95 +49,322 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the scrollview screen$")
     fun checkScrollViewScreen() {
-        waitForElementWithTextToBeClickable(SCROLLVIEW_SCREEN_HEADER, false, false)
+        waitForElementWithTextToBeClickable(SCROLLVIEW_SCREEN_HEADER, likeSearch = false, ignoreCase = false)
     }
 
-    @When("^I have a horizontal scroll configured$")
-    fun checkHorizontalScrollText() {
-        waitForElementWithTextToBeClickable("Horizontal", false, false)
+    @When("^I access ScrollView (.*)$")
+    fun cacheScrollView(scrollViewElementNumber: Int) {
+        when (scrollViewElementNumber) {
+            1 -> {
+                scrollViewElement1 = getScrollViewElement(1)!!
+            }
+            2 -> {
+                scrollViewElement2 = getScrollViewElement(2)!!
+            }
+            else -> {
+                scrollViewElement3 = getScrollViewElement(3)!!
+            }
+        }
     }
 
-    @Then("^scrollview screen should perform the scroll action horizontally$")
-    fun validateHorizontalScroll() {
-        scrollDownToElementWithText("Horizontal", false, false)
+    @When("^I confirm that the ScrollView (.*) is not showing a button with text \"(.*)\" by default$")
+    fun confirmScrollView1IsNotShowingButton(scrollViewElementNumber: Int, buttonText: String) {
+        when (scrollViewElementNumber) {
+            1 -> {
+                Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement1, buttonText))
+            }
+            2 -> {
+                Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement2, buttonText))
+            }
+            else -> {
+                Assert.assertFalse(isButtonShowingInsideOfScrollView(scrollViewElement3, buttonText))
+            }
+        }
     }
 
-    @When("^I press on text scroll horizontal (.*)$")
-    fun checkIfTextOneLineScrollViewHorizontal(string: String) {
-        scrollDownToElementWithText(string, false, false).click()
+    @When("^I confirm that the ScrollView (.*) is showing a button with text \"(.*)\" by default$")
+    fun confirmScrollView2IsShowingButton(scrollViewElementNumber: Int, buttonText: String) {
+        when (scrollViewElementNumber) {
+            1 -> {
+                Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement1, buttonText))
+            }
+            2 -> {
+                Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2, buttonText))
+            }
+            else -> {
+                Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement3, buttonText))
+            }
+        }
     }
 
-    @Then("^the text should change for the next and the scrollview should perform horizontally (.*)$")
-    fun checkNewTextScrollViewHorizontal(string: String) {
-        waitForElementWithTextToBeClickable(PARAGRAPH, false, false)
-        waitForElementWithTextToBeInvisible(string, false, false)
+    @When("^I expand all the items of ScrollView (.*), checking their new values$")
+    fun checkScrollViewNewTexts(scrollViewElementNumber: Int) {
+        when (scrollViewElementNumber) {
+            1 -> checkScrollView1NewTexts()
+            2 -> checkScrollView2NewTexts()
+            else -> checkScrollView3NewTexts()
+        }
     }
 
-    @When("^I press on text to be scrolled and rotated (.*)$")
-    fun checkIfTextOneLineScrollViewWithRotationHorizontal(string: String) {
-        scrollDownToElementWithText(string, false, false).click()
+    @Then("^I should view a button with text \"(.*)\" by scrolling ScrollView (.*) to the end$")
+    fun checkButtonVisible(buttonText: String, scrollViewElementNumber: Int) {
+        when (scrollViewElementNumber) {
+            1 -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement1, buttonText))
+            2 -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement2, buttonText))
+            else -> Assert.assertTrue(isButtonShowingInsideOfScrollView(scrollViewElement3, buttonText))
+        }
     }
 
-    @Then("^the text horizontal of scrollview rotate should change$")
-    fun checkNewTextScrollViewRotationHorizontal() {
-        waitForElementWithTextToBeClickable(PARAGRAPH, false, false)
+    private fun checkScrollView1NewTexts() {
+
+        val text1 = "Horizontal"
+        val text2 = "Click to see the new text in horizontal"
+        val text3 = "Click to see the text change, rotate and scroll horizontally"
+
+        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement1)
+        var textElement1 = textElementsTemp.elementAt(0)
+        var textElement2 = textElementsTemp.elementAt(1)
+        var textElement3 = textElementsTemp.elementAt(2)
+
+        // ScrollView 1 original state: three text elements showing
+        Assert.assertEquals(text1, textElement1.text)
+        Assert.assertEquals(text2, textElement2.text)
+        Assert.assertEquals(text3, textElement3.text)
+
+        // ScrollView 1 second state: new texts showing instead of text 2 and 3
+        textElement2.click()
+        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement1, text2))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement1, NEW_TEXT_PREFIX).last()
+        Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
+        Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
+
+        if (SuiteSetup.isIos()) {
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement1, SwipeDirection.RIGHT)
+        } else {
+            AppiumUtil.androidScrollToElementByText(getDriver(), 1, text2, isHorizontalScroll = true)
+        }
+
+        textElement3.click()
+        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement1, text3))
+        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement1, NEW_TEXT_PREFIX).last()
+        Assert.assertTrue(textElement3.text.startsWith(NEW_TEXT_PREFIX))
+        Assert.assertTrue(textElement3.text.endsWith(NEW_TEXT_SUFFIX))
+
+        // ScrollView 1 third state: scrolls until the end
+        if (SuiteSetup.isIos()) {
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement1, SwipeDirection.RIGHT)
+        } else {
+            AppiumUtil.androidScrollToElementByText(getDriver(), 1, "horizontal scroll", isHorizontalScroll = true)
+        }
+
     }
 
-    @And("^the scrollview rotate should perform horizontally (.*)$")
-    fun checkScrollViewHorizontallyRotation(string: String) {
-        waitForElementWithTextToBeInvisible(string, false, false)
+    private fun checkScrollView2NewTexts() {
+
+        val text1 = "Vertical"
+        val text2 = "Click to see the new text in vertical"
+        val text3 = "Click to see the text change, rotate and scroll vertically"
+
+        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement2)
+        var textElement1 = textElementsTemp.elementAt(0)
+        var textElement2 = textElementsTemp.elementAt(1)
+        var textElement3 = textElementsTemp.elementAt(2)
+
+
+        // ScrollView 2 original state: three text elements showing
+        Assert.assertEquals(text1, textElement1.text)
+        Assert.assertEquals(text2, textElement2.text)
+        Assert.assertEquals(text3, textElement3.text)
+
+        // ScrollView 2 second state: new texts showing instead of text 2 and 3
+        textElement2.click()
+        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2, text2))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement2, NEW_TEXT_PREFIX).last()
+        Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
+        Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
+
+        // Scrolls to text3
+        if (SuiteSetup.isIos()) {
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement2, SwipeDirection.DOWN)
+        } else {
+            AppiumUtil.androidScrollToElementByText(
+                getDriver(),
+                0,
+                text3,
+                isHorizontalScroll = false
+            )
+        }
+
+        textElement3.click()
+        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2, text3))
+        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement2, NEW_TEXT_PREFIX).last()
+        Assert.assertTrue(textElement3.text.startsWith(NEW_TEXT_PREFIX))
+        Assert.assertTrue(textElement3.text.endsWith(NEW_TEXT_SUFFIX))
+
+        // ScrollView 2 third state: scrolls until the end
+        if (SuiteSetup.isIos()) {
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement2, SwipeDirection.DOWN)
+        } else {
+            AppiumUtil.androidScrollToElementByText(getDriver(), 0, "vertical scroll", isHorizontalScroll = false)
+        }
+
     }
 
-    @And("^even if the screen is rotated the scrollview must be perform horizontally (.*)$")
-    fun checkScrollViewRotationHorizontal(string: String) {
-        rotateToLandscapePosition()
-        waitForElementWithTextToBeInvisible(string, false, false)
+    private fun checkScrollView3NewTexts() {
+
+        val text1 = "Vertical scroll within scroll"
+        val text2 = "Click to see the new text"
+        val text3 = "Horizontal scroll within scroll"
+
+        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement3)
+        var textElement1 = textElementsTemp.elementAt(0)
+        var textElement2 = textElementsTemp.elementAt(1)
+        var textElement3 = textElementsTemp.elementAt(2)
+
+        // ScrollView 3 original state: three elements showing
+        Assert.assertEquals(text1, textElement1.text)
+        Assert.assertEquals(text2, textElement2.text)
+        Assert.assertEquals(text3, textElement3.text)
+
+        // ScrollView 3 second state: only the new text showing
+        textElement2.click()
+        Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement3, text2))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement3, NEW_TEXT_PREFIX).last()
+        Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
+        Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
+
+        // Scrolls to the bottom
+        if (SuiteSetup.isIos()) {
+            // 2x to make sure it reached the bottom of the scroll element
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement3, SwipeDirection.DOWN)
+            AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement3, SwipeDirection.DOWN)
+        } else {
+            AppiumUtil.androidScrollToElementByText(
+                getDriver(),
+                0,
+                "vertical direction",
+                isHorizontalScroll = false
+            )
+        }
+
+        // Scrolls to button "horizontal direction"
+        if (SuiteSetup.isIos()) {
+            val childScrollViewElement = waitForChildElementToBePresent(
+                scrollViewElement3,
+                MobileBy.iOSClassChain("**/XCUIElementTypeScrollView")
+            )
+            // 2x to make sure it reached the end of the scroll element
+            AppiumUtil.iosScrollInsideElement(getDriver(), childScrollViewElement, SwipeDirection.RIGHT)
+            AppiumUtil.iosScrollInsideElement(getDriver(), childScrollViewElement, SwipeDirection.RIGHT)
+        } else {
+            AppiumUtil.androidScrollToElementByText(
+                getDriver(),
+                0,
+                "horizontal direction",
+                isHorizontalScroll = true
+            )
+        }
     }
 
-    @When("^I have a vertical scroll configured$")
-    fun checkVerticalScrollText() {
-        waitForElementWithTextToBeClickable("Vertical", false, false)
+    private fun getScrollViewElement(scrollViewElementNumber: Int): MobileElement? {
+        var locator: By?
+
+        when (scrollViewElementNumber) {
+            1 -> {
+                locator = if (SuiteSetup.isIos()) {
+                    MobileBy.iOSClassChain("**/XCUIElementTypeScrollView/**/XCUIElementTypeScrollView[\$type == 'XCUIElementTypeTextView' AND value == 'Horizontal'\$]")
+                } else {
+                    By.xpath("//android.widget.ScrollView//android.widget.HorizontalScrollView[.//android.widget.TextView[@text='Horizontal']]")
+                }
+            }
+            2 -> {
+                locator = if (SuiteSetup.isIos()) {
+                    MobileBy.iOSClassChain("**/XCUIElementTypeScrollView/**/XCUIElementTypeScrollView[\$type == 'XCUIElementTypeTextView' AND value == 'Vertical'\$]")
+                } else {
+                    By.xpath("//android.widget.ScrollView//android.widget.ScrollView[.//android.widget.TextView[@text='Vertical']]")
+                }
+            }
+            3 -> {
+                locator = if (SuiteSetup.isIos()) {
+                    MobileBy.iOSClassChain("**/XCUIElementTypeScrollView/**/XCUIElementTypeScrollView[\$type == 'XCUIElementTypeTextView' AND value == 'Vertical scroll within scroll'\$]")
+                } else {
+                    By.xpath("//android.widget.ScrollView//android.widget.ScrollView[.//android.widget.TextView[@text='Vertical scroll within scroll']]")
+                }
+            }
+            else -> {
+                throw Exception("Invalid ScrollView number")
+            }
+        }
+
+        return waitForElementToBePresent(locator)
+
     }
 
-    @Then("^scrollview screen should perform the scroll action vertically$")
-    fun validateVerticalScroll() {
-        scrollDownToElementWithText("Vertical", false, false)
+    private fun getScrollViewChildrenTextElementByText(
+        scrollViewElement: MobileElement,
+        elementTextQuery: String
+    ): Collection<MobileElement> {
+        var locator: By?
+
+        if (SuiteSetup.isIos()) {
+            locator =
+                MobileBy.iOSClassChain("**/XCUIElementTypeTextView[`value BEGINSWITH \"$elementTextQuery\"`]")
+        } else {
+            locator =
+                By.xpath(".//android.widget.TextView[starts-with(@text,'$elementTextQuery')]")
+        }
+
+        return waitForChildrenElementsToBePresent(scrollViewElement, locator)
     }
 
-    @When("^I press on text scrollview vertical (.*)$")
-    fun checkIfTextOneLineScrollViewVertical(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
+    private fun getScrollViewChildTextElements(
+        scrollViewElement: MobileElement
+    ): Collection<MobileElement> {
+        var locator: By?
+
+        if (SuiteSetup.isIos()) {
+            locator =
+                MobileBy.iOSClassChain("**/XCUIElementTypeTextView")
+        } else {
+            locator =
+                By.xpath(".//android.widget.TextView")
+        }
+
+        return waitForChildrenElementsToBePresent(scrollViewElement, locator)
     }
 
-    @Then("^the text should change$")
-    fun checkNewTextScrollViewVertical() {
-        waitForElementWithTextToBeClickable(PARAGRAPH, false, false)
+    private fun scrollViewChildElementTextExists(
+        scrollViewElement: MobileElement,
+        elementTextQuery: String
+    ): Boolean {
+        var locator: By?
+
+        if (SuiteSetup.isIos()) {
+            locator =
+                MobileBy.iOSClassChain("**/XCUIElementTypeTextView[`value == \"$elementTextQuery\"`]")
+        } else {
+            locator =
+                By.xpath(".//android.widget.TextView[@text='$elementTextQuery']")
+        }
+
+        return childElementExists(scrollViewElement, locator)
     }
 
-    @And("^the scrollview should perform vertically (.*)$")
-    fun checkScrollViewVertical(string: String) {
-        waitForElementWithTextToBeInvisible(string, false, false)
+    private fun isButtonShowingInsideOfScrollView(scrollViewElement: MobileElement, buttonText: String): Boolean {
+        var locator: By
+
+        if (SuiteSetup.isIos()) {
+            locator = MobileBy.iOSClassChain("**/XCUIElementTypeButton[`name == \"$buttonText\"`]")
+        } else {
+            locator = By.xpath(".//android.widget.Button[@text='$buttonText']")
+        }
+
+        if (childElementExists(scrollViewElement, locator)) {
+            return waitForChildElementToBePresent(scrollViewElement, locator).isDisplayed
+        }
+
+        return false
     }
 
-    @When("^I press on text scrollview to be rotate (.*)$")
-    fun checkIfTextOneLineScrollViewWithRotationVertical(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
-    }
-
-    @Then("^the text vertical of scrollview rotate should change$")
-    fun checkNewTextScrollViewRotationVertical() {
-        waitForElementWithTextToBeClickable(PARAGRAPH, false, false)
-    }
-
-    @And("^the scrollview rotate should perform vertically (.*)$")
-    fun checkScrollViewVerticallyRotation(string: String) {
-        waitForElementWithTextToBeInvisible(string, false, false)
-    }
-
-    @And("^even if the screen is rotated the scrollview must be perform vertically (.*)$")
-    fun checkScrollViewRotationVertical(string: String) {
-        rotateToLandscapePosition()
-        waitForElementWithTextToBeInvisible(string, false, false)
-    }
 
 }
