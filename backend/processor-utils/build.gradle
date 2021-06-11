@@ -15,7 +15,7 @@
  */
 
 import br.com.zup.beagle.Dependencies
-apply from: rootProject.file('../jacoco.gradle')
+apply from: "$rootDir/../jacoco.gradle"
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlinPoet
