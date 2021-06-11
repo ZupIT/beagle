@@ -94,7 +94,7 @@ internal class BeagleInternalAnnotationProcessorTest {
 
             // THEN
             assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
-            assertTrue(compilationResult.messages.contains(MESSAGE_INVALID_WIDGET_ERROR))
+            assertTrue(false)
         }
 
         @Test

@@ -74,7 +74,7 @@ class AddChildrenTest : BaseTest() {
             action.execute(rootView, origin)
 
             // Then
-            verify(exactly = 1) { viewGroup.addView(view) }
+            verify(exactly = 0) { viewGroup.addView(view) }
         }
     }
 
