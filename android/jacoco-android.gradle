@@ -14,54 +14,20 @@
  * limitations under the License.
  */
 
-apply plugin: 'jacoco'
+apply plugin: 'com.hiya.jacoco-android'
 
 jacoco {
     toolVersion = '0.8.7'
 }
 
-def fileFilter = ['**/R.class',
-                  '**/R$*x.class',
-                  '**/BuildConfig.*',
-                  '**/Manifest*.*',
-                  '**/*Test*.*',
-                  '**/*$*',
-                  '**/*Function*',
-                  '**/*_impl*',
-                  '**/*.DefaultImpls.*',
-                  'android/databinding/**/*.class',
-                  '**/android/databinding/*Binding.class',
-                  '**/BR.*']
+jacocoAndroidUnitTestReport {
 
-task jacocoTestReport(type: JacocoReport) {
-    def kotlinSrc = "$project.projectDir/src/main/kotlin"
-    def javaSrc = "$project.projectDir/src/main/java"
-    def javaClasses = fileTree(dir: "$project.buildDir/intermediates/javac/debug", excludes: fileFilter)
-    def kotlinClasses = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
-    def kotlinLibClasses = fileTree(dir: "$project.buildDir/classes/kotlin/main", excludes: fileFilter)
+    csv.enabled false
+    html.enabled true
+    xml.enabled true
+}
 
-    def dependencyTasks
-    if (project.plugins.hasPlugin('com.android.application')) {
-        dependencyTasks = ['testDebugUnitTest']
-    } else if (project.plugins.hasPlugin("com.android.library")) {
-        dependencyTasks = ['testDebugUnitTest']
-    } else {
-        dependencyTasks = ['test']
-    }
-
-    dependsOn {
-        dependencyTasks
-    }
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    getSourceDirectories().setFrom([javaSrc, kotlinSrc])
-    getClassDirectories().setFrom([javaClasses, kotlinClasses, kotlinLibClasses])
-    getExecutionData().setFrom([fileTree(dir: project.buildDir, includes: [
-        'jacoco/testDebugUnitTest.exec', 'jacoco/test.exec', 'outputs/code-coverage/connected/**/*.ec'
-    ])])
-
+tasks.withType(Test) {
+    useJUnitPlatform()
+    jacoco.includeNoLocationClasses = true
 }
