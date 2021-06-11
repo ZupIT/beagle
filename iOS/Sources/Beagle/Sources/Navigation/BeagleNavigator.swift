@@ -182,13 +182,14 @@ class BeagleNavigator: BeagleNavigation {
     }
     
     private func popView(controller: BeagleController, animated: Bool) {
-        if controller.navigationController?.viewControllers.count == 1 {
-            controller.dependencies.logger.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
+        guard let navigation = controller.navigationController, navigation.viewControllers.count > 1 else {
+            popStack(controller: controller, animated: animated)
+            return
         }
         if let transition = defaultAnimation?.getTransition(.pop) {
-            controller.navigationController?.view.layer.add(transition, forKey: nil)
+            navigation.view.layer.add(transition, forKey: nil)
         }
-        controller.navigationController?.popViewController(animated: animated)
+        navigation.popViewController(animated: animated)
     }
     
     private func popToView(identifier: String, controller: BeagleController, animated: Bool) {
