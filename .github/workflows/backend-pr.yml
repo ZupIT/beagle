@@ -51,11 +51,6 @@ jobs:
                     path: ${{ env.gradle-path }}
                     key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
                     restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
-            - name: Setup JDK (8)
-              uses: actions/setup-java@v2
-              with:
-                    distribution: 'adopt'
-                    java-version: '8'
             -   name: Run pr check
                 env:
                     GITHUB_USER: ${{ env.BEAGLE_CORE_GITHUB_GITHUB_USER }}

@@ -46,7 +46,7 @@ end
 platform :android do
   desc "Pull Request verification"
   lane :pull_request_verification do
-    gradle(project_dir: "android", task: "clean detekt lintDebug jacocoTestReport")
+    gradle(project_dir: "android", task: "clean detekt lintDebug jacocoTestReportDebug")
     gradle(project_dir: "android", task: "sample:assembleDebug sample:assembleDebugAndroidTest")
   end
 
