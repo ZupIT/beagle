@@ -56,7 +56,6 @@ jobs:
               with:
                     distribution: 'adopt'
                     java-version: '8'
-            - run: java -cp java HelloWorldApp
             -   name: Run pr check
                 env:
                     GITHUB_USER: ${{ env.BEAGLE_CORE_GITHUB_GITHUB_USER }}
