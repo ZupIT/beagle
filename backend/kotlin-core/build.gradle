@@ -18,6 +18,7 @@ import br.com.zup.beagle.Dependencies
 
 apply plugin: "org.jetbrains.dokka"
 apply from: rootProject.file('../maven-publish.gradle')
+apply from: rootProject.file('../jacoco.gradle')
 
 test {
     useJUnitPlatform()

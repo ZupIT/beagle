@@ -17,7 +17,7 @@
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = '0.8.2'
+    toolVersion = '0.8.7'
 }
 
 def fileFilter = ['**/R.class',
@@ -63,7 +63,7 @@ task jacocoTestReport(type: JacocoReport, overwrite: true) {
     getSourceDirectories().setFrom([javaSrc, kotlinSrc])
     getClassDirectories().setFrom([javaClasses, kotlinClasses, kotlinLibClasses])
     getExecutionData().setFrom([fileTree(dir: project.buildDir, includes: [
-        'jacoco/testDebugUnitTest.exec', 'jacoco/test.exec', 'outputs/code-coverage/connected/**/*.ec'
+            'jacoco/testDebugUnitTest.exec', 'jacoco/test.exec', 'outputs/code-coverage/connected/**/*.ec'
     ])], [fileTree(dir: "${System.env.VDTESTING_DOWNLOADED_FILES_DIR}", includes: [
         '*sdcard_coverage.ec'
     ])])
