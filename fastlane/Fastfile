@@ -196,7 +196,7 @@ platform :backend do
   desc "Pull Request verification"
   lane :pull_request_verification do
     gradle(project_dir: "backend", task: "detekt")
-    gradle(project_dir: "backend", tasks:["clean", "assemble", "jacocoTestReport"])
+    gradle(project_dir: "backend", tasks:["clean", "assemble", "jacocoTestReportDebug"])
   end
 
   desc "Sync Spring BFF sample to Micronaut BFF sample"
