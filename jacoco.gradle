@@ -32,7 +32,7 @@ def fileFilter = ['**/R.class',
                   '**/*.DefaultImpls.*',
                   '**/beagle/view/*.class']
 
-task jacocoTestReport(type: JacocoReport, overwrite: true) {
+task jacocoTestReportDebug(type: JacocoReport) {
 
     def kotlinSrc = "$project.projectDir/src/main/kotlin"
     def javaSrc = "$project.projectDir/src/main/java"
