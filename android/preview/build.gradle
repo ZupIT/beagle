@@ -19,6 +19,7 @@ import br.com.zup.beagle.Dependencies
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'de.mannodermaus.android-junit5'
+apply from: "$rootDir/jacoco-android.gradle"
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk

@@ -15,6 +15,7 @@
  */
 
 apply plugin: "org.jetbrains.dokka"
+apply from: "$rootDir/../jacoco.gradle"
 
 import br.com.zup.beagle.Dependencies
 

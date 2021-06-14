@@ -22,6 +22,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'de.mannodermaus.android-junit5'
 apply plugin: 'kotlin-parcelize'
 apply plugin: "org.jetbrains.dokka"
+apply from: "$rootDir/jacoco-android.gradle"
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
@@ -40,9 +41,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            testCoverageEnabled true
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

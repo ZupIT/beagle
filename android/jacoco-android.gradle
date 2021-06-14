@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
-apply from: "$rootDir/../jacoco.gradle"
+apply plugin: 'com.hiya.jacoco-android'
 
-dependencies {
-    implementation Dependencies.GeneralLibraries.kotlinPoet
-    implementation project(Dependencies.Modules.commonAnnotation)
-    implementation project(Dependencies.Modules.schemaKotlinCore)
+jacoco {
+    toolVersion = '0.8.7'
 }
 
-apply from: rootProject.file('../maven-publish.gradle')
+jacocoAndroidUnitTestReport {
+
+    csv.enabled false
+    html.enabled true
+    xml.enabled true
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+    jacoco.includeNoLocationClasses = true
+}
