@@ -17,22 +17,18 @@
 package br.com.zup.beagle.android.data.serializer
 
 import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.android.action.AddChildren
 import br.com.zup.beagle.android.action.Alert
 import br.com.zup.beagle.android.action.Condition
 import br.com.zup.beagle.android.action.Confirm
-import br.com.zup.beagle.android.action.FieldError
 import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
-import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.action.HttpAdditionalData
 import br.com.zup.beagle.android.action.Mode
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.action.SetContext
-import br.com.zup.beagle.android.action.SubmitForm
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.GridView
 import br.com.zup.beagle.android.components.Image
@@ -51,9 +47,6 @@ import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.android.components.layout.NavigationBar
-import br.com.zup.beagle.android.components.layout.SafeArea
-import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.components.layout.ScrollView
 import br.com.zup.beagle.android.components.page.PageIndicator
 import br.com.zup.beagle.android.components.utils.Template
@@ -64,8 +57,6 @@ import br.com.zup.beagle.android.mockdata.CustomWidget
 import br.com.zup.beagle.android.mockdata.Person
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
-import br.com.zup.beagle.newanalytics.ActionAnalyticsProperties
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.ImageContentMode
@@ -73,6 +64,9 @@ import br.com.zup.beagle.widget.core.ListDirection
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.core.TextInputType
+
+const val TEST_URL = "http://test.com"
+const val TEST_EXPRESSION = "@{test}"
 
 fun makeButtonJson() =
     """
@@ -155,7 +149,7 @@ fun makeFormJson() = """
         "child": ${makeButtonJson()},
         "onSubmit": [{
             "_beagleAction_": "beagle:formremoteaction",
-            "path": "http://test.com",
+            "path": "$TEST_URL",
             "method": "POST"
         }],
         "group": "A group",
@@ -218,7 +212,7 @@ fun makeImageWithRemotePathJson() = """
 fun makeLazyComponentJson() = """
     {
        "_beagleComponent_":"beagle:lazycomponent",
-       "path":"http://test.com",
+       "path": "$TEST_URL",
        "initialState": ${makeButtonJson()}
     }
 """
@@ -264,7 +258,7 @@ fun makeObjectForm() = Form(
     child = makeObjectButton(),
     onSubmit = listOf(
         FormRemoteAction(
-            path = "http://test.com",
+            path = TEST_URL,
             method = FormMethodType.POST
         )
     ),
@@ -313,7 +307,7 @@ fun makeObjectImageWithRemotePath() = Image(
 )
 
 fun makeObjectLazyComponent() = LazyComponent(
-    path = "http://test.com",
+    path = TEST_URL,
     initialState = makeObjectButton()
 )
 
@@ -641,12 +635,12 @@ fun makeObjectWebView() = WebView(
 fun makeWebViewWithExpressionJson() = """
     {
         "_beagleComponent_": "beagle:webview",
-        "url": "@{test}"
+        "url": "$TEST_EXPRESSION"
     }
 """
 
 fun makeObjectWebViewWithExpression() = WebView(
-    url = expressionOf("@{test}")
+    url = expressionOf(TEST_EXPRESSION)
 )
 
 fun makeActionAddChildrenJson() = """
@@ -760,36 +754,36 @@ fun makeActionFormLocalActionObject() = FormLocalAction(
 fun makeActionFormRemoteActionJson() = """
     {
         "_beagleAction_": "beagle:formremoteaction",
-        "path": "http://test.com",
+        "path": "$TEST_URL",
         "method": "POST"
     }
 """
 
 fun makeActionFormRemoteActionObject() = FormRemoteAction(
-    path = "http://test.com",
+    path = TEST_URL,
     method = FormMethodType.POST
 )
 
 fun makeActionOpenExternalURLJson() = """
     {
         "_beagleAction_": "beagle:openexternalurl",
-        "url": "http://test.com"
+        "url": "$TEST_URL"
     }
 """
 
 fun makeActionOpenExternalURLObject() = Navigate.OpenExternalURL(
-    url = "http://test.com",
+    url = TEST_URL,
 )
 
 fun makeActionOpenExternalURLWithExpressionJson() = """
     {
         "_beagleAction_": "beagle:openexternalurl",
-        "url": "@{test}"
+        "url": "$TEST_EXPRESSION"
     }
 """
 
 fun makeActionOpenExternalURLWithExpressionObject() = Navigate.OpenExternalURL(
-    url = expressionOf("@{test}"),
+    url = expressionOf(TEST_EXPRESSION),
 )
 
 fun makeActionPopToViewJson() = """
@@ -806,19 +800,19 @@ fun makeActionPopToViewObject() = Navigate.PopToView(
 fun makeActionPopToViewWithExpressionJson() = """
     {
       "_beagleAction_": "beagle:poptoview",
-      "route": "@{test}"
+      "route": "$TEST_EXPRESSION"
     }
 """
 
 fun makeActionPopToViewWithExpressionObject() = Navigate.PopToView(
-    route = expressionOf("@{test}")
+    route = expressionOf(TEST_EXPRESSION)
 )
 
 fun makeActionPushStackJson() = """
     {
         "_beagleAction_": "beagle:pushstack",
         "route": {
-            "url": "http://test.com",
+            "url": "$TEST_URL",
             "shouldPrefetch": true
         },
         "controllerId": "controller"
@@ -827,7 +821,7 @@ fun makeActionPushStackJson() = """
 
 fun makeActionPushStackObject() = Navigate.PushStack(
     route = Route.Remote(
-        url = "http://test.com",
+        url = TEST_URL,
         shouldPrefetch = true
     ),
     controllerId = "controller"
@@ -837,7 +831,7 @@ fun makeActionPushStackWithExpressionJson() = """
     {
       "_beagleAction_": "beagle:pushstack",
       "route": {
-        "url": "@{test}",
+        "url": "$TEST_EXPRESSION",
         "shouldPrefetch": false
       },
       "controllerId": "controller"
@@ -846,7 +840,7 @@ fun makeActionPushStackWithExpressionJson() = """
 
 fun makeActionPushStackWithExpressionObject() = Navigate.PushStack(
     route = Route.Remote(
-        url = expressionOf("@{test}"),
+        url = expressionOf(TEST_EXPRESSION),
         shouldPrefetch = false
     ),
     controllerId = "controller"
@@ -856,7 +850,7 @@ fun makeActionPushStackWithHardcodedUrlJson() = """
     {
       "_beagleAction_": "beagle:pushstack",
       "route": {
-        "url": "http://localhost:8080/test/example",
+        "url": "$TEST_URL",
         "shouldPrefetch": false,
         "httpAdditionalData": {
            "method": "POST",
@@ -872,7 +866,7 @@ fun makeActionPushStackWithHardcodedUrlJson() = """
 
 fun makeActionPushStackWithHardcodedUrlObject() = Navigate.PushStack(
     route = Route.Remote(
-        url = "http://localhost:8080/test/example",
+        url = TEST_URL,
         shouldPrefetch = false,
         httpAdditionalData = HttpAdditionalData(
             method = HttpMethod.POST,
@@ -887,7 +881,7 @@ fun makeActionPushViewJson() = """
     {
         "_beagleAction_": "beagle:pushview",
         "route": {
-            "url": "http://test.com",
+            "url": "$TEST_URL",
             "shouldPrefetch": true
         }
     }
@@ -895,7 +889,7 @@ fun makeActionPushViewJson() = """
 
 fun makeActionPushViewObject() = Navigate.PushView(
     route = Route.Remote(
-        url = "http://test.com",
+        url = TEST_URL,
         shouldPrefetch = true
 
     )
@@ -905,7 +899,7 @@ fun makeActionPushViewWithExpressionJson() = """
     {
       "_beagleAction_": "beagle:pushview",
       "route": {
-        "url": "@{test}",
+        "url": "$TEST_EXPRESSION",
         "shouldPrefetch": false
       }
     }
@@ -913,7 +907,7 @@ fun makeActionPushViewWithExpressionJson() = """
 
 fun makeActionPushViewWithExpressionObject() = Navigate.PushView(
     route = Route.Remote(
-        url = expressionOf("@{test}"),
+        url = expressionOf(TEST_EXPRESSION),
         shouldPrefetch = false
     )
 )
@@ -922,7 +916,7 @@ fun makeActionPushViewWithHardcodedUrlJson() = """
     {
       "_beagleAction_": "beagle:pushview",
       "route": {
-        "url": "http://localhost:8080/test/example",
+        "url": "$TEST_URL",
         "shouldPrefetch": false,
         "httpAdditionalData": {
            "method": "POST",
@@ -937,7 +931,7 @@ fun makeActionPushViewWithHardcodedUrlJson() = """
 
 fun makeActionPushViewWithHardcodedUrlObject() = Navigate.PushView(
     route = Route.Remote(
-        url = "http://localhost:8080/test/example",
+        url = TEST_URL,
         shouldPrefetch = false,
         httpAdditionalData = HttpAdditionalData(
             method = HttpMethod.POST,
@@ -951,7 +945,7 @@ fun makeActionResetApplicationJson() = """
     {
         "_beagleAction_": "beagle:resetapplication",
         "route": {
-            "url": "http://test.com",
+            "url": "$TEST_URL",
             "shouldPrefetch": true
         },
         "controllerId": "controller"
@@ -960,7 +954,7 @@ fun makeActionResetApplicationJson() = """
 
 fun makeActionResetApplicationObject() = Navigate.ResetApplication(
     route = Route.Remote(
-        url = "http://test.com",
+        url = TEST_URL,
         shouldPrefetch = true
     ),
     controllerId = "controller"
@@ -970,7 +964,7 @@ fun makeActionResetApplicationWithExpressionJson() = """
     {
       "_beagleAction_": "beagle:resetapplication",
       "route": {
-        "url": "@{test}",
+        "url": "$TEST_EXPRESSION",
         "shouldPrefetch": false
       },
       "controllerId": "controller"
@@ -979,7 +973,7 @@ fun makeActionResetApplicationWithExpressionJson() = """
 
 fun makeActionResetApplicationWithExpressionObject() = Navigate.ResetApplication(
     route = Route.Remote(
-        url = expressionOf("@{test}"),
+        url = expressionOf(TEST_EXPRESSION),
         shouldPrefetch = false
     ),
     controllerId = "controller"
@@ -989,7 +983,7 @@ fun makeActionResetApplicationWithHardcodedUrlJson() = """
     {
       "_beagleAction_": "beagle:resetapplication",
       "route": {
-        "url": "http://localhost:8080/test/example",
+        "url": "$TEST_URL",
         "shouldPrefetch": false,
         "httpAdditionalData": {
            "method": "POST",
@@ -1005,7 +999,7 @@ fun makeActionResetApplicationWithHardcodedUrlJson() = """
 
 fun makeActionResetApplicationWithHardcodedUrlObject() = Navigate.ResetApplication(
     route = Route.Remote(
-        url = "http://localhost:8080/test/example",
+        url = TEST_URL,
         shouldPrefetch = false,
         httpAdditionalData = HttpAdditionalData(
             method = HttpMethod.POST,
@@ -1020,7 +1014,7 @@ fun makeActionResetStackJson() = """
     {
         "_beagleAction_": "beagle:resetstack",
         "route": {
-            "url": "http://test.com",
+            "url": "$TEST_URL",
             "shouldPrefetch": true
         },
         "controllerId": "controller"
@@ -1029,7 +1023,7 @@ fun makeActionResetStackJson() = """
 
 fun makeActionResetStackObject() = Navigate.ResetStack(
     route = Route.Remote(
-        url = "http://test.com",
+        url = TEST_URL,
         shouldPrefetch = true
 
     ),
@@ -1040,7 +1034,7 @@ fun makeResetStackWithExpressionJson() = """
     {
       "_beagleAction_": "beagle:resetstack",
       "route": {
-        "url": "@{test}",
+        "url": "$TEST_EXPRESSION",
         "shouldPrefetch": false
       },
       "controllerId": "controller"
@@ -1049,7 +1043,7 @@ fun makeResetStackWithExpressionJson() = """
 
 fun makeResetStackWithExpressionObject() = Navigate.ResetStack(
     route = Route.Remote(
-        url = expressionOf("@{test}"),
+        url = expressionOf(TEST_EXPRESSION),
         shouldPrefetch = false
     ),
     controllerId = "controller"
@@ -1059,7 +1053,7 @@ fun makeResetStackWithHardcodedUrlJson() = """
     {
       "_beagleAction_": "beagle:resetstack",
       "route": {
-        "url": "http://localhost:8080/test/example",
+        "url": "$TEST_URL",
         "shouldPrefetch": false,
         "httpAdditionalData": {
            "method": "POST",
@@ -1075,7 +1069,7 @@ fun makeResetStackWithHardcodedUrlJson() = """
 
 fun makeResetStackWithHardcodedUrlObject() = Navigate.ResetStack(
     route = Route.Remote(
-        url = "http://localhost:8080/test/example",
+        url = TEST_URL,
         shouldPrefetch = false,
         httpAdditionalData = HttpAdditionalData(
             method = HttpMethod.POST,
