@@ -65,25 +65,14 @@ allprojects {
         sonarqube {
             properties {
                 property "sonar.projectKey", "ZupIT_beagle_android"
-                property "sonar.sources", "."
                 property "sonar.projectName", "ZupIT_beagle_android"
                 property "sonar.organization", "t64zgssdey"
                 property "sonar.host.url", "https://sonarcloud.io"
+                property "sonar.exclusions", "sample/**, test/**"
                 property "detekt.sonar.kotlin.config.path", "$rootDir/../config/detekt-default-config.yml"
-                property "sonar.java.binaries", "build/classes,build/tmp/kotlin-classes"
-                property "sonar.tests", "."
                 property "sonar.java.coveragePlugin", "jacoco"
+                property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml"
                 property "sonar.jacoco.reportPaths", "build/jacoco/testDebugUnitTest.exec,build/jacoco/test.exec"
-
-
-//                sonar.sources=.
-//                sonar.projectKey=pos-android-service-container
-//                detekt.sonar.kotlin.config.path="$rootDir/../config/detekt-default-config.yml"
-//                sonar.java.binaries=target/classes,kotlin-sdk/build/tmp/kotlin-classes
-//                sonar.sources=database/src/main/kotlin
-//                sonar.tests=database/src/test/kotlin
-//                sonar.java.coveragePlugin=jacoco
-//                sonar.jacoco.reportPaths=database/build/jacoco/testDebugUnitTest.exec
             }
         }
     }
