@@ -40,49 +40,75 @@ class SendRequestSerializerTest : BaseSerializerTest<Action>(Action::class.java)
         @DisplayName("Then should return correct object")
         @Test
         fun testDeserializeJsonSendRequest() {
-            // Given
-            val expectedAction = makeObjectSendRequest()
-            val json = makeSendRequestJson()
-
-            // When
-            val actual = deserialize(json) as SendRequest
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedAction.url, actual.url)
-            Assertions.assertEquals(expectedAction.method, actual.method)
-            Assertions.assertEquals(expectedAction.headers, actual.headers)
-            val expectedData = expectedAction.data as JSONObject
-            val actualData = actual.data as JSONObject
-            Assertions.assertEquals(expectedData.getBoolean("a"), actualData.getBoolean("a"))
-            Assertions.assertEquals(expectedData.getString("b"), actualData.getString("b"))
-            Assertions.assertEquals(expectedAction.onSuccess, actual.onSuccess)
-            Assertions.assertEquals(expectedAction.onError, actual.onError)
-            Assertions.assertEquals(expectedAction.onFinish, actual.onFinish)
+            testDeserializeSendRequestJson(
+                makeSendRequestJson(),
+                makeObjectSendRequest()
+            )
+//            // Given
+//            val expectedAction = makeObjectSendRequest()
+//            val json = makeSendRequestJson()
+//
+//            // When
+//            val actual = deserialize(json) as SendRequest
+//
+//            // Then
+//            Assertions.assertNotNull(actual)
+//            Assertions.assertEquals(expectedAction.url, actual.url)
+//            Assertions.assertEquals(expectedAction.method, actual.method)
+//            Assertions.assertEquals(expectedAction.headers, actual.headers)
+//            val expectedData = expectedAction.data as JSONObject
+//            val actualData = actual.data as JSONObject
+//            Assertions.assertEquals(expectedData.getBoolean("a"), actualData.getBoolean("a"))
+//            Assertions.assertEquals(expectedData.getString("b"), actualData.getString("b"))
+//            Assertions.assertEquals(expectedAction.onSuccess, actual.onSuccess)
+//            Assertions.assertEquals(expectedAction.onError, actual.onError)
+//            Assertions.assertEquals(expectedAction.onFinish, actual.onFinish)
         }
 
         @DisplayName("Then should return correct object without expression")
         @Test
         fun testDeserializeJsonSendRequestWithoutExpression() {
+            testDeserializeSendRequestJson(
+                makeSendRequestWithoutExpressionJson(),
+                makeObjectSendRequestWithoutExpression()
+            )
             // Given
-            val expectedAction = makeObjectSendRequestWithoutExpression()
-            val json = makeSendRequestWithoutExpressionJson()
+//            val expectedAction = makeObjectSendRequestWithoutExpression()
+//            val json = makeSendRequestWithoutExpressionJson()
+//
+//            // When
+//            val actual = deserialize(json) as SendRequest
+//
+//            // Then
+//            Assertions.assertNotNull(actual)
+//            Assertions.assertEquals(expectedAction.url, actual.url)
+//            Assertions.assertEquals(expectedAction.method, actual.method)
+//            Assertions.assertEquals(expectedAction.headers, actual.headers)
+//            val expectedData = expectedAction.data as JSONObject
+//            val actualData = actual.data as JSONObject
+//            Assertions.assertEquals(expectedData.getBoolean("a"), actualData.getBoolean("a"))
+//            Assertions.assertEquals(expectedData.getString("b"), actualData.getString("b"))
+//            Assertions.assertEquals(expectedAction.onSuccess, actual.onSuccess)
+//            Assertions.assertEquals(expectedAction.onError, actual.onError)
+//            Assertions.assertEquals(expectedAction.onFinish, actual.onFinish)
+        }
 
+        fun testDeserializeSendRequestJson(json: String, expectedAction: SendRequest) {
             // When
-            val actual = deserialize(json) as SendRequest
+            val deserializedAction = deserialize(json) as SendRequest
 
             // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedAction.url, actual.url)
-            Assertions.assertEquals(expectedAction.method, actual.method)
-            Assertions.assertEquals(expectedAction.headers, actual.headers)
+            Assertions.assertNotNull(deserializedAction)
+            Assertions.assertEquals(expectedAction.url, deserializedAction.url)
+            Assertions.assertEquals(expectedAction.method, deserializedAction.method)
+            Assertions.assertEquals(expectedAction.headers, deserializedAction.headers)
             val expectedData = expectedAction.data as JSONObject
-            val actualData = actual.data as JSONObject
+            val actualData = deserializedAction.data as JSONObject
             Assertions.assertEquals(expectedData.getBoolean("a"), actualData.getBoolean("a"))
             Assertions.assertEquals(expectedData.getString("b"), actualData.getString("b"))
-            Assertions.assertEquals(expectedAction.onSuccess, actual.onSuccess)
-            Assertions.assertEquals(expectedAction.onError, actual.onError)
-            Assertions.assertEquals(expectedAction.onFinish, actual.onFinish)
+            Assertions.assertEquals(expectedAction.onSuccess, deserializedAction.onSuccess)
+            Assertions.assertEquals(expectedAction.onError, deserializedAction.onError)
+            Assertions.assertEquals(expectedAction.onFinish, deserializedAction.onFinish)
         }
 
     }
@@ -100,7 +126,10 @@ class SendRequestSerializerTest : BaseSerializerTest<Action>(Action::class.java)
         @DisplayName("Then should return correct json without expression")
         @Test
         fun testSerializeJsonSendRequestWithoutExpression() {
-            testSerializeObject(makeSendRequestWithoutExpressionJson(), makeObjectSendRequestWithoutExpression())
+            testSerializeObject(
+                makeSendRequestWithoutExpressionJson(),
+                makeObjectSendRequestWithoutExpression()
+            )
         }
     }
 

@@ -383,18 +383,6 @@ fun makeScreenComponentJson() = """
     }
 """
 
-fun makeObjectScreenComponent() = ScreenComponent(
-    identifier = "id",
-    safeArea = SafeArea(top = true, leading = true, bottom = false, trailing = false),
-    navigationBar = NavigationBar(
-        title = "Screen Title",
-        showBackButton = true,
-    ),
-    child = makeObjectContainer(),
-    screenAnalyticsEvent = ScreenEvent("Test"),
-    context = makeObjectContextWithPrimitiveValue()
-)
-
 fun makeScrollViewJson() = """
     {
         "_beagleComponent_": "beagle:scrollview",

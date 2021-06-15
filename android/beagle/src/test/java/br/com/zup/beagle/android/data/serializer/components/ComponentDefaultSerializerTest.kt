@@ -16,6 +16,10 @@
 
 package br.com.zup.beagle.android.data.serializer.components
 
+import br.com.zup.beagle.analytics.ScreenEvent
+import br.com.zup.beagle.android.components.layout.NavigationBar
+import br.com.zup.beagle.android.components.layout.SafeArea
+import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.data.serializer.DefaultSerializerTest
 import br.com.zup.beagle.android.data.serializer.makeButtonJson
@@ -30,6 +34,7 @@ import br.com.zup.beagle.android.data.serializer.makeLazyComponentJson
 import br.com.zup.beagle.android.data.serializer.makeListViewJson
 import br.com.zup.beagle.android.data.serializer.makeObjectButton
 import br.com.zup.beagle.android.data.serializer.makeObjectContainer
+import br.com.zup.beagle.android.data.serializer.makeObjectContextWithPrimitiveValue
 import br.com.zup.beagle.android.data.serializer.makeObjectCustomWidget
 import br.com.zup.beagle.android.data.serializer.makeObjectForm
 import br.com.zup.beagle.android.data.serializer.makeObjectFormSubmit
@@ -38,7 +43,6 @@ import br.com.zup.beagle.android.data.serializer.makeObjectImageWithLocalPath
 import br.com.zup.beagle.android.data.serializer.makeObjectImageWithRemotePath
 import br.com.zup.beagle.android.data.serializer.makeObjectLazyComponent
 import br.com.zup.beagle.android.data.serializer.makeObjectListView
-import br.com.zup.beagle.android.data.serializer.makeObjectScreenComponent
 import br.com.zup.beagle.android.data.serializer.makeObjectScrollView
 import br.com.zup.beagle.android.data.serializer.makeObjectSimpleForm
 import br.com.zup.beagle.android.data.serializer.makeObjectTabBar
@@ -107,5 +111,17 @@ class ComponentDefaultSerializerTest : DefaultSerializerTest<ServerDrivenCompone
         Arguments.of(makeTouchableJson(), makeObjectTouchable()),
         Arguments.of(makeWebViewJson(), makeObjectWebView()),
         Arguments.of(makeWebViewWithExpressionJson(), makeObjectWebViewWithExpression()),
+    )
+
+    private fun makeObjectScreenComponent() = ScreenComponent(
+        identifier = "id",
+        safeArea = SafeArea(top = true, leading = true, bottom = false, trailing = false),
+        navigationBar = NavigationBar(
+            title = "Screen Title",
+            showBackButton = true,
+        ),
+        child = makeObjectContainer(),
+        screenAnalyticsEvent = ScreenEvent("Test"),
+        context = makeObjectContextWithPrimitiveValue()
     )
 }
