@@ -57,8 +57,9 @@ android {
 
 dependencies {
 
-    implementation project(Dependencies.Modules.core)
-    kapt project(Dependencies.Modules.processor)
+    implementation "br.com.zup.beagle:android:1.8.1"
+    kapt "br.com.zup.beagle:android-processor:1.8.1"
+
     implementation Dependencies.GsonLibraries.gson
     implementation Dependencies.AndroidxLibraries.coreKtx
     implementation Dependencies.AndroidxLibraries.appcompat
