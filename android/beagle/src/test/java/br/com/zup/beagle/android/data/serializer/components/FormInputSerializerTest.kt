@@ -17,9 +17,9 @@
 package br.com.zup.beagle.android.data.serializer.components
 
 import br.com.zup.beagle.android.components.form.FormInput
+import br.com.zup.beagle.android.data.serializer.BaseSerializerTest
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
-import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
@@ -34,8 +34,8 @@ private val WIDGETS = listOf(
     CustomInputWidget::class.java as Class<WidgetView>,
 )
 
-@DisplayName("Given a Moshi Adapter")
-class FormInputSerializationTest : BaseComponentSerializationTest() {
+@DisplayName("Given a FormInput")
+class FormInputSerializerTest : BaseSerializerTest<ServerDrivenComponent>(ServerDrivenComponent::class.java) {
 
     @BeforeEach
     override fun setUp() {
@@ -44,43 +44,33 @@ class FormInputSerializationTest : BaseComponentSerializationTest() {
         moshi = BeagleMoshi.createMoshi()
     }
 
-    @DisplayName("When try to deserialize json FormInput")
+    @DisplayName("When try to deserialize json")
     @Nested
-    inner class DeserializeJsonFormInputTest {
+    inner class FormInputDeserializationTests {
 
         @DisplayName("Then should return correct object")
         @Test
-        fun testDeserializeJsonFormInput() {
+        fun testFormInputDeserialization() {
             // Given
             val json = makeFormInputJson()
 
             // When
-            val actual = moshi.adapter(ServerDrivenComponent::class.java).fromJson(json)!!
+            val deserializedComponent = deserialize(json)
 
             // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertTrue(actual is FormInput)
+            Assertions.assertNotNull(deserializedComponent)
+            Assertions.assertTrue(deserializedComponent is FormInput)
         }
     }
 
-    @DisplayName("When try serialize object FormInput")
+    @DisplayName("When try to serialize object")
     @Nested
-    inner class SerializeObjectFormInputTest {
+    inner class FormInputSerializationTests {
 
         @DisplayName("Then should return correct json")
         @Test
-        fun testSerializeJsonFormInput() {
-            // Given
-            val expectedJson = makeFormInputJson().replace("\\s".toRegex(), "")
-            val component = makeObjectFormInput()
-
-            // When
-            val actual = moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+        fun testFormInputSerialization() {
+            testSerializeObject(makeFormInputJson(), makeObjectFormInput())
         }
     }
 
@@ -88,6 +78,9 @@ class FormInputSerializationTest : BaseComponentSerializationTest() {
     {
         "_beagleComponent_": "beagle:forminput",
         "name": "An input name",
+        "required": false,
+        "validator": "A validator",
+        "errorMessage": "An error message",
         "child": ${makeCustomInputWidgetJson()}
     }
 """
@@ -100,6 +93,9 @@ class FormInputSerializationTest : BaseComponentSerializationTest() {
 
     private fun makeObjectFormInput() = FormInput(
         name = "An input name",
+        required = false,
+        validator = "A validator",
+        errorMessage = "An error message",
         child = makeObjectCustomInputWidget()
     )
 

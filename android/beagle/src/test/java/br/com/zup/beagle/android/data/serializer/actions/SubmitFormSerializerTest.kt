@@ -18,13 +18,17 @@ package br.com.zup.beagle.android.data.serializer.actions
 
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.SubmitForm
+import br.com.zup.beagle.android.data.serializer.BaseSerializerTest
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
+import br.com.zup.beagle.newanalytics.ActionAnalyticsProperties
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a Moshi Adapter")
-class SubmitFormSerializationTest : BaseActionSerializationTest() {
+@DisplayName("Given a SubmitForm Action")
+class SubmitFormSerializerTest : BaseSerializerTest<Action>(Action::class.java) {
+
     @DisplayName("When try to deserialize json SubmitForm")
     @Nested
     inner class DeserializeJsonSubmitFormTest {
@@ -33,10 +37,10 @@ class SubmitFormSerializationTest : BaseActionSerializationTest() {
         @Test
         fun testDeserializeJsonSubmitForm() {
             // Given
-            val json = makeSubmitFormJson()
+            val json = makeActionSubmitFormJson()
 
             // When
-            val actual = moshi.adapter(Action::class.java).fromJson(json)
+            val actual = deserialize(json)
 
             // Then
             Assertions.assertNotNull(actual)
@@ -52,25 +56,32 @@ class SubmitFormSerializationTest : BaseActionSerializationTest() {
         @DisplayName("Then should return correct json")
         @Test
         fun testSerializeJsonSubmitForm() {
-            // Given
-            val expectedJson = makeSubmitFormJson().replace("\\s".toRegex(), "")
-            val action = makeObjectSubmitForm()
-
-            // When
-            val actual = moshi.adapter(Action::class.java).toJson(action)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(makeActionSubmitFormJson(), makeActionSubmitFormObject())
         }
     }
 
-    private fun makeSubmitFormJson() = """
+    private fun makeActionSubmitFormJson() = """
     {
-        "_beagleAction_": "beagle:submitform"
+        "_beagleAction_": "beagle:submitform",
+        "analytics": ${makeActionAnalyticsConfigJson()}
     }
 """
 
-    private fun makeObjectSubmitForm() = SubmitForm()
+    private fun makeActionSubmitFormObject() = SubmitForm(
+        analytics = makeActionAnalyticsConfigObject()
+    )
+
+
+    private fun makeActionAnalyticsConfigJson() = """
+    {
+        "attributes":["attributes"],
+        "additionalEntries":{
+            "attributes":"test"
+        }
+    }
+    """
+
+    private fun makeActionAnalyticsConfigObject() = ActionAnalyticsConfig.Enabled(
+        ActionAnalyticsProperties(listOf("attributes"), mapOf("attributes" to "test"))
+    )
 }

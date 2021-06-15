@@ -14,24 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.data.serializer.actions
+package br.com.zup.beagle.android.testutil
 
-import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.data.serializer.BeagleMoshi
-import com.squareup.moshi.Moshi
-import io.mockk.every
-import org.junit.jupiter.api.BeforeEach
-
-abstract class BaseActionSerializationTest : BaseTest() {
-
-    protected lateinit var moshi: Moshi
-
-    @BeforeEach
-    override fun setUp() {
-        super.setUp()
-
-        every { beagleSdk.registeredActions() } returns listOf()
-
-        moshi = BeagleMoshi.createMoshi()
-    }
-}
+fun String.withoutWhiteSpaces() = this.replace("\\s".toRegex(), "")

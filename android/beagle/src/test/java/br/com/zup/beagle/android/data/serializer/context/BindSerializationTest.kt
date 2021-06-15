@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.data.serializer.context
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.data.serializer.BaseSerializerTest
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.mockdata.ComponentBinding
 import br.com.zup.beagle.android.mockdata.InternalObject
@@ -37,7 +38,7 @@ private val WIDGETS = listOf(
 )
 
 @DisplayName("Given a Moshi Adapter")
-class BindSerializationTest : BaseContextSerializationTest() {
+class BindSerializationTest : BaseSerializerTest<ServerDrivenComponent>(ServerDrivenComponent::class.java) {
 
     @BeforeEach
     override fun setUp() {
@@ -53,15 +54,7 @@ class BindSerializationTest : BaseContextSerializationTest() {
         @DisplayName("Then should return a ComponentBinding with expressions")
         @Test
         fun testDeserializeJsonComponentBindingWithExpressions() {
-            // Given
-            val expectedComponent = makeObjectComponentBindingWithExpressions()
-            val jsonComponent = makeComponentBindingWithExpressionsJson()
-
-            // When
-            val component = moshi.adapter(ServerDrivenComponent::class.java).fromJson(jsonComponent)
-
-            // Then
-            Assertions.assertEquals(expectedComponent, component)
+            testDeserializeJson(makeComponentBindingWithExpressionsJson(), makeObjectComponentBindingWithExpressions())
         }
 
         @DisplayName("Then should return a ComponentBinding without expressions")
@@ -72,7 +65,7 @@ class BindSerializationTest : BaseContextSerializationTest() {
             val jsonComponent = makeComponentBindingWithoutExpressionsJson()
 
             // When
-            val component = moshi.adapter(ServerDrivenComponent::class.java).fromJson(jsonComponent)
+            val component = deserialize(jsonComponent)
 
             // Then
             Assertions.assertEquals(expectedComponent, component)
@@ -98,7 +91,7 @@ class BindSerializationTest : BaseContextSerializationTest() {
             val internalObjectJson = makeInternalObject()
 
             // When
-            val bindComponent = moshi.adapter(ServerDrivenComponent::class.java).fromJson(jsonComponent) as ComponentBinding
+            val bindComponent = deserialize(jsonComponent) as ComponentBinding
             val internalObject = moshi.adapter<Any>(bindComponent.value4.type).fromJson(internalObjectJson) as InternalObject
 
             // Then
@@ -115,33 +108,19 @@ class BindSerializationTest : BaseContextSerializationTest() {
         @DisplayName("Then should return correct json with expressions")
         @Test
         fun testSerializeJsonComponentBindingWithExpressions() {
-            // Given
-            val expectedJson = makeComponentBindingWithExpressionsJson().replace("\\s".toRegex(), "")
-            val component = makeObjectComponentBindingWithExpressions()
-
-            // When
-            val actual = moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(
+                makeComponentBindingWithExpressionsJson(),
+                makeObjectComponentBindingWithExpressions()
+            )
         }
 
         @DisplayName("Then should return correct json without expressions")
         @Test
         fun testSerializeJsonComponentBindingWithoutExpressions() {
-            // Given
-            val expectedJson = makeComponentBindingWithoutExpressionsJson().replace("\\s".toRegex(), "")
-            val component = makeObjectComponentBindingWithoutExpressions()
-
-            // When
-            val actual = moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(
+                makeComponentBindingWithoutExpressionsJson(),
+                makeObjectComponentBindingWithoutExpressions()
+            )
         }
     }
 

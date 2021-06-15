@@ -17,19 +17,22 @@
 package br.com.zup.beagle.android.data.serializer.actions
 
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.action.Alert
 import br.com.zup.beagle.android.action.RequestActionMethod
 import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.data.serializer.BaseSerializerTest
+import br.com.zup.beagle.android.data.serializer.makeActionAlertJson
+import br.com.zup.beagle.android.data.serializer.makeActionAlertObject
 import org.json.JSONObject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a Moshi Adapter")
-class SendRequestSerializationTest : BaseActionSerializationTest() {
+@DisplayName("Given a SendRequest Action")
+class SendRequestSerializerTest : BaseSerializerTest<Action>(Action::class.java) {
+
     @DisplayName("When try to deserialize json SendRequest")
     @Nested
     inner class DeserializeJsonSendRequestTest {
@@ -42,7 +45,7 @@ class SendRequestSerializationTest : BaseActionSerializationTest() {
             val json = makeSendRequestJson()
 
             // When
-            val actual = moshi.adapter(Action::class.java).fromJson(json) as SendRequest
+            val actual = deserialize(json) as SendRequest
 
             // Then
             Assertions.assertNotNull(actual)
@@ -66,7 +69,7 @@ class SendRequestSerializationTest : BaseActionSerializationTest() {
             val json = makeSendRequestWithoutExpressionJson()
 
             // When
-            val actual = moshi.adapter(Action::class.java).fromJson(json) as SendRequest
+            val actual = deserialize(json) as SendRequest
 
             // Then
             Assertions.assertNotNull(actual)
@@ -91,33 +94,13 @@ class SendRequestSerializationTest : BaseActionSerializationTest() {
         @DisplayName("Then should return correct json")
         @Test
         fun testSerializeJsonSendRequest() {
-            // Given
-            val expectedJson = makeSendRequestJson().replace("\\s".toRegex(), "")
-            val action = makeObjectSendRequest()
-
-            // When
-            val actual = moshi.adapter(Action::class.java).toJson(action)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(makeSendRequestJson(), makeObjectSendRequest())
         }
 
         @DisplayName("Then should return correct json without expression")
         @Test
         fun testSerializeJsonSendRequestWithoutExpression() {
-            // Given
-            val expectedJson = makeSendRequestWithoutExpressionJson().replace("\\s".toRegex(), "")
-            val action = makeObjectSendRequestWithoutExpression()
-
-            // When
-            val actual = moshi.adapter(Action::class.java).toJson(action)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(makeSendRequestWithoutExpressionJson(), makeObjectSendRequestWithoutExpression())
         }
     }
 
@@ -131,9 +114,9 @@ class SendRequestSerializationTest : BaseActionSerializationTest() {
             "a": true,
             "b": "a"
         },
-        "onSuccess":[${makeAlertActionJson()}],
-        "onError":[${makeAlertActionJson()}],
-        "onFinish":[${makeAlertActionJson()}]
+        "onSuccess":[${makeActionAlertJson()}],
+        "onError":[${makeActionAlertJson()}],
+        "onFinish":[${makeActionAlertJson()}]
     }
 """
 
@@ -147,24 +130,9 @@ class SendRequestSerializationTest : BaseActionSerializationTest() {
             "a": true,
             "b": "a"
         },
-        "onSuccess":[${makeAlertActionJson()}],
-        "onError":[${makeAlertActionJson()}],
-        "onFinish":[${makeAlertActionJson()}]
-    }
-"""
-
-    private fun makeAlertActionJson() = """
-    {
-        "_beagleAction_": "beagle:alert",
-        "title": "A title",
-        "message": "A message",
-        "onPressOk": {
-             "_beagleAction_": "beagle:alert",
-             "title": "Another title",
-             "message": "Another message",
-             "labelOk": "Ok"
-        },
-        "labelOk": "Ok"
+        "onSuccess":[${makeActionAlertJson()}],
+        "onError":[${makeActionAlertJson()}],
+        "onFinish":[${makeActionAlertJson()}]
     }
 """
 
@@ -175,15 +143,9 @@ class SendRequestSerializationTest : BaseActionSerializationTest() {
         data = JSONObject()
             .put("a", true)
             .put("b", "a"),
-        onSuccess = listOf(
-            makeObjectAlert()
-        ),
-        onError = listOf(
-            makeObjectAlert()
-        ),
-        onFinish = listOf(
-            makeObjectAlert()
-        )
+        onSuccess = listOf(makeActionAlertObject()),
+        onError = listOf(makeActionAlertObject()),
+        onFinish = listOf(makeActionAlertObject())
     )
 
     private fun makeObjectSendRequestWithoutExpression() = SendRequest(
@@ -193,25 +155,8 @@ class SendRequestSerializationTest : BaseActionSerializationTest() {
         data = JSONObject()
             .put("a", true)
             .put("b", "a"),
-        onSuccess = listOf(
-            makeObjectAlert()
-        ),
-        onError = listOf(
-            makeObjectAlert()
-        ),
-        onFinish = listOf(
-            makeObjectAlert()
-        )
-    )
-
-    private fun makeObjectAlert() = Alert(
-        title = "A title",
-        message = "A message",
-        onPressOk = Alert(
-            title = "Another title",
-            message = "Another message",
-            labelOk = "Ok"
-        ),
-        labelOk = "Ok"
+        onSuccess = listOf(makeActionAlertObject()),
+        onError = listOf(makeActionAlertObject()),
+        onFinish = listOf(makeActionAlertObject())
     )
 }

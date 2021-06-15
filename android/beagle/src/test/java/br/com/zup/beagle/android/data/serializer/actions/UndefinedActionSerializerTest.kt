@@ -18,13 +18,15 @@ package br.com.zup.beagle.android.data.serializer.actions
 
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.UndefinedAction
+import br.com.zup.beagle.android.data.serializer.BaseSerializerTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a Moshi Adapter")
-class UndefinedActionSerializationTest : BaseActionSerializationTest() {
+@DisplayName("Given an UndefinedAction")
+class UndefinedActionSerializerTest : BaseSerializerTest<Action>(Action::class.java) {
+
     @DisplayName("When try to deserialize json UndefinedAction")
     @Nested
     inner class DeserializeJsonUndefinedActionTest {
@@ -36,7 +38,7 @@ class UndefinedActionSerializationTest : BaseActionSerializationTest() {
             val json = makeUndefinedActionJson()
 
             // When
-            val actual = moshi.adapter(Action::class.java).fromJson(json)
+            val actual = deserialize(json)
 
             // Then
             Assertions.assertNotNull(actual)
@@ -50,7 +52,7 @@ class UndefinedActionSerializationTest : BaseActionSerializationTest() {
             val json = makeUndefinedActionWithNonRegisteredActionJson()
 
             // When
-            val actual = moshi.adapter(Action::class.java).fromJson(json)
+            val actual = deserialize(json)
 
             // Then
             Assertions.assertNotNull(actual)
@@ -66,17 +68,7 @@ class UndefinedActionSerializationTest : BaseActionSerializationTest() {
         @DisplayName("Then should return correct json")
         @Test
         fun testSerializeJsonUndefinedAction() {
-            // Given
-            val expectedJson = makeUndefinedActionJson().replace("\\s".toRegex(), "")
-            val action = makeObjectUndefinedAction()
-
-            // When
-            val actual = moshi.adapter(Action::class.java).toJson(action)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(makeUndefinedActionJson(), makeObjectUndefinedAction())
         }
 
     }

@@ -18,58 +18,50 @@ package br.com.zup.beagle.android.data.serializer.actions
 
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.data.serializer.BaseSerializerTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a Moshi Adapter")
-class PopStackSerializationTest : BaseActionSerializationTest() {
-    @DisplayName("When try to deserialize json PopStack")
+@DisplayName("Given a PopView Action")
+class PopViewSerializerTest : BaseSerializerTest<Action>(Action::class.java) {
+
+    @DisplayName("When try to deserialize json PopView")
     @Nested
-    inner class DeserializeJsonPopStackTest {
+    inner class DeserializeJsonPopViewTest {
 
         @DisplayName("Then should return correct object")
         @Test
-        fun testDeserializeJsonPopStack() {
+        fun testDeserializeJsonPopView() {
             // Given
-            val json = makePopStackJson()
+            val json = makePopViewJson()
 
             // When
-            val actual = moshi.adapter(Action::class.java).fromJson(json)
+            val actual = deserialize(json)
 
             // Then
             Assertions.assertNotNull(actual)
-            Assertions.assertTrue(actual is Navigate.PopStack)
+            Assertions.assertTrue(actual is Navigate.PopView)
         }
     }
 
-    @DisplayName("When try serialize object PopStack")
+    @DisplayName("When try serialize object PopView")
     @Nested
-    inner class SerializeObjectPopStackTest {
+    inner class SerializeObjectPopViewTest {
 
         @DisplayName("Then should return correct json")
         @Test
-        fun testSerializeJsonPopStack() {
-            // Given
-            val expectedJson = makePopStackJson().replace("\\s".toRegex(), "")
-            val action = makeObjectPopStack()
-
-            // When
-            val actual = moshi.adapter(Action::class.java).toJson(action)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+        fun testSerializeJsonPopView() {
+            testSerializeObject(makePopViewJson(), makeObjectPopView())
         }
     }
 
-    private fun makePopStackJson() = """
+    private fun makePopViewJson() = """
     {
-        "_beagleAction_": "beagle:popstack"
+        "_beagleAction_": "beagle:popview"
     }
 """
 
-    private fun makeObjectPopStack() = Navigate.PopStack()
+    private fun makeObjectPopView() = Navigate.PopView()
 }

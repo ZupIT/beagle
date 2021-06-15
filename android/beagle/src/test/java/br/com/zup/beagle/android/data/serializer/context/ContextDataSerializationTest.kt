@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.data.serializer.context
 
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.data.serializer.BaseSerializerTest
 import br.com.zup.beagle.android.testutil.RandomData
 import org.json.JSONArray
 import org.json.JSONObject
@@ -26,7 +27,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given a Moshi Adapter")
-class ContextDataSerializationTest : BaseContextSerializationTest() {
+class ContextDataSerializationTest : BaseSerializerTest<ContextData>(ContextData::class.java) {
 
     @DisplayName("When try to deserialize json ContextData")
     @Nested
@@ -40,7 +41,7 @@ class ContextDataSerializationTest : BaseContextSerializationTest() {
             val contextDataJson = makeContextWithJsonObjectJson()
 
             // When
-            val contextData = moshi.adapter(ContextData::class.java).fromJson(contextDataJson)!!
+            val contextData = deserialize(contextDataJson)!!
 
             // Then
             Assertions.assertNotNull(contextData)
@@ -61,7 +62,7 @@ class ContextDataSerializationTest : BaseContextSerializationTest() {
             val contextDataJson = makeContextWithJsonArrayJson()
 
             // When
-            val contextData = moshi.adapter(ContextData::class.java).fromJson(contextDataJson)!!
+            val contextData = deserialize(contextDataJson)!!
 
             // Then
             Assertions.assertNotNull(contextData)
@@ -75,16 +76,10 @@ class ContextDataSerializationTest : BaseContextSerializationTest() {
         @DisplayName("Then should return correct object with primitive value")
         @Test
         fun testDeserializeJsonContextDataWithPrimitiveValue() {
-            // Given
-            val expectedContextData = makeObjectContextWithPrimitiveValue()
-            val contextDataJson = makeContextWithPrimitiveValueJson()
-
-            // When
-            val contextData = moshi.adapter(ContextData::class.java).fromJson(contextDataJson)!!
-
-            // Then
-            Assertions.assertNotNull(contextData)
-            Assertions.assertEquals(expectedContextData, contextData)
+            testDeserializeJson(
+                makeContextWithPrimitiveValueJson(),
+                makeObjectContextWithPrimitiveValue()
+            )
         }
 
         @DisplayName("Then should return correct object with integer value")
@@ -92,15 +87,11 @@ class ContextDataSerializationTest : BaseContextSerializationTest() {
         fun testDeserializeJsonContextDataWithIntegerValue() {
             // Given
             val testInt = 1
-            val expectedContextData = makeObjectContextWithNumber(testInt)
-            val contextDataJson = makeContextWithNumberJson(testInt)
 
-            // When
-            val contextData = moshi.adapter(ContextData::class.java).fromJson(contextDataJson)!!
-
-            // Then
-            Assertions.assertNotNull(contextData)
-            Assertions.assertEquals(expectedContextData, contextData)
+            testDeserializeJson(
+                makeContextWithNumberJson(testInt),
+                makeObjectContextWithNumber(testInt)
+            )
         }
 
         @DisplayName("Then should return correct object with double value")
@@ -108,15 +99,11 @@ class ContextDataSerializationTest : BaseContextSerializationTest() {
         fun testDeserializeJsonContextDataWithDoubleValue() {
             // Given
             val testDouble = 1.5
-            val expectedContextData = makeObjectContextWithNumber(testDouble)
-            val contextDataJson = makeContextWithNumberJson(testDouble)
 
-            // When
-            val contextData = moshi.adapter(ContextData::class.java).fromJson(contextDataJson)!!
-
-            // Then
-            Assertions.assertNotNull(contextData)
-            Assertions.assertEquals(expectedContextData, contextData)
+            testDeserializeJson(
+                makeContextWithNumberJson(testDouble),
+                makeObjectContextWithNumber(testDouble)
+            )
         }
     }
 
@@ -126,49 +113,28 @@ class ContextDataSerializationTest : BaseContextSerializationTest() {
         @DisplayName("Then should return correct json with JSONObject")
         @Test
         fun testSerializeJsonContextDataWithJsonObject() {
-            // Given
-            val expectedJson = makeContextWithJsonObjectJson().replace("\\s".toRegex(), "")
-            val contextData = makeObjectContextWithJsonObject()
-
-            // When
-            val actual = moshi.adapter(ContextData::class.java).toJson(contextData)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(
+                makeContextWithJsonObjectJson(),
+                makeObjectContextWithJsonObject()
+            )
         }
 
         @DisplayName("Then should return correct json with JSONArray")
         @Test
         fun testSerializeJsonContextDataWithJsonArray() {
-            // Given
-            val expectedJson = makeContextWithJsonArrayJson().replace("\\s".toRegex(), "")
-            val contextData = makeObjectContextWithJsonArray()
-
-            // When
-            val actual = moshi.adapter(ContextData::class.java).toJson(contextData)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(
+                makeContextWithJsonArrayJson(),
+                makeObjectContextWithJsonArray()
+            )
         }
 
         @DisplayName("Then should return correct json with primitive value")
         @Test
         fun testSerializeJsonContextDataWithPrimitiveValue() {
-            // Given
-            val expectedJson = makeContextWithPrimitiveValueJson().replace("\\s".toRegex(), "")
-            val contextData = makeObjectContextWithPrimitiveValue()
-
-            // When
-            val actual = moshi.adapter(ContextData::class.java).toJson(contextData)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(
+                makeContextWithPrimitiveValueJson(),
+                makeObjectContextWithPrimitiveValue()
+            )
         }
 
         @DisplayName("Then should return correct json with integer value")
@@ -176,16 +142,10 @@ class ContextDataSerializationTest : BaseContextSerializationTest() {
         fun testSerializeJsonContextDataWithIntegerValue() {
             // Given
             val testInt = 1
-            val expectedJson = makeContextWithNumberJson(testInt).replace("\\s".toRegex(), "")
-            val contextData = makeObjectContextWithNumber(testInt)
-
-            // When
-            val actual = moshi.adapter(ContextData::class.java).toJson(contextData)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(
+                makeContextWithNumberJson(testInt),
+                makeObjectContextWithNumber(testInt)
+            )
         }
 
         @DisplayName("Then should return correct json with double value")
@@ -193,16 +153,10 @@ class ContextDataSerializationTest : BaseContextSerializationTest() {
         fun testSerializeJsonContextDataWithDoubleValue() {
             // Given
             val testDouble = 1.5
-            val expectedJson = makeContextWithNumberJson(testDouble).replace("\\s".toRegex(), "")
-            val contextData = makeObjectContextWithNumber(testDouble)
-
-            // When
-            val actual = moshi.adapter(ContextData::class.java).toJson(contextData)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(
+                makeContextWithNumberJson(testDouble),
+                makeObjectContextWithNumber(testDouble)
+            )
         }
     }
 
@@ -220,8 +174,8 @@ class ContextDataSerializationTest : BaseContextSerializationTest() {
             )
 
             // When
-            val toJson = moshi.adapter(ContextData::class.java).toJson(contextData)
-            val fromJson = moshi.adapter(ContextData::class.java).fromJson(toJson)
+            val toJson = serialize(contextData)
+            val fromJson = deserialize(toJson)
 
             // Then
             Assertions.assertEquals(contextData, fromJson)
@@ -229,7 +183,7 @@ class ContextDataSerializationTest : BaseContextSerializationTest() {
 
         @DisplayName("Then should return a ContextData with correct integer value")
         @Test
-        fun serializeAndSeserializeContextDataWithIntegerTest() {
+        fun serializeAndDeserializeContextDataWithIntegerTest() {
             // Given
             val contextData = ContextData(
                 id = RandomData.string(),
@@ -237,8 +191,8 @@ class ContextDataSerializationTest : BaseContextSerializationTest() {
             )
 
             // When
-            val toJson = moshi.adapter(ContextData::class.java).toJson(contextData)
-            val fromJson = moshi.adapter(ContextData::class.java).fromJson(toJson)
+            val toJson = serialize(contextData)
+            val fromJson = deserialize(toJson)
 
             // Then
             Assertions.assertEquals(contextData, fromJson)

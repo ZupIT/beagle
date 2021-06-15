@@ -104,6 +104,7 @@ dependencies {
 
     testImplementation Dependencies.TestLibraries.junitApi
     testImplementation Dependencies.TestLibraries.junitEngine
+    testImplementation Dependencies.TestLibraries.junitParams
     testImplementation Dependencies.TestLibraries.junit4
     testImplementation Dependencies.TestLibraries.junitVintageEngine
 

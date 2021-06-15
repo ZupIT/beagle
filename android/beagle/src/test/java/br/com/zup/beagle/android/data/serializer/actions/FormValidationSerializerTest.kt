@@ -19,13 +19,15 @@ package br.com.zup.beagle.android.data.serializer.actions
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FieldError
 import br.com.zup.beagle.android.action.FormValidation
+import br.com.zup.beagle.android.data.serializer.BaseSerializerTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a Moshi Adapter")
-class FormValidationSerializationTest : BaseActionSerializationTest() {
+@DisplayName("Given a FormValidation Action")
+class FormValidationSerializerTest : BaseSerializerTest<Action>(Action::class.java) {
+
     @DisplayName("When try to deserialize json FormValidation")
     @Nested
     inner class DeserializeJsonFormValidationTest {
@@ -38,7 +40,7 @@ class FormValidationSerializationTest : BaseActionSerializationTest() {
             val json = makeFormValidationJson()
 
             // When
-            val actual = moshi.adapter(FormValidation::class.java).fromJson(json)!!
+            val actual = deserialize(json) as FormValidation
 
             // Then
             Assertions.assertNotNull(actual)
@@ -54,17 +56,7 @@ class FormValidationSerializationTest : BaseActionSerializationTest() {
         @DisplayName("Then should return correct json")
         @Test
         fun testSerializeJsonFormValidation() {
-            // Given
-            val expectedJson = makeFormValidationJson().replace("\\s".toRegex(), "")
-            val action = makeObjectFormValidation()
-
-            // When
-            val actual = moshi.adapter(Action::class.java).toJson(action)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(makeFormValidationJson(), makeObjectFormValidation())
         }
     }
 

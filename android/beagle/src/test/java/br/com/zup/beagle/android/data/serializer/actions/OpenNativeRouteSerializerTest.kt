@@ -19,13 +19,15 @@ package br.com.zup.beagle.android.data.serializer.actions
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.data.serializer.BaseSerializerTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("Given a Moshi Adapter")
-class OpenNativeRouteSerializationTest : BaseActionSerializationTest() {
+@DisplayName("Given an OpenNativeRoute Action")
+class OpenNativeRouteSerializerTest : BaseSerializerTest<Action>(Action::class.java) {
+
     @DisplayName("When try to deserialize json OpenNativeRoute")
     @Nested
     inner class DeserializeJsonOpenNativeRouteTest {
@@ -38,7 +40,7 @@ class OpenNativeRouteSerializationTest : BaseActionSerializationTest() {
             val json = makeOpenNativeRouteJson()
 
             // When
-            val actual = moshi.adapter(Action::class.java).fromJson(json) as Navigate.OpenNativeRoute
+            val actual = deserialize(json) as Navigate.OpenNativeRoute
 
             // Then
             Assertions.assertNotNull(actual)
@@ -55,7 +57,7 @@ class OpenNativeRouteSerializationTest : BaseActionSerializationTest() {
             val json = makeOpenNativeRouteJsonWithExpression()
 
             // When
-            val actual = moshi.adapter(Action::class.java).fromJson(json) as Navigate.OpenNativeRoute
+            val actual = deserialize(json) as Navigate.OpenNativeRoute
 
             // Then
             Assertions.assertNotNull(actual)
@@ -72,33 +74,16 @@ class OpenNativeRouteSerializationTest : BaseActionSerializationTest() {
         @DisplayName("Then should return correct json")
         @Test
         fun testSerializeJsonOpenNativeRoute() {
-            // Given
-            val expectedJson = makeOpenNativeRouteJson().replace("\\s".toRegex(), "")
-            val action = makeObjectOpenNativeRoute()
-
-            // When
-            val actual = moshi.adapter(Action::class.java).toJson(action)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(makeOpenNativeRouteJson(), makeObjectOpenNativeRoute())
         }
 
         @DisplayName("Then should return correct json with expression")
         @Test
         fun testSerializeJsonOpenNativeRouteWithExpression() {
-            // Given
-            val expectedJson = makeOpenNativeRouteJsonWithExpression().replace("\\s".toRegex(), "")
-            val action = makeObjectOpenNativeRouteWithExpression()
-
-            // When
-            val actual = moshi.adapter(Action::class.java).toJson(action)
-            val actualJson = actual.replace("\\s".toRegex(), "")
-
-            // Then
-            Assertions.assertNotNull(actual)
-            Assertions.assertEquals(expectedJson, actualJson)
+            testSerializeObject(
+                makeOpenNativeRouteJsonWithExpression(),
+                makeObjectOpenNativeRouteWithExpression()
+            )
         }
     }
 
