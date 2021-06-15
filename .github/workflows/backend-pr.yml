@@ -51,6 +51,12 @@ jobs:
                     path: ${{ env.gradle-path }}
                     key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
                     restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
+            -   uses: actions/setup-java@v2
+                with:
+                    distribution: 'adopt'
+                    java-version: '11'
+                    check-latest: true
+            -   run: "echo $JAVA_HOME"
             -   name: Run pr check
                 env:
                     GITHUB_USER: ${{ env.BEAGLE_CORE_GITHUB_GITHUB_USER }}
