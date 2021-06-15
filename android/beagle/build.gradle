@@ -21,6 +21,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'de.mannodermaus.android-junit5'
 apply plugin: 'kotlin-parcelize'
+apply plugin: "org.jetbrains.dokka"
+apply from: "$rootDir/jacoco-android.gradle"
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
@@ -39,9 +41,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            testCoverageEnabled true
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -78,7 +77,6 @@ dependencies {
     implementation Dependencies.AndroidxLibraries.viewModel
     implementation Dependencies.AndroidxLibraries.viewModelExtensions
 
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
     api project(Dependencies.Modules.androidAnnotation)
@@ -108,20 +106,9 @@ dependencies {
 
     testImplementation Dependencies.TestLibraries.testRunner
     testImplementation Dependencies.TestLibraries.testExt
-    testImplementation Dependencies.TestLibraries.espressoCore
     testImplementation Dependencies.TestLibraries.testCore
     testImplementation Dependencies.TestLibraries.testRules
     testImplementation Dependencies.TestLibraries.robolectric
 }
 
 apply from: new File('./../../maven-publish.gradle')
-
-/**
- *  https://github.com/cotechde/dokka-hugo-plugin
- *  To run this task by ./gradlew dokkaHugo
- */
-task dokkaHugo(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    dependencies {
-        dokkaHugoPlugin 'com.github.cotechde:dokka-hugo-plugin:master-SNAPSHOT'
-    }
-}

@@ -24,30 +24,30 @@ class BeagleLoggerProxyTests: XCTestCase {
 
     func testLog_WhenLogEnableIsFalse() {
 
-        //Given
+        // Given
         let spy = BeagleLoggerSpy()
         let sut = BeagleLoggerProxy(logger: spy, dependencies: dependencies)
 
-        //When
+        // When
         dependencies.isLoggingEnabled = false
         Beagle.dependencies = dependencies
-        sut.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
+        sut.log(Log.navigation(.routeDoesNotExistInTheCurrentStack(path: "route")))
 
-        //Then
+        // Then
         XCTAssert(spy.didCalledLog == false)
     }
 
     func testLog_WhenLogEnableIsTrue() {
 
-        //Given
+        // Given
         let spy = BeagleLoggerSpy()
         let sut = BeagleLoggerProxy(logger: spy, dependencies: dependencies)
 
-        //When
+        // When
         dependencies.isLoggingEnabled = true
-        sut.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
+        sut.log(Log.navigation(.routeDoesNotExistInTheCurrentStack(path: "route")))
 
-        //Then
+        // Then
         XCTAssert(spy.didCalledLog)
     }
 

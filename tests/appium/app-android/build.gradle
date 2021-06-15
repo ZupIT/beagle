@@ -22,25 +22,24 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
-        classpath "com.karumi:shot:4.3.0"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.4.20"
-        classpath "com.vanniktech:gradle-maven-publish-plugin:0.13.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10"
+        classpath "com.vanniktech:gradle-maven-publish-plugin:0.15.1"
         classpath "de.mannodermaus.gradle.plugins:android-junit5:1.6.2.0"
     }
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.14.1"
-    id "com.github.ben-manes.versions" version "0.33.0"
+    id "io.gitlab.arturbosch.detekt" version "1.17.1"
+    id "com.github.ben-manes.versions" version "0.39.0"
     id "br.com.zup.beagle.dependencies"
+    id "org.jetbrains.dokka" version "1.4.32"
 }
 
 allprojects {
     apply from: "$rootDir/../../../detekt.gradle"
 
     apply plugin: "br.com.zup.beagle.dependencies"
+    apply plugin: "org.jetbrains.dokka"
 
     repositories {
         google()

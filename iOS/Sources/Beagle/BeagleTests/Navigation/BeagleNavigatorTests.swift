@@ -161,6 +161,21 @@ final class BeagleNavigatorTests: XCTestCase {
         // Then
         XCTAssert(navigation.viewControllers.count == 2)
     }
+    
+    func test_popViewWithOneViewInStack_shouldPopTheStack() {
+        // Given
+        let sut = BeagleNavigator()
+        let action = Navigate.popView()
+        let navigationSpy = BeagleControllerNavigationSpy()
+        let navigation = BeagleNavigationController()
+        navigation.viewControllers = [navigationSpy]
+
+        // When
+        sut.navigate(action: action, controller: navigationSpy, origin: nil)
+
+        // Then
+        XCTAssert(navigationSpy.dismissViewControllerCalled)
+    }
 
     func test_popToView_shouldNotNavigateWhenScreenIsNotFound() {
         

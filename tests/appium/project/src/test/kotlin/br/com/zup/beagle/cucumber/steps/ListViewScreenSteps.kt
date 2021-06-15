@@ -182,7 +182,6 @@ class ListViewScreenSteps : AbstractStep() {
         }
     }
 
-    // TODO: keep this method?
     fun isListViewHorizontal(listViewId: String): Boolean {
         val listViewElement = getListViewElement(listViewId)
         return when (listViewId) {
@@ -193,7 +192,6 @@ class ListViewScreenSteps : AbstractStep() {
         }
     }
 
-    // TODO: keep this method?
     /**
      * Tells if a list is horizontal by first comparing its elements' y position. When there's only one element showing,
      * then scrolls horizontally to compare with more elements
@@ -633,7 +631,8 @@ class ListViewScreenSteps : AbstractStep() {
             when {
                 elementTextTemp.startsWith("Author:", ignoreCase = true) -> authorTemp = elementTextTemp
                 elementTextTemp.startsWith("Collection:", ignoreCase = true) -> collectionTemp = elementTextTemp
-                elementTextTemp.startsWith("Book Number:", ignoreCase = true) -> bookNumberTemp = elementTextTemp.removeSuffix(".0")
+                elementTextTemp.startsWith("Book Number:", ignoreCase = true) -> bookNumberTemp =
+                    elementTextTemp.removeSuffix(".0")
                 elementTextTemp.startsWith("Genre:", ignoreCase = true) -> genreTemp = elementTextTemp
                 elementTextTemp.startsWith("Rating:", ignoreCase = true) -> {
                     ratingTemp = elementTextTemp
@@ -749,26 +748,6 @@ class ListViewScreenSteps : AbstractStep() {
         return waitForChildElementToBePresent(listViewOfTypeBElement, lastChildOfListViewLocator)
 
     }
-
-//    /**
-//     * Locates the first child element of a list view. The child element refers only to a element showing
-//     * on the screen. The first element of a horizontal list will be the one most to the left, and the
-//     * last on a vertical list will be the one most to the top of the list.
-//     */
-//    private fun getFirstChildOfListView(listViewElement: MobileElement): MobileElement {
-//
-//        var lastChildOfListViewLocator: By?
-//
-//        if (SuiteSetup.isIos()) {
-//            lastChildOfListViewLocator =
-//                By.xpath("(.//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther])[1]")
-//        } else {
-//            lastChildOfListViewLocator = By.xpath("(.//android.view.ViewGroup[.//android.view.ViewGroup])[1]")
-//        }
-//
-//        return waitForChildElementToBePresent(listViewElement, lastChildOfListViewLocator)
-//
-//    }
 
 }
 
