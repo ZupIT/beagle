@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.mockdata
 
+import br.com.zup.beagle.android.data.serializer.makeButtonJson
 import br.com.zup.beagle.android.networking.HttpAdditionalData
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
@@ -36,10 +37,3 @@ fun makeRequestData() = RequestData(
         body = makeButtonJson()
     )
 )
-
-fun makeButtonJson() = """
-    {
-        "_beagleComponent_": "beagle:button",
-        "text": "Test"
-    }
-"""
