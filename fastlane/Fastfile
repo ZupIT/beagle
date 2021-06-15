@@ -314,8 +314,13 @@ end
 desc "Publishing Sonarcloud reports via gradle"
 private_lane :publish_sonarcloud_gradle do |params|
    projectDir = params[:projectDir]
-   sh "echo 'Using projectDir=#projectDir'"
-   sh "echo 'JAVA_HOME=$JAVA_HOME_11_X64' >> $GITHUB_ENV"
-   sh "echo '$JAVA_HOME'"
-   gradle(project_dir: "#projectDir", task: "sonarqube")
+   puts "Using projectDir #{projectDir}"
+
+   ENV["JAVA_HOME"] = ENV["JAVA_HOME_11_X64"]
+   puts ENV["JAVA_HOME"]
+   gradle(project_dir: projectDir, task: "sonarqube")
+
+   ENV["JAVA_HOME"] = ENV["JAVA_HOME_8_X64"]
+   puts ENV["JAVA_HOME"]
+
 end
