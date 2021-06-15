@@ -312,7 +312,7 @@ lane :lastExpectedVersion do |params|
 end
 
 desc "Publishing Sonarcloud reports via gradle"
-private_lane :publish_sonarcloud_gradle do  do |params|
+private_lane :publish_sonarcloud_gradle do |params|
    projectDir = params[:projectDir]
    sh "echo 'Using projectDir=#projectDir'"
    sh "echo 'JAVA_HOME=$JAVA_HOME_11_X64' >> $GITHUB_ENV"
