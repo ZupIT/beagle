@@ -316,11 +316,10 @@ private_lane :publish_sonarcloud_gradle do |params|
    projectDir = params[:projectDir]
    puts "Using projectDir #{projectDir}"
 
+   # Setup java 11
    ENV["JAVA_HOME"] = ENV["JAVA_HOME_11_X64"]
-   puts ENV["JAVA_HOME"]
+
    gradle(project_dir: projectDir, task: "sonarqube")
-
+   # Rollback to java 8
    ENV["JAVA_HOME"] = ENV["JAVA_HOME_8_X64"]
-   puts ENV["JAVA_HOME"]
-
 end
