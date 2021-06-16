@@ -36,6 +36,7 @@ plugins {
     id "com.github.ben-manes.versions" version "0.39.0"
     id "br.com.zup.beagle.dependencies"
     id "org.jetbrains.dokka" version "1.4.32"
+    id "org.sonarqube" version "3.2.0"
 }
 
 allprojects {
@@ -55,6 +56,23 @@ allprojects {
             def requested = details.requested
             if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-reflect') {
                 details.useVersion Dependencies.Versions.kotlin
+            }
+        }
+    }
+
+    afterEvaluate {
+
+        sonarqube {
+            properties {
+                property "sonar.projectKey", "ZupIT_beagle_android"
+                property "sonar.projectName", "ZupIT_beagle_android"
+                property "sonar.organization", "t64zgssdey"
+                property "sonar.host.url", "https://sonarcloud.io"
+                property "sonar.exclusions", "sample/**, test/**"
+                property "detekt.sonar.kotlin.config.path", "$rootDir/../config/detekt-default-config.yml"
+                property "sonar.java.coveragePlugin", "jacoco"
+                property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml"
+                property "sonar.jacoco.reportPaths", "build/jacoco/testDebugUnitTest.exec,build/jacoco/test.exec"
             }
         }
     }
