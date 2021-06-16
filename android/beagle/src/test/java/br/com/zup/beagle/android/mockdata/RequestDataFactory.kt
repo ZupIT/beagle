@@ -22,7 +22,6 @@ import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.testutil.RandomData
-import java.net.URI
 
 fun makeResponseData() = ResponseData(
     statusCode = RandomData.int(),
@@ -33,7 +32,7 @@ fun makeResponseData() = ResponseData(
 fun makeRequestData() = RequestData(
     url = RandomData.string(),
     httpAdditionalData = HttpAdditionalData(
-        method =  HttpMethod.GET,
+        method = HttpMethod.GET,
         headers = mapOf("Authorization" to RandomData.string()),
         body = makeButtonJson()
     )
