@@ -87,6 +87,7 @@ import br.com.zup.beagle.sample.spring.service.SampleWebViewService
 import br.com.zup.beagle.sample.spring.service.TextInputService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import kotlin.random.Random
 
 @RestController
 class ScreenController(
@@ -128,8 +129,17 @@ class ScreenController(
     @GetMapping(SCREEN_BUILDER_ENDPOINT)
     fun getScreenBuilder() = this.sampleScreenBuilderService.createScreenBuilder()
 
+    private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+    private fun randomString() = (1..15)
+    .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
+    .map(charPool::get)
+    .joinToString("");
     @GetMapping(SCREEN_COMPONENTS_ENDPOINT)
-    fun getSampleComponents() = this.sampleComponentsService.getCreateSampleComponentsView()
+    fun getSampleComponents() = kotlin.run {
+        Thread.sleep(3000)
+        (1..10).map { randomString() }
+        //String.format("#%06x", Random.nextInt(0xFFFFFF))
+    }//this.sampleComponentsService.getCreateSampleComponentsView()
 
     @GetMapping(SCREEN_BUTTON_ENDPOINT)
     fun getSampleButtonView() = this.sampleButtonService.createButtonView()

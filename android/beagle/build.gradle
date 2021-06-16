@@ -74,6 +74,7 @@ dependencies {
     implementation Dependencies.AndroidxLibraries.appcompat
     implementation Dependencies.AndroidxLibraries.coreKtx
     implementation Dependencies.AndroidxLibraries.recyclerView
+    implementation Dependencies.AndroidxLibraries.swipeRefreshLayout
     implementation Dependencies.AndroidxLibraries.viewModel
     implementation Dependencies.AndroidxLibraries.viewModelExtensions
 

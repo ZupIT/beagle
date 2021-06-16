@@ -28,6 +28,7 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.BeagleRecyclerView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
@@ -103,4 +104,6 @@ internal class ViewFactory {
 
     fun makeBeagleRecyclerViewScrollIndicatorVertical(context: Context) =
         BeagleRecyclerView(ContextThemeWrapper(context, R.style.Beagle_Widget_ScrollIndicatorVertical))
+
+    fun makeSwipeRefreshLayout(context: Context) = SwipeRefreshLayout(context)
 }
