@@ -74,6 +74,6 @@ class NavigateScreenSteps : AbstractStep() {
 
     @Then("^There must be a retry button with text (.*)$")
     fun checkButtonExistsInAView(string2: String) {
-        waitForElementWithTextToBeClickable(string2, false, false)
+        waitForElementWithTextToBeClickable(string2, false, true)
     }
 }
