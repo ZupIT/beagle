@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given a PageView")
-class PageViewSerializerTest : BaseSerializerTest<ServerDrivenComponent>(ServerDrivenComponent::class.java) {
+class PageViewSerializerTest : BaseServerDrivenComponentSerializerTest() {
 
     @DisplayName("When try to deserialize json")
     @Nested

@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given an UndefinedAction")
-class UndefinedActionSerializerTest : BaseSerializerTest<Action>(Action::class.java) {
+class UndefinedActionSerializerTest : BaseActionSerializerTest() {
 
     @DisplayName("When try to deserialize json UndefinedAction")
     @Nested

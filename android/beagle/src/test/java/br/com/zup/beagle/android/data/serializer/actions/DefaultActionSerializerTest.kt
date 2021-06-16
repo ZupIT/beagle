@@ -79,7 +79,7 @@ private val ACTIONS = listOf(
 )
 
 @DisplayName("Given an Action")
-class ActionDefaultSerializerTest : DefaultSerializerTest<Action>(Action::class.java) {
+class DefaultActionSerializerTest : DefaultSerializerTest<Action>(Action::class.java) {
 
     @BeforeAll
     override fun setUp() {

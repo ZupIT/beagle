@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given a PopView Action")
-class PopViewSerializerTest : BaseSerializerTest<Action>(Action::class.java) {
+class PopViewSerializerTest : BaseActionSerializerTest() {
 
     @DisplayName("When try to deserialize json PopView")
     @Nested

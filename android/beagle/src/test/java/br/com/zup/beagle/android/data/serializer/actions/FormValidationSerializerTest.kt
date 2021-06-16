@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given a FormValidation Action")
-class FormValidationSerializerTest : BaseSerializerTest<Action>(Action::class.java) {
+class FormValidationSerializerTest : BaseActionSerializerTest() {
 
     @DisplayName("When try to deserialize json FormValidation")
     @Nested

@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given an OpenNativeRoute Action")
-class OpenNativeRouteSerializerTest : BaseSerializerTest<Action>(Action::class.java) {
+class OpenNativeRouteSerializerTest : BaseActionSerializerTest() {
 
     @DisplayName("When try to deserialize json OpenNativeRoute")
     @Nested

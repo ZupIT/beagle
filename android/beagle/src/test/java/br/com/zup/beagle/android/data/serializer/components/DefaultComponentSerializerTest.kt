@@ -80,7 +80,7 @@ private val WIDGETS = listOf(
 
 @DisplayName("Given a ServerDrivenComponent")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ComponentDefaultSerializerTest : DefaultSerializerTest<ServerDrivenComponent>(ServerDrivenComponent::class.java) {
+class DefaultComponentSerializerTest : DefaultSerializerTest<ServerDrivenComponent>(ServerDrivenComponent::class.java) {
 
     @BeforeAll
     override fun setUp() {

@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given a PopStack Action")
-class PopStackSerializerTest : BaseSerializerTest<Action>(Action::class.java) {
+class PopStackSerializerTest : BaseActionSerializerTest() {
 
     @DisplayName("When try to deserialize json PopStack")
     @Nested

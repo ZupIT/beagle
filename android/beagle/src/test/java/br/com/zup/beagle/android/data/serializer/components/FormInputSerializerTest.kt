@@ -17,11 +17,9 @@
 package br.com.zup.beagle.android.data.serializer.components
 
 import br.com.zup.beagle.android.components.form.FormInput
-import br.com.zup.beagle.android.data.serializer.BaseSerializerTest
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
 import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -35,7 +33,7 @@ private val WIDGETS = listOf(
 )
 
 @DisplayName("Given a FormInput")
-class FormInputSerializerTest : BaseSerializerTest<ServerDrivenComponent>(ServerDrivenComponent::class.java) {
+class FormInputSerializerTest : BaseServerDrivenComponentSerializerTest() {
 
     @BeforeEach
     override fun setUp() {

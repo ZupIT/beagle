@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given a SubmitForm Action")
-class SubmitFormSerializerTest : BaseSerializerTest<Action>(Action::class.java) {
+class SubmitFormSerializerTest : BaseActionSerializerTest() {
 
     @DisplayName("When try to deserialize json SubmitForm")
     @Nested

@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("Given an UndefinedComponent")
-class UndefinedComponentSerializerTest : BaseSerializerTest<ServerDrivenComponent>(ServerDrivenComponent::class.java) {
+class UndefinedComponentSerializerTest : BaseServerDrivenComponentSerializerTest() {
 
     @DisplayName("When try to deserialize json")
     @Nested
