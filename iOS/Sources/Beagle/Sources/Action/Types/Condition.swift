@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-/// Action to represent a condition
+/// Action to resolve condition and call onTrue if return true and onFalse if return is false.
 public struct Condition: AnalyticsAction, AutoInitiableAndDecodable {
     
+    /// Condition should represents a boolean.
     public let condition: Expression<Bool>
+    
+    /// Defines the actions triggered if the condition returns true.
     public let onTrue: [Action]?
+    
+    /// Defines the actions triggered if the condition returns false.
     public let onFalse: [Action]?
+    
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
 
 // sourcery:inline:auto:Condition.Init

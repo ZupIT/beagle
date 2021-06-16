@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import Foundation
+
 extension NSError {
     
     /// A convenience initializer for NSError to set its description.

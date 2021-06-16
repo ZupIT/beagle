@@ -21,7 +21,7 @@ extension SimpleForm: Widget {
     public func toView(renderer: BeagleRenderer) -> UIView {
         let simpleForm = UIView()
         simpleForm.beagleFormElement = self
-        children.forEach {
+        children?.forEach {
             let view = renderer.render($0)
             simpleForm.addSubview(view)
         }

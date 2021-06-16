@@ -27,14 +27,14 @@ class DefaultHttpClient implements HttpClient {
   @override
   Future<Response> sendRequest(BeagleRequest req) async {
     final handlers = {
-      BeagleHttpMethod.get: () => http.get(req.url, headers: req.headers),
+      BeagleHttpMethod.get: () => http.get(Uri.parse(req.url), headers: req.headers),
       BeagleHttpMethod.post: () =>
-          http.post(req.url, headers: req.headers, body: req.body),
+          http.post(Uri.parse(req.url), headers: req.headers, body: req.body),
       BeagleHttpMethod.put: () =>
-          http.put(req.url, headers: req.headers, body: req.body),
+          http.put(Uri.parse(req.url), headers: req.headers, body: req.body),
       BeagleHttpMethod.patch: () =>
-          http.patch(req.url, headers: req.headers, body: req.body),
-      BeagleHttpMethod.delete: () => http.delete(req.url, headers: req.headers),
+          http.patch(Uri.parse(req.url), headers: req.headers, body: req.body),
+      BeagleHttpMethod.delete: () => http.delete(Uri.parse(req.url), headers: req.headers),
     };
     final response = await handlers[req.method]();
     return Response(response.statusCode, response.body, response.headers,

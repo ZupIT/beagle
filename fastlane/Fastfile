@@ -34,7 +34,6 @@ platform :flutter do
   desc "Pull Request verification"
   lane :pull_request_verification do
     sh "cd #{ENV['PWD']} && fastlane/flutter/tests.sh"
-    run_codecov(platform: 'flutter')
     sh "cd #{ENV['PWD']}/flutter && flutter analyze > flutter_analyze_report.txt || true"
   end
 
@@ -47,10 +46,9 @@ end
 platform :android do
   desc "Pull Request verification"
   lane :pull_request_verification do
-    gradle(project_dir: "android", task: "clean detekt lintDebug test jacocoTestReport")
+    gradle(project_dir: "android", task: "clean detekt lintDebug jacocoTestReportDebug")
     gradle(project_dir: "android", task: "sample:assembleDebug sample:assembleDebugAndroidTest")
-    gradle(project_dir: "android", task: "automatedTest:assembleDebug automatedTest:assembleDebugAndroidTest")
-    run_codecov(platform: 'android')
+    publish_sonarcloud_gradle(projectDir: "android")
   end
 
   desc "Deploy current code to stage"
@@ -63,6 +61,7 @@ platform :android do
   lane :deploy_to_production do
     sh "bash ./release/maven_signing.sh"
     deploy_to_stage
+    gradle(project_dir: "android", task: "closeAndReleaseRepository")
   end
 end
 
@@ -79,11 +78,11 @@ platform :ios do
       scheme: "All",
       device: "iPhone 11"
     )
-    run_codecov(platform: 'ios')
     check_if_beagle_works_via_cocoapods_integration
+    check_if_beagle_works_via_spm_integration
   end
 
-  desc "Check wether Beagle is working via CocoaPods in an Example Project"
+  desc "Check whether Beagle is working via CocoaPods in an Example Project"
   private_lane :check_if_beagle_works_via_cocoapods_integration do
     xcversion(version: "~> 11.5.0")
     cocoapods(
@@ -93,6 +92,15 @@ platform :ios do
     scan(
       workspace: "iOS/Example/CocoaPodsTest/CocoaPodsTest.xcworkspace",
       scheme: "CocoaPodsTest",
+      device: "iPhone 11"
+    )
+  end
+
+  desc "Check whether Beagle is working via SPM in an Example Project"
+  private_lane :check_if_beagle_works_via_spm_integration do
+    scan(
+      project: "iOS/Example/SPMTest/SPMTest.xcodeproj",
+      scheme: "SPMTest",
       device: "iPhone 11"
     )
   end
@@ -189,8 +197,8 @@ platform :backend do
   desc "Pull Request verification"
   lane :pull_request_verification do
     gradle(project_dir: "backend", task: "detekt")
-    gradle(project_dir: "backend", tasks:["clean", "assemble", "jacocoTestReport"])
-    run_codecov(platform: 'backend')
+    gradle(project_dir: "backend", tasks:["clean", "assemble", "jacocoTestReportDebug"])
+    publish_sonarcloud_gradle(projectDir: "backend")
   end
 
   desc "Sync Spring BFF sample to Micronaut BFF sample"
@@ -217,30 +225,13 @@ platform :backend do
   lane :deploy_to_production do
     sh "bash ./release/maven_signing.sh"
     deploy_to_stage
+    gradle(project_dir: "backend", task: "closeAndReleaseRepository")
   end
 end
 
 ###
-###  Automated tests
+###  Release Notes
 ###
-
-platform :automated_tests do
-  desc "Run iOS automated tests"
-  lane :run_ios_automation do
-    xcversion(version: "~> 11.5.0")
-    #TODO pass bff url to test
-    scan(
-      workspace: "iOS/Beagle.xcworkspace/",
-      scheme: "AutomatedTestsUITests",
-      device: "iPhone 11",
-    )
-  end
-
-  desc "Cleanup"
-  lane :cleanup do
-    sh("curl -XPOST localhost:8080/actuator/shutdown")
-  end
-end
 
 desc "Generate release notes"
 private_lane :release_notes do |params|
@@ -268,14 +259,6 @@ private_lane :release_notes do |params|
   "\nRelease notes #{params[:versionDeploy]}
    \nChanges:
    \n#{changelog}"
-end
-
-private_lane :run_codecov do |options|
-  codecov = ENV["CODECOV_TOKEN"]
-  if !(codecov.nil? || codecov.empty?)
-    commit_hash = last_git_commit[:commit_hash]
-    codecov_reporter(token: codecov, flags: "-F #{options[:platform]} -C #{commit_hash}")
-  end
 end
 
 private_lane :danger_token_available? do
@@ -326,4 +309,17 @@ lane :lastExpectedVersion do |params|
     version = lastVersion
   end
   "#{version}"
+end
+
+desc "Publishing Sonarcloud reports via gradle"
+private_lane :publish_sonarcloud_gradle do |params|
+   projectDir = params[:projectDir]
+   puts "Using projectDir #{projectDir}"
+
+   # Setup java 11
+   ENV["JAVA_HOME"] = ENV["JAVA_HOME_11_X64"]
+
+   gradle(project_dir: projectDir, task: "sonarqube")
+   # Rollback to java 8
+   ENV["JAVA_HOME"] = ENV["JAVA_HOME_8_X64"]
 end

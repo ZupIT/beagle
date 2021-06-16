@@ -42,6 +42,7 @@ import com.facebook.yoga.YogaEdge
 import com.facebook.yoga.YogaFlexDirection
 import com.facebook.yoga.YogaJustify
 import com.facebook.yoga.YogaNode
+import com.facebook.yoga.YogaNodeFactory
 import com.facebook.yoga.YogaWrap
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -79,6 +80,7 @@ class FlexMapperTest {
         flexMapper = FlexMapper()
 
         mockkStatic(YogaNode::class)
+        mockkStatic(YogaNodeFactory::class)
         mockkStatic("br.com.zup.beagle.android.utils.NumberExtensionsKt")
         mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
 
@@ -93,7 +95,7 @@ class FlexMapperTest {
 
         every { HUNDRED_UNIT_VALUE.dp() } returns HUNDRED_UNIT_VALUE
         every { ONE_UNIT_VALUE.dp() } returns ONE_UNIT_VALUE
-        every { YogaNode.create() } returns yogaNodeMock
+        every { YogaNodeFactory.create() } returns yogaNodeMock
     }
 
     @AfterEach

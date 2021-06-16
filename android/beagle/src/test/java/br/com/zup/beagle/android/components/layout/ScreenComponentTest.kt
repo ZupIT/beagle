@@ -77,7 +77,7 @@ class ScreenComponentTest : BaseComponentTest() {
         every { rootView.getContext() } returns context
 
         screenComponent = ScreenComponent(navigationBar = null, child = component,
-            screenAnalyticsEvent = null, style = null)
+            screenAnalyticsEvent = null)
     }
 
     @Test

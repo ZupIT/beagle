@@ -15,8 +15,17 @@
         "repositoryURL": "https://github.com/pointfreeco/swift-snapshot-testing.git",
         "state": {
           "branch": null,
-          "revision": "114882386a815f4a2e6d8f2f7ee4857acd372438",
-          "version": "1.7.2"
+          "revision": "f8a9c997c3c1dab4e216a8ec9014e23144cbab37",
+          "version": "1.9.0"
+        }
+      },
+      {
+        "package": "YogaKit",
+        "repositoryURL": "https://github.com/ZupIT/yoga.git",
+        "state": {
+          "branch": null,
+          "revision": "ed609289e4351f5e809d165989d1c607874a5151",
+          "version": "1.19.0"
         }
       }
     ]

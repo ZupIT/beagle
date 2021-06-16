@@ -1,0 +1,6 @@
+▿ AddChildren
+  - analytics: Optional<ActionAnalyticsConfig>.none
+  - componentId: "id"
+  - mode: Mode.prepend
+  - staticValue: Optional<Array<ServerDrivenComponent>>.none
+  - value: [[_beagleComponent_: beagle:text, text: sample]]

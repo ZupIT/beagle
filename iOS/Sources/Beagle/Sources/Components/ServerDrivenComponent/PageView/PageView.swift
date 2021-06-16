@@ -14,17 +14,27 @@
  * limitations under the License.
  */
 
+/// The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
 public struct PageView: ServerDrivenComponent, AutoDecodable, HasContext {
-
-    public let children: [ServerDrivenComponent]
+    
+    /// Defines a List of components (views) that are contained on this PageView.
+    public let children: [ServerDrivenComponent]?
+    
+    /// Defines in what page the PageView is currently on.
     public let pageIndicator: PageIndicatorComponent?
+    
+    /// Defines the contextData that be set to pageView.
     public let context: Context?
+    
+    /// List of actions that are performed when you are on the selected page.
     public let onPageChange: [Action]?
+    
+    /// Integer number that identifies that selected.
     public let currentPage: Expression<Int>?
 
     @available(*, deprecated, message: "If you want to use page indicator place it as a separate component and comunicate then using context.")
     public init(
-        children: [ServerDrivenComponent],
+        children: [ServerDrivenComponent]? = nil,
         pageIndicator: PageIndicatorComponent? = nil,
         context: Context? = nil,
         onPageChange: [Action]? = nil,
@@ -38,7 +48,7 @@ public struct PageView: ServerDrivenComponent, AutoDecodable, HasContext {
     }
     
     public init(
-        children: [ServerDrivenComponent],
+        children: [ServerDrivenComponent]? = nil,
         context: Context? = nil,
         onPageChange: [Action]? = nil,
         currentPage: Expression<Int>? = nil

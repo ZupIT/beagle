@@ -14,13 +14,22 @@
  * limitations under the License.
  */
 
-/// Action that insert children components in a node hierarchy
-public struct AddChildren: AnalyticsAction, AutoInitiableAndDecodable {
+/// The `AddChildren` action is responsible for adding a component to a component hierarchy.
+public struct AddChildren: AnalyticsAction {
     
+    /// Defines the widget's id, in which you want to add the views.
     public let componentId: String
-    public let value: [ServerDrivenComponent]
+    
+    /// Defines the list of children you want to add.
+    public let value: DynamicObject
+    
+    /// Defines the placement of where the children will be inserted in the list or if the contents of the list will be replaced.
     public var mode: Mode = .append
+    
+    /// Defines an analytics configuration for this action.
     public let analytics: ActionAnalyticsConfig?
+    
+    internal var staticValue: [ServerDrivenComponent]?
     
     public enum Mode: String, Codable {
         case append = "APPEND"
@@ -28,7 +37,6 @@ public struct AddChildren: AnalyticsAction, AutoInitiableAndDecodable {
         case replace = "REPLACE"
     }
 
-// sourcery:inline:auto:AddChildren.Init
     public init(
         componentId: String,
         value: [ServerDrivenComponent],
@@ -36,9 +44,26 @@ public struct AddChildren: AnalyticsAction, AutoInitiableAndDecodable {
         analytics: ActionAnalyticsConfig? = nil
     ) {
         self.componentId = componentId
-        self.value = value
+        self.value = .empty
+        self.staticValue = value
         self.mode = mode
         self.analytics = analytics
     }
-// sourcery:end
+    
+    // MARK: Decodable
+    
+    enum CodingKeys: String, CodingKey {
+        case componentId
+        case value
+        case mode
+        case analytics
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        componentId = try container.decode(String.self, forKey: .componentId)
+        value = try container.decode(DynamicObject.self, forKey: .value)
+        mode = try container.decodeIfPresent(Mode.self, forKey: .mode) ?? .append
+        analytics = try container.decodeIfPresent(ActionAnalyticsConfig.self, forKey: .analytics)
+    }
 }

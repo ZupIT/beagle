@@ -32,7 +32,7 @@ public class BeaglePreFetchHelper: BeaglePrefetchHelping {
     }
     
     public func prefetchComponent(newPath: Route.NewPath) {
-        guard newPath.shouldPrefetch else { return }
+        guard newPath.shouldPrefetch ?? false else { return }
         guard case .value(let path) = newPath.url else {
             dependencies.logger.log(Log.navigation(.unableToPrefetchWhenUrlIsExpression))
             return

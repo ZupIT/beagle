@@ -1,3 +1,5 @@
+import br.com.zup.beagle.Dependencies
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -20,32 +22,59 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
-        classpath "com.karumi:shot:4.3.0"
-        classpath "com.hiya:jacoco-android:0.2"
-        classpath "com.vanniktech:gradle-maven-publish-plugin:0.13.0"
+        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10"
+        classpath "com.vanniktech:gradle-maven-publish-plugin:0.15.1"
         classpath "de.mannodermaus.gradle.plugins:android-junit5:1.6.2.0"
+        classpath "com.hiya:jacoco-android:0.2"
     }
 }
 
+
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.14.1"
-    id "com.github.ben-manes.versions" version "0.33.0"
+    id "io.gitlab.arturbosch.detekt" version "1.17.1"
+    id "com.github.ben-manes.versions" version "0.39.0"
     id "br.com.zup.beagle.dependencies"
-    id "org.jetbrains.dokka" version "1.4.20"
+    id "org.jetbrains.dokka" version "1.4.32"
+    id "org.sonarqube" version "3.2.0"
 }
 
 allprojects {
     apply from: "$rootDir/../detekt.gradle"
 
     apply plugin: "br.com.zup.beagle.dependencies"
+    apply plugin: "org.jetbrains.dokka"
 
     repositories {
         google()
-        jcenter()
-        maven { url 'https://jitpack.io' }
+        mavenCentral()
+    }
+
+    // temporary solution to all libraries updated to the last version of kotlin
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-reflect') {
+                details.useVersion Dependencies.Versions.kotlin
+            }
+        }
+    }
+
+    afterEvaluate {
+
+        sonarqube {
+            properties {
+                property "sonar.projectKey", "ZupIT_beagle_android"
+                property "sonar.projectName", "ZupIT_beagle_android"
+                property "sonar.organization", "t64zgssdey"
+                property "sonar.host.url", "https://sonarcloud.io"
+                property "sonar.exclusions", "sample/**, test/**"
+                property "detekt.sonar.kotlin.config.path", "$rootDir/../config/detekt-default-config.yml"
+                property "sonar.java.coveragePlugin", "jacoco"
+                property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml"
+                property "sonar.jacoco.reportPaths", "build/jacoco/testDebugUnitTest.exec,build/jacoco/test.exec"
+            }
+        }
     }
 }
 

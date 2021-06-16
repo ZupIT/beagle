@@ -16,7 +16,8 @@
 
 import br.com.zup.beagle.Dependencies
 
-apply from: rootProject.file('../jacoco.gradle')
+apply plugin: "org.jetbrains.dokka"
+apply from: "$rootDir/../jacoco.gradle"
 
 dependencies {
     implementation Dependencies.SpringLibraries.autoconfigure

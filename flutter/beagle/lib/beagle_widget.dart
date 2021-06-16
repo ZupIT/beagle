@@ -90,7 +90,7 @@ class _BeagleWidget extends State<BeagleWidget> {
         final widgetLoaded = _buildViewFromTree(tree);
         setState(() {
           widgetState = YogaTree(
-            node: mapToYogaNode(BeagleStyle()),
+            yogaNode: mapToYogaNode(BeagleStyle()),
             children: [widgetLoaded],
           );
         });

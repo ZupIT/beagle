@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
+/// Defines a tab item displayed in TabView
 public struct TabItem: Decodable {
-
+    
+    /// Configures an icon image for the tab inside the TabView.
     public let icon: StringOrExpression?
+    
+    /// Configures a title for the tab inside the TabView.
     public let title: String?
+    
+    /// Configures a content on the TabView according to the tab item clicked.
     public let child: ServerDrivenComponent
 
     public init(
@@ -58,10 +64,18 @@ public struct TabItem: Decodable {
     }
 }
 
+/// TabView is a component responsible for the navigation between views.
+/// It works by displaying tabs corresponding to the different views that can be accessed.
 @available(*, deprecated, message: "Since version 1.1. Will be deleted in version 2.0. Consider replacing this component for a tabBar with a pageview.")
 public struct TabView: ServerDrivenComponent, AutoInitiable, HasContext {
+    
+    /// Defines the `TabView` content.
     public let children: [TabItem]
+    
+    /// Reference a native style configured to be applied on this view.
     public let styleId: String?
+    
+    /// Defines the context that be set to `TabView`.
     public let context: Context?
 
 // sourcery:inline:auto:TabView.Init

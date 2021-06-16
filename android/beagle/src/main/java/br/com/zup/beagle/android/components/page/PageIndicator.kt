@@ -23,8 +23,7 @@ import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.BeagleJson
 
 /**
  *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
@@ -34,13 +33,13 @@ import br.com.zup.beagle.annotation.RegisterWidget
  * @param numberOfPages Numbers of pages that will contain.
  * @param currentPage Integer number that identifies that selected
  */
-@RegisterWidget("pageIndicator")
+@BeagleJson(name = "pageIndicator")
 class PageIndicator(
     val selectedColor: String,
     val unselectedColor: String,
     var numberOfPages: Int? = null,
     var currentPage: Bind<Int>? = null,
-) : WidgetView(), PageIndicatorComponent {
+) : PageIndicatorComponent {
 
     constructor(
         selectedColor: String,

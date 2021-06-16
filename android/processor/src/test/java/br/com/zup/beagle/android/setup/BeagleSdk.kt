@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.navigation.BeagleControllerReference
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.networking.HttpClient
+import br.com.zup.beagle.android.networking.HttpClientFactory
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.store.StoreHandler
@@ -40,6 +41,7 @@ interface BeagleSdk {
     val deepLinkHandler: DeepLinkHandler?
     val validatorHandler: ValidatorHandler?
     val httpClient: HttpClient?
+    val httpClientFactory: HttpClientFactory?
     val designSystem: DesignSystem?
     val imageDownloader: BeagleImageDownloader?
     val storeHandler: StoreHandler?

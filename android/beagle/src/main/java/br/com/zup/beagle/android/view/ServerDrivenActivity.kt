@@ -20,35 +20,37 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.R
+import br.com.zup.beagle.databinding.BeagleActivityServerDrivenBinding
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.beagle_activity_server_driven.*
-import kotlinx.android.synthetic.main.beagle_include_error_server_driven.*
 
 class ServerDrivenActivity : BeagleActivity() {
 
+    private lateinit var binding: BeagleActivityServerDrivenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.beagle_activity_server_driven)
+        binding = BeagleActivityServerDrivenBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
     }
 
     override fun getServerDrivenContainerId(): Int = R.id.server_driven_container
 
-    override fun getToolbar(): Toolbar = toolbar
+    override fun getToolbar(): Toolbar = binding.toolbar
 
     override fun onServerDrivenContainerStateChanged(state: ServerDrivenState) {
         when (state) {
             is ServerDrivenState.Started -> {
                 showLoading(true)
-                server_driven_container.visibility = View.GONE
+                binding.serverDrivenContainer.visibility = View.GONE
             }
             is ServerDrivenState.Error -> {
                 handleError(state)
             }
 
             is ServerDrivenState.Success, ServerDrivenState.Canceled -> {
-                server_driven_container.visibility = View.VISIBLE
-                include_layout_error.visibility = View.GONE
+                binding.serverDrivenContainer.visibility = View.VISIBLE
+                binding.includeLayoutError.root.visibility = View.GONE
             }
 
             is ServerDrivenState.Finished -> {
@@ -59,21 +61,21 @@ class ServerDrivenActivity : BeagleActivity() {
 
     private fun handleError(state: ServerDrivenState.Error) {
         if (hasServerDrivenScreen()) {
-            server_driven_container.visibility = View.VISIBLE
-            Snackbar.make(server_driven_container, R.string.beagle_label_generic_error, Snackbar.LENGTH_LONG)
+            binding.serverDrivenContainer.visibility = View.VISIBLE
+            Snackbar.make(binding.serverDrivenContainer, R.string.beagle_label_generic_error, Snackbar.LENGTH_LONG)
                 .setAction(R.string.beagle_label_try_again) { state.retry() }
                 .show()
         } else {
-            buttonRetry.setOnClickListener {
+            binding.includeLayoutError.buttonRetry.setOnClickListener {
                 state.retry()
             }
-            server_driven_container.visibility = View.GONE
-            include_layout_error.visibility = View.VISIBLE
+            binding.serverDrivenContainer.visibility = View.GONE
+            binding.includeLayoutError.root.visibility = View.VISIBLE
         }
     }
 
     private fun showLoading(value: Boolean) {
-        progress_bar.visibility = if (value) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if (value) View.VISIBLE else View.GONE
     }
 
     override fun getFragmentTransitionAnimation() = FragmentTransitionAnimation(

@@ -17,8 +17,9 @@
 name: Beagle Appium iOS Tests
 
 on:
+  workflow_dispatch:
   workflow_run:
-    workflows: ["Beagle Appium Tests"]
+    workflows: ["Beagle Appium tests trigger"]
     types:
       - completed
 
@@ -106,5 +107,3 @@ jobs:
           name: failed_tests_screenshots
           path: tests/appium/project/build/screenshots/
 
-      - name: Cleanup
-        run: bundle exec fastlane automated_tests cleanup

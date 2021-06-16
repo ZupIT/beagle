@@ -36,6 +36,7 @@ const val COMPLETE_BEAGLE_CUSTOM_CLASS =
         import br.com.zup.beagle.android.setup.DesignSystem
         import br.com.zup.beagle.android.action.FormLocalActionHandler
         import br.com.zup.beagle.android.networking.HttpClient
+        import br.com.zup.beagle.android.networking.HttpClientFactory
         import br.com.zup.beagle.android.imagedownloader.BeagleImageDownloader
         import br.com.zup.beagle.android.logger.BeagleLogger
         import br.com.zup.beagle.annotation.RegisterOperation
@@ -90,6 +91,9 @@ const val COMPLETE_BEAGLE_CUSTOM_CLASS =
         class HttpClientTest: HttpClient { }
         
         @BeagleComponent
+        class HttpClientFactoryTest: HttpClientFactory { }
+        
+        @BeagleComponent
         class ImageDownloaderTest: BeagleImageDownloader { }
         
         @BeagleComponent
@@ -125,6 +129,7 @@ const val BEAGLE_SETUP_COMPLETE =
         import br.com.zup.beagle.android.navigation.BeagleControllerReference
         import br.com.zup.beagle.android.navigation.DeepLinkHandler
         import br.com.zup.beagle.android.networking.HttpClient
+        import br.com.zup.beagle.android.networking.HttpClientFactory
         import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
         import br.com.zup.beagle.android.operation.Operation
         import br.com.zup.beagle.android.setup.BeagleConfig
@@ -147,6 +152,8 @@ const val BEAGLE_SETUP_COMPLETE =
           public override val deepLinkHandler: DeepLinkHandler = br.com.test.beagle.DeepLinkHandlerTest()
         
           public override val httpClient: HttpClient = br.com.test.beagle.HttpClientTest()
+          
+          public override val httpClientFactory: HttpClientFactory = br.com.test.beagle.HttpClientFactoryTest()
         
           public override val designSystem: DesignSystem = br.com.test.beagle.DesignSystemTest()
         

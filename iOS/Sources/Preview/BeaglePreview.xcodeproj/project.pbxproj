@@ -14,7 +14,7 @@
 		7659EC5C247C3EFE00F5BE17 /* SSConnectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7659EC5A247C3EFD00F5BE17 /* SSConnectionHandler.swift */; };
 		7659EC5D247C3EFE00F5BE17 /* WSConnectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7659EC5B247C3EFD00F5BE17 /* WSConnectionHandler.swift */; };
 		7659EC61247C482400F5BE17 /* BeaglePreviewDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7659EC60247C482400F5BE17 /* BeaglePreviewDependencies.swift */; };
-		933078F124AE50A4009D92F2 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 933078F024AE50A4009D92F2 /* Starscream */; };
+		9343372B2669646300E71837 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 9343372A2669646300E71837 /* Starscream */; };
 		C8330590249BF6A40091FE5E /* Beagle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C833058F249BF6A40091FE5E /* Beagle.framework */; };
 		C8330591249BF6A40091FE5E /* Beagle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C833058F249BF6A40091FE5E /* Beagle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -34,8 +34,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		761557A52480249800E1EEEE /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
-		761557AB2480250700E1EEEE /* BeagleUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7623CF7E24254C9600688C4B /* BeaglePreview.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BeaglePreview.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7623CF8124254C9600688C4B /* BeaglePreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BeaglePreview.h; sourceTree = "<group>"; };
 		7623CF8224254C9600688C4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -46,7 +44,6 @@
 		7659EC5B247C3EFD00F5BE17 /* WSConnectionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSConnectionHandler.swift; sourceTree = "<group>"; };
 		7659EC60247C482400F5BE17 /* BeaglePreviewDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaglePreviewDependencies.swift; sourceTree = "<group>"; };
 		C833058F249BF6A40091FE5E /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C838415A24A447FD00EDD344 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = ../../Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +52,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8330590249BF6A40091FE5E /* Beagle.framework in Frameworks */,
-				933078F124AE50A4009D92F2 /* Starscream in Frameworks */,
+				9343372B2669646300E71837 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,10 +102,7 @@
 		7623CF902425529A00688C4B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C838415A24A447FD00EDD344 /* Starscream.framework */,
 				C833058F249BF6A40091FE5E /* Beagle.framework */,
-				761557AB2480250700E1EEEE /* BeagleUI.framework */,
-				761557A52480249800E1EEEE /* Starscream.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -143,7 +137,7 @@
 			);
 			name = BeaglePreview;
 			packageProductDependencies = (
-				933078F024AE50A4009D92F2 /* Starscream */,
+				9343372A2669646300E71837 /* Starscream */,
 			);
 			productName = BeaglePreview;
 			productReference = 7623CF7E24254C9600688C4B /* BeaglePreview.framework */;
@@ -173,7 +167,7 @@
 			);
 			mainGroup = 7623CF7424254C9600688C4B;
 			packageReferences = (
-				933078EF24AE50A4009D92F2 /* XCRemoteSwiftPackageReference "Starscream" */,
+				934337292669646300E71837 /* XCRemoteSwiftPackageReference "Starscream" */,
 			);
 			productRefGroup = 7623CF7F24254C9600688C4B /* Products */;
 			projectDirPath = "";
@@ -355,6 +349,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeaglePreview;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -380,6 +375,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeaglePreview;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -409,20 +405,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		933078EF24AE50A4009D92F2 /* XCRemoteSwiftPackageReference "Starscream" */ = {
+		934337292669646300E71837 /* XCRemoteSwiftPackageReference "Starscream" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/daltoniam/Starscream.git";
 			requirement = {
-				kind = exactVersion;
-				version = 4.0.4;
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		933078F024AE50A4009D92F2 /* Starscream */ = {
+		9343372A2669646300E71837 /* Starscream */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 933078EF24AE50A4009D92F2 /* XCRemoteSwiftPackageReference "Starscream" */;
+			package = 934337292669646300E71837 /* XCRemoteSwiftPackageReference "Starscream" */;
 			productName = Starscream;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -30,9 +30,8 @@ import org.junit.runner.RunWith
      * running all tests on Android: "@android and not @inProgress"
      * running all tests on iOS: "@ios and not @inProgress"
      */
-    tags = "@analytics2.0 and not @inProgress",
+    tags = "@ios and not @inProgress",
     features = ["src/test/resources/features"],
     plugin = ["br.com.zup.beagle.setup.SuiteSetupPlugin"]
 )
-class Runner {
-}
+class Runner

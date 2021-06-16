@@ -37,14 +37,16 @@ fun Column(
     onInit: List<Action>? = null,
     reverse: Boolean = false,
     styleId: String? = null,
-    children: List<ServerDrivenComponent> = listOf(),
-    ): Container {
-    return Styled(Container(
-        children = children,
-        context = context,
-        onInit = onInit,
-        styleId = styleId
-    ), {
+    children: List<ServerDrivenComponent>? = null,
+): Container {
+    return Styled(
+        Container(
+            children = children,
+            context = context,
+            onInit = onInit,
+            styleId = styleId,
+        )
+    ) {
         flex.flexDirection = if (!reverse) FlexDirection.COLUMN else FlexDirection.COLUMN_REVERSE
-    })
+    }
 }

@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.data
 
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
-import br.com.zup.beagle.android.data.serializer.makeFormLocalActionJson
+import br.com.zup.beagle.android.data.serializer.makeActionFormLocalActionJson
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
@@ -36,11 +36,11 @@ import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals
 
-private val JSON_SUCCESS = makeFormLocalActionJson()
+private val JSON_SUCCESS = makeActionFormLocalActionJson()
 
 @ExperimentalCoroutinesApi
 class ActionRequesterTest {

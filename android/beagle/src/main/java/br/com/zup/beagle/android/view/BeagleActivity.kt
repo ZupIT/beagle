@@ -35,13 +35,12 @@ import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.BeagleRetry
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.utils.toComponent
 import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
-import kotlinx.android.parcel.Parcelize
-import java.net.URI
+import br.com.zup.beagle.core.ServerDrivenComponent
+import kotlinx.parcelize.Parcelize
 
 sealed class ServerDrivenState {
 
@@ -310,7 +309,7 @@ abstract class BeagleActivity : AppCompatActivity() {
         if (supportFragmentManager.fragments.size == 0) {
             screen?.let { screen ->
                 fetch(
-                    RequestData(uri = URI.create("")),
+                    RequestData(url = ""),
                     beagleSerializer.deserializeComponent(screen)
                 )
             } ?: run {

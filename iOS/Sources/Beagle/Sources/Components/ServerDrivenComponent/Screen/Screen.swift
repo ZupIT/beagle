@@ -16,16 +16,30 @@
 
 import Foundation
 
+/// The screen element will help you define the screen view structure.
+/// By using this component you can define configurations like whether or
+/// not you want to use safe areas or display a tool bar/navigation bar.
 public struct Screen: AutoInitiable, HasContext {
     
-    // MARK: - Public Properties
-    
+    /// identifies your screen globally inside your application so that it could have actions set on itself.
     public let identifier: String?
+    
+    /// Enables a few visual options to be changed.
     public let style: Style?
+    
+    /// Enables safe area to help you place your views within the visible portion of the overall interface.
     public let safeArea: SafeArea?
+    
+    /// Enables a action bar/navigation bar into your view. By default it is set as null.
     public let navigationBar: NavigationBar?
+    
+    /// Event send event when screen appear/disappear.
     public let screenAnalyticsEvent: AnalyticsScreen?
+    
+    /// Defines the child elements on this screen.
     public let child: ServerDrivenComponent
+    
+    /// Defines the context that be set to screen.
     public let context: Context?
 
 // sourcery:inline:auto:Screen.Init

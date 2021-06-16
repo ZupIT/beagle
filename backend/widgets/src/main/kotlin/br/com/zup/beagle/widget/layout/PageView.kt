@@ -37,7 +37,7 @@ import br.com.zup.beagle.widget.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
  */
 
 data class PageView(
-    val children: List<ServerDrivenComponent>,
+    val children: List<ServerDrivenComponent>? = null,
     @Deprecated(DEPRECATED_PAGE_VIEW)
     val pageIndicator: PageIndicatorComponent? = null,
     override val context: ContextData? = null,
@@ -48,7 +48,7 @@ data class PageView(
 
     @Deprecated(DEPRECATED_PAGE_VIEW)
     constructor(
-        children: List<ServerDrivenComponent>,
+        children: List<ServerDrivenComponent>? = null,
         pageIndicator: PageIndicatorComponent? = null,
         context: ContextData? = null,
         showArrow: Boolean? = null
@@ -62,7 +62,7 @@ data class PageView(
     )
 
     constructor(
-        children: List<ServerDrivenComponent>,
+        children: List<ServerDrivenComponent>? = null,
         context: ContextData? = null,
         onPageChange: List<Action>? = null,
         currentPage: Bind<Int>? = null,

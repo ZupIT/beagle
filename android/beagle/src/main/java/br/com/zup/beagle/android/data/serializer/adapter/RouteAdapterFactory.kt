@@ -57,7 +57,7 @@ internal class RouteAdapter(private val adapter: JsonAdapter<Bind<String>>) : Js
 
             Route.Remote(
                 url,
-                value[SHOULD_PREFETCH] as Boolean,
+                value[SHOULD_PREFETCH] as? Boolean,
                 convertScreen(value[FALLBACK]),
                 httpAdditionalData,
             )
@@ -74,7 +74,7 @@ internal class RouteAdapter(private val adapter: JsonAdapter<Bind<String>>) : Js
                 writer.name(URL)
                 getBindAdapter().toJson(writer, value.url)
                 writer.name(SHOULD_PREFETCH)
-                moshi.adapter(Boolean::class.java).toJson(writer, value.shouldPrefetch)
+                moshi.adapter(Boolean::class.java).toJson(writer, value.shouldPrefetch ?: false)
                 writer.name(FALLBACK)
                 moshi.adapter(Screen::class.java).toJson(writer, value.fallback)
                 writer.name(HTTP_ADDITIONAL_DATA)

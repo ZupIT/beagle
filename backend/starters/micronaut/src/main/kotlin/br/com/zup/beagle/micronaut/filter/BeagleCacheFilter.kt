@@ -25,8 +25,9 @@ import io.micronaut.http.HttpMethod
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.MutableHttpResponse
 import io.micronaut.http.annotation.Filter
-import io.micronaut.http.filter.HttpServerFilter
+import io.micronaut.http.filter.OncePerRequestHttpServerFilter
 import io.micronaut.http.filter.ServerFilterChain
+import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 
 @Filter(value = ["/**"], methods = [HttpMethod.GET])
@@ -34,19 +35,16 @@ import org.reactivestreams.Publisher
     Requires(classes = [BeagleCacheHandler::class]),
     Requires(property = BEAGLE_CACHE_ENABLED, value = "true", defaultValue = "true")
 )
-class BeagleCacheFilter(private val cacheHandler: BeagleCacheHandler) : HttpServerFilter {
-    override fun doFilter(request: HttpRequest<*>?, chain: ServerFilterChain?): Publisher<MutableHttpResponse<*>>? =
-        if (request != null && chain != null) {
-            Publisher {
-                it.onNext(
-                    this.cacheHandler.handleCache(
-                        endpoint = request.path,
-                        receivedHash = request.headers[BeagleCacheHandler.CACHE_HEADER],
-                        currentPlatform = request.headers[BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER],
-                        handler = BeagleMicronautCacheHandler(request, chain)
-                    )
+class BeagleCacheFilter(private val cacheHandler: BeagleCacheHandler) : OncePerRequestHttpServerFilter() {
+    override fun doFilterOnce(request: HttpRequest<*>, chain: ServerFilterChain?): Publisher<MutableHttpResponse<*>>? =
+        chain?.let {
+            Flowable.just(
+                this.cacheHandler.handleCache(
+                    endpoint = request.path,
+                    receivedHash = request.headers[BeagleCacheHandler.CACHE_HEADER],
+                    currentPlatform = request.headers[BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER],
+                    handler = BeagleMicronautCacheHandler(request, it)
                 )
-                it.onComplete()
-            }
-        } else null
+            )
+        }
 }

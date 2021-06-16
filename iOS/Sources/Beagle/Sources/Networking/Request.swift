@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import Foundation
+
 public struct Request {
     public let url: URL
     public let type: RequestType

@@ -31,6 +31,7 @@ import org.apache.commons.io.FileUtils
 import org.apache.commons.io.FilenameUtils
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.Point
 import org.openqa.selenium.ScreenOrientation
 import java.io.File
 import java.util.HashMap
@@ -62,7 +63,7 @@ abstract class AbstractStep {
             params["package"] = "br.com.zup.beagle.appiumapp"
             (getDriver() as JavascriptExecutor).executeScript("mobile:deepLink", params)
         } else {
-            // TODO: iOS
+            getDriver().get("appiumapp://" + SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath)
         }
     }
 
@@ -70,6 +71,13 @@ abstract class AbstractStep {
         if (SuiteSetup.isAndroid()) {
             loadBffScreenFromDeepLink()
         } else {
+            /**
+             * Deep link test strategy on iOS (URL Scheme) doesn't boost test speed when tests run on non-gpu simulators (ex. GitHub Actions)
+             * or on real devices (ex. BrowserStack). Because of this, deep link is turned off by default on iOS.
+             *
+             * When testing on a gpu-enabled simulator (ex. testing locally on a mac computer), the deep link strategy might result on some
+             * speed boost. To enable deep link on iOS, use method loadBffScreenFromDeepLink() instead of method loadBffScreenFromMainScreen().
+             */
             loadBffScreenFromMainScreen()
         }
     }
@@ -123,6 +131,45 @@ abstract class AbstractStep {
             DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
         )
 
+    }
+
+    /**
+     * Waits for an element to be present on the screen
+     */
+    protected fun waitForElementWithTextToBePresent(
+        elementValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
+    ): MobileElement {
+        val xpath: By = getSearchByTextXpath(elementValue, likeSearch, ignoreCase)
+        return AppiumUtil.waitForElementToBePresent(
+            getDriver(),
+            xpath,
+            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+        )
+
+    }
+
+    protected fun waitForElementToBePresent(locator: By): MobileElement {
+        return AppiumUtil.waitForElementToBePresent(getDriver(), locator, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
+    }
+
+    protected fun waitForChildElementToBePresent(parentElement: MobileElement, locator: By): MobileElement {
+        return AppiumUtil.waitForChildElementToBePresent(
+            getDriver(),
+            parentElement,
+            locator,
+            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+        )
+    }
+
+    protected fun waitForChildrenElementsToBePresent(parentElement: MobileElement, locator: By): List<MobileElement> {
+        return AppiumUtil.waitForChildrenElementsToBePresent(
+            getDriver(),
+            parentElement,
+            locator,
+            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+        )
     }
 
     /**
@@ -246,6 +293,39 @@ abstract class AbstractStep {
     protected fun swipeDown() {
         AppiumUtil.swipeScreenTo(getDriver(), SwipeDirection.DOWN)
     }
+
+    protected fun scrollFromOnePointToBorder(
+        originPoint: Point,
+        swipeDirection: SwipeDirection
+    ) {
+        if (SuiteSetup.isAndroid()) {
+            AppiumUtil.androidScrollScreenFromOnePointToBorder(
+                getDriver(), originPoint, swipeDirection
+            )
+        } else {
+            AppiumUtil.iosScrollScreenFromOnePointToBorder(
+                getDriver(), originPoint, swipeDirection
+            )
+        }
+
+    }
+
+    protected fun scrollFromOnePointToCenterPoint(
+        originPoint: Point,
+        horizontalScroll: Boolean
+    ) {
+        if (SuiteSetup.isAndroid()) {
+            AppiumUtil.androidScrollScreenFromOnePointToCenterPoint(
+                getDriver(), originPoint, horizontalScroll
+            )
+        } else {
+            AppiumUtil.iosScrollScreenFromOnePointToCenterPoint(
+                getDriver(), originPoint, horizontalScroll
+            )
+        }
+
+    }
+
 
     protected fun rotateToLandscapePosition() {
         getDriver().rotate(ScreenOrientation.LANDSCAPE);
@@ -410,6 +490,18 @@ abstract class AbstractStep {
             )
 
         return dataBaseFolderPath
+    }
+
+    protected fun restartApp() {
+        SuiteSetup.restartApp()
+    }
+
+    protected fun elementExists(locator: By): Boolean{
+        return AppiumUtil.elementExists(getDriver(), locator, 2000)
+    }
+
+    protected fun childElementExists(parentElement: MobileElement, childLocator: By): Boolean{
+        return AppiumUtil.childElementExists(getDriver(), parentElement, childLocator, 2000)
     }
 
 }

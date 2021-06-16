@@ -35,14 +35,13 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifySequence
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
-import java.net.URI
+import org.junit.jupiter.api.Test
 
 private val URL = RandomData.string()
 private val BEAGLE_HASH_KEY = "$URL#hash"
@@ -50,7 +49,7 @@ private val BEAGLE_JSON_KEY = "$URL#json"
 private val BEAGLE_TIME_KEY = "$URL#time"
 private val BEAGLE_HASH_VALUE = RandomData.string()
 private val BEAGLE_JSON_VALUE = RandomData.string()
-private val REQUEST_DATA = RequestData(uri = URI(""), url = URL)
+private val REQUEST_DATA = RequestData(url = URL)
 private val RESPONSE_BODY = RandomData.string()
 private const val BEAGLE_HASH = "beagle-hash"
 private const val INVALIDATION_TIME: Long = 0

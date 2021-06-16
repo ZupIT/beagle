@@ -22,6 +22,7 @@ import androidx.test.core.app.ApplicationProvider
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.setup.BeagleSdk
 import com.facebook.yoga.YogaNode
+import com.facebook.yoga.YogaNodeFactory
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -49,7 +50,8 @@ open class BaseSoLoaderTest : BaseTest() {
         val yogaNode = mockk<YogaNode>(relaxed = true, relaxUnitFun = true)
         val view = View(application)
         mockkStatic(YogaNode::class)
-        every { YogaNode.create() } returns yogaNode
+        mockkStatic(YogaNodeFactory::class)
+        every { YogaNodeFactory.create() } returns yogaNode
         every { yogaNode.data } returns view
     }
 }

@@ -19,6 +19,8 @@ package br.com.zup.beagle.android.data
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
+import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
@@ -34,8 +36,11 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
+@DisplayName("Given a PreFetchHelper")
 class PreFetchHelperTest : BaseTest() {
 
     private val helper = PreFetchHelper()
@@ -56,53 +61,96 @@ class PreFetchHelperTest : BaseTest() {
         super.setUp()
 
         prepareViewModelMock(beagleViewModel)
-
         coEvery { beagleViewModel.fetchForCache(any()) } returns mockk()
 
         mockkObject(BeagleMessageLogs)
         every { BeagleMessageLogs.expressionNotSupportInPreFetch() } just Runs
-
     }
 
-    @Test
-    fun should_call_fetch_for_cache_test() {
-        cachedTypes.forEach {
-            helper.handlePreFetch(rootView, it)
-            verify { beagleViewModel.fetchForCache(route.url.value as String) }
+    @DisplayName("When handlePrefetch is called")
+    @Nested
+    inner class HandlePreFetch {
+
+        @DisplayName("Then should call fetchForCache")
+        @Test
+        fun testFetchForCache() {
+            cachedTypes.forEach {
+                // When
+                helper.handlePreFetch(rootView, it)
+
+                // Then
+                verify { beagleViewModel.fetchForCache(route.url.value as String) }
+            }
+        }
+
+        @DisplayName("Then should not call fetchForCache if route is local")
+        @Test
+        fun testFetchForCacheWithLocal() {
+            // Given
+            val route = Route.Local(Screen(child = Text("")))
+            val navigate = Navigate.PushView(route)
+
+            // When
+            helper.handlePreFetch(rootView, navigate)
+
+            // Then
+            verify { beagleViewModel.fetchForCache(any()) wasNot called }
+        }
+
+        @DisplayName("Then should not call fetchForCache if shouldPrefetch is null")
+        @Test
+        fun testFetchForCacheWithShouldPrefetchNull() {
+            // Given
+            val route = Route.Remote("/url")
+            val navigate = Navigate.PushView(route)
+
+            // When
+            helper.handlePreFetch(rootView, navigate)
+
+            // Then
+            verify { beagleViewModel.fetchForCache(any()) wasNot called }
+        }
+
+        @DisplayName("Then should not call fetchForCache if shouldPrefetch is false")
+        @Test
+        fun testFetchForCacheWithShouldPrefetchFalse() {
+            // Given
+            val route = Route.Remote("/url", shouldPrefetch = false)
+            val navigate = Navigate.PushView(route)
+
+            // When
+            helper.handlePreFetch(rootView, navigate)
+
+            // Then
+            verify { beagleViewModel.fetchForCache(any()) wasNot called }
+        }
+
+        @DisplayName("Then should call expressionNotSupportInPreFetch if enabled")
+        @Test
+        fun testBeagleMessageLogs() {
+            //GIVEN
+            val route = Route.Remote(expressionOf("http://@{test}"), shouldPrefetch = true)
+            val navigation = Navigate.PushView(route)
+
+            //WHEN
+            helper.handlePreFetch(rootView, navigation)
+
+            //THEN
+            verify { BeagleMessageLogs.expressionNotSupportInPreFetch() }
+        }
+
+        @DisplayName("Then should not call fetchForCache if has expression in url")
+        @Test
+        fun testFetchForCacheWithUrlExpression() {
+            // Given
+            val route = Route.Remote(expressionOf("http://@{test}"), shouldPrefetch = true)
+            val navigate = Navigate.PushView(route)
+
+            // When
+            helper.handlePreFetch(rootView, navigate)
+
+            // Then
+            verify { beagleViewModel.fetchForCache(any()) wasNot called }
         }
     }
-
-    @Test
-    fun should_not_call_fetch_for_cache_test() {
-        cachedTypes.forEach {
-            val url = RandomData.string()
-            helper.handlePreFetch(rootView, it)
-            verify { beagleViewModel.fetchForCache(url) wasNot called }
-        }
-    }
-
-    @Test
-    fun prefetch_log_should_be_displayed() {
-        //GIVEN
-        val route = Route.Remote(expressionOf("http://@{test}"), shouldPrefetch = true)
-        val navigation = Navigate.PushView(route)
-
-        //WHEN
-        helper.handlePreFetch(rootView, navigation)
-
-        //THEN
-        verify { BeagleMessageLogs.expressionNotSupportInPreFetch() }
-    }
-
-    @Test
-    fun should_not_call_fetch_for_cache_when_url_has_an_expression() {
-        cachedTypes.forEach {
-            route.url is Bind.Expression<String>
-            val url = RandomData.string()
-            helper.handlePreFetch(rootView, it)
-            verify { beagleViewModel.fetchForCache(url) wasNot called }
-        }
-    }
-
-
 }

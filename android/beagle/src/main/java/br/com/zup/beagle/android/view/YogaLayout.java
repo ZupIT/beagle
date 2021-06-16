@@ -34,6 +34,7 @@ import com.facebook.yoga.YogaMeasureFunction;
 import com.facebook.yoga.YogaMeasureMode;
 import com.facebook.yoga.YogaMeasureOutput;
 import com.facebook.yoga.YogaNode;
+import com.facebook.yoga.YogaNodeFactory;
 import com.facebook.yoga.YogaNodeJNIBase;
 
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class YogaLayout extends ViewGroup {
         if (node != null) {
             mYogaNode = node;
         } else {
-            mYogaNode = YogaNode.create();
+            mYogaNode = YogaNodeFactory.create();
         }
 
         mYogaNodes = new HashMap<>();
@@ -95,7 +96,7 @@ public class YogaLayout extends ViewGroup {
             } else if (node != null) {
                 childNode = node;
             } else {
-                childNode = YogaNode.create();
+                childNode = YogaNodeFactory.create();
             }
 
             childNode.setData(child);

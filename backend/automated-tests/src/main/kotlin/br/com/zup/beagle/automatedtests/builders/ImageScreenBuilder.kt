@@ -17,46 +17,91 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE
-import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE_URL
-import br.com.zup.beagle.automatedtests.constants.TITLE_SCREEN
-import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.ext.setFlex
+import br.com.zup.beagle.ext.setStyle
+import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.ImageContentMode
-import br.com.zup.beagle.widget.core.ScrollAxis
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitValue
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
 object ImageScreenBuilder {
-     fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle Image",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = Local.justMobile("informationImage"),
-                    action = Alert(
-                        title = "Image",
-                        message = "This widget will define a image view natively using the server driven " +
-                            "information received through Beagle.",
-                        labelOk = "OK"
-                    )
-                )
+    fun build() = Screen(
+        child = Container(
+            children = listOf(
+                createImages(FlexDirection.COLUMN),
+                createImages(FlexDirection.ROW),
             )
-        ),
-        child = ScrollView(
-            scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(createText("Image"), Image(Local.both(LOGO_BEAGLE_URL, LOGO_BEAGLE))) +
-                ImageContentMode.values().flatMap(this::createImageWithModeAndText)
         )
     )
 
-    private fun createText(text: String) = Text(text = text, styleId = TITLE_SCREEN)
+    private fun createImages(flexDirection: FlexDirection) =
+        Container(
+            children = listOf(
+                createStruct(
+                    direction = flexDirection,
+                    text = "without size",
+                    image = Image(Local.justMobile(LOGO_BEAGLE))
+                ),
+                createStruct(
+                    direction = flexDirection,
+                    text = "${ImageContentMode.FIT_XY} and height = 40",
+                    image = Image(
+                        Local.justMobile(LOGO_BEAGLE), ImageContentMode.FIT_XY,
+                    ).setStyle {
+                        size = Size(height = UnitValue.real(40))
+                    },
+                ),
+                createStruct(
+                    direction = flexDirection,
+                    text = "${ImageContentMode.FIT_CENTER} and width = 40",
+                    image = Image(
+                        Local.justMobile(LOGO_BEAGLE), ImageContentMode.FIT_CENTER,
+                    ).setStyle {
+                        size = Size(width = UnitValue.real(40))
+                    },
+                ),
+                createStruct(
+                    direction = flexDirection,
+                    text = "${ImageContentMode.CENTER_CROP} and width = 100 and height = 40",
+                    image = Image(
+                        Local.justMobile(LOGO_BEAGLE), ImageContentMode.CENTER_CROP,
+                    ).setStyle {
+                        size = Size.box(100, 40)
+                    },
+                ),
+                createStruct(
+                    direction = flexDirection,
+                    text = "${ImageContentMode.CENTER} and width = 300 and height = 40",
+                    image = Image(
+                        Local.justMobile(LOGO_BEAGLE), ImageContentMode.CENTER,
+                    ).setStyle {
+                        size = Size.box(300, 40)
+                    },
+                ),
+            )
+        ).setStyle {
+            backgroundColor = if (flexDirection == FlexDirection.COLUMN) "#F0FFF0" else "#FFF5EE"
+        }
 
-    private fun createImageWithModeAndText(mode: ImageContentMode) =
-        listOf(createText("Image with contentMode = $mode"), Image(Local.both(LOGO_BEAGLE_URL, LOGO_BEAGLE), mode))
+    private fun createStruct(
+        direction: FlexDirection,
+        text: String,
+        image: Image,
+    ) = Container(
+        children = listOf(
+            Text(text = "$direction + contentMode = $text"),
+            Container(
+                children = listOf(
+                    image
+                )
+            ).setFlex {
+                flexDirection = direction
+            }
+        )
+    )
 }

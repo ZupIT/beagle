@@ -36,14 +36,14 @@ sealed class Route {
      */
     data class Remote constructor(
         val url: Bind<String>,
-        val shouldPrefetch: Boolean = false,
+        val shouldPrefetch: Boolean? = null,
         val fallback: Screen? = null,
         val httpAdditionalData: HttpAdditionalData? = null
     ) : Route() {
 
         constructor(
             url: String,
-            shouldPrefetch: Boolean = false,
+            shouldPrefetch: Boolean? = null,
             fallback: Screen? = null,
             httpAdditionalData: HttpAdditionalData? = null
         ) : this(
@@ -71,7 +71,19 @@ sealed class Navigate : AnalyticsAction {
      * Opens one of the browsers available on the device with the passed url.
      * @param url defined route to be shown.
      */
-    data class OpenExternalURL(val url: String, override var analytics: ActionAnalyticsConfig? = null) : Navigate()
+    data class OpenExternalURL(
+        val url: Bind<String>,
+        override var analytics: ActionAnalyticsConfig? = null,
+    ) : Navigate() {
+
+        constructor(
+            url: String,
+            analytics: ActionAnalyticsConfig? = null,
+        ) : this(
+            url = valueOf(url),
+            analytics = analytics
+        )
+    }
 
     /**
      * This action opens the route to execute the action declared in the deeplink that was defined for the application.
@@ -80,10 +92,25 @@ sealed class Navigate : AnalyticsAction {
      * restarting the application view stack.
      * @param data pass information between screens.
      */
-    class OpenNativeRoute(val route: String,
-                          val shouldResetApplication: Boolean = false,
-                          val data: Map<String, String>? = null,
-                          override var analytics: ActionAnalyticsConfig? = null) : Navigate()
+    class OpenNativeRoute(
+        val route: Bind<String>,
+        val shouldResetApplication: Boolean = false,
+        val data: Map<String, String>? = null,
+        override var analytics: ActionAnalyticsConfig? = null,
+    ) : Navigate() {
+
+        constructor(
+            route: String,
+            shouldResetApplication: Boolean = false,
+            data: Map<String, String>? = null,
+            analytics: ActionAnalyticsConfig? = null,
+        ) : this(
+            route = valueOf(route),
+            shouldResetApplication = shouldResetApplication,
+            data = data,
+            analytics = analytics
+        )
+    }
 
     /**
      * Present a new screen with the link declared in the route attribute.
@@ -123,7 +150,19 @@ sealed class Navigate : AnalyticsAction {
      *
      * @param route route of a screen that it's on the pile.
      */
-    data class PopToView(val route: String, override var analytics: ActionAnalyticsConfig? = null) : Navigate()
+    data class PopToView(
+        val route: Bind<String>,
+        override var analytics: ActionAnalyticsConfig? = null,
+    ) : Navigate() {
+
+        constructor(
+            route: String,
+            analytics: ActionAnalyticsConfig? = null,
+        ) : this(
+            route = valueOf(route),
+            analytics = analytics
+        )
+    }
 
     /**
      * This attribute, when selected, opens a screen with the route informed

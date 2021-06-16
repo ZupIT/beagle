@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import Foundation
+
 public protocol LogType {
     var category: String { get }
     var message: String { get }
@@ -34,6 +36,7 @@ public enum Log {
     case cache(_ cache: Cache)
     case expression(_ expression: Expression)
     case customOperations(_ operation: Operation)
+    case collection(_ collection: Collection)
 
     public enum Decoding {
         case decodingError(type: String)
@@ -60,9 +63,8 @@ public enum Log {
     public enum Navigator {
         case didReceiveAction(Navigate)
         case unableToPrefetchWhenUrlIsExpression
-        case errorTryingToPopScreenOnNavigatorWithJustOneScreen
         case didNotFindDeepLinkScreen(path: String)
-        case cantPopToAlreadyCurrentScreen(identifier: String)
+        case routeDoesNotExistInTheCurrentStack(path: String)
         case didNavigateToExternalUrl(path: String)
         case invalidExternalUrl(path: String)
         case unableToOpenExternalUrl(path: String)
@@ -131,6 +133,10 @@ public enum Log {
         case invalid(name: String)
         case notFound
     }
+    
+    public enum Collection {
+        case templateNotFound(item: String)
+    }
 }
 
 extension Log: LogType {
@@ -144,6 +150,7 @@ extension Log: LogType {
         case .cache: return "Cache"
         case .expression: return "Expression"
         case .customOperations: return "CustomOperation"
+        case .collection: return "Collection"
         }
     }
 
@@ -197,6 +204,9 @@ extension Log: LogType {
             return "\n Invalid custom operation name: \(name) \n Names should have at least 1 character, it can also contain numbers and the character _"
         case .customOperations(.notFound):
             return "Custom operation not registered."
+
+        case .collection(.templateNotFound(let item)):
+            return "Could not find a template for `\(item)`."
         }
     }
 
@@ -220,7 +230,7 @@ extension Log: LogType {
 
         case .navigation(let nav):
             switch nav {
-            case .errorTryingToPopScreenOnNavigatorWithJustOneScreen, .didNotFindDeepLinkScreen, .cantPopToAlreadyCurrentScreen, .invalidExternalUrl, .unableToOpenExternalUrl, .unableToPrefetchWhenUrlIsExpression:
+            case .didNotFindDeepLinkScreen, .routeDoesNotExistInTheCurrentStack, .invalidExternalUrl, .unableToOpenExternalUrl, .unableToPrefetchWhenUrlIsExpression:
                 return .error
             case .didReceiveAction, .didNavigateToExternalUrl:
                 return .info
@@ -239,6 +249,9 @@ extension Log: LogType {
             case .invalid:
                 return .error
             }
+
+        case .collection(.templateNotFound):
+            return .error
         }
     }
 }

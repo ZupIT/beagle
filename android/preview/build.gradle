@@ -18,9 +18,8 @@ import br.com.zup.beagle.Dependencies
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'de.mannodermaus.android-junit5'
-apply from: rootProject.file('jacoco-android.gradle')
+apply from: "$rootDir/jacoco-android.gradle"
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
@@ -56,13 +55,15 @@ android {
             useJUnitPlatform()
         }
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
     implementation Dependencies.AndroidxLibraries.appcompat
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.webSocket
-    implementation Dependencies.GeneralLibraries.simpleLogger
 
     implementation project(Dependencies.Modules.core)
 
@@ -76,14 +77,9 @@ dependencies {
     testImplementation Dependencies.TestLibraries.junitVintageEngine
     testImplementation Dependencies.TestLibraries.testRunner
     testImplementation Dependencies.TestLibraries.testExt
-    testImplementation Dependencies.TestLibraries.espressoCore
     testImplementation Dependencies.TestLibraries.testCore
     testImplementation Dependencies.TestLibraries.testRules
     testImplementation Dependencies.GeneralLibraries.yoga
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
-
-
-
-

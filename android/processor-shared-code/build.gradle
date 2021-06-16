@@ -17,10 +17,12 @@
 import br.com.zup.beagle.Dependencies
 
 apply plugin: 'kotlin'
-apply from: "./../../jacoco.gradle"
+apply from: "$rootDir/../jacoco.gradle"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.ProcessorLibraries.kotlinPoet
     implementation project(Dependencies.Modules.androidAnnotation)
 }

@@ -30,8 +30,8 @@ import br.com.zup.beagle.widget.core.ScrollAxis
  * @param context define the contextData that be set to scrollView.
  */
 data class ScrollView(
-    val children: List<ServerDrivenComponent>,
+    val children: List<ServerDrivenComponent>? = null,
     val scrollDirection: ScrollAxis? = null,
     val scrollBarEnabled: Boolean? = null,
-    override val context: ContextData? = null
+    override val context: ContextData? = null,
 ) : ServerDrivenComponent, ContextComponent

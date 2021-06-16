@@ -25,7 +25,7 @@ interface PersonInterface
 
 data class Person(val names: ArrayList<String>): PersonInterface
 
-class CustomWidget(
+data class CustomWidget(
     val arrayList: ArrayList<Person>?,
     val pair: Pair<Person, String>?,
     val charSequence: CharSequence?,

@@ -8,17 +8,12 @@
   </a>
 </h1>
 
-<p align="center">
-  <a href="https://github.com/ZupIT/beagle/blob/master/LICENSE.md">
-    <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Beagle is released under the Apache 2.0 license." />
-  </a>
-  <a href="https://codecov.io/gh/ZupIT/beagle">
-    <img src="https://codecov.io/gh/ZupIT/beagle/branch/master/graph/badge.svg" />
-  </a>
-  <a href="https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome!" />
-  </a>
-</p>
+<div align="center">
+
+| Backend        | Android                      | iOS                                | License                            | PRs                                |
+|-----------     | -----------------------------| ---------------------------------- | ---------------------------------- | ---------------------------------- |
+| [![Coverage Backend](https://sonarcloud.io/api/project_badges/measure?project=ZupIT_beagle_backend&metric=coverage)](https://sonarcloud.io/dashboard?id=ZupIT_beagle_backend) | [![Coverage Android](https://sonarcloud.io/api/project_badges/measure?project=ZupIT_beagle_android&metric=coverage)](https://sonarcloud.io/dashboard?id=ZupIT_beagle_android) | [![Coverage iOS](https://sonarcloud.io/api/project_badges/measure?project=ZupIT_beagle_ios&metric=coverage)](https://sonarcloud.io/dashboard?id=ZupIT_beagle_ios) | [![Beagle is released under the Apache 2.0 license.](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/ZupIT/beagle/blob/master/LICENSE.md) | [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md) |
+</div>
 
 <h3 align="center">
   <a href="https://docs.usebeagle.io">Getting Started</a>

@@ -75,17 +75,17 @@ void _mapFlex(YogaNode yogaNode, BeagleFlex flex) {
     ..setFlex(flex?.flex?.toDouble() ?? 0.0)
     ..setFlexDirection(_mapFlexDirection(flex?.flexDirection))
     ..setFlexWrap(_mapWrap(flex?.flexWrap))
-    ..setFlexGrow(flex?.grow?.toDouble() ?? 0.0)
+    ..setGrow(flex?.grow?.toDouble() ?? 0.0)
     ..setJustifyContent(_mapJustify(flex?.justifyContent))
-    ..setFlexShrink(flex?.shrink?.toDouble() ?? 1.0);
+    ..setShrink(flex?.shrink?.toDouble() ?? 1.0);
 
   if (flex?.basis?.value == null || flex?.basis?.value == 0) {
-    yogaNode.setFlexBasisAuto();
+    yogaNode.setBasisAuto();
   } else {
     if (flex.basis.type == UnitType.PERCENT) {
-      yogaNode.setFlexBasisPercent(flex.basis.value.toDouble());
+      yogaNode.setBasisPercent(flex.basis.value.toDouble());
     } else {
-      yogaNode.setFlexBasis(flex.basis.value.toDouble());
+      yogaNode.setBasis(flex.basis.value.toDouble());
     }
   }
 }

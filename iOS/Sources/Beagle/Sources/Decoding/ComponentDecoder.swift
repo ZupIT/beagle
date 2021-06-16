@@ -189,6 +189,7 @@ final public class ComponentDecoder: ComponentDecoding {
         registerComponent(Button.self, key: key(name: "Button", namespace: .beagle))
         registerComponent(Image.self, key: key(name: "Image", namespace: .beagle))
         registerComponent(ListView.self, key: key(name: "ListView", namespace: .beagle))
+        registerComponent(GridView.self, key: key(name: "GridView", namespace: .beagle))
         registerComponent(Text.self, key: key(name: "Text", namespace: .beagle))
         registerComponent(PageView.self, key: key(name: "PageView", namespace: .beagle))
         registerComponent(Deprecated.TabView.self, key: key(name: "TabView", namespace: .beagle))

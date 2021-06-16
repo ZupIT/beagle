@@ -20,6 +20,7 @@ import br.com.zup.beagle.android.components.Touchable
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.form.InputWidget
+import br.com.zup.beagle.android.components.page.PageIndicator
 import br.com.zup.beagle.android.components.page.PageIndicatorComponent
 import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
@@ -66,7 +67,8 @@ internal object ComponentJsonAdapterFactory {
             .withSubtype(Touchable::class.java, createNameSpaceToDefaultWidget<Touchable>("touchable"))
             .withSubtype(FormInput::class.java, createNameSpaceToDefaultWidget<FormInput>("formInput"))
             .withSubtype(FormSubmit::class.java, createNameSpaceToDefaultWidget<FormSubmit>("formSubmit"))
-            .withSubtype(PageView::class.java, createNameSpaceToDefaultWidget<FormSubmit>("pageView"))
+            .withSubtype(PageView::class.java, createNameSpaceToDefaultWidget<PageView>("pageView"))
+            .withSubtype(PageIndicator::class.java, createNameSpaceToDefaultWidget<PageIndicator>("pageIndicator"))
     }
 
     private fun registerWidgets(
