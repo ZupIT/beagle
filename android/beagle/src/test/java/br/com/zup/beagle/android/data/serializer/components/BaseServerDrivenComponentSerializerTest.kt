@@ -14,24 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.mockdata
+package br.com.zup.beagle.android.data.serializer.components
 
-import android.view.View
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
-import io.mockk.mockk
+import br.com.zup.beagle.android.data.serializer.BaseSerializerTest
+import br.com.zup.beagle.core.ServerDrivenComponent
 
-interface PersonInterface
-
-data class Person(val names: ArrayList<String>): PersonInterface
-
-data class CustomWidget(
-    val arrayList: ArrayList<Person>?,
-    val pair: Pair<Person, String>?,
-    val charSequence: CharSequence?,
-    val personInterface: PersonInterface
-) : WidgetView() {
-    override fun buildView(rootView: RootView): View {
-        return mockk()
-    }
-}
+abstract class BaseServerDrivenComponentSerializerTest
+    : BaseSerializerTest<ServerDrivenComponent>(ServerDrivenComponent::class.java)
