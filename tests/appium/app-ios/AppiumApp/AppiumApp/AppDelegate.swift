@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let deepLinkController = DeepLinkViewController()
         deepLinkController.bffUrl = bffUrl
-        let screen = UINavigationController(rootViewController: deepLinkController)
+        let screen = CustomBeagleNavigationController(rootViewController: deepLinkController)
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = screen
         window?.makeKeyAndVisible()
@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         BeagleConfig.config()
                 
-        let screen = UINavigationController(rootViewController: MainViewController())
+        let screen = CustomBeagleNavigationController(rootViewController: MainViewController())
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = screen
         window?.makeKeyAndVisible()

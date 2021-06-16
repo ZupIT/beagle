@@ -32,6 +32,10 @@ class BeagleConfig {
             builder: CustomBeagleNavigationController.init,
             forId: "CustomBeagleNavigation"
         )
+        dependencies.navigation.registerNavigationController(
+            builder: OtherBegleNavigationController.init,
+            forId: "otherController"
+        )
         
         Beagle.dependencies = dependencies
     }
