@@ -16,10 +16,7 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.Styled
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData

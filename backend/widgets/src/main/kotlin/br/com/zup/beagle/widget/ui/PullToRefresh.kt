@@ -31,7 +31,7 @@ data class PullToRefresh(
     @get:JsonProperty("isRefreshing") val isRefreshing: Bind<Boolean>? = null,
     val color: Bind<String>? = null,
     val child: ServerDrivenComponent? = null,
-): Widget(), ContextComponent {
+) : Widget(), ContextComponent {
 
     constructor(
         context: ContextData?,

@@ -39,7 +39,6 @@ import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.widget.core.Size
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

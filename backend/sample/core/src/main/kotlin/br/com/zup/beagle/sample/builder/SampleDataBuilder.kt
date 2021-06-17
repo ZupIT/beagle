@@ -19,14 +19,15 @@ package br.com.zup.beagle.sample.builder
 import kotlin.random.Random
 
 object SampleDataBuilder {
-    private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+    private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
-    private fun randomString() = (1..15)
-        .map { Random.nextInt(0, charPool.size) }
-        .map(charPool::get)
-        .joinToString("")
+    private fun randomString() =
+        (1..15)
+            .map { Random.nextInt(0, charPool.size) }
+            .map(charPool::get)
+            .joinToString("")
 
-    fun getStringArray(): List<String>{
-        return (1..Random.nextInt(100)).map { randomString() }
-    }
+    fun getStringArray(): List<String> =
+        (1..Random.nextInt(100))
+            .map { randomString() }
 }

@@ -17,13 +17,9 @@
 package br.com.zup.beagle.android.components.refresh
 
 import android.graphics.Color
-import android.view.View
-import android.widget.TextView
-import androidx.appcompat.widget.AppCompatButton
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.BaseComponentTest
-import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.extensions.once
@@ -38,7 +34,6 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
-import org.apache.maven.settings.Server
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
