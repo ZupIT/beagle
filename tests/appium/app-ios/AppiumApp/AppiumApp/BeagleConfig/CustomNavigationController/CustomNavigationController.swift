@@ -40,7 +40,7 @@ class CustomBeagleNavigationController: BeagleNavigationController {
 }
 
 /// This Navigation changes the 'Try again' button title to 'Retry'.
-class OtherBegleNavigationController: CustomBeagleNavigationController {
+class OtherBeagleNavigationController: CustomBeagleNavigationController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

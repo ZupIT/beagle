@@ -33,7 +33,7 @@ class BeagleConfig {
             forId: "CustomBeagleNavigation"
         )
         dependencies.navigation.registerNavigationController(
-            builder: OtherBegleNavigationController.init,
+            builder: OtherBeagleNavigationController.init,
             forId: "otherController"
         )
         
