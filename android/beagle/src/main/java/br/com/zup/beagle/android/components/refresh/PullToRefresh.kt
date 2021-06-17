@@ -43,7 +43,7 @@ data class PullToRefresh constructor(
 ) : WidgetView(), ContextComponent, SingleChildComponent {
 
     constructor(
-        context: ContextData?,
+        context: ContextData? = null,
         onPull: List<Action>,
         isRefreshing: Bind<Boolean>? = null,
         color: String? = null,

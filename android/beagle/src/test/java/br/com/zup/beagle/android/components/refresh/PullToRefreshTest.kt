@@ -22,7 +22,6 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
-import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.Observer
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
@@ -96,7 +95,7 @@ class PullToRefreshTest : BaseComponentTest() {
             pullToRefreshComponent.buildView(rootView)
 
             // Then
-            verify(exactly = once()) { swipeRefreshLayout.setOnRefreshListener(any()) }
+            verify(exactly = 1) { swipeRefreshLayout.setOnRefreshListener(any()) }
         }
 
         @Test
@@ -106,7 +105,7 @@ class PullToRefreshTest : BaseComponentTest() {
             pullToRefreshComponent.buildView(rootView)
 
             // Then
-            verify(exactly = once()) {
+            verify(exactly = 1) {
                 pullToRefreshComponent.observeBindChanges(rootView, swipeRefreshLayout, isRefreshing, captureLambda())
             }
         }
@@ -118,7 +117,7 @@ class PullToRefreshTest : BaseComponentTest() {
             pullToRefreshComponent.buildView(rootView)
 
             // Then
-            verify(exactly = once()) {
+            verify(exactly = 1) {
                 pullToRefreshComponent.observeBindChanges(rootView, swipeRefreshLayout, color, captureLambda())
             }
         }
@@ -130,7 +129,7 @@ class PullToRefreshTest : BaseComponentTest() {
             pullToRefreshComponent.buildView(rootView)
 
             // Then
-            verify(exactly = once()) {
+            verify(exactly = 1) {
                 beagleFlexView.addView(child, false)
             }
         }
@@ -195,7 +194,7 @@ class PullToRefreshTest : BaseComponentTest() {
             pullToRefreshComponent.buildView(rootView)
             listenerSlot.captured.onRefresh()
 
-            verify(exactly = once()) { action.execute(rootView, swipeRefreshLayout) }
+            verify(exactly = 1) { action.execute(rootView, swipeRefreshLayout) }
         }
     }
 
@@ -228,7 +227,7 @@ class PullToRefreshTest : BaseComponentTest() {
             pullToRefreshComponent.buildView(rootView)
             booleanObserverSlot.captured.invoke(refreshing)
 
-            verify(exactly = once()) { swipeRefreshLayout.isRefreshing = refreshing ?: false }
+            verify(exactly = 1) { swipeRefreshLayout.isRefreshing = refreshing ?: false }
         }
     }
 
@@ -249,7 +248,7 @@ class PullToRefreshTest : BaseComponentTest() {
             pullToRefreshComponent.buildView(rootView)
             stringObserverSlot.captured.invoke(colorString)
 
-            verify(exactly = once()) { swipeRefreshLayout.setColorSchemeColors(expectedColor) }
+            verify(exactly = 1) { swipeRefreshLayout.setColorSchemeColors(expectedColor) }
         }
     }
 }

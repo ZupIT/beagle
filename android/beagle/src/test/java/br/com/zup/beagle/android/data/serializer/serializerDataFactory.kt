@@ -663,6 +663,25 @@ fun makePullToRefreshObject() = PullToRefresh(
     child = makeObjectContainer()
 )
 
+fun makePullToRefreshWithoutExpressionJson() = """
+    {
+        "_beagleComponent_": "beagle:pulltorefresh",
+        "context": ${makeContextWithPrimitiveValueJson()},
+        "onPull": [${makeActionAlertJson()}],
+        "isRefreshing": "$TEST_EXPRESSION",
+        "color": "#FFFFFF",
+        "child": ${makeContainerJson()}
+    }
+"""
+
+fun makePullToRefreshWithoutExpressionObject() = PullToRefresh(
+    context = makeObjectContextWithPrimitiveValue(),
+    onPull = listOf(makeActionAlertObject()),
+    isRefreshing = expressionOf(TEST_EXPRESSION),
+    color = "#FFFFFF",
+    child = makeObjectContainer()
+)
+
 fun makeActionAddChildrenJson() = """
     {
         "_beagleAction_":"beagle:addchildren",
