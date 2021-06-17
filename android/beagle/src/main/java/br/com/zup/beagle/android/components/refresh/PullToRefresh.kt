@@ -31,6 +31,7 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.SingleChildComponent
 
 @RegisterWidget("pullToRefresh")
 data class PullToRefresh constructor(
@@ -38,15 +39,15 @@ data class PullToRefresh constructor(
     val onPull: List<Action>,
     val isRefreshing: Bind<Boolean>? = null,
     val color: Bind<String>? = null,
-    val child: ServerDrivenComponent? = null,
-) : WidgetView(), ContextComponent {
+    override val child: ServerDrivenComponent,
+) : WidgetView(), ContextComponent, SingleChildComponent {
 
     constructor(
         context: ContextData?,
         onPull: List<Action>,
         isRefreshing: Bind<Boolean>? = null,
         color: String? = null,
-        child: ServerDrivenComponent? = null,
+        child: ServerDrivenComponent,
     ) : this(
         context = context,
         onPull = onPull,
@@ -70,9 +71,7 @@ data class PullToRefresh constructor(
     }
 
     private fun buildChildView(rootView: RootView) = viewFactory.makeBeagleFlexView(rootView).apply {
-        child?.let {
-            addView(it, false)
-        }
+        addView(child, false)
     }
 
     private fun observeRefreshState(rootView: RootView, view: SwipeRefreshLayout) {

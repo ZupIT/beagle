@@ -141,6 +141,27 @@ class PullToRefreshTest : BaseComponentTest() {
     inner class PullToRefreshBuildWithNullParamsTest {
 
         @Test
+        @DisplayName("Then should not observe isRefreshing changes")
+        fun testBuildNotObserveIsRefreshing() {
+            // Given
+            pullToRefreshComponent = PullToRefresh(
+                context,
+                onPullActions,
+                null,
+                "#FF0000",
+                child
+            )
+
+            // When
+            pullToRefreshComponent.buildView(rootView)
+
+            // Then
+            verify(exactly = 0) {
+                pullToRefreshComponent.observeBindChanges(rootView, swipeRefreshLayout, isRefreshing, captureLambda())
+            }
+        }
+
+        @Test
         @DisplayName("Then should not observe color changes")
         fun testBuildNotObserveColor() {
             // Given
@@ -149,7 +170,7 @@ class PullToRefreshTest : BaseComponentTest() {
                 onPullActions,
                 isRefreshing,
                 null as String?,
-                null
+                child
             )
 
             // When
@@ -158,27 +179,6 @@ class PullToRefreshTest : BaseComponentTest() {
             // Then
             verify(exactly = 0) {
                 pullToRefreshComponent.observeBindChanges(rootView, swipeRefreshLayout, color, captureLambda())
-            }
-        }
-
-        @Test
-        @DisplayName("Then should not add child")
-        fun testBuildNotAddChild() {
-            // Given
-            pullToRefreshComponent = PullToRefresh(
-                context,
-                onPullActions,
-                isRefreshing,
-                color,
-                null
-            )
-
-            // When
-            pullToRefreshComponent.buildView(rootView)
-
-            // Then
-            verify(exactly = 0) {
-                beagleFlexView.addView(child, false)
             }
         }
     }
