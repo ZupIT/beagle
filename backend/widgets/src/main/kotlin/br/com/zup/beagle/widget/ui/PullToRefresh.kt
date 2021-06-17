@@ -30,7 +30,7 @@ data class PullToRefresh(
     val onPull: List<Action>,
     @get:JsonProperty("isRefreshing") val isRefreshing: Bind<Boolean>? = null,
     val color: Bind<String>? = null,
-    val child: ServerDrivenComponent? = null,
+    val child: ServerDrivenComponent,
 ) : Widget(), ContextComponent {
 
     constructor(
@@ -38,7 +38,7 @@ data class PullToRefresh(
         onPull: List<Action>,
         isRefreshing: Bind<Boolean>? = null,
         color: String? = null,
-        child: ServerDrivenComponent? = null,
+        child: ServerDrivenComponent,
     ) : this(
         context = context,
         onPull = onPull,
