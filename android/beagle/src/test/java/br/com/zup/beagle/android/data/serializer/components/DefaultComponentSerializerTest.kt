@@ -113,7 +113,7 @@ class DefaultComponentSerializerTest : DefaultSerializerTest<ServerDrivenCompone
         Arguments.of(makeTouchableJson(), makeObjectTouchable()),
         Arguments.of(makeWebViewJson(), makeObjectWebView()),
         Arguments.of(makeWebViewWithExpressionJson(), makeObjectWebViewWithExpression()),
-        Arguments.of(makePullToRefreshJson(), makePullToRefreshObject())
+        Arguments.of(makePullToRefreshJson(), makePullToRefreshObject()),
     )
 
     private fun makeObjectScreenComponent() = ScreenComponent(

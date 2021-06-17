@@ -113,7 +113,7 @@ class DynamicSetContext(
     private val contextId: String,
     private val valueProvider: suspend () -> Any,
     private val path: String? = null,
-    private val onFinished: Action
+    private val onFinished: Action,
 ) : Action {
 
     override fun execute(rootView: RootView, origin: View) {

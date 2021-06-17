@@ -96,7 +96,7 @@ object ComponentScreenBuilder : ScreenBuilder {
                 createMenu("Text Input", SCREEN_TEXT_INPUT_ENDPOINT),
                 createMenu("Simple Form", SCREEN_SIMPLE_FORM_ENDPOINT),
                 createMenu("Add Children", SCREEN_ACTION_ADD_CHILDREN),
-                createMenu("Pull to Refresh", SCREEN_PULL_TO_REFRESH)
+                createMenu("Pull to Refresh", SCREEN_PULL_TO_REFRESH),
             )
         )
     )

@@ -52,7 +52,7 @@ data class PullToRefresh constructor(
         onPull = onPull,
         isRefreshing = isRefreshing,
         color = valueOfNullable(color),
-        child = child
+        child = child,
     )
 
     @Transient
