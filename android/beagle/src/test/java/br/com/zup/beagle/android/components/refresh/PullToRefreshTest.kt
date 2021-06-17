@@ -136,6 +136,53 @@ class PullToRefreshTest : BaseComponentTest() {
         }
     }
 
+    @DisplayName("When build view with null params")
+    @Nested
+    inner class PullToRefreshBuildWithNullParamsTest {
+
+        @Test
+        @DisplayName("Then should not observe color changes")
+        fun testBuildNotObserveColor() {
+            // Given
+            pullToRefreshComponent = PullToRefresh(
+                context,
+                onPullActions,
+                isRefreshing,
+                null as String?,
+                null
+            )
+
+            // When
+            pullToRefreshComponent.buildView(rootView)
+
+            // Then
+            verify(exactly = 0) {
+                pullToRefreshComponent.observeBindChanges(rootView, swipeRefreshLayout, color, captureLambda())
+            }
+        }
+
+        @Test
+        @DisplayName("Then should not add child")
+        fun testBuildNotAddChild() {
+            // Given
+            pullToRefreshComponent = PullToRefresh(
+                context,
+                onPullActions,
+                isRefreshing,
+                color,
+                null
+            )
+
+            // When
+            pullToRefreshComponent.buildView(rootView)
+
+            // Then
+            verify(exactly = 0) {
+                beagleFlexView.addView(child, false)
+            }
+        }
+    }
+
     @DisplayName("When onRefresh triggered")
     @Nested
     inner class PullToRefreshOnRefreshTest {
@@ -168,14 +215,20 @@ class PullToRefreshTest : BaseComponentTest() {
             testIsRefreshingStateChange(false)
         }
 
-        private fun testIsRefreshingStateChange(refreshing: Boolean) {
+        @Test
+        @DisplayName("Then should update refresh state to false when isRefreshing evaluates to null")
+        fun testChangeIsRefreshingToFalseWhenEvaluatesNull() {
+            testIsRefreshingStateChange(null)
+        }
+
+        private fun testIsRefreshingStateChange(refreshing: Boolean?) {
             every { pullToRefreshComponent.observeBindChanges(rootView, swipeRefreshLayout, isRefreshing, capture(booleanObserverSlot)) } just Runs
 
             // When
             pullToRefreshComponent.buildView(rootView)
             booleanObserverSlot.captured.invoke(refreshing)
 
-            verify(exactly = once()) { swipeRefreshLayout.isRefreshing = refreshing }
+            verify(exactly = once()) { swipeRefreshLayout.isRefreshing = refreshing ?: false }
         }
     }
 
