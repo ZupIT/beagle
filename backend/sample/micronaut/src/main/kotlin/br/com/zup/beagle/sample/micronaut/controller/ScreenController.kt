@@ -120,7 +120,7 @@ class ScreenController(
     private val sampleScreenTextInput: TextInputService,
     private val sampleSimpleFormService: SampleSimpleFormService,
     private val sampleAddChildrenService: AddChildrenService,
-    private val samplePullToRefreshService: SamplePullToRefreshService
+    private val samplePullToRefreshService: SamplePullToRefreshService,
 ) {
     @Get(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -130,7 +130,6 @@ class ScreenController(
 
     @Get(SCREEN_BUILDER_ENDPOINT)
     fun getScreenBuilder() = this.sampleScreenBuilderService.createScreenBuilder()
-
 
     @Get(SCREEN_COMPONENTS_ENDPOINT)
     fun getSampleComponents() = this.sampleComponentsService.getCreateSampleComponentsView()
