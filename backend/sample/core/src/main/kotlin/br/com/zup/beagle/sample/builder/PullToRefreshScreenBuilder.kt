@@ -61,7 +61,7 @@ object PullToRefreshScreenBuilder : ScreenBuilder {
                 )
             ),
             isRefreshing = expressionOf("@{refreshContext}"),
-            color = expressionOf("@{#0000FF}"),
+            color = "#0000FF",
             child = Styled(
                 ListView(
                     dataSource = expressionOf("@{listContext}"),
