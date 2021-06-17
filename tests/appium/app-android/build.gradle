@@ -35,12 +35,13 @@ plugins {
 }
 
 allprojects {
-    apply from: "$rootDir/../../../detekt.gradle"
+    // apply from: "$rootDir/../../../detekt.gradle"
 
     apply plugin: "br.com.zup.beagle.dependencies"
     apply plugin: "org.jetbrains.dokka"
 
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
     }
