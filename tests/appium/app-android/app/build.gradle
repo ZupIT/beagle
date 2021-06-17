@@ -68,14 +68,14 @@ dependencies {
 }
 
 
-task buildAndPublishBeagleAndroidLocally{
-    doLast{
+task buildAndPublishBeagleAndroidLocally {
+    doLast {
         def workingDirVar = "${projectDir}/../../../../android"
         def executableVar = ''
 
         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
             executableVar = 'gradlew.bat'
-        }else{
+        } else {
             executableVar = './gradlew'
         }
 
