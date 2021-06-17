@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.refresh
 
+import android.graphics.Color
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
@@ -26,14 +27,18 @@ import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.utils.Observer
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
+import org.apache.maven.settings.Server
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -43,20 +48,27 @@ import org.junit.jupiter.api.Test
 @DisplayName("Given a PullToRefresh")
 class PullToRefreshTest : BaseComponentTest() {
 
-    private val swipeRefreshLayout: SwipeRefreshLayout = mockk(relaxed = true, relaxUnitFun = true)
+    private val swipeRefreshLayout: SwipeRefreshLayout = mockk(relaxed = true)
     private val context: ContextData = mockk(relaxed = true)
-    private val onPullActions = listOf<Action>(mockk(relaxed = true, relaxUnitFun = true))
-    private val isRefreshing: Bind<Boolean> = mockk(relaxed = true, relaxUnitFun = true)
-    private val color: Bind<String> = mockk(relaxed = true, relaxUnitFun = true)
+    private val action: Action = mockk(relaxed = true)
+    private val onPullActions = listOf(action)
+    private val isRefreshing: Bind<Boolean> = mockk(relaxed = true)
+    private val color: Bind<String> = mockk(relaxed = true)
     private val child = mockk<ServerDrivenComponent>()
-    private val listener = slot<SwipeRefreshLayout.OnChildScrollUpCallback>()
+    private val listenerSlot = slot<SwipeRefreshLayout.OnRefreshListener>()
+    private val booleanObserverSlot = slot<Observer<Boolean?>>()
+    private val stringObserverSlot = slot<Observer<String?>>()
     private lateinit var pullToRefreshComponent: PullToRefresh
 
     @BeforeEach
     override fun setUp() {
         super.setUp()
 
+        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
+        mockkStatic(Color::class)
+
         every { anyConstructed<ViewFactory>().makeSwipeRefreshLayout(any()) } returns swipeRefreshLayout
+        every { swipeRefreshLayout.setOnRefreshListener(capture(listenerSlot)) } just Runs
 
         pullToRefreshComponent = PullToRefresh(
             context,
@@ -84,7 +96,7 @@ class PullToRefreshTest : BaseComponentTest() {
 
         @Test
         @DisplayName("Then should set RefreshListener on pullToRefresh")
-        fun buildClickListenerInstance() {
+        fun testBuildSetRefreshListener() {
             // When
             pullToRefreshComponent.buildView(rootView)
 
@@ -94,12 +106,102 @@ class PullToRefreshTest : BaseComponentTest() {
 
         @Test
         @DisplayName("Then should observe isRefreshing changes")
-        fun buildClickListenerInstance() {
+        fun testBuildObserveIsRefreshing() {
             // When
             pullToRefreshComponent.buildView(rootView)
 
             // Then
-            verify(exactly = once()) { swipeRefreshLayout.setOnRefreshListener(any()) }
+            verify(exactly = once()) {
+                pullToRefreshComponent.observeBindChanges(rootView, swipeRefreshLayout, isRefreshing, captureLambda())
+            }
+        }
+
+        @Test
+        @DisplayName("Then should observe color changes")
+        fun testBuildObserveColor() {
+            // When
+            pullToRefreshComponent.buildView(rootView)
+
+            // Then
+            verify(exactly = once()) {
+                pullToRefreshComponent.observeBindChanges(rootView, swipeRefreshLayout, color, captureLambda())
+            }
+        }
+
+        @Test
+        @DisplayName("Then should add child")
+        fun testBuildAddChild() {
+            // When
+            pullToRefreshComponent.buildView(rootView)
+
+            // Then
+            verify(exactly = once()) {
+                beagleFlexView.addView(child, false)
+            }
+        }
+    }
+
+    @DisplayName("When onRefresh triggered")
+    @Nested
+    inner class PullToRefreshOnRefreshTest {
+
+        @Test
+        @DisplayName("Then should call onPull actions")
+        fun testTriggerOnRefresh() {
+
+            // When
+            pullToRefreshComponent.buildView(rootView)
+            listenerSlot.captured.onRefresh()
+
+            verify(exactly = once()) { action.execute(rootView, swipeRefreshLayout) }
+        }
+    }
+
+    @DisplayName("When refresh state change")
+    @Nested
+    inner class PullToRefreshRefreshStateChangeTest {
+
+        @Test
+        @DisplayName("Then should update refresh state to true")
+        fun testChangeIsRefreshingToTrue() {
+            testIsRefreshingStateChange(true)
+        }
+
+        @Test
+        @DisplayName("Then should update refresh state to false")
+        fun testChangeIsRefreshingToFalse() {
+            testIsRefreshingStateChange(false)
+        }
+
+        private fun testIsRefreshingStateChange(refreshing: Boolean) {
+            every { pullToRefreshComponent.observeBindChanges(rootView, swipeRefreshLayout, isRefreshing, capture(booleanObserverSlot)) } just Runs
+
+            // When
+            pullToRefreshComponent.buildView(rootView)
+            booleanObserverSlot.captured.invoke(refreshing)
+
+            verify(exactly = once()) { swipeRefreshLayout.isRefreshing = refreshing }
+        }
+    }
+
+    @DisplayName("When color state change")
+    @Nested
+    inner class PullToRefreshColorStateChangeTest {
+
+        @Test
+        @DisplayName("Then should update the correct color")
+        fun testChangeColorState() {
+            // Given
+            val colorString = "#FF0000"
+            every { pullToRefreshComponent.observeBindChanges(rootView, swipeRefreshLayout, color, capture(stringObserverSlot)) } just Runs
+            every { Color.parseColor(colorString) } returns -65536
+            val expectedColor = Color.parseColor(colorString)
+
+            // When
+            pullToRefreshComponent.buildView(rootView)
+            stringObserverSlot.captured.invoke(colorString)
+
+            verify(exactly = once()) { swipeRefreshLayout.setColorSchemeColors(expectedColor) }
         }
     }
 }

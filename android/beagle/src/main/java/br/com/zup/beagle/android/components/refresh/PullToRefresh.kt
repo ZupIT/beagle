@@ -38,16 +38,16 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 data class PullToRefresh constructor(
     override val context: ContextData? = null,
     val onPull: List<Action>,
-    val isRefreshing: Bind<Boolean>? = null, // default is false
-    val color: Bind<String>? = null, // default is whatever the system default is
+    val isRefreshing: Bind<Boolean>? = null,
+    val color: Bind<String>? = null,
     val child: ServerDrivenComponent? = null,
 ) : WidgetView(), ContextComponent {
 
     constructor(
         context: ContextData?,
         onPull: List<Action>,
-        isRefreshing: Bind<Boolean>? = null, // default is false
-        color: String? = null, // default is whatever the system default is
+        isRefreshing: Bind<Boolean>? = null,
+        color: String? = null,
         child: ServerDrivenComponent? = null,
     ) : this(
         context = context,

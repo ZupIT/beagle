@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-apply plugin: "org.jetbrains.dokka"
-apply from: "$rootDir/../jacoco.gradle"
+package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.Dependencies
+import kotlin.random.Random
 
-test {
-    useJUnitPlatform()
+object SampleDataBuilder {
+    private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+
+    private fun randomString() = (1..15)
+        .map { Random.nextInt(0, charPool.size) }
+        .map(charPool::get)
+        .joinToString("")
+
+    fun getStringArray(): List<String>{
+        return (1..Random.nextInt(100)).map { randomString() }
+    }
 }
-
-dependencies {
-    implementation Dependencies.GeneralLibraries.jacksonKotlin
-    api project(Dependencies.Modules.schemaKotlinCore)
-
-    testImplementation Dependencies.TestLibraries.mockk
-    testImplementation Dependencies.TestLibraries.kotlinTest
-    testImplementation Dependencies.TestLibraries.junit5Api
-    testRuntimeOnly Dependencies.TestLibraries.junit5Engine
-}
-
-apply from: rootProject.file('../maven-publish.gradle')

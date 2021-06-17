@@ -16,27 +16,13 @@
 
 package br.com.zup.beagle.sample
 
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.android.action.SendRequest
-import br.com.zup.beagle.android.action.SetContext
-import br.com.zup.beagle.android.components.ListView
-import br.com.zup.beagle.android.components.Text
-import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.android.components.layout.Screen
-import br.com.zup.beagle.android.components.refresh.PullToRefresh
-import br.com.zup.beagle.android.components.utils.Template
-import br.com.zup.beagle.android.context.ContextData
-import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.utils.newServerDrivenIntent
 import br.com.zup.beagle.android.view.ServerDrivenActivity
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
 import br.com.zup.beagle.sample.constants.SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.fragment.ComposeComponentFragment
@@ -48,13 +34,12 @@ import br.com.zup.beagle.sample.fragment.ImageViewFragment
 import br.com.zup.beagle.sample.fragment.LazyComponentFragment
 import br.com.zup.beagle.sample.fragment.NavigationFragment
 import br.com.zup.beagle.sample.fragment.PageViewFragment
+import br.com.zup.beagle.sample.fragment.PullToRefreshFragment
 import br.com.zup.beagle.sample.fragment.ScrollViewFragment
 import br.com.zup.beagle.sample.fragment.TabViewFragment
 import br.com.zup.beagle.sample.fragment.TextInputFragment
 import br.com.zup.beagle.sample.fragment.WebViewFragment
 import br.com.zup.beagle.sample.fragment.list.ListViewFragment
-import br.com.zup.beagle.widget.core.Size
-import kotlin.random.Random
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
@@ -85,67 +70,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             R.id.disabledFormSubmit -> goToFragment(DisabledFormSubmitFragment.newInstance())
             R.id.listView -> goToFragment(ListViewFragment.newInstance())
             R.id.gridView -> goToFragment(GridViewFragment.newInstance())
+            R.id.pullToRefresh -> goToFragment(PullToRefreshFragment.newInstance())
             R.id.webView -> goToFragment(WebViewFragment.newInstance())
             R.id.composeComponent -> goToFragment(ComposeComponentFragment.newInstance())
-//            R.id.sampleBff -> startActivity(newServerDrivenIntent<ServerDrivenActivity>(RequestData(SAMPLE_ENDPOINT)))
-            R.id.sampleBff -> startActivity(newServerDrivenIntent<ServerDrivenActivity>(
-                Screen(
-                    context = ContextData("listContext", listOf("teste", "teste2")),
-                    child = PullToRefresh(
-                        context = ContextData("refreshContext", RefreshStatus()),
-                        onPull = listOf(
-                            SetContext(
-                                contextId = "refreshContext",
-                                value = RefreshStatus(true, "#0000FF")
-                            ),
-                            SendRequest(
-                                url = "/components",
-                                onSuccess = listOf(
-                                    SetContext(
-                                        contextId = "refreshContext",
-                                        value = RefreshStatus(false, "#FFFF00")
-                                        //value = false,
-                                        //path = "isRefreshing"
-                                    ),
-                                    SetContext(
-                                        contextId = "listContext",
-                                        value = "@{onSuccess.data}"
-                                    )
-                                )
-                            )
-                        ),
-                        isRefreshing = expressionOf("@{refreshContext.isRefreshing}"),
-                        color = expressionOf("@{refreshContext.spinColor}"),
-                        //child = Container().applyStyle(
-                        //   style = Style(
-                        //       backgroundColor = "#FF0000",
-                        //       size = Size(width = 200.unitReal(), height = 300.unitReal())
-                        //   )
-                        //)
-                    child = ListView(
-                        //context = ContextData("listContext", listOf("teste", "teste2")),
-                        dataSource = expressionOf("@{listContext}"),
-                        templates = listOf(
-                            Template(
-                                case = null,
-                                view = Text(expressionOf("@{item}"))
-                            )
-                        )
-                    ).applyStyle(
-                        style = Style(
-                                   backgroundColor = "#FF0000",
-                                   size = Size(width = 200.unitReal(), height = 300.unitReal())
-                              )
-                    )
-                    )
-                )
-            ))
+            R.id.sampleBff -> startActivity(newServerDrivenIntent<ServerDrivenActivity>(RequestData(SAMPLE_ENDPOINT)))
+
         }
     }
-
-    data class RefreshStatus(val isRefreshing: Boolean = false, val spinColor: String = "#000000")
-
-    private fun randomColor() = String.format("#%06x", Random.nextInt(0xFFFFFF))
 
     private fun goToFragment(fragment: Fragment) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
