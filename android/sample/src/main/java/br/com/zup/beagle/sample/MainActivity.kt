@@ -74,7 +74,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             R.id.webView -> goToFragment(WebViewFragment.newInstance())
             R.id.composeComponent -> goToFragment(ComposeComponentFragment.newInstance())
             R.id.sampleBff -> startActivity(newServerDrivenIntent<ServerDrivenActivity>(RequestData(SAMPLE_ENDPOINT)))
-
         }
     }
 

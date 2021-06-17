@@ -49,6 +49,7 @@ import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.ScrollView
 import br.com.zup.beagle.android.components.page.PageIndicator
+import br.com.zup.beagle.android.components.refresh.PullToRefresh
 import br.com.zup.beagle.android.components.utils.Template
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
@@ -641,6 +642,25 @@ fun makeWebViewWithExpressionJson() = """
 
 fun makeObjectWebViewWithExpression() = WebView(
     url = expressionOf(TEST_EXPRESSION)
+)
+
+fun makePullToRefreshJson() = """
+    {
+        "_beagleComponent_": "beagle:pulltorefresh",
+        "context": ${makeContextWithPrimitiveValueJson()},
+        "onPull": [${makeActionAlertJson()}],
+        "isRefreshing": "$TEST_EXPRESSION",
+        "color": "$TEST_EXPRESSION",
+        "child": ${makeContainerJson()}
+    }
+"""
+
+fun makePullToRefreshObject() = PullToRefresh(
+    context = makeObjectContextWithPrimitiveValue(),
+    onPull = listOf(makeActionAlertObject()),
+    isRefreshing = expressionOf(TEST_EXPRESSION),
+    color = expressionOf(TEST_EXPRESSION),
+    child = makeObjectContainer()
 )
 
 fun makeActionAddChildrenJson() = """
