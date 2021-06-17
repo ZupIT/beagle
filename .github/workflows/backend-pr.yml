@@ -55,4 +55,5 @@ jobs:
                 env:
                     GITHUB_USER: ${{ env.BEAGLE_CORE_GITHUB_GITHUB_USER }}
                     GITHUB_TOKEN: ${{ env.BEAGLE_CORE_GITHUB_GITHUB_TOKEN }}
+                    SONAR_TOKEN: ${{ env.BEAGLE_CORE_GITHUB_SONAR_TOKEN }}
                 run: bundle exec fastlane backend pull_request_verification

@@ -151,6 +151,7 @@ class Dependencies : Plugin<Project> {
         const val junitApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}"
         const val junitEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5}"
         const val junitVintageEngine = "org.junit.vintage:junit-vintage-engine:${Versions.junit5}"
+        const val junitParams = "org.junit.jupiter:junit-jupiter-params:${Versions.junit5}"
         const val mockk = "io.mockk:mockk:${Versions.mockk}"
         const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutinesTest}"
         const val archCoreTesting = "androidx.arch.core:core-testing:${Versions.archCoreTesting}"

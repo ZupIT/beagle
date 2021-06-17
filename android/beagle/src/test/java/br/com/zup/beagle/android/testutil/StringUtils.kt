@@ -14,24 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.mockdata
+package br.com.zup.beagle.android.testutil
 
-import android.view.View
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
-import io.mockk.mockk
-
-interface PersonInterface
-
-data class Person(val names: ArrayList<String>): PersonInterface
-
-data class CustomWidget(
-    val arrayList: ArrayList<Person>?,
-    val pair: Pair<Person, String>?,
-    val charSequence: CharSequence?,
-    val personInterface: PersonInterface
-) : WidgetView() {
-    override fun buildView(rootView: RootView): View {
-        return mockk()
-    }
-}
+fun String.withoutWhiteSpaces() = this.replace("\\s".toRegex(), "")

@@ -48,6 +48,7 @@ platform :android do
   lane :pull_request_verification do
     gradle(project_dir: "android", task: "clean detekt lintDebug jacocoTestReportDebug")
     gradle(project_dir: "android", task: "sample:assembleDebug sample:assembleDebugAndroidTest")
+    publish_sonarcloud_gradle(projectDir: "android")
   end
 
   desc "Deploy current code to stage"
@@ -197,6 +198,7 @@ platform :backend do
   lane :pull_request_verification do
     gradle(project_dir: "backend", task: "detekt")
     gradle(project_dir: "backend", tasks:["clean", "assemble", "jacocoTestReportDebug"])
+    publish_sonarcloud_gradle(projectDir: "backend")
   end
 
   desc "Sync Spring BFF sample to Micronaut BFF sample"
@@ -307,4 +309,17 @@ lane :lastExpectedVersion do |params|
     version = lastVersion
   end
   "#{version}"
+end
+
+desc "Publishing Sonarcloud reports via gradle"
+private_lane :publish_sonarcloud_gradle do |params|
+   projectDir = params[:projectDir]
+   puts "Using projectDir #{projectDir}"
+
+   # Setup java 11
+   ENV["JAVA_HOME"] = ENV["JAVA_HOME_11_X64"]
+
+   gradle(project_dir: projectDir, task: "sonarqube")
+   # Rollback to java 8
+   ENV["JAVA_HOME"] = ENV["JAVA_HOME_8_X64"]
 end
