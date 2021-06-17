@@ -62,6 +62,11 @@ platform :android do
     deploy_to_stage
     gradle(project_dir: "android", task: "closeAndReleaseRepository")
   end
+
+  lane :deploy_to_local do
+    gradle(project_dir: "android", task: "assemble")
+    gradle(project_dir: "android", task: "publishToMavenLocal")
+  end
 end
 
 ###

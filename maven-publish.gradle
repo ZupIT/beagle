@@ -21,6 +21,7 @@ def versionName = System.env.VERSION_DEPLOY != null ? System.env.VERSION_DEPLOY 
 version = versionName
 
 mavenPublish {
+    releaseSigningEnabled = System.env.VERSION_DEPLOY != null ? true : false
     nexus {
         stagingProfile = "br.com.zup"
     }
