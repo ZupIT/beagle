@@ -23,16 +23,25 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.*
+import br.com.zup.beagle.android.utils.Observer
+import br.com.zup.beagle.android.utils.StyleManager
+import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleTabLayout
 import br.com.zup.beagle.core.Style
 import com.google.android.material.tabs.TabLayout
-import io.mockk.*
-import org.junit.jupiter.api.Test
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 private const val DEFAULT_STYLE = "DummyStyle"
 private const val TAB_BAR_ITEM_TITLE = "Beagle Tab"

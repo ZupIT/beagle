@@ -30,7 +30,13 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -62,11 +68,11 @@ class PageViewTwoTest : BaseComponentTest() {
         every { beagleFlexView.addView(any(), capture(styleSlot)) } just Runs
         every { beaglePageView.addOnPageChangeListener(capture(pageListenerSlot)) } just Runs
     }
-    
+
     @DisplayName("When buildView is called")
     @Nested
     inner class BuildView {
-        
+
         @DisplayName("Then should use style with grow 1")
         @Test
         fun testStyleWithGrow1() {
@@ -95,7 +101,7 @@ class PageViewTwoTest : BaseComponentTest() {
             verify(atLeast = 1) { ViewFactory.makeBeagleFlexView(any(), styleSlot[0]) }
             verify(atLeast = 1) { beagleFlexView.addView(any(), styleSlot[1]) }
         }
-        
+
         @DisplayName("Then should build one view with current page")
         @Test
         fun testOneViewWithCurrentPage() {

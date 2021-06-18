@@ -135,7 +135,7 @@ class WidgetExtensionsKtTest : BaseTest() {
             assertEquals(screenId, slot.captured.getScreenId())
         }
 
-        @DisplayName( "Then identifier should have the correct value")
+        @DisplayName("Then identifier should have the correct value")
         @Test
         fun testToViewWithIdOnComponent() {
             //given

@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOrValueOf
 import br.com.zup.beagle.android.context.expressionOrValueOfNullable
@@ -26,6 +25,7 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.BeagleJson
+import br.com.zup.beagle.newanalytics.ActionAnalyticsConfig
 
 /**
  * This action will show dialogues natively, such as an error alert indicating alternative flows, business system
