@@ -53,7 +53,7 @@ class WebViewTest : BaseComponentTest() {
 
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
         every { webView.loadUrl(capture(urlSlot)) } just Runs
-        every { anyConstructed<ViewFactory>().makeWebView(rootView.getContext()) } returns webView
+        every { ViewFactory.makeWebView(rootView.getContext()) } returns webView
 
         webViewComponent = WebView(MOCKED_URL)
     }

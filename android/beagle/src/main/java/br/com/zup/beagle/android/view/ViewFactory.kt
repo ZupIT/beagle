@@ -39,7 +39,7 @@ import br.com.zup.beagle.android.view.custom.BeagleView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.Style
 
-internal class ViewFactory {
+internal object ViewFactory {
 
     fun makeView(context: Context) = View(context)
 

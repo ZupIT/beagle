@@ -84,7 +84,7 @@ class ScreenComponentTest : BaseComponentTest() {
     fun build_should_create_a_screenWidget_with_grow_1_and_justifyContent_SPACE_BETWEEN() {
         // Given
         val style = slot<Style>()
-        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), capture(style)) } returns beagleFlexView
+        every { ViewFactory.makeBeagleFlexView(any(), capture(style)) } returns beagleFlexView
         every { context.supportActionBar } returns null
 
         // When

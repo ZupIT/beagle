@@ -179,9 +179,6 @@ constructor(
     var numColumns: Int = 0
 
     @Transient
-    private val viewFactory: ViewFactory = ViewFactory()
-
-    @Transient
     private var canScrollEnd = true
 
     @Transient
@@ -213,12 +210,12 @@ constructor(
     }
 
     private fun buildOldListView(): View {
-        val recyclerView = viewFactory.makeRecyclerView(rootView.getContext())
+        val recyclerView = ViewFactory.makeRecyclerView(rootView.getContext())
         children?.let { children ->
             recyclerView.apply {
                 val orientation = listDirectionToRecyclerViewOrientation()
                 layoutManager = LinearLayoutManager(context, orientation, false)
-                adapter = ListViewRecyclerAdapter(children, viewFactory, orientation, this@ListView.rootView)
+                adapter = ListViewRecyclerAdapter(children, orientation, this@ListView.rootView)
             }
         }
         return recyclerView
@@ -244,7 +241,6 @@ constructor(
         replaceWith = ReplaceWith("buildNewListView()"))
     internal class ListViewRecyclerAdapter(
         val children: List<ServerDrivenComponent>,
-        private val viewFactory: ViewFactory,
         private val orientation: Int,
         private val rootView: RootView,
     ) : RecyclerView.Adapter<ViewHolder>() {
@@ -252,7 +248,7 @@ constructor(
         override fun getItemViewType(position: Int): Int = position
 
         override fun onCreateViewHolder(parent: ViewGroup, position: Int): ViewHolder {
-            val view = viewFactory.makeBeagleFlexView(rootView).also {
+            val view = ViewFactory.makeBeagleFlexView(rootView).also {
                 val width = if (orientation == RecyclerView.VERTICAL) MATCH_PARENT else WRAP_CONTENT
                 val layoutParams = ViewGroup.LayoutParams(width, WRAP_CONTENT)
                 it.layoutParams = layoutParams
@@ -278,15 +274,15 @@ constructor(
         if (isScrollIndicatorVisible) {
             generateRecyclerViewWithScrollIndicator(orientation)
         } else {
-            viewFactory.makeBeagleRecyclerView(rootView.getContext())
+            ViewFactory.makeBeagleRecyclerView(rootView.getContext())
         }
 
 
     private fun generateRecyclerViewWithScrollIndicator(orientation: Int): BeagleRecyclerView =
         if (orientation == RecyclerView.VERTICAL) {
-            viewFactory.makeBeagleRecyclerViewScrollIndicatorVertical(rootView.getContext())
+            ViewFactory.makeBeagleRecyclerViewScrollIndicatorVertical(rootView.getContext())
         } else {
-            viewFactory.makeBeagleRecyclerViewScrollIndicatorHorizontal(rootView.getContext())
+            ViewFactory.makeBeagleRecyclerViewScrollIndicatorHorizontal(rootView.getContext())
         }
 
 
@@ -296,7 +292,6 @@ constructor(
             template,
             iteratorName,
             key,
-            viewFactory,
             ListViewModels(rootView),
             templates,
             recyclerView,

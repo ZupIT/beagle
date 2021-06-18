@@ -64,7 +64,7 @@ class BeagleTextViewExtensionsKtTest : BaseComponentTest() {
 
         every { BeagleEnvironment.beagleSdk.designSystem } returns designSystem
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
-        every { anyConstructed<ViewFactory>().makeTextView(any(), STYLE_RES) } returns textView
+        every { ViewFactory.makeTextView(any(), STYLE_RES) } returns textView
         every { textView.context } returns activity
         every { textView.text = capture(textValueSlot) } just Runs
         every { textView.gravity = capture(textAlignment) } just Runs

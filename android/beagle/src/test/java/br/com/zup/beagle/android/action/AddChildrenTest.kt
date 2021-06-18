@@ -24,7 +24,6 @@ import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.toAndroidId
-import br.com.zup.beagle.android.utils.viewFactory
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -41,13 +40,12 @@ class AddChildrenTest : BaseTest() {
     private val context = mockk<AppCompatActivity>(relaxed = true)
     private val view = mockk<BeagleFlexView>(relaxed = true)
     private val id = "id"
-    private val viewFactoryMock = mockk<ViewFactory>(relaxed = true)
 
     @BeforeEach
     override fun setUp() {
         super.setUp()
-        viewFactory = viewFactoryMock
 
+        mockkObject(ViewFactory)
         mockkObject(BeagleMessageLogs)
 
         mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
@@ -55,7 +53,7 @@ class AddChildrenTest : BaseTest() {
         every { beagleSdk.logger } returns mockk(relaxed = true)
         every { rootView.getContext() } returns context
         every { context.findViewById<ViewGroup>(id.toAndroidId()) } returns viewGroup
-        every { viewFactory.makeBeagleFlexView(rootView) } returns view
+        every { ViewFactory.makeBeagleFlexView(rootView) } returns view
         every { viewGroup.addView(any()) } just Runs
     }
 

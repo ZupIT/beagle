@@ -61,11 +61,8 @@ data class Alert(
         analytics = analytics
     )
 
-    @Transient
-    internal var viewFactory: ViewFactory = ViewFactory()
-
     override fun execute(rootView: RootView, origin: View) {
-        viewFactory.makeAlertDialogBuilder(rootView.getContext())
+        ViewFactory.makeAlertDialogBuilder(rootView.getContext())
             .setTitle(title?.let { evaluateExpression(rootView, origin, it) } ?: "")
             .setMessage(evaluateExpression(rootView, origin, message))
             .setPositiveButton(labelOk ?: rootView.getContext().getString(android.R.string.ok)) { dialogBox, _ ->

@@ -60,11 +60,11 @@ class ScrollViewTest : BaseComponentTest() {
 
         every { scrollView.addView(any()) } just Runs
         every { horizontalScrollView.addView(any()) } just Runs
-        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), capture(style)) } returns beagleFlexView
+        every { ViewFactory.makeBeagleFlexView(any(), capture(style)) } returns beagleFlexView
         every { beagleFlexView.addView(any<ServerDrivenComponent>(), false) } just Runs
         every { beagleFlexView.context } returns context
-        every { anyConstructed<ViewFactory>().makeScrollView(any()) } returns scrollView
-        every { anyConstructed<ViewFactory>().makeHorizontalScrollView(any()) } returns horizontalScrollView
+        every { ViewFactory.makeScrollView(any()) } returns scrollView
+        every { ViewFactory.makeHorizontalScrollView(any()) } returns horizontalScrollView
     }
 
     @DisplayName("When buildView is called")
@@ -84,11 +84,11 @@ class ScrollViewTest : BaseComponentTest() {
 
             // Then
             verify {
-                anyConstructed<ViewFactory>().makeBeagleFlexView(rootView, style.first())
+                ViewFactory.makeBeagleFlexView(rootView, style.first())
                 beagleFlexView.addView(components, false)
                 beagleFlexView.setHeightAutoAndDirtyAllViews()
             }
-            verify(exactly = 1) { anyConstructed<ViewFactory>().makeScrollView(context) }
+            verify(exactly = 1) { ViewFactory.makeScrollView(context) }
             verify(exactly = 1) { scrollView.addView(beagleFlexView) }
             assertEquals(true, scrollBarEnabled.captured)
             assertEquals(1.0, style[0].flex?.grow)
@@ -111,10 +111,10 @@ class ScrollViewTest : BaseComponentTest() {
 
             // Then
             verify {
-                anyConstructed<ViewFactory>().makeBeagleFlexView(rootView, style.first())
+                ViewFactory.makeBeagleFlexView(rootView, style.first())
             }
             verify(exactly = 1) {
-                anyConstructed<ViewFactory>().makeHorizontalScrollView(context)
+                ViewFactory.makeHorizontalScrollView(context)
                 beagleFlexView.addView(components, false)
                 beagleFlexView.setWidthAndHeightAutoAndDirtyAllViews()
             }

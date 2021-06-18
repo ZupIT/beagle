@@ -36,6 +36,7 @@ import br.com.zup.beagle.widget.Widget
 import io.mockk.CapturingSlot
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verifySequence
@@ -51,7 +52,6 @@ class WidgetExtensionsKtTest : BaseTest() {
     private val component = mockk<ServerDrivenComponent>()
     private val widgetComponent = mockk<Widget>()
 
-    private val viewFactoryMock = mockk<ViewFactory>(relaxed = true)
     private val view = createViewForContext()
     private val generateIdViewModel: GenerateIdViewModel = mockk(relaxed = true)
     private val contextViewModel: ScreenContextViewModel = mockk(relaxed = true)
@@ -60,7 +60,7 @@ class WidgetExtensionsKtTest : BaseTest() {
     @BeforeEach
     override fun setUp() {
         super.setUp()
-        viewFactory = viewFactoryMock
+        mockkObject(ViewFactory)
 
         prepareViewModelMock(generateIdViewModel)
         every { anyConstructed<ViewModelProvider>().get(contextViewModel::class.java) } returns contextViewModel
@@ -103,7 +103,7 @@ class WidgetExtensionsKtTest : BaseTest() {
             // Given
             val beagleFlexView = mockk<BeagleFlexView>(relaxed = true, relaxUnitFun = true)
 
-            every { viewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
+            every { ViewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
             every { rootView.getContext() } returns mockk()
 
             // When

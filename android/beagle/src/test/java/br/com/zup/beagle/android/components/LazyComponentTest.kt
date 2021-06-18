@@ -66,7 +66,7 @@ class LazyComponentTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
-        every { anyConstructed<ViewFactory>().makeBeagleView(any()) } returns beagleView
+        every { ViewFactory.makeBeagleView(any()) } returns beagleView
 
         every { beagleView[0] } returns initialStateView
 

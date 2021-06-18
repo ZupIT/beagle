@@ -55,7 +55,7 @@ class ComposeComponentTest : BaseComponentTest() {
         composeComponent.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(rootView) }
+        verify(exactly = once()) { ViewFactory.makeBeagleFlexView(rootView) }
     }
 
     @Test

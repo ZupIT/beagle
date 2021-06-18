@@ -68,7 +68,7 @@ class PageIndicatorTest : BaseComponentTest() {
         mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
         mockkObject(ColorUtils::class)
         every { Color.parseColor(any()) } returns 0
-        every { anyConstructed<ViewFactory>().makePageIndicator(any()) } returns beaglePageIndicatorView
+        every { ViewFactory.makePageIndicator(any()) } returns beaglePageIndicatorView
         every {
             pageIndicator.observeBindChanges(
                 rootView = rootView,

@@ -64,10 +64,10 @@ class TabBarTest : BaseComponentTest() {
         every { BeagleEnvironment.beagleSdk.designSystem?.image(any()) } returns 10
         every { BeagleEnvironment.beagleSdk.designSystem?.tabViewStyle(any()) } returns 0
 
-        every { anyConstructed<ViewFactory>().makeTabLayout(rootView.getContext(), any()) } returns tabLayout
-        every { anyConstructed<ViewFactory>().makeFrameLayoutParams(any(), any()) } returns frameLayoutParams
+        every { ViewFactory.makeTabLayout(rootView.getContext(), any()) } returns tabLayout
+        every { ViewFactory.makeFrameLayoutParams(any(), any()) } returns frameLayoutParams
 
-        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), capture(styleSlot)) } returns beagleFlexView
+        every { ViewFactory.makeBeagleFlexView(any(), capture(styleSlot)) } returns beagleFlexView
         every { beagleFlexView.addView(any(), capture(styleSlot)) } just Runs
 
         every { tabBarItem.title } returns TAB_BAR_ITEM_TITLE

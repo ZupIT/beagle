@@ -48,7 +48,7 @@ class ContainerTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
-        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), any(), any()) } returns beagleFlexView
+        every { ViewFactory.makeBeagleFlexView(any(), any(), any()) } returns beagleFlexView
         every { style.copy(flex = any()) } returns style
         mockkConstructor(StyleManager::class)
 
@@ -72,7 +72,7 @@ class ContainerTest : BaseComponentTest() {
 
             // Then
             verify {
-                anyConstructed<ViewFactory>().makeBeagleFlexView(
+                ViewFactory.makeBeagleFlexView(
                     rootView = rootView,
                     style = style,
                     styleId = STYLE_ID_INTEGER,
