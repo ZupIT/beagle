@@ -21,7 +21,6 @@ import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/networking/beagle_request.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:developer' as developer;
 
 class DefaultBeagleImageDownloader implements BeagleImageDownloader {
   DefaultBeagleImageDownloader({
@@ -33,9 +32,7 @@ class DefaultBeagleImageDownloader implements BeagleImageDownloader {
   @override
   Future<Uint8List> downloadImage(String url) async {
     final request = BeagleRequest(url);
-    developer.log('sending request');
     final response = await httpClient.sendRequest(request);
-    developer.log('downloaded ${response.status}');
 
     if (response.status != HttpStatus.ok) {
       throw BeagleImageDownloaderException(
@@ -47,7 +44,6 @@ class DefaultBeagleImageDownloader implements BeagleImageDownloader {
       throw Exception('Image is an empty file: $url');
     }
 
-    developer.log('returning image');
     return bytes;
   }
 }
