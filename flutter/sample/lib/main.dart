@@ -16,6 +16,7 @@
  */
 
 import 'package:beagle/beagle.dart';
+import 'package:beagle/default/default_image_downloader.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle_components/beagle_components.dart';
