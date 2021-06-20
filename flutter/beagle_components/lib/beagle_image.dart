@@ -15,7 +15,6 @@
  */
 
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/logger/beagle_logger.dart';
@@ -29,7 +28,6 @@ import 'package:flutter/widgets.dart';
 class BeagleImage extends StatefulWidget {
   const BeagleImage({
     Key key,
-    this.logger,
     this.path,
     this.mode,
   }) : super(key: key);
@@ -40,15 +38,13 @@ class BeagleImage extends StatefulWidget {
   /// Defines how the declared image will fit the view.
   final ImageContentMode mode;
 
-  /// [BeagleLogger] used to report events on the widget.
-  final BeagleLogger logger;
-
   @override
   _BeagleImageState createState() => _BeagleImageState();
 }
 
 class _BeagleImageState extends State<BeagleImage> {
   Future<Uint8List> imageBytes;
+  BeagleLogger logger = beagleServiceLocator<BeagleLogger>();
 
   @override
   void initState() {
@@ -72,7 +68,7 @@ class _BeagleImageState extends State<BeagleImage> {
       final imageDownloader = beagleServiceLocator<BeagleImageDownloader>();
       imageBytes = imageDownloader.downloadImage(path.url);
     } catch (e) {
-      widget.logger?.errorWithException(e.toString(), e);
+      logger.errorWithException(e.toString(), e);
     }
   }
 
