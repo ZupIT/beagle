@@ -15,16 +15,16 @@
  */
 
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:beagle/default/default_image_downloader.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
+import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 
 import 'image/image_mock_data.dart';
 import 'service_locator/service_locator.dart';
@@ -33,14 +33,18 @@ class MockDesignSystem extends Mock implements BeagleDesignSystem {}
 
 class MockBeagleImageDownloader extends Mock implements BeagleImageDownloader {}
 
+class MockBeagleLogger extends Mock implements BeagleLogger {}
+
 void main() {
   final designSystemMock = MockDesignSystem();
   final imageDownloaderMock = MockBeagleImageDownloader();
+  final beagleLoggerMock = MockBeagleLogger();
 
   setUpAll(() async {
     await testSetupServiceLocator(
       designSystem: designSystemMock,
       imageDownloader: imageDownloaderMock,
+      logger: beagleLoggerMock,
     );
   });
 

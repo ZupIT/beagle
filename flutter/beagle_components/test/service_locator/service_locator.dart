@@ -44,5 +44,6 @@ Future<void> testSetupServiceLocator({
 
   beagleServiceLocator
     ..registerSingleton<BeagleDesignSystem>(designSystem ?? FakeDesignSystem())
-    ..registerSingleton<BeagleImageDownloader>(imageDownloader);
+    ..registerSingleton<BeagleImageDownloader>(imageDownloader)
+    ..registerSingleton<BeagleLogger>(logger);
 }
