@@ -27,7 +27,7 @@ class GenericSteps : AbstractStep() {
 
     @When("^I click on button (.*)$")
     fun clickOnButton(string1: String) {
-        waitForElementWithTextToBeClickable(string1, likeSearch = false, ignoreCase = true).click()
+        safeClickOnElement(waitForElementWithTextToBeClickable(string1, likeSearch = false, ignoreCase = true))
     }
 
     @Then("^The Text should show (.*)$")
@@ -37,7 +37,7 @@ class GenericSteps : AbstractStep() {
 
     @When("^I click on text (.*)$")
     fun clickOnText(string1: String) {
-        waitForElementWithTextToBeClickable(string1, likeSearch = false, ignoreCase = true).click()
+        safeClickOnElement(waitForElementWithTextToBeClickable(string1, likeSearch = false, ignoreCase = true))
     }
 
     @When("^I click on input with hint (.*)$")
