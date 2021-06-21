@@ -1,6 +1,7 @@
-include: package:pedantic/analysis_options.yaml
+include: package:lints/recommended.yaml
 
 analyzer:
+  exclude: [build/**]
   errors:
     missing_required_param: error
     missing_return: error
@@ -8,3 +9,7 @@ analyzer:
   language:
     strict-inference: true
     strict-raw-types: true
+
+linter:
+  rules:
+    constant_identifier_names: false

@@ -16,11 +16,10 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import br.com.zup.beagle.setup.SuiteSetup
 import io.cucumber.java.Before
-import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
 
 
 class NavigateScreenSteps : AbstractStep() {
@@ -37,43 +36,11 @@ class NavigateScreenSteps : AbstractStep() {
         waitForElementWithTextToBeClickable("Navigation Screen", false, false)
     }
 
-    @When("^I press a navigation button (.*)$")
-    fun clickOnButton(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
-    }
-
-    @When("^I press a navigation failure button (.*)$")
-    fun clickOnButtonFailure(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
-    }
-
-    @And("^I click on (.*) button$")
-    fun clickOnPoPButton(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
-    }
-
-    @Then("^the screen should navigate to another screen with the text label (.*)$")
-    fun checkGlobalTextScreen(string2: String) {
-        waitForElementWithTextToBeClickable(string2, false, false)
-    }
-
-    @Then("^the screen should not navigate to another screen with the text label (.*)$")
-    fun checkGlobalTextScreenIsNotOnView(string2: String) {
-        waitForElementWithTextToBeInvisible(string2, false, false)
-    }
-
-    @Then("^the app should dismiss the view that contains (.*)$")
-    fun checkTextIsNotOnAnyView(string1: String) {
-        waitForElementWithTextToBeInvisible(string1,false, false)
-    }
-
-    @Then("^the view that contains the (.*) must still exist$")
-    fun checkTextExistsInAView(string2: String) {
-        waitForElementWithTextToBeClickable(string2, false, false)
-    }
-
-    @Then("^There must be a retry button with text (.*)$")
-    fun checkButtonExistsInAView(string2: String) {
-        waitForElementWithTextToBeClickable(string2, false, false)
+    @Then("^There must be a retry button with text (.*) on Android and (.*) on iOS$")
+    fun checkButtonExistsInAView(androidText: String, iosText: String) {
+        if (SuiteSetup.isIos())
+            waitForElementWithTextToBeClickable(iosText, false, true)
+        else
+            waitForElementWithTextToBeClickable(androidText, false, true)
     }
 }

@@ -36,28 +36,29 @@
 # Beagle Serialization / Deserialization
 -keep class br.com.zup.beagle.core.BeagleJson
 
--keepclassmembers @br.com.zup.beagle.annotation.RegisterWidget class *  {
+-keep @br.com.zup.beagle.annotation.RegisterWidget class *  {
   <init>(...);
   <fields>;
 }
 
--keepclassmembers @br.com.zup.beagle.annotation.RegisterAction class *  {
+-keep @br.com.zup.beagle.annotation.RegisterAction class *  {
   <init>(...);
   <fields>;
 }
 
--keepclassmembers @br.com.zup.beagle.core.BeagleJson class *  {
+-keep @br.com.zup.beagle.core.BeagleJson class *  {
   <init>(...);
   <fields>;
   **[] values();
 }
 
--keepclassmembers class ** {
+-keep class ** {
   @br.com.zup.beagle.android.annotation.ContextDataValue *;
 }
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes LineNumberTable,SourceFile
+#-dontobfuscate
 
 
