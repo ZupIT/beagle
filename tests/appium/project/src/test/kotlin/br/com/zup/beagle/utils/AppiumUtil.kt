@@ -683,7 +683,7 @@ object AppiumUtil {
     }
 
     @Synchronized
-    fun getPropertyXpath(property: String, propertyValue: String, likeSearch: Boolean, ignoreCase: Boolean): By {
+    fun getXpathLocator(property: String, propertyValue: String, likeSearch: Boolean, ignoreCase: Boolean): By {
         var key = "@$property"
         var value = "\"$propertyValue\""
 
@@ -696,6 +696,32 @@ object AppiumUtil {
             By.xpath("//*[contains($key, $value)]")
         } else {
             By.xpath("//*[$key=$value]")
+        }
+    }
+
+    /**
+     * Uses a native iOS locator strategy. Faster than XPath
+     *
+     * src:
+     *  https://github.com/facebookarchive/WebDriverAgent/wiki/Predicate-Queries-Construction-Rules
+     *  https://appium.io/docs/en/writing-running-appium/ios/ios-predicate/#ios-predicate
+     */
+    @Synchronized
+    fun getIOSNsPredicateLocator(
+        elementProperty: String,
+        elementPropertyValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
+    ): By {
+
+        return if (ignoreCase && likeSearch) {
+            MobileBy.iOSNsPredicateString("$elementProperty CONTAINS[c] '${elementPropertyValue}'")
+        } else if (ignoreCase) {
+            MobileBy.iOSNsPredicateString("$elementProperty BEGINSWITH[c] '${elementPropertyValue}'")
+        } else if (likeSearch) {
+            MobileBy.iOSNsPredicateString("$elementProperty CONTAINS '${elementPropertyValue}'")
+        } else {
+            MobileBy.iOSNsPredicateString("$elementProperty == '${elementPropertyValue}'")
         }
     }
 

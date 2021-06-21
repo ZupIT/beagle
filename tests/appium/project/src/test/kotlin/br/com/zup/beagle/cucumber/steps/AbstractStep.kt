@@ -90,7 +90,7 @@ abstract class AbstractStep {
         likeSearch: Boolean,
         ignoreCase: Boolean
     ): MobileElement {
-        val xpath: By = getSearchByTextXpath(elementText, likeSearch, ignoreCase)
+        val xpath: By = getNamePropertyLocator(elementText, likeSearch, ignoreCase, nativeLocator = true)
         return AppiumUtil.waitForElementToBeClickable(
             getDriver(),
             xpath,
@@ -107,13 +107,24 @@ abstract class AbstractStep {
         likeSearch: Boolean,
         ignoreCase: Boolean
     ): MobileElement {
-        val xpath: By = getSearchByValueXpath(elementValue, likeSearch, ignoreCase)
+        return waitForElementWithValueToBeClickable(elementValue, likeSearch, ignoreCase, true)
+    }
+
+    /**
+     * Waits for an element to be visible and enabled (clickable)
+     */
+    protected fun waitForElementWithValueToBeClickable(
+        elementValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean,
+        nativeLocator: Boolean
+    ): MobileElement {
+        val xpath: By = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, nativeLocator)
         return AppiumUtil.waitForElementToBeClickable(
             getDriver(),
             xpath,
             DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
         )
-
     }
 
     /**
@@ -124,13 +135,12 @@ abstract class AbstractStep {
         likeSearch: Boolean,
         ignoreCase: Boolean
     ): MobileElement {
-        val xpath: By = getSearchByValueXpath(elementValue, likeSearch, ignoreCase)
+        val xpath: By = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, true)
         return AppiumUtil.waitForElementToBePresent(
             getDriver(),
             xpath,
             DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
         )
-
     }
 
     /**
@@ -141,7 +151,7 @@ abstract class AbstractStep {
         likeSearch: Boolean,
         ignoreCase: Boolean
     ): MobileElement {
-        val xpath: By = getSearchByTextXpath(elementValue, likeSearch, ignoreCase)
+        val xpath: By = getNamePropertyLocator(elementValue, likeSearch, ignoreCase, nativeLocator = true)
         return AppiumUtil.waitForElementToBePresent(
             getDriver(),
             xpath,
@@ -175,32 +185,48 @@ abstract class AbstractStep {
     /**
      * Waits for an element to be visible and disabled (not clickable)
      */
-    protected fun waitForElementWithTextToBeDisabled(elementText: String, likeSearch: Boolean, ignoreCase: Boolean) {
-        val xpath: By = getSearchByTextXpath(elementText, likeSearch, ignoreCase)
+    protected fun waitForElementWithTextToBeDisabled(
+        elementText: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
+    ) {
+        val xpath: By = getNamePropertyLocator(elementText, likeSearch, ignoreCase, nativeLocator = true)
         AppiumUtil.waitForElementToBeDisabled(getDriver(), xpath, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
     }
 
     /**
      * Waits for an element to be visible and disabled (not clickable)
      */
-    protected fun waitForElementWithValueToBeDisabled(elementValue: String, likeSearch: Boolean, ignoreCase: Boolean) {
-        val xpath: By = getSearchByValueXpath(elementValue, likeSearch, ignoreCase)
+    protected fun waitForElementWithValueToBeDisabled(
+        elementValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
+    ) {
+        val xpath: By = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, nativeLocator = true)
         AppiumUtil.waitForElementToBeDisabled(getDriver(), xpath, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
     }
 
     /**
      * Waits for an element to be hidden or nonexistent
      */
-    protected fun waitForElementWithTextToBeInvisible(elementText: String, likeSearch: Boolean, ignoreCase: Boolean) {
-        val xpath: By = getSearchByTextXpath(elementText, likeSearch, ignoreCase)
+    protected fun waitForElementWithTextToBeInvisible(
+        elementText: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
+    ) {
+        val xpath: By = getNamePropertyLocator(elementText, likeSearch, ignoreCase, nativeLocator = true)
         AppiumUtil.waitForElementToBeInvisible(getDriver(), xpath, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
     }
 
     /**
      * Waits for an element to be hidden or nonexistent
      */
-    protected fun waitForElementWithValueToBeInvisible(elementValue: String, likeSearch: Boolean, ignoreCase: Boolean) {
-        val xpath: By = getSearchByValueXpath(elementValue, likeSearch, ignoreCase)
+    protected fun waitForElementWithValueToBeInvisible(
+        elementValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean
+    ) {
+        val xpath: By = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, nativeLocator = true)
         AppiumUtil.waitForElementToBeInvisible(getDriver(), xpath, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
     }
 
@@ -209,7 +235,7 @@ abstract class AbstractStep {
         likeSearch: Boolean,
         ignoreCase: Boolean
     ): MobileElement {
-        val locator = getSearchByTextXpath(elementText, likeSearch, ignoreCase)
+        val locator = getNamePropertyLocator(elementText, likeSearch, ignoreCase, false)
         return scrollToElement(locator, SwipeDirection.UP) // swiping up scrolls down...
     }
 
@@ -218,7 +244,7 @@ abstract class AbstractStep {
         likeSearch: Boolean,
         ignoreCase: Boolean
     ): MobileElement {
-        val locator = getSearchByValueXpath(elementValue, likeSearch, ignoreCase)
+        val locator = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, false)
         return scrollToElement(locator, SwipeDirection.UP)
     }
 
@@ -227,7 +253,7 @@ abstract class AbstractStep {
         likeSearch: Boolean,
         ignoreCase: Boolean
     ): MobileElement {
-        val locator = getSearchByTextXpath(elementText, likeSearch, ignoreCase)
+        val locator = getNamePropertyLocator(elementText, likeSearch, ignoreCase, false)
         return scrollToElement(locator, SwipeDirection.DOWN) // swiping down scrolls up...
     }
 
@@ -236,7 +262,7 @@ abstract class AbstractStep {
         likeSearch: Boolean,
         ignoreCase: Boolean
     ): MobileElement {
-        val locator = getSearchByValueXpath(elementText, likeSearch, ignoreCase)
+        val locator = getValuePropertyLocator(elementText, likeSearch, ignoreCase, false)
         return scrollToElement(locator, SwipeDirection.DOWN) // swiping down scrolls up...
     }
 
@@ -328,28 +354,70 @@ abstract class AbstractStep {
 
 
     protected fun rotateToLandscapePosition() {
-        getDriver().rotate(ScreenOrientation.LANDSCAPE);
+        getDriver().rotate(ScreenOrientation.LANDSCAPE)
     }
 
     protected fun rotateToPortraitPosition() {
-        getDriver().rotate(ScreenOrientation.PORTRAIT);
+        getDriver().rotate(ScreenOrientation.PORTRAIT)
     }
 
-    private fun getSearchByTextXpath(elementText: String, likeSearch: Boolean, ignoreCase: Boolean): By {
-        val property = if (SuiteSetup.isAndroid())
+    private fun getNamePropertyLocator(
+        elementPropertyValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean,
+        nativeLocator: Boolean
+    ): By {
+        val elementProperty = if (SuiteSetup.isAndroid())
             "text"
         else
             "name"
-
-        return AppiumUtil.getPropertyXpath(property, elementText, likeSearch, ignoreCase)
+        return getPropertyLocator(elementProperty, elementPropertyValue, likeSearch, ignoreCase, nativeLocator)
     }
 
-    private fun getSearchByValueXpath(elementHint: String, likeSearch: Boolean, ignoreCase: Boolean): By {
-        val property = if (SuiteSetup.isAndroid())
+    private fun getValuePropertyLocator(
+        elementPropertyValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean,
+        nativeLocator: Boolean
+    ): By {
+        val elementProperty = if (SuiteSetup.isAndroid())
             "text"
         else
             "value"
-        return AppiumUtil.getPropertyXpath(property, elementHint, likeSearch, ignoreCase)
+        return getPropertyLocator(elementProperty, elementPropertyValue, likeSearch, ignoreCase, nativeLocator)
+    }
+
+    /**
+     * Explain native locators vs xpath ...
+     * explain that the caching strategy of native locators might change depending on a certain capability (https://github.com/appium/WebDriverAgent/pull/516)
+     */
+    private fun getPropertyLocator(
+        elementProperty: String,
+        elementPropertyValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean,
+        nativeLocator: Boolean
+    ): By {
+        if (nativeLocator) {
+            val escapedElementPropertyValue = elementPropertyValue.replace("'", "\\'")
+            return if (SuiteSetup.isAndroid()) {
+
+                /**
+                 *  TODO: still retuning xpath, should be changed for Android's native locator, UISelector.
+                 *  src: http://appium.io/docs/en/writing-running-appium/android/uiautomator-uiselector/
+                 */
+                AppiumUtil.getXpathLocator(elementProperty, escapedElementPropertyValue, likeSearch, ignoreCase)
+            } else {
+                AppiumUtil.getIOSNsPredicateLocator(
+                    elementProperty,
+                    escapedElementPropertyValue,
+                    likeSearch,
+                    ignoreCase
+                )
+            }
+        } else {
+            return AppiumUtil.getXpathLocator(elementProperty, elementPropertyValue, likeSearch, ignoreCase)
+        }
     }
 
     private fun getSearchByImageXpath(): By {
@@ -364,18 +432,18 @@ abstract class AbstractStep {
 
 
     protected fun isTextFieldNumeric(elementText: String): Boolean {
-        val textElement = waitForElementWithValueToBeClickable(elementText, false, false)
+        val textElement = waitForElementWithValueToBeClickable(elementText, false, false, false)
         textElement.click()
         sleep(1000) // TouchActions sometimes get called before an element is ready to write
         if (SuiteSetup.isAndroid()) {
-            var androidActions = AndroidTouchAction(getDriver())
+            val androidActions = AndroidTouchAction(getDriver())
             androidActions.press(PointOption.point(500, 1700)).release().perform() // digit 5
         } else {
-            var iosActions = IOSTouchAction(getDriver())
+            val iosActions = IOSTouchAction(getDriver())
             iosActions.press(PointOption.point(160, 660)).release().perform()
         }
 
-        var typedChar =
+        val typedChar =
             if (textElement.text.length > 1) textElement.text.substring(textElement.text.length - 1)
             else textElement.text
 
@@ -496,11 +564,11 @@ abstract class AbstractStep {
         SuiteSetup.restartApp()
     }
 
-    protected fun elementExists(locator: By): Boolean{
+    protected fun elementExists(locator: By): Boolean {
         return AppiumUtil.elementExists(getDriver(), locator, 2000)
     }
 
-    protected fun childElementExists(parentElement: MobileElement, childLocator: By): Boolean{
+    protected fun childElementExists(parentElement: MobileElement, childLocator: By): Boolean {
         return AppiumUtil.childElementExists(getDriver(), parentElement, childLocator, 2000)
     }
 
