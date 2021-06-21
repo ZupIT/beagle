@@ -16,17 +16,15 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import br.com.zup.beagle.setup.SuiteSetup
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
+import org.junit.Assert
 
 
 private const val BUTTON_SCREEN_HEADER = "Beagle Button"
-private const val BUTTON_DEFAULT_TEXT = "Button"
-private const val BUTTON_WITH_STYLE_TEXT = "Button with style"
-private const val BUTTON_WITH_APPEARANCE_TEXT = "Button with Appearance"
-private const val ACTION_CLICK_HEADER = "Action Click"
 private const val ACTION_CLICK_TEXT = "You clicked right"
 
 class ButtonScreenSteps : AbstractStep() {
@@ -35,7 +33,7 @@ class ButtonScreenSteps : AbstractStep() {
 
     @Before("@button")
     fun setup() {
-      loadBffScreen()
+        loadBffScreen()
     }
 
     @Given("^that I'm on the button screen$")
@@ -43,22 +41,45 @@ class ButtonScreenSteps : AbstractStep() {
         waitForElementWithTextToBeClickable(BUTTON_SCREEN_HEADER, false, false)
     }
 
-    @When("I click on a component with a valid style attribute configured$")
-    fun clickOnButtonWithStyle() {
-        waitForElementWithTextToBeClickable(BUTTON_WITH_STYLE_TEXT, false, false).click()
+    @Then("^validate button clicks:$")
+    fun checkAlertProperties(dataTable: DataTable) {
+        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        for ((lineCount, columns) in rows.withIndex()) {
+
+            if (lineCount == 0) // skip header
+                continue
+
+            var buttonTitle = columns[0]!!
+            var actionText = columns[1]!!
+            var buttonElement = waitForElementWithTextToBePresent(buttonTitle, likeSearch = false, ignoreCase = true)
+
+            if (actionText == "Disabled") {
+                Assert.assertFalse(buttonElement.isEnabled)
+            } else {
+                safeClickOnElement(buttonElement)
+                waitForElementWithTextToBePresent(ACTION_CLICK_TEXT, likeSearch = false, ignoreCase = false)
+                goBack()
+                waitForElementWithTextToBeInvisible(ACTION_CLICK_TEXT, likeSearch = false, ignoreCase = false)
+            }
+        }
     }
 
-    @Then("all my button components should render their respective text attributes correctly$")
-    fun renderTextAttributeCorrectly() {
-        waitForElementWithTextToBeClickable(BUTTON_DEFAULT_TEXT, false, false)
-        waitForElementWithTextToBeClickable(BUTTON_WITH_STYLE_TEXT, false, false)
-        waitForElementWithTextToBeClickable(BUTTON_WITH_APPEARANCE_TEXT, false, false)
-    }
-
-    @Then("component should render the action attribute correctly$")
-    fun renderActionAttributeCorrectly() {
-        waitForElementWithTextToBeClickable(ACTION_CLICK_HEADER, false, false)
-        waitForElementWithTextToBeClickable(ACTION_CLICK_TEXT, false, false)
+    /**
+     * TODO: include navigation bar on all iOS screens and make this method global in AbstractStep?
+     * That would help tests not to restart apps in many cases
+     */
+    private fun goBack() {
+        if (SuiteSetup.isAndroid()) {
+            getDriver().navigate().back()
+        } else {
+            safeClickOnElement(
+                waitForElementWithTextToBeClickable(
+                    "Beagle Button",
+                    likeSearch = false,
+                    ignoreCase = false
+                )
+            )
+        }
     }
 
 
