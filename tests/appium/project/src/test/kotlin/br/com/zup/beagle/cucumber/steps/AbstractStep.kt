@@ -420,6 +420,16 @@ abstract class AbstractStep {
         }
     }
 
+    /**
+     * Waits a short time before clicking on the element. This is necessary because Appium sometimes returns
+     * an element as clickable, but when the element is clicked, nothing happens. A possible cause to this might be that
+     * the element is inside another element (ex an alert) that is still loading when the click takes place.
+     */
+    protected fun safeClickOnElement(elementToBeClicked: MobileElement){
+        sleep(200)
+        elementToBeClicked.click()
+    }
+
     private fun getSearchByImageXpath(): By {
         val xpath: By
         if (SuiteSetup.isAndroid()) {

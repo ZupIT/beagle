@@ -54,7 +54,7 @@ class AlertScreenSteps : AbstractStep() {
 
     @Then("^I press the confirmation (.*) button on the alert$")
     fun clickOnTheConfirmationActionButtonWithText(string: String) {
-        waitForElementWithTextToBeClickable(string, false, true).click()
+       safeClickOnElement(waitForElementWithTextToBeClickable(string, false, true))
     }
 
     @Then("^an alert with a confirmation button with (.*) label should appear$")

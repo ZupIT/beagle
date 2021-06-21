@@ -714,12 +714,12 @@ object AppiumUtil {
         ignoreCase: Boolean
     ): By {
 
-        return if (ignoreCase && likeSearch) {
+        return if (likeSearch && ignoreCase) {
             MobileBy.iOSNsPredicateString("$elementProperty CONTAINS[c] '${elementPropertyValue}'")
-        } else if (ignoreCase) {
-            MobileBy.iOSNsPredicateString("$elementProperty BEGINSWITH[c] '${elementPropertyValue}'")
         } else if (likeSearch) {
             MobileBy.iOSNsPredicateString("$elementProperty CONTAINS '${elementPropertyValue}'")
+        } else if (ignoreCase) {
+            MobileBy.iOSNsPredicateString("$elementProperty ==[c] '${elementPropertyValue}'")
         } else {
             MobileBy.iOSNsPredicateString("$elementProperty == '${elementPropertyValue}'")
         }
