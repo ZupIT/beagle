@@ -21,6 +21,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.networking.RequestData
@@ -61,35 +62,37 @@ class MainActivity : AppCompatActivity() {
         setContentView(
             Container(
                 children = listOf(
-                    Container(
-                        children = listOf(
-                            Text("Child 1 - Test layout").applyStyle(
-                                Style(
-                                    backgroundColor = "#2196F3",
-                                    margin = EdgeValue(top = 20.unitReal())
-                                )
-                            ),
-                            Text("Child 2").applyStyle(
-                                Style(
-                                    backgroundColor = "#FFC107",
-                                    flex = Flex(shrink = 0.0)
-                                )
-                            )
-                        )
-                    ).applyStyle(
-                        Style(
-                            backgroundColor = "#673AB7",
-                            flex = Flex(flexDirection = FlexDirection.ROW, justifyContent = JustifyContent.SPACE_AROUND)
-                        )
-                    )
+                    Text("The context value is:"),
+                    Button("One more"),
+//                    Container(
+//                        children = listOf(
+//                            Text("Child 1 - Test layout").applyStyle(
+//                                Style(
+//                                    backgroundColor = "#2196F3",
+//                                    margin = EdgeValue(top = 20.unitReal())
+//                                )
+//                            ),
+//                            Text("Child 2").applyStyle(
+//                                Style(
+//                                    backgroundColor = "#FFC107",
+//                                    flex = Flex(shrink = 0.0)
+//                                )
+//                            )
+//                        )
+//                    ).applyStyle(
+//                        Style(
+//                            backgroundColor = "#673AB7",
+//                            flex = Flex(flexDirection = FlexDirection.ROW, justifyContent = JustifyContent.SPACE_AROUND)
+//                        )
+//                    )
                 )
-            ).applyStyle(
+            )/*.applyStyle(
                 Style(
                     size = Size(
                         width = UnitValue(value = 300.0, type = UnitType.REAL)
                     )
                 )
-            ).toView(this))
+            )*/.toView(this))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

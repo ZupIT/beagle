@@ -140,20 +140,20 @@ class BeagleSampleApp extends StatelessWidget {
         //     ),
         //   ],
         // ),
-        // body: const BeagleContainer(
-        //   children: [
-        //     BeagleText(text: 'Value of \\@{global.counter} is:'),
-        //     BeagleButton(text: 'One more'),
-        //   ],
-        // ),
-        body: BeagleWidget(
-          screenRequest: BeagleScreenRequest('beagle_pageview'),
-          onCreateView: (view) => {
-            view.addErrorListener((errors) {
-              //TODO
-            })
-          },
+        body: const BeagleContainer(
+          children: [
+            BeagleText(text: 'Value of \\@{global.counter} is:'),
+            BeagleButton(text: 'One more'),
+          ],
         ),
+        // body: BeagleWidget(
+        //   screenRequest: BeagleScreenRequest('beagle_pageview'),
+        //   onCreateView: (view) => {
+        //     view.addErrorListener((errors) {
+        //       //TODO
+        //     })
+        //   },
+        // ),
       ),
     );
   }
