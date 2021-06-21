@@ -388,8 +388,9 @@ abstract class AbstractStep {
     }
 
     /**
-     * Explain native locators vs xpath ...
-     * explain that the caching strategy of native locators might change depending on a certain capability (https://github.com/appium/WebDriverAgent/pull/516)
+     * Native locators are faster than XPath. Only use XPath (nativeLocator = false) for situations where the property
+     * used to locate an element is changed and the element object is still required afterwards. More details on
+     * https://discuss.appium.io/t/elements-state-coming-from-xpath-vs-ios-predicate-string/34016
      */
     private fun getPropertyLocator(
         elementProperty: String,
@@ -403,7 +404,7 @@ abstract class AbstractStep {
             return if (SuiteSetup.isAndroid()) {
 
                 /**
-                 *  TODO: still retuning xpath, should be changed for Android's native locator, UISelector.
+                 *  TODO: still using xpath, should be changed for Android's native locator, UISelector.
                  *  src: http://appium.io/docs/en/writing-running-appium/android/uiautomator-uiselector/
                  */
                 AppiumUtil.getXpathLocator(elementProperty, escapedElementPropertyValue, likeSearch, ignoreCase)
@@ -425,7 +426,7 @@ abstract class AbstractStep {
      * an element as clickable, but when the element is clicked, nothing happens. A possible cause to this might be that
      * the element is inside another element (ex an alert) that is still loading when the click takes place.
      */
-    protected fun safeClickOnElement(elementToBeClicked: MobileElement){
+    protected fun safeClickOnElement(elementToBeClicked: MobileElement) {
         sleep(200)
         elementToBeClicked.click()
     }
