@@ -27,22 +27,22 @@ class GenericSteps : AbstractStep() {
 
     @When("^I click on button (.*)$")
     fun clickOnButton(string1: String) {
-        waitForElementWithTextToBeClickable(string1, false, true).click()
+        waitForElementWithTextToBeClickable(string1, likeSearch = false, ignoreCase = true).click()
     }
 
     @Then("^The Text should show (.*)$")
     fun textShouldShow(string1: String) {
-        waitForElementWithTextToBeClickable(string1, false, true)
+        waitForElementWithTextToBeClickable(string1, likeSearch = false, ignoreCase = true)
     }
 
     @When("^I click on text (.*)$")
     fun clickOnText(string1: String) {
-        waitForElementWithTextToBeClickable(string1, false, true).click()
+        waitForElementWithTextToBeClickable(string1, likeSearch = false, ignoreCase = true).click()
     }
 
     @When("^I click on input with hint (.*)$")
     fun clickOnInputWithHint(hint: String) {
-        waitForElementWithTextToBeClickable(hint, false, true)
+        waitForElementWithTextToBeClickable(hint, likeSearch = false, ignoreCase = true)
     }
 
     @When("hide keyboard")
@@ -52,7 +52,7 @@ class GenericSteps : AbstractStep() {
 
     @Then("^a dialog should appear on the screen with text (.*)$")
     fun checkDialog(string: String) {
-        waitForElementWithTextToBeClickable(string, true, true)
+        waitForElementWithTextToBeClickable(string, likeSearch = true, ignoreCase = true)
     }
 
     @Then("^the screen should show an element with the place holder (.*)$")
@@ -62,6 +62,11 @@ class GenericSteps : AbstractStep() {
 
     @Then("^the screen should show an element with the title (.*)$")
     fun checkElementByTitle(titleText: String) {
-        waitForElementWithTextToBeClickable(titleText, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(titleText, likeSearch = false, ignoreCase = true)
+    }
+
+    @Then("^the screen should not show an element with the title (.*)$")
+    fun checkElementNotVisibleByTitle(titleText: String) {
+        waitForElementWithTextToBeInvisible(titleText, likeSearch = false, ignoreCase = false)
     }
 }

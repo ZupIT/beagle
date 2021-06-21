@@ -15,15 +15,5 @@
  */
 
 rootProject.name = "Appium App"
-
-include ":beagle"
-include ":processor"
-include ":internal-processor"
-include ":android-annotation"
-include ":processor-shared-code"
 include ":app"
-project(":beagle").projectDir = new File('../../../android/beagle')
-project(":processor").projectDir = new File('../../../android/processor')
-project(":internal-processor").projectDir = new File('../../../android/internal-processor')
-project(":android-annotation").projectDir = new File('../../../android/android-annotation')
-project(":processor-shared-code").projectDir = new File('../../../android/processor-shared-code')
+

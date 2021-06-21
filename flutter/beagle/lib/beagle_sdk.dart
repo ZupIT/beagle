@@ -17,6 +17,7 @@
 
 import 'package:beagle/default/default_actions.dart';
 import 'package:beagle/default/default_http_client.dart';
+import 'package:beagle/default/default_image_downloader.dart';
 import 'package:beagle/default/default_storage.dart';
 import 'package:beagle/default/empty/default_empty_config.dart';
 import 'package:beagle/default/empty/default_empty_design_system.dart';
@@ -59,9 +60,11 @@ class BeagleSdk {
     BeagleLogger logger,
     Map<String, Operation> customOperations,
   }) {
+    httpClient = httpClient ?? const DefaultHttpClient();
+    
     setupServiceLocator(
       beagleConfig: beagleConfig ?? DefaultEmptyConfig(),
-      httpClient: httpClient ?? const DefaultHttpClient(),
+      httpClient: httpClient,
       components: components,
       storage: storage ?? DefaultStorage(),
       useBeagleHeaders: useBeagleHeaders ?? true,
@@ -69,7 +72,7 @@ class BeagleSdk {
           actions == null ? defaultActions : {...defaultActions, ...actions},
       navigationControllers: navigationControllers,
       designSystem: designSystem ?? DefaultEmptyDesignSystem(),
-      imageDownloader: imageDownloader,
+      imageDownloader: imageDownloader ?? DefaultBeagleImageDownloader(httpClient: httpClient),
       strategy: strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache,
       logger: logger ?? DefaultEmptyLogger(),
       customOperations: customOperations,

@@ -18,7 +18,6 @@ buildscript {
     repositories {
         maven { url "https://plugins.gradle.org/m2/" }
         google()
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.1'
@@ -36,14 +35,13 @@ plugins {
 }
 
 allprojects {
-    apply from: "$rootDir/../../../detekt.gradle"
-
     apply plugin: "br.com.zup.beagle.dependencies"
     apply plugin: "org.jetbrains.dokka"
 
     repositories {
+        mavenLocal()
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 

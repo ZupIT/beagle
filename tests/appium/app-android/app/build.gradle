@@ -15,6 +15,7 @@
  */
 
 import br.com.zup.beagle.Dependencies
+import org.apache.tools.ant.taskdefs.condition.Os
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -54,14 +55,42 @@ android {
     }
 }
 
-
 dependencies {
 
-    implementation project(Dependencies.Modules.core)
-    kapt project(Dependencies.Modules.processor)
+    implementation "br.com.zup.beagle:android:1.0.0-automated"
+    kapt "br.com.zup.beagle:android-processor:1.0.0-automated"
+
     implementation Dependencies.GsonLibraries.gson
     implementation Dependencies.AndroidxLibraries.coreKtx
     implementation Dependencies.AndroidxLibraries.appcompat
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
     implementation Dependencies.GoogleLibraries.materialDesign
 }
+
+
+task buildAndPublishBeagleAndroidLocally {
+    doLast {
+        def workingDirVar = "${projectDir}/../../../../android"
+        def executableVar = ''
+
+        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+            executableVar = 'gradlew.bat'
+        } else {
+            executableVar = './gradlew'
+        }
+
+        exec {
+            workingDir "${workingDirVar}"
+            executable "${executableVar}"
+            args "assemble"
+        }
+
+        exec {
+            workingDir "${workingDirVar}"
+            executable "${executableVar}"
+            args 'publishToMavenLocal'
+        }
+    }
+}
+preBuild.dependsOn buildAndPublishBeagleAndroidLocally
+
