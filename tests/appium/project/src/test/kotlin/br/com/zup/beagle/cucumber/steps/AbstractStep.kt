@@ -407,7 +407,7 @@ abstract class AbstractStep {
                  *  TODO: still using xpath, should be changed for Android's native locator, UISelector.
                  *  src: http://appium.io/docs/en/writing-running-appium/android/uiautomator-uiselector/
                  */
-                AppiumUtil.getXpathLocator(elementProperty, escapedElementPropertyValue, likeSearch, ignoreCase)
+                AppiumUtil.getXpathLocator(elementProperty, elementPropertyValue, likeSearch, ignoreCase)
             } else {
                 AppiumUtil.getIOSNsPredicateLocator(
                     elementProperty,
