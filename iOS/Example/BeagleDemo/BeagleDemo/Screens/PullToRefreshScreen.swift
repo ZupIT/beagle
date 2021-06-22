@@ -74,7 +74,7 @@ struct CustomAsyncAction: AsyncAction, AutoDecodable {
     
     func execute(controller: BeagleController, origin: UIView) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            controller.execute(actions: onFinish, event: "onFinish", origin: origin)
+            controller.execute(actions: self.onFinish, event: "onFinish", origin: origin)
         }
     }
 }
