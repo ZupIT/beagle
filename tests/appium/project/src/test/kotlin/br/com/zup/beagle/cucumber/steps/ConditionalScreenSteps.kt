@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
@@ -34,14 +35,21 @@ class ConditionalScreenSteps : AbstractStep() {
         waitForElementWithTextToBeClickable("Conditional Screen", false, false)
     }
 
-    @When("^I click in a conditional button with (.*) title$")
-    fun clickOnButton(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
-    }
+    @Then("^validate the invoked alerts and its message:$")
+    fun checkAlertProperties(dataTable: DataTable) {
+        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        for ((lineCount, columns) in rows.withIndex()) {
 
-    @Then("^an Alert action should pop up with a (.*) message$")
-    fun checkGlobalTextScreen(string2: String) {
-        waitForElementWithTextToBeClickable(string2, false, false)
-    }
+            if (lineCount == 0) // skip header
+                continue
 
+            var buttonTitle = columns[0]!!
+            var alertMessage = columns[1]!!
+
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle, likeSearch = false, ignoreCase = false))
+            waitForElementWithTextToBeClickable(alertMessage, likeSearch = false, ignoreCase = false)
+            safeClickOnElement(waitForElementWithTextToBeClickable("OK", likeSearch = false, ignoreCase = true))
+            waitForElementWithTextToBeInvisible("OK", likeSearch = false, ignoreCase = true)
+        }
+    }
 }
