@@ -57,7 +57,7 @@ class ButtonScreenSteps : AbstractStep() {
                 Assert.assertFalse(buttonElement.isEnabled)
             } else {
                 safeClickOnElement(buttonElement)
-                waitForElementWithTextToBePresent(ACTION_CLICK_TEXT, likeSearch = false, ignoreCase = false)
+                waitForElementWithTextToBeClickable(ACTION_CLICK_TEXT, likeSearch = false, ignoreCase = false)
                 goBack()
                 waitForElementWithTextToBeInvisible(ACTION_CLICK_TEXT, likeSearch = false, ignoreCase = false)
             }
