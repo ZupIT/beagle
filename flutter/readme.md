@@ -16,8 +16,8 @@ versions to guarantee it also works.
 
 ## Installation
 1. Open the file `pubspec.yaml` in the root of your project.
-2. Under `dependencies`, add `beagle: ^0.0.7`, or whatever the most recent version is.
-3. Also add `beagle_components: ^0.0.7`. You can omit this dependency if you're familiar with Beagle and won't use any
+2. Under `dependencies`, add `beagle: ^0.0.8`, or whatever the most recent version is.
+3. Also add `beagle_components: ^0.0.8`. You can omit this dependency if you're familiar with Beagle and won't use any
 of the default components.
 4. From your IDE, click `pub get`. Or, from the terminal, type `flutter pub get`.
 
@@ -148,9 +148,9 @@ url of the view to render, but much more can be customized, e.g. observe errors 
 To check a list of every option accepted by the `BeagleWidget`, please, check [this article](todo).
 
 ## Beagle services
-These are services that must be provided to Beagle for it work properly. For now, we're embedding default
-implementations within the library. This is probably not be the case in the future, since it may represent potential
-security issues. The Beagle services are:
+These are services that must be provided to Beagle for it to work properly. For now, we're embedding default
+implementations within the library. This is probably not going to be the case in the future, since it may represent
+potential security issues. The Beagle services are:
 
 - [BeagleLogger](todo): provide a logger for Beagle to use.
 - [HttpClient](todo): tell exactly how the network requests should be made, add your own headers and much more.
@@ -166,6 +166,7 @@ provided when calling `BeagleSdk.init`.
 - [Custom components](todo): create your own components.
 - [Custom actions](todo): make the events in your components do exactly what you need.
 - [Custom operations](todo): if the operations shipped with Beagle are not enough for your expressions, create your own.
+- [Design System](todo): here you define all styles and local images that can be used by Beagle.
 
 ## Other APIs
 - [Global context](todo): learn how to manipulate the global context in Beagle Flutter.
