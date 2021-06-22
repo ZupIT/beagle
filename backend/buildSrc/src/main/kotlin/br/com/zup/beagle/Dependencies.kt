@@ -90,6 +90,7 @@ class Dependencies : Plugin<Project> {
     object TestLibraries {
         const val junit5Api = "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}"
         const val junit5Engine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5}"
+        const val junitParams = "org.junit.jupiter:junit-jupiter-params:${Versions.junit5}"
         const val mockk = "io.mockk:mockk:${Versions.mockk}"
         const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}"
     }
