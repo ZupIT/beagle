@@ -21,6 +21,7 @@ import br.com.zup.beagle.R
 import br.com.zup.beagle.android.data.serializer.createNamespace
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.toAndroidId
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.BeagleJson
 import br.com.zup.beagle.core.IdentifierComponent
@@ -29,8 +30,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 class ComponentStylization<T : ServerDrivenComponent>(
     private val accessibilitySetup: AccessibilitySetup = AccessibilitySetup(),
 ) {
-    fun apply(view: View, component: T) {
-        view.applyStyle(component)
+    fun apply(view: View, component: T, rootView: RootView) {
+        view.applyStyle(component, rootView, view)
         (component as? IdentifierComponent)?.id?.let {
             view.id = it.toAndroidId()
             view.setTag(R.id.beagle_component_id, it)

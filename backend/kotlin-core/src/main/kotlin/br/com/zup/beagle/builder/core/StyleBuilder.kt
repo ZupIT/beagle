@@ -25,6 +25,7 @@ import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Display
 import br.com.zup.beagle.core.PositionType
 import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.widget.context.valueOfNullable
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
@@ -106,7 +107,7 @@ class StyleBuilder : BeagleBuilder<Style> {
     }
 
     override fun build() = Style(
-        backgroundColor = backgroundColor,
+        backgroundColor = valueOfNullable(backgroundColor),
         cornerRadius = cornerRadius,
         size = size,
         margin = margin,

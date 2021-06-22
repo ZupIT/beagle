@@ -32,6 +32,7 @@ import br.com.zup.beagle.android.components.layout.NavigationBarItem
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
@@ -153,7 +154,7 @@ class NavigationFragment : Fragment() {
             onPress = listOf(navigate)
         ).applyStyle(
             Style(
-                backgroundColor = backgroundColor,
+                backgroundColor = valueOf(backgroundColor),
                 cornerRadius = CornerRadius(radius = 10.0),
                 margin = EdgeValue(
                     left = 30.unitReal(),

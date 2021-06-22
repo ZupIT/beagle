@@ -36,6 +36,7 @@ import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.ext.applyStyle
 
 class ContextOperationsFragment : Fragment() {
@@ -72,7 +73,7 @@ class ContextOperationsFragment : Fragment() {
                 Text(text = "The text bellow will show if the counter + 2 is below 5 or not"),
                 Text(expressionOf(
                     "@{condition(lt(sum(counter, 2), 5), 'less then 5', 'greater then 5')}")
-                ).applyStyle(Style(backgroundColor = "#00FF00")),
+                ).applyStyle(Style(backgroundColor = expressionOf( "@{condition(lt(sum(counter, 2), 5), '#f1f1f1', '#00FF00')}"))),
                 Container(
                     context = ContextData("cpf", ""),
                     children = listOf(

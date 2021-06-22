@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
@@ -169,7 +170,7 @@ class ListViewActivity : AppCompatActivity() {
         )
     ).applyStyle(
         Style(
-            backgroundColor = "#CCC"
+            backgroundColor = valueOf("#CCC")
         )
     ).setId(id = "innerList")
 }

@@ -25,8 +25,10 @@ import androidx.core.content.ContextCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.StyleComponent
 
@@ -39,11 +41,11 @@ internal fun View.hideKeyboard() {
     imm.hideSoftInputFromWindow(windowToken, 0)
 }
 
-internal fun View.applyStyle(component: ServerDrivenComponent) {
+internal fun View.applyStyle(component: ServerDrivenComponent, rootView: RootView, view: View) {
     (component as? StyleComponent)?.let {
         if (it.style?.backgroundColor != null) {
             this.background = GradientDrawable()
-            applyBackgroundColor(it)
+            applyBackgroundColor(it, rootView, view)
             applyCornerRadius(it)
         } else {
             styleManagerFactory.applyStyleComponent(component = it, view = this)
@@ -63,9 +65,13 @@ internal fun View.applyViewBackgroundAndCorner(backgroundColor: Int?, component:
     }
 }
 
-internal fun View.applyBackgroundColor(styleWidget: StyleComponent) {
-    styleWidget.style?.backgroundColor?.toAndroidColor()?.let { androidColor ->
-        (this.background as? GradientDrawable)?.setColor(androidColor)
+internal fun View.applyBackgroundColor(styleWidget: StyleComponent, rootView: RootView, view: View) {
+    styleWidget.style?.backgroundColor?.let { backgroundColor ->
+        styleWidget.observeBindChanges(rootView, view, backgroundColor) { backgroundColorEvaluated ->
+            backgroundColorEvaluated?.toAndroidColor()?.let { androidColor ->
+                (this.background as? GradientDrawable)?.setColor(androidColor)
+            }
+        }
     }
 }
 

@@ -39,6 +39,7 @@ import br.com.zup.beagle.android.components.layout.ScrollView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.components.page.PageView
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.Widget
 
@@ -109,7 +110,7 @@ class ScrollViewFragment : Fragment() {
         ).applyStyle(
             Style(
                 size = Size(height = 100.unitReal()),
-                backgroundColor = "#ff9800",
+                backgroundColor = valueOf("#ff9800"),
                 cornerRadius = CornerRadius(radius = 8.0)
             )
         )

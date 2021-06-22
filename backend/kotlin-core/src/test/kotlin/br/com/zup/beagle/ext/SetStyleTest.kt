@@ -20,6 +20,7 @@ import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.fake.FlexComponentFake
+import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.Size
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -42,13 +43,13 @@ internal class SetStyleTest {
 
             // When
             styleComponent.setStyle {
-                this.backgroundColor = backgroundColor
+                this.backgroundColor = valueOf(backgroundColor)
             }
 
             // Then
             val expected = FlexComponentFake(
                 Style(
-                    backgroundColor = backgroundColor,
+                    backgroundColor = valueOf(backgroundColor),
                     flex = br.com.zup.beagle.widget.core.Flex(),
                     size = Size(),
                     cornerRadius = CornerRadius()
@@ -73,7 +74,7 @@ internal class SetStyleTest {
 
             // When
             styleComponent.setStyle {
-                this.backgroundColor = backgroundColor
+                this.backgroundColor = valueOf(backgroundColor)
             }
             styleComponent.setStyle {
                 this.borderColor = borderColor
@@ -83,7 +84,7 @@ internal class SetStyleTest {
             // Then
             val expected = FlexComponentFake(
                 Style(
-                    backgroundColor = backgroundColor,
+                    backgroundColor = valueOf(backgroundColor),
                     borderColor = borderColor,
                     flex = br.com.zup.beagle.widget.core.Flex(),
                     size = Size(),

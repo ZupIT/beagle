@@ -19,6 +19,7 @@ package br.com.zup.beagle.automatedtests.builders
 import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE
 import br.com.zup.beagle.ext.setFlex
 import br.com.zup.beagle.ext.setStyle
+import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.ImageContentMode
 import br.com.zup.beagle.widget.core.Size
@@ -85,7 +86,7 @@ object ImageScreenBuilder {
                 ),
             )
         ).setStyle {
-            backgroundColor = if (flexDirection == FlexDirection.COLUMN) "#F0FFF0" else "#FFF5EE"
+            backgroundColor = valueOf(if (flexDirection == FlexDirection.COLUMN) "#F0FFF0" else "#FFF5EE")
         }
 
     private fun createStruct(

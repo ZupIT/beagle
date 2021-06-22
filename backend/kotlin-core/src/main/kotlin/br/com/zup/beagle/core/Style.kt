@@ -16,7 +16,10 @@
 
 package br.com.zup.beagle.core
 
+import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.context.valueOfNullable
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
@@ -50,7 +53,7 @@ import br.com.zup.beagle.widget.core.Size
  * @param display enables a flex context for all its direct children.
  */
 data class Style(
-    var backgroundColor: String? = null,
+    var backgroundColor: Bind<String>? = null,
     var cornerRadius: CornerRadius = CornerRadius(),
     var borderColor: String? = null,
     var borderWidth: Double? = null,
@@ -61,7 +64,34 @@ data class Style(
     var flex: Flex = Flex(),
     var positionType: PositionType? = null,
     var display: Bind<Display>? = null
-)
+) {
+
+    constructor(
+        backgroundColor: String?,
+        cornerRadius: CornerRadius = CornerRadius(),
+        borderColor: String? = null,
+        borderWidth: Double? = null,
+        size: Size = Size(),
+        margin: EdgeValue? = null,
+        padding: EdgeValue? = null,
+        position: EdgeValue? = null,
+        flex: Flex = Flex(),
+        positionType: PositionType? = null,
+        display: Display? = null
+    ) : this(
+        backgroundColor = valueOfNullable(backgroundColor),
+        cornerRadius = cornerRadius,
+        borderColor = borderColor,
+        borderWidth = borderWidth,
+        size = size,
+        margin = margin,
+        padding = padding,
+        position = position,
+        flex = flex,
+        positionType = positionType,
+        display = valueOfNullable(display)
+    )
+}
 
 /**
  * The corner radius change the appearance of view

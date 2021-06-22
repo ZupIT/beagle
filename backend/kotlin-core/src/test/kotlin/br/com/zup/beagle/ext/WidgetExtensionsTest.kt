@@ -19,6 +19,7 @@ package br.com.zup.beagle.ext
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.Flex
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -40,7 +41,7 @@ class WidgetExtensionsTest {
         fun testWidgetApplyStyle() {
             // Given
             val backgroundColor = "#fafafa"
-            val style = Style(backgroundColor = backgroundColor)
+            val style = Style(backgroundColor = valueOf(backgroundColor))
 
             // When
             val result = widget.applyStyle(style)
@@ -62,8 +63,8 @@ class WidgetExtensionsTest {
             val backgroundColor = "#fafafa"
             val grow = 1.0
             val flex = Flex(grow = grow)
-            val style = Style(backgroundColor = backgroundColor)
-            val styleResult = Style(backgroundColor = backgroundColor, flex = flex)
+            val style = Style(backgroundColor = valueOf(backgroundColor))
+            val styleResult = Style(backgroundColor = valueOf(backgroundColor), flex = flex)
 
             // When
             val result = widget.applyFlex(flex).applyStyle(style)
