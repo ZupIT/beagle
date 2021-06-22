@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import Foundation
+
 public enum DynamicObject: Equatable, Hashable {
     case empty
     case bool(Bool)
