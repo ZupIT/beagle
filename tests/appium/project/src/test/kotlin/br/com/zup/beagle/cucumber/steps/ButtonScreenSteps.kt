@@ -64,23 +64,4 @@ class ButtonScreenSteps : AbstractStep() {
         }
     }
 
-    /**
-     * TODO: include navigation bar on all iOS screens and make this method global in AbstractStep?
-     * That would help tests not to restart apps in many cases
-     */
-    private fun goBack() {
-        if (SuiteSetup.isAndroid()) {
-            getDriver().navigate().back()
-        } else {
-            safeClickOnElement(
-                waitForElementWithTextToBeClickable(
-                    "Beagle Button",
-                    likeSearch = false,
-                    ignoreCase = false
-                )
-            )
-        }
-    }
-
-
 }

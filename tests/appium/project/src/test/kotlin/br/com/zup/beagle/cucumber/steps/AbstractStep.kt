@@ -23,6 +23,7 @@ import br.com.zup.beagle.utils.AppiumUtil
 import br.com.zup.beagle.utils.ImageUtil
 import br.com.zup.beagle.utils.SwipeDirection
 import io.appium.java_client.AppiumDriver
+import io.appium.java_client.MobileBy
 import io.appium.java_client.MobileElement
 import io.appium.java_client.android.AndroidTouchAction
 import io.appium.java_client.ios.IOSTouchAction
@@ -34,7 +35,6 @@ import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.Point
 import org.openqa.selenium.ScreenOrientation
 import java.io.File
-import java.util.HashMap
 
 
 abstract class AbstractStep {
@@ -431,14 +431,12 @@ abstract class AbstractStep {
         elementToBeClicked.click()
     }
 
-    private fun getSearchByImageXpath(): By {
-        val xpath: By
-        if (SuiteSetup.isAndroid()) {
-            xpath = By.xpath("//*[contains(@class,'ImageView')]")
+    private fun getImageLocator(): By {
+        return if (SuiteSetup.isAndroid()) {
+            MobileBy.className("android.widget.ImageView")
         } else {
-            xpath = By.xpath("//*[contains(@type,'XCUIElementTypeImage')]")
+            MobileBy.className("XCUIElementTypeImage")
         }
-        return xpath
     }
 
 
@@ -483,8 +481,7 @@ abstract class AbstractStep {
      * @return all image elements
      */
     protected fun waitForImageElements(): List<MobileElement> {
-        val xpath = getSearchByImageXpath()
-        return getDriver().findElements(xpath) as List<MobileElement>
+        return getDriver().findElements(getImageLocator()) as List<MobileElement>
     }
 
     /**
@@ -583,4 +580,18 @@ abstract class AbstractStep {
         return AppiumUtil.childElementExists(getDriver(), parentElement, childLocator, 2000)
     }
 
+    protected fun goBack() {
+        if (SuiteSetup.isAndroid()) {
+            getDriver().navigate().back()
+        } else {
+            // caution: not all iOS bff screens have the back button.
+            var locator = By.xpath("//XCUIElementTypeNavigationBar//XCUIElementTypeButton[1]")
+            safeClickOnElement(
+                AppiumUtil.waitForElementToBeClickable(
+                    getDriver(), locator,
+                    DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+                )
+            )
+        }
+    }
 }
