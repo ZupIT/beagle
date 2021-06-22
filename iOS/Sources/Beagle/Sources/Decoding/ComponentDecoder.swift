@@ -198,6 +198,7 @@ final public class ComponentDecoder: ComponentDecoding {
         registerComponent(LazyComponent.self, key: key(name: "LazyComponent", namespace: .beagle))
         registerComponent(WebView.self, key: key(name: "WebView", namespace: .beagle))
         registerComponent(TextInput.self, key: key(name: "TextInput", namespace: .beagle))
+        registerComponent(PullToRefresh.self, key: key(name: "PullToRefresh", namespace: .beagle))
     }
     
     private func registerComponent<T: Decodable>(_ type: T.Type, key: String) {
