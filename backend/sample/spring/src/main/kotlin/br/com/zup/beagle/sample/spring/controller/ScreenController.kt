@@ -46,6 +46,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_LIST_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_PULL_TO_REFRESH
 import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_FALSE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_TRUE_ENDPOINT
@@ -74,6 +75,7 @@ import br.com.zup.beagle.sample.spring.service.SampleListViewService
 import br.com.zup.beagle.sample.spring.service.SampleNavigationBarService
 import br.com.zup.beagle.sample.spring.service.SampleNavigationTypeService
 import br.com.zup.beagle.sample.spring.service.SamplePageViewService
+import br.com.zup.beagle.sample.spring.service.SamplePullToRefreshService
 import br.com.zup.beagle.sample.spring.service.SampleSafeAreaService
 import br.com.zup.beagle.sample.spring.service.SampleScreenBuilderService
 import br.com.zup.beagle.sample.spring.service.SampleScrollViewService
@@ -117,7 +119,8 @@ class ScreenController(
     private val sampleScreenSafeArea: SampleSafeAreaService,
     private val sampleScreenTextInput: TextInputService,
     private val sampleSimpleFormService: SampleSimpleFormService,
-    private val sampleAddChildrenService: AddChildrenService
+    private val sampleAddChildrenService: AddChildrenService,
+    private val samplePullToRefreshService: SamplePullToRefreshService,
 ) {
     @GetMapping(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -235,4 +238,7 @@ class ScreenController(
 
     @GetMapping(SCREEN_ACTION_ADD_CHILDREN)
     fun getAddChildrenService() = this.sampleAddChildrenService.createAddChildrenScreen()
+
+    @GetMapping(SCREEN_PULL_TO_REFRESH)
+    fun getSamplePullToRefreshService() = this.samplePullToRefreshService.createPullToRefreshView()
 }

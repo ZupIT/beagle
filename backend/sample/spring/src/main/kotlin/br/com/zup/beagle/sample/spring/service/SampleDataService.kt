@@ -14,23 +14,12 @@
  * limitations under the License.
  */
 
-apply plugin: "org.jetbrains.dokka"
-apply from: "$rootDir/../jacoco.gradle"
+package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.Dependencies
+import br.com.zup.beagle.sample.builder.SampleDataBuilder
+import org.springframework.stereotype.Service
 
-test {
-    useJUnitPlatform()
+@Service
+class SampleDataService {
+    fun getSampleStringList() = SampleDataBuilder.getStringArray()
 }
-
-dependencies {
-    implementation Dependencies.GeneralLibraries.jacksonKotlin
-    api project(Dependencies.Modules.schemaKotlinCore)
-
-    testImplementation Dependencies.TestLibraries.mockk
-    testImplementation Dependencies.TestLibraries.kotlinTest
-    testImplementation Dependencies.TestLibraries.junit5Api
-    testRuntimeOnly Dependencies.TestLibraries.junit5Engine
-}
-
-apply from: rootProject.file('../maven-publish.gradle')

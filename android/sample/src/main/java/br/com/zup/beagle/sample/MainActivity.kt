@@ -34,6 +34,7 @@ import br.com.zup.beagle.sample.fragment.ImageViewFragment
 import br.com.zup.beagle.sample.fragment.LazyComponentFragment
 import br.com.zup.beagle.sample.fragment.NavigationFragment
 import br.com.zup.beagle.sample.fragment.PageViewFragment
+import br.com.zup.beagle.sample.fragment.PullToRefreshFragment
 import br.com.zup.beagle.sample.fragment.ScrollViewFragment
 import br.com.zup.beagle.sample.fragment.TabViewFragment
 import br.com.zup.beagle.sample.fragment.TextInputFragment
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             R.id.disabledFormSubmit -> goToFragment(DisabledFormSubmitFragment.newInstance())
             R.id.listView -> goToFragment(ListViewFragment.newInstance())
             R.id.gridView -> goToFragment(GridViewFragment.newInstance())
+            R.id.pullToRefresh -> goToFragment(PullToRefreshFragment.newInstance())
             R.id.webView -> goToFragment(WebViewFragment.newInstance())
             R.id.composeComponent -> goToFragment(ComposeComponentFragment.newInstance())
             R.id.sampleBff -> startActivity(newServerDrivenIntent<ServerDrivenActivity>(RequestData(SAMPLE_ENDPOINT)))

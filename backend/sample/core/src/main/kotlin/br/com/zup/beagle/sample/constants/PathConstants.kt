@@ -62,6 +62,7 @@ const val SCREEN_TEXT_INPUT_ENDPOINT = "/text-input"
 const val SCREEN_SIMPLE_FORM_ENDPOINT = "/simple-form"
 const val DSL_BUILDER_ENDPOINT = "/dsl-builder"
 const val SCREEN_ACTION_ADD_CHILDREN = "/add-children"
+const val SCREEN_PULL_TO_REFRESH = "/pull-to-refresh"
 
 const val CUSTOM_WIDGET_ENDPOINT = "/custom"
 
@@ -74,3 +75,5 @@ const val PLATFORM_SAMPLE_ENDPOINT = "/sample/platform"
 
 const val PATH_SAMPLE_VIEW_ENDPOINT = "http://localhost:8080/sample"
 const val PATH_URL_WEB_VIEW_ENDPOINT = "https://zup.com.br"
+
+const val DATA_STRING_LIST = "/generate-string-list"

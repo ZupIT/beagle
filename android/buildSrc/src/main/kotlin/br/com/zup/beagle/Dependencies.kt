@@ -58,6 +58,7 @@ class Dependencies : Plugin<Project> {
         const val appcompat = "1.2.0"
         const val viewModel = "2.3.1"
         const val recyclerView = "1.2.0"
+        const val swipeRefreshLayout = "1.1.0"
 
         const val moshi = "1.12.0"
 
@@ -134,6 +135,7 @@ class Dependencies : Plugin<Project> {
         const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
         const val coreKtx = "androidx.core:core-ktx:${Versions.appcompat}"
         const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
+        const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefreshLayout}"
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModel}"
         const val viewModelExtensions = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.viewModel}"
     }

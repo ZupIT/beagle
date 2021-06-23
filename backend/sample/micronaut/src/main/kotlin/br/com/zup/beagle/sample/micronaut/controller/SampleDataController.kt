@@ -14,23 +14,16 @@
  * limitations under the License.
  */
 
-apply plugin: "org.jetbrains.dokka"
-apply from: "$rootDir/../jacoco.gradle"
+package br.com.zup.beagle.sample.micronaut.controller
 
-import br.com.zup.beagle.Dependencies
+import br.com.zup.beagle.sample.constants.DATA_STRING_LIST
+import br.com.zup.beagle.sample.micronaut.service.SampleDataService
+import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Controller
 
-test {
-    useJUnitPlatform()
+@Controller
+class SampleDataController(private val sampleDataService: SampleDataService) {
+
+    @Get(DATA_STRING_LIST)
+    fun getSampleDataStringList() = this.sampleDataService.getSampleStringList()
 }
-
-dependencies {
-    implementation Dependencies.GeneralLibraries.jacksonKotlin
-    api project(Dependencies.Modules.schemaKotlinCore)
-
-    testImplementation Dependencies.TestLibraries.mockk
-    testImplementation Dependencies.TestLibraries.kotlinTest
-    testImplementation Dependencies.TestLibraries.junit5Api
-    testRuntimeOnly Dependencies.TestLibraries.junit5Engine
-}
-
-apply from: rootProject.file('../maven-publish.gradle')

@@ -14,23 +14,6 @@
  * limitations under the License.
  */
 
-apply plugin: "org.jetbrains.dokka"
-apply from: "$rootDir/../jacoco.gradle"
+package br.com.zup.beagle.testutil
 
-import br.com.zup.beagle.Dependencies
-
-test {
-    useJUnitPlatform()
-}
-
-dependencies {
-    implementation Dependencies.GeneralLibraries.jacksonKotlin
-    api project(Dependencies.Modules.schemaKotlinCore)
-
-    testImplementation Dependencies.TestLibraries.mockk
-    testImplementation Dependencies.TestLibraries.kotlinTest
-    testImplementation Dependencies.TestLibraries.junit5Api
-    testRuntimeOnly Dependencies.TestLibraries.junit5Engine
-}
-
-apply from: rootProject.file('../maven-publish.gradle')
+internal fun String.withoutWhiteSpaces() = this.replace("\\s".toRegex(), "")
