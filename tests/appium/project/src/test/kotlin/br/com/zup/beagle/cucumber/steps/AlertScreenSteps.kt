@@ -16,10 +16,12 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
+import org.junit.Assert
 
 
 class AlertScreenSteps : AbstractStep() {
@@ -36,29 +38,33 @@ class AlertScreenSteps : AbstractStep() {
         waitForElementWithTextToBeClickable("Alert Screen", false, false)
     }
 
-    @When("^I press an alert button with the (.*) title$")
-    fun clickOnButton(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
+
+    @Then("^validate the invoked alerts and its properties:$")
+    fun checkAlertProperties(dataTable: DataTable) {
+        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        for ((lineCount, columns) in rows.withIndex()) {
+
+            if (lineCount == 0) // skip header
+                continue
+
+            var buttonTitle = columns[0]!!
+            var alertTitle = columns[1]!!
+            var alertMessage: String? = columns[2]
+            var alertButtonTitle = columns[3]!!
+
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle, likeSearch = false, ignoreCase = false))
+
+            // checks if the alert appeared on screen with the correct properties
+            waitForElementWithTextToBeClickable(alertTitle, likeSearch = false, ignoreCase = false)
+            if (alertMessage != null && alertMessage.trim().isNotEmpty()) {
+                waitForElementWithTextToBeClickable(alertMessage, likeSearch = false, ignoreCase = false)
+            }
+
+            // checks if clicking on the alert button closes it
+            safeClickOnElement(waitForElementWithTextToBeClickable(alertButtonTitle, likeSearch = false, ignoreCase = true))
+            waitForElementWithTextToBeInvisible(alertTitle, likeSearch = false, ignoreCase = false)
+        }
     }
 
-    @Then("^an alert with the (.*) message should appear on the screen$")
-    fun checkAlertMessage(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false)
-    }
 
-    @Then("^an alert with the (.*) and (.*) should appear on the screen$")
-    fun checkAlertMessageAndTitle(string: String, string2: String) {
-        waitForElementWithTextToBeClickable(string, false, false)
-        waitForElementWithTextToBeClickable(string2, false, false)
-    }
-
-    @Then("^I press the confirmation (.*) button on the alert$")
-    fun clickOnTheConfirmationActionButtonWithText(string: String) {
-        waitForElementWithTextToBeClickable(string, false, true).click()
-    }
-
-    @Then("^an alert with a confirmation button with (.*) label should appear$")
-    fun checkAlertConfirmationButtonLabelIsSetWithText(string: String) {
-        waitForElementWithTextToBeClickable(string, false, true)
-    }
 }

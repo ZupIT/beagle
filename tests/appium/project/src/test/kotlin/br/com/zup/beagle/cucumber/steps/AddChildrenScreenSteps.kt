@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
@@ -37,31 +38,40 @@ class AddChildrenScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the addChildren Screen$")
     fun checkImageScreen() {
-        waitForElementWithTextToBeClickable(ADD_CHILDREN_HEADER, false, false)
+        waitForElementWithTextToBeClickable(ADD_CHILDREN_HEADER, likeSearch = false, ignoreCase = false)
     }
 
-    @Then("^A Text needs to be added after the already existing one$")
+    @Then("^A text needs to be added after the already existing one$")
     fun checkTextAddedAfterTheExistedOrder() {
         waitForFixedAndAddedTexts()
-        Assert.assertTrue(isElementAbove(TEXT_FIXED, TEXT_ADDED, false, false))
+        Assert.assertTrue(isElementAbove(TEXT_FIXED, TEXT_ADDED, likeSearch = false, ignoreCase = false))
     }
 
-    @Then("^A Text needs to be added before the already existing one$")
+    @Then("^A text needs to be added before the already existing one$")
     fun checkTextAddedBeforeTheExistedOrder() {
         waitForFixedAndAddedTexts()
-        Assert.assertTrue(isElementAbove(TEXT_ADDED, TEXT_FIXED, false, false))
+        Assert.assertTrue(isElementAbove(TEXT_ADDED, TEXT_FIXED, likeSearch = false, ignoreCase = false))
     }
 
-    @Then("^A Text needs to replace the already existing one$")
+    @Then("^A text needs to replace the already existing one$")
     fun checkTextReplaceTheExistedOne() {
         waitForAddedText()
-        waitForElementWithTextToBeInvisible(TEXT_FIXED, false, false)
+        waitForElementWithTextToBeInvisible(TEXT_FIXED, likeSearch = false, ignoreCase = false)
     }
 
-    @Then("^Nothing should happen$")
-    fun checkTextAddedPositionIsNull() {
-        waitForFixedText()
-        waitForElementWithTextToBeInvisible(TEXT_ADDED, false, false)
+    @Then("^Nothing should happen when clicking in the following buttons and the component doesn't exist:$")
+    fun checkNothingHappens(dataTable: DataTable) {
+        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        for ((lineCount, columns) in rows.withIndex()) {
+
+            if (lineCount == 0) // skip header
+                continue
+
+            var buttonTitle = columns[0]!!
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle, likeSearch = false, ignoreCase = true))
+            waitForFixedText()
+            waitForElementWithTextToBeInvisible(TEXT_ADDED, likeSearch = false, ignoreCase = false)
+        }
     }
 
     private fun waitForFixedAndAddedTexts() {
@@ -70,10 +80,10 @@ class AddChildrenScreenSteps : AbstractStep() {
     }
 
     private fun waitForFixedText() {
-        waitForElementWithTextToBeClickable(TEXT_FIXED, false, false)
+        waitForElementWithTextToBeClickable(TEXT_FIXED, likeSearch = false, ignoreCase = false)
     }
 
     private fun waitForAddedText() {
-        waitForElementWithTextToBeClickable(TEXT_ADDED, false, false)
+        waitForElementWithTextToBeClickable(TEXT_ADDED, likeSearch = false, ignoreCase = false)
     }
 }

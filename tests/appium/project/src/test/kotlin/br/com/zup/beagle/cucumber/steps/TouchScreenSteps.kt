@@ -16,17 +16,13 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
-import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
 
 private const val TOUCHABLE_SCREEN_HEADER = "Beagle Touchable"
-private const val TOUCHABLE_TEXT_1 = "Text with Touchable"
-private const val TOUCHABLE_TEXT_2 = "Click here!"
-private const val TOUCHABLE_TEXT_3 = "Image with Touchable"
-private const val TOUCHABLE_TEXT_4 = "NetworkImage with Touchable"
+private const val TOUCHABLE_REDIRECT_TEXT = "You clicked right"
 
 class TouchScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/touchable"
@@ -41,33 +37,27 @@ class TouchScreenSteps : AbstractStep() {
         waitForElementWithTextToBeClickable(TOUCHABLE_SCREEN_HEADER, false, false)
     }
 
-    @And("^I have a text with touchable configured$")
-    fun checkTextWithTouchable() {
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_1, false, false)
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_2, false, false)
-    }
+    @Then("^validate touchable clicks:$")
+    fun checkTouchableCliks(dataTable: DataTable) {
+        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        for ((lineCount, columns) in rows.withIndex()) {
 
-    @And("^I have an image with touchable configured$")
-    fun checkImageWithTouchable() {
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_3, false, false)
-    }
+            if (lineCount == 0) // skip header
+                continue
+            var touchableText = columns[0]!!
 
-    @When("^I click on touchable text (.*)$")
-    fun clickOnTouchableText(string1: String) {
-        waitForElementWithTextToBeClickable(string1, false, false).click()
-    }
+            if ("Text 1" == touchableText) {
+                waitForElementWithTextToBeClickable("Click here!", likeSearch = false, ignoreCase = false).click()
+            } else if ("Image 1" == touchableText) {
+                safeClickOnElement(waitForImageElements()[0])
+            } else if ("Image 2" == touchableText) {
+                safeClickOnElement(waitForImageElements()[1])
+            }
 
-    @When("^I click on touchable image$")
-    fun clickOnTouchableImage() {
-        waitForImageElementToBeVisible(0).click()
+            waitForElementWithTextToBeClickable(TOUCHABLE_REDIRECT_TEXT, likeSearch = false, ignoreCase = false)
+            goBack()
+            waitForElementWithTextToBeInvisible(TOUCHABLE_REDIRECT_TEXT, likeSearch = false, ignoreCase = false)
 
-    }
-
-    @Then("^touchable screen should render all text attributes correctly$")
-    fun checkTouchableScreenTexts() {
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_1, false, false)
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_2, false, false)
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_3, false, false)
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_4, false, false)
+        }
     }
 }

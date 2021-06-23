@@ -16,37 +16,31 @@
 
 @addChildren @android @ios
 Feature: AddChildren validation
-    As a Beagle developer/user
-    I'd like to make sure my addChildren action works as expected
-    In order to guarantee that my application never fails
+  As a Beagle developer/user
+  I'd like to make sure my addChildren action works as expected
 
-    Background:
-        Given that I'm on the addChildren Screen
+  Background:
+    Given that I'm on the addChildren Screen
 
-    Scenario: Default - AddChildren append a Text in the container children
-        When I click on button DEFAULT
-        Then A Text needs to be added after the already existing one
+  Scenario: AddChildren 01 - Default - AddChildren append a Text in the container children
+    When I click on button DEFAULT
+    Then A text needs to be added after the already existing one
 
-    Scenario: Prepend - AddChildren prepend a Text in the container children
-        When I click on button PREPEND
-        Then A Text needs to be added before the already existing one
+  Scenario: AddChildren 02 - Prepend - AddChildren prepend a Text in the container children
+    When I click on button PREPEND
+    Then A text needs to be added before the already existing one
 
-    Scenario: Append - AddChildren append a Text in the container children
-        When I click on button APPEND
-        Then A Text needs to be added after the already existing one
+  Scenario: AddChildren 03 - Append - AddChildren append a Text in the container children
+    When I click on button APPEND
+    Then A text needs to be added after the already existing one
 
-    Scenario: Replace - AddChildren replace the children container to a Text
-        When I click on button REPLACE
-        Then A Text needs to replace the already existing one
+  Scenario: AddChildren 04 - Replace - AddChildren replace the children container to a Text
+    When I click on button REPLACE
+    Then A text needs to replace the already existing one
 
-    Scenario: Prepend component doesn't exist - AddChildren replace the children container to a Text
-        When I click on button PREPEND COMPONENT NULL
-        Then Nothing should happen
-
-    Scenario: Append component doesn't exist - AddChildren replace the children container to a Text
-        When I click on button APPEND COMPONENT NULL
-        Then Nothing should happen
-
-    Scenario: Replace component doesn't exist - AddChildren replace the children container to a Text
-        When I click on button REPLACE COMPONENT NULL
-        Then Nothing should happen
+  Scenario: AddChildren 05 - No actions when the component doesn't exist
+    Then Nothing should happen when clicking in the following buttons and the component doesn't exist:
+      | BUTTON                 |
+      | PREPEND COMPONENT NULL |
+      | APPEND COMPONENT NULL  |
+      | REPLACE COMPONENT NULL |
