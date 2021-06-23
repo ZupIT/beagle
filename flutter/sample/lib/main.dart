@@ -105,47 +105,69 @@ class BeagleSampleApp extends StatelessWidget {
             ),
           ],
         ),
-        // body: const BeagleContainer(
-        //   children: [
-        //     BeaglePageView(
-        //       currentPage: 0,
-        //       children: [
-        //         Center(child: Text('1')),
-        //         Center(child: Text('2')),
-        //       ],
-        //     ),
-        //   ],
-        // ),
+        body: BeagleContainer(
+          style: BeagleStyle(
+            flex: BeagleFlex(grow: 1.0),
+          ),
+          children: const [
+            BeaglePageView(
+              currentPage: 0,
+              children: [
+                Center(child: Text('1')),
+                Center(child: Text('2')),
+              ],
+            ),
+            BeaglePageIndicator(
+              currentPage: 0,
+              selectedColor: 'FF0000',
+              unselectedColor: '00FF00',
+              numberOfPages: 2,
+            ),
+          ],
+        ),
+
         // body: BeagleContainer(
+        //   style: BeagleStyle(
+        //     size: BeagleSize(
+        //       width: UnitValue(value: 300, type: UnitType.REAL),
+        //     ),
+        //   ),
         //   children: [
         //     BeagleContainer(
         //       style: BeagleStyle(
-        //         flex: BeagleFlex(grow: 1.0),
-        //       ),
-        //       children: const [
-        //         BeaglePageView(
-        //           currentPage: 0,
-        //           children: [
-        //             Center(child: Text('1')),
-        //             Center(child: Text('2')),
-        //           ],
+        //         backgroundColor: '#673AB7',
+        //         flex: BeagleFlex(
+        //           flexDirection: FlexDirection.ROW,
+        //           justifyContent: JustifyContent.SPACE_AROUND,
         //         ),
-        //         BeaglePageIndicator(
-        //           currentPage: 0,
-        //           selectedColor: 'FF0000',
-        //           unselectedColor: '00FF00',
-        //           numberOfPages: 2,
+        //       ),
+        //       children: [
+        //         BeagleText(
+        //           style: BeagleStyle(
+        //             backgroundColor: '#2196F3',
+        //             margin: EdgeValue(
+        //               top: UnitValue(
+        //                 value: 20,
+        //                 type: UnitType.REAL,
+        //               ),
+        //             ),
+        //           ),
+        //           text: 'Child 1 - Test layout',
+        //         ),
+        //         BeagleText(
+        //           style: BeagleStyle(
+        //             backgroundColor: '#FFC107',
+        //             flex: BeagleFlex(
+        //               shrink: 0,
+        //             ),
+        //           ),
+        //           text: 'Child 2',
         //         ),
         //       ],
-        //     ),
+        //     )
         //   ],
         // ),
-        body: const BeagleContainer(
-          children: [
-            BeagleText(text: 'Value of \\@{global.counter} is:'),
-            BeagleButton(text: 'One more'),
-          ],
-        ),
+
         // body: BeagleWidget(
         //   screenRequest: BeagleScreenRequest('beagle_pageview'),
         //   onCreateView: (view) => {
