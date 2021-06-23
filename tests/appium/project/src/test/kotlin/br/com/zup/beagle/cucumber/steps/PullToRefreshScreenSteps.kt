@@ -32,7 +32,6 @@ class PullToRefreshScreenSteps : AbstractStep() {
 
     @Then("^the loading element should not be showing$")
     fun checkLoadingNotShowing() {
-        // change for waitForElementToBeInvisible, wait for PR https://github.com/ZupIT/beagle/pull/1645
-        Assert.assertTrue(waitForImageElements().isEmpty())
+        waitForAllImagesToBeInvisible()
     }
 }
