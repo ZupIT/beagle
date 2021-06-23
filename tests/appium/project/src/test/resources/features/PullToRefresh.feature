@@ -14,15 +14,18 @@
 # limitations under the License.
 #
 
-@unregisteredAction @android @ios
-Feature: Unregistered action Validation
+@pullToRefresh @android
+Feature: PullToRefresh component validation
 
-    As a Beagle developer/user
-    I'd like to make sure my application does not crash when an unregistered action is triggered
+  As a Beagle developer/user
+  I'd like to make sure my PullToRefresh component works as expected
 
-    Background:
-        Given the Beagle application did launch with the ActionNotRegistered Screen url
 
-    Scenario: Unregistered action 01 - The application mustn't crash when an unregistered action is triggered
-        When I click on button ClickToCallActionNotRegistered
-        Then the screen should show an element with the title ActionNotRegistered Screen
+  Background:
+    Given that I'm on the pull to refresh screen
+
+  Scenario: Pull to refresh 01 - test onPull event and property isRefreshing of element PullToRefresh
+    When I swipe down from the center of the screen
+    And I click on button Alert OK button
+    Then the loading element should not be showing
+

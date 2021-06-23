@@ -23,7 +23,7 @@ import io.cucumber.java.en.Then
 class ActionNotRegisteredScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/action-not-registered"
 
-    @Before("@unregisteredaction")
+    @Before("@unregisteredAction")
     fun setup() {
         loadBffScreen()
     }
