@@ -56,15 +56,14 @@ final class DynamicObjectTests: XCTestCase {
         }
     }
     
-    func testInitFromEncodable() {
+    func testInitFromEncodable() throws {
         struct User: Encodable {
             let id: UUID
             let name: String
         }
         
         // Given
-        // swiftlint:disable force_unwrapping
-        let user = User(id: UUID(uuidString: "ECCF622D-2F31-4C90-9150-0A01EFDCB4A0")!, name: "John")
+        let user = try User(id: XCTUnwrap(UUID(uuidString: "ECCF622D-2F31-4C90-9150-0A01EFDCB4A0")), name: "John")
 
         // When
         let object = DynamicObject(user)
