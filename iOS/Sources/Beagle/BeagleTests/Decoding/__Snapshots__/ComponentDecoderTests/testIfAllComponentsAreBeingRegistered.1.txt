@@ -1,4 +1,4 @@
-▿ 20 key/value pairs
+▿ 21 key/value pairs
   ▿ (2 elements)
     - key: "beagle:button"
     - value: Button
@@ -32,6 +32,9 @@
   ▿ (2 elements)
     - key: "beagle:pageview"
     - value: PageView
+  ▿ (2 elements)
+    - key: "beagle:pulltorefresh"
+    - value: PullToRefresh
   ▿ (2 elements)
     - key: "beagle:screencomponent"
     - value: ScreenComponent

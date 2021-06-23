@@ -38,6 +38,10 @@
 		931B6E32237610B300DE73FD /* FunctiontalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B6E31237610B300DE73FD /* FunctiontalUtils.swift */; };
 		9327116523F1C9D100778B56 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327116423F1C9D100778B56 /* Widget.swift */; };
 		932925E02327E11000A61F01 /* Beagle.h in Headers */ = {isa = PBXBuildFile; fileRef = 932925D22327E11000A61F01 /* Beagle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93369CDB2680DAC100BBDB42 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93369CDA2680DAC100BBDB42 /* PullToRefresh.swift */; };
+		93369CDF2681248000BBDB42 /* PullToRefresh+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93369CDE2681248000BBDB42 /* PullToRefresh+Extensions.swift */; };
+		93369CE2268128A400BBDB42 /* PullToRefreshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93369CE1268128A400BBDB42 /* PullToRefreshTests.swift */; };
+		93369CE5268128EC00BBDB42 /* PullToRefresh.json in Resources */ = {isa = PBXBuildFile; fileRef = 93369CE4268128EC00BBDB42 /* PullToRefresh.json */; };
 		9337F82D249A466B00B0A260 /* SetContext+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9337F82C249A466B00B0A260 /* SetContext+Extensions.swift */; };
 		934337222669639400E71837 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 934337212669639400E71837 /* SnapshotTesting */; };
 		93433725266963C600E71837 /* YogaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 93433724266963C600E71837 /* YogaKit */; };
@@ -396,6 +400,11 @@
 		932925CF2327E11000A61F01 /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		932925D22327E11000A61F01 /* Beagle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Beagle.h; sourceTree = "<group>"; };
 		932925D32327E11000A61F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93369CDA2680DAC100BBDB42 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
+		93369CDE2681248000BBDB42 /* PullToRefresh+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PullToRefresh+Extensions.swift"; sourceTree = "<group>"; };
+		93369CE1268128A400BBDB42 /* PullToRefreshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefreshTests.swift; sourceTree = "<group>"; };
+		93369CE4268128EC00BBDB42 /* PullToRefresh.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PullToRefresh.json; sourceTree = "<group>"; };
+		93369CE6268211C700BBDB42 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		9337F82C249A466B00B0A260 /* SetContext+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SetContext+Extensions.swift"; sourceTree = "<group>"; };
 		935278F52499728400AB9D1F /* DynamicObject+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DynamicObject+Extensions.swift"; sourceTree = "<group>"; };
 		9356CB82262481BE0021EFC6 /* FormLocalActionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormLocalActionTests.swift; sourceTree = "<group>"; };
@@ -883,6 +892,33 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		93369CD92680DA7200BBDB42 /* PullToRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				93369CDA2680DAC100BBDB42 /* PullToRefresh.swift */,
+				93369CDE2681248000BBDB42 /* PullToRefresh+Extensions.swift */,
+			);
+			path = PullToRefresh;
+			sourceTree = "<group>";
+		};
+		93369CE0268127AB00BBDB42 /* PullToRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				93369CE6268211C700BBDB42 /* __Snapshots__ */,
+				93369CE1268128A400BBDB42 /* PullToRefreshTests.swift */,
+				93369CE3268128C100BBDB42 /* JSON */,
+			);
+			path = PullToRefresh;
+			sourceTree = "<group>";
+		};
+		93369CE3268128C100BBDB42 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				93369CE4268128EC00BBDB42 /* PullToRefresh.json */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
 		935278F0249970E300AB9D1F /* ContextExpression */ = {
 			isa = PBXGroup;
 			children = (
@@ -1103,6 +1139,7 @@
 				9399377F26248FDA00809705 /* __Snapshots__ */,
 				9356CC4F262482810021EFC6 /* Form */,
 				9356CC6B262482810021EFC6 /* PageView */,
+				93369CE0268127AB00BBDB42 /* PullToRefresh */,
 				9356CC7F262482810021EFC6 /* Scroll */,
 				9356CC88262482810021EFC6 /* WebView */,
 				9356CC8F262482810021EFC6 /* PageIndicator */,
@@ -1644,6 +1681,7 @@
 				C829CE9C23B12EDB001B7225 /* ListView */,
 				7C5E3D3024BFA5D8009E5A3C /* PageIndicator */,
 				C85D9B9D238701450075B6C0 /* PageView */,
+				93369CD92680DA7200BBDB42 /* PullToRefresh */,
 				C08D4EAA2486BBF700AAAC0A /* Screen */,
 				C08D4DEA24857AC300AAAC0A /* Scroll */,
 				7CC2D9B224C614BD0059D5F9 /* TabBar */,
@@ -2358,6 +2396,7 @@
 				9356CE3A262482820021EFC6 /* simpleFormComponent.json in Resources */,
 				9356CD97262482820021EFC6 /* PopView-1.json in Resources */,
 				9356CBBA262481BE0021EFC6 /* opennativeroute.json in Resources */,
+				93369CE5268128EC00BBDB42 /* PullToRefresh.json in Resources */,
 				9356CD99262482820021EFC6 /* AddChildren-1.json in Resources */,
 				9356CEC1262488040021EFC6 /* UrlBuilderTestSpec.json in Resources */,
 				9356CE57262482820021EFC6 /* declarativeText1.json in Resources */,
@@ -2428,6 +2467,7 @@
 				9398CA862553325E0003A010 /* WebView.swift in Sources */,
 				9398CA8425532F400003A010 /* TabView.swift in Sources */,
 				25C762A62510FFF500AB4D33 /* Condition+Extensions.swift in Sources */,
+				93369CDB2680DAC100BBDB42 /* PullToRefresh.swift in Sources */,
 				9398CA3225531E9D0003A010 /* Condition.swift in Sources */,
 				C08D4E452485804400AAAC0A /* OnStateUpdatable.swift in Sources */,
 				7685B045249A8880007EDED0 /* SendRequest+Extensions.swift in Sources */,
@@ -2538,6 +2578,7 @@
 				98B7D95623DB2722002622AC /* Observable.swift in Sources */,
 				A0D608DA2448DF8700F7D851 /* BeagleNavigationController.swift in Sources */,
 				9398CA7625532E1F0003A010 /* ListView.swift in Sources */,
+				93369CDF2681248000BBDB42 /* PullToRefresh+Extensions.swift in Sources */,
 				9398CAA8255338C00003A010 /* Style.swift in Sources */,
 				9398CAA3255338B80003A010 /* Size.swift in Sources */,
 				C8ECF2CD24BD1D9800525CF5 /* NetworkCache.swift in Sources */,
@@ -2712,6 +2753,7 @@
 				9356CBB1262481BE0021EFC6 /* NavigateTests.swift in Sources */,
 				9356CD7D262482820021EFC6 /* OperationEvaluationTests.swift in Sources */,
 				9356CD7B262482820021EFC6 /* OperationComparisonEvaluationTests.swift in Sources */,
+				93369CE2268128A400BBDB42 /* PullToRefreshTests.swift in Sources */,
 				9356CBB4262481BE0021EFC6 /* SendRequestTests.swift in Sources */,
 				9356CDE9262482820021EFC6 /* ComposeComponentTests.swift in Sources */,
 				9356CE49262482820021EFC6 /* StyleBuildersExtensionTests.swift in Sources */,
