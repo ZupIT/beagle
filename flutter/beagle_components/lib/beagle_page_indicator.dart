@@ -76,7 +76,9 @@ class BeaglePageIndicator extends StatelessWidget with StyleWidget {
     );
     return buildBeagleWidget(
       style: style,
-      children: List<Widget>.generate(numberOfPages, buildDot),
+      children: List<Widget>.generate(numberOfPages, buildDot)
+          .map((dot) => prepareYogaLeaf(child: dot))
+          .toList(),
     );
   }
 }

@@ -115,7 +115,12 @@ class _BeaglePageViewState extends State<BeaglePageView> {
   @override
   Widget build(BuildContext context) {
     return buildBeagleWidget(
-      style: BeagleStyle(flex: BeagleFlex(grow: 1.0, flexDirection: FlexDirection.COLUMN)),
+      style: BeagleStyle(
+        flex: BeagleFlex(
+          grow: 1.0,
+          flexDirection: FlexDirection.COLUMN,
+        ),
+      ),
       child: PageView(
         controller: _pageController,
         onPageChanged: (page) {

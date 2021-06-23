@@ -29,12 +29,12 @@ Widget buildBeagleWidget({
 }) {
   final yogaNode = mapToYogaNode(style);
   if (children != null && children.isNotEmpty) {
-    return style != null
+    return /*style != null
         ? _buildWidget(
             style,
             YogaTree(yogaNode: yogaNode, children: children),
           )
-        : YogaTree(yogaNode: yogaNode, children: children);
+        : */YogaTree(yogaNode: yogaNode, children: children);
   } else {
     return YogaLeaf(yogaNode: yogaNode, child: _buildWidget(style, child));
   }
