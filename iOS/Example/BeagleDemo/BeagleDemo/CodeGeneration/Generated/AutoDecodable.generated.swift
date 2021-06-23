@@ -39,6 +39,20 @@ extension CustomActionableContainer {
     }
 }
 
+// MARK: CustomAsyncAction Decodable
+extension CustomAsyncAction {
+
+    enum CodingKeys: String, CodingKey {
+        case onFinish
+    }
+
+    internal init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        onFinish = try container.decodeIfPresent(forKey: .onFinish)
+    }
+}
+
 // MARK: DSCollection Decodable
 extension DSCollection {
 
