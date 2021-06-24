@@ -71,8 +71,8 @@ internal class ButtonTest : BaseComponentTest() {
         every { button.setOnClickListener(capture(listener)) } just Runs
         every { button.context } returns context
 
-        every { anyConstructed<ViewFactory>().makeButton(any(), buttonStyle) } returns button
-        every { anyConstructed<ViewFactory>().makeButton(any()) } returns button
+        every { ViewFactory.makeButton(any(), buttonStyle) } returns button
+        every { ViewFactory.makeButton(any()) } returns button
         every { anyConstructed<PreFetchHelper>().handlePreFetch(any(), any<List<Action>>()) } just Runs
         every { anyConstructed<StyleManager>().getButtonStyle(DEFAULT_STYLE) } returns buttonStyle
 
@@ -96,7 +96,7 @@ internal class ButtonTest : BaseComponentTest() {
 
             // Then
             verify {
-                anyConstructed<ViewFactory>().makeButton(any())
+                ViewFactory.makeButton(any())
             }
             assertTrue(view is AppCompatButton)
         }
@@ -110,7 +110,7 @@ internal class ButtonTest : BaseComponentTest() {
             // Then
             assertTrue(view is AppCompatButton)
             verify {
-                anyConstructed<ViewFactory>().makeButton(any(), buttonStyle)
+                ViewFactory.makeButton(any(), buttonStyle)
             }
         }
 

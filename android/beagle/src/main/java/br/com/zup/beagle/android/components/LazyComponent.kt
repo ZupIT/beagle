@@ -46,11 +46,8 @@ data class LazyComponent(
     val initialState: ServerDrivenComponent,
 ) : WidgetView() {
 
-    @Transient
-    private val viewFactory: ViewFactory = ViewFactory()
-
     override fun buildView(rootView: RootView): View {
-        return viewFactory.makeBeagleView(rootView).apply {
+        return ViewFactory.makeBeagleView(rootView).apply {
             addServerDrivenComponent(initialState)
             updateView(path, this[0])
             serverStateChangedListener = object : OnServerStateChanged {

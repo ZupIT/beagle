@@ -51,7 +51,7 @@ class UndefinedViewRendererTest : BaseComponentTest() {
         super.setUp()
 
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
-        every { anyConstructed<ViewFactory>().makeTextView(rootView.getContext()) } returns textView
+        every { ViewFactory.makeTextView(rootView.getContext()) } returns textView
         every { textView.text = capture(textSlot) } just Runs
         every { textView.setTextColor(capture(textColorSlot)) } just Runs
         every { textView.setBackgroundColor(capture(backgroundColorSlot)) } just Runs
@@ -85,12 +85,12 @@ class UndefinedViewRendererTest : BaseComponentTest() {
     fun build_should_create_View_when_Environment_is_PRODUCTION() {
         // Given
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.PRODUCTION
-        every { anyConstructed<ViewFactory>().makeView(any()) } returns textView
+        every { ViewFactory.makeView(any()) } returns textView
 
         // When
         undefinedViewRenderer.buildView(rootView)
 
         // Then
-        verify(exactly = once()) { anyConstructed<ViewFactory>().makeView(rootView.getContext()) }
+        verify(exactly = once()) { ViewFactory.makeView(rootView.getContext()) }
     }
 }

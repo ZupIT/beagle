@@ -24,12 +24,20 @@ import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.toAndroidId
-import br.com.zup.beagle.android.utils.viewFactory
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import io.mockk.*
-import org.junit.jupiter.api.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.mockkStatic
+import io.mockk.verify
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
 @DisplayName("Given an Add Children")
 class AddChildrenTest : BaseTest() {
@@ -41,13 +49,12 @@ class AddChildrenTest : BaseTest() {
     private val context = mockk<AppCompatActivity>(relaxed = true)
     private val view = mockk<BeagleFlexView>(relaxed = true)
     private val id = "id"
-    private val viewFactoryMock = mockk<ViewFactory>(relaxed = true)
 
     @BeforeEach
     override fun setUp() {
         super.setUp()
-        viewFactory = viewFactoryMock
 
+        mockkObject(ViewFactory)
         mockkObject(BeagleMessageLogs)
 
         mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
@@ -55,7 +62,7 @@ class AddChildrenTest : BaseTest() {
         every { beagleSdk.logger } returns mockk(relaxed = true)
         every { rootView.getContext() } returns context
         every { context.findViewById<ViewGroup>(id.toAndroidId()) } returns viewGroup
-        every { viewFactory.makeBeagleFlexView(rootView) } returns view
+        every { ViewFactory.makeBeagleFlexView(rootView) } returns view
         every { viewGroup.addView(any()) } just Runs
     }
 
