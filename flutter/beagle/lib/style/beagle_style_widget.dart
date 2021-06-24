@@ -27,16 +27,20 @@ Widget buildBeagleWidget({
   Widget child,
   List<Widget> children,
 }) {
-  final yogaNode = mapToYogaNode(style);
+  final nodeProperties = mapToNodeProperties(style);
   if (children != null && children.isNotEmpty) {
     return /*style != null
         ? _buildWidget(
             style,
-            YogaTree(yogaNode: yogaNode, children: children),
+            YogaLayout(nodeProperties: nodeProperties, children: children),
           )
-        : */YogaTree(yogaNode: yogaNode, children: children);
+        : */
+        YogaLayout(nodeProperties: nodeProperties, children: children);
   } else {
-    return YogaLeaf(yogaNode: yogaNode, child: _buildWidget(style, child));
+    return YogaNode(
+      nodeProperties: nodeProperties,
+      child: _buildWidget(style, child),
+    );
   }
 }
 
@@ -45,9 +49,9 @@ Widget prepareYogaLeaf({
   BeagleStyle style,
   Widget child,
 }) =>
-    YogaLeaf(
+    YogaNode(
       key: key,
-      yogaNode: mapToYogaNode(style),
+      nodeProperties: mapToNodeProperties(style),
       child: child,
     );
 

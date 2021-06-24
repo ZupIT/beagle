@@ -17,28 +17,28 @@
 import 'package:beagle/model/beagle_style.dart';
 import 'package:yoga_engine/yoga_engine.dart';
 
-YogaNode mapToYogaNode(BeagleStyle style) {
+NodeProperties mapToNodeProperties(BeagleStyle style) {
   if (style == null) {
-    return YogaNode();
+    return NodeProperties();
   }
-  final yogaNode = YogaNode()
+  final nodeProperties = NodeProperties()
     ..setPositionType(_mapPositionType(style.positionType))
     ..setDisplay(_mapDisplay(style.display));
 
-  _mapFlex(yogaNode, style?.flex);
+  _mapFlex(nodeProperties, style?.flex);
   if (style.size != null) {
-    _mapSize(yogaNode, style.size);
+    _mapSize(nodeProperties, style.size);
   }
   if (style.margin != null) {
-    _mapMargin(yogaNode, style.margin);
+    _mapMargin(nodeProperties, style.margin);
   }
   if (style.padding != null) {
-    _mapPadding(yogaNode, style.padding);
+    _mapPadding(nodeProperties, style.padding);
   }
   if (style.position != null) {
-    _mapPosition(yogaNode, style.position);
+    _mapPosition(nodeProperties, style.position);
   }
-  return yogaNode;
+  return nodeProperties;
 }
 
 YGPositionType _mapPositionType(FlexPosition flexPosition) {
@@ -67,8 +67,8 @@ YGDisplay _mapDisplay(FlexDisplay flexDisplay) {
   return display;
 }
 
-void _mapFlex(YogaNode yogaNode, BeagleFlex flex) {
-  yogaNode
+void _mapFlex(NodeProperties nodeProperties, BeagleFlex flex) {
+  nodeProperties
     ..setAlignContent(_mapAlignContent(flex?.alignContent))
     ..setAlignItems(_mapAlignItems(flex?.alignItems))
     ..setAlignSelf(_mapAlignSelf(flex?.alignSelf))
@@ -80,12 +80,12 @@ void _mapFlex(YogaNode yogaNode, BeagleFlex flex) {
     ..setShrink(flex?.shrink?.toDouble() ?? 1.0);
 
   if (flex?.basis?.value == null || flex?.basis?.value == 0) {
-    yogaNode.setBasisAuto();
+    nodeProperties.setBasisAuto();
   } else {
     if (flex.basis.type == UnitType.PERCENT) {
-      yogaNode.setBasisPercent(flex.basis.value.toDouble());
+      nodeProperties.setBasisPercent(flex.basis.value.toDouble());
     } else {
-      yogaNode.setBasis(flex.basis.value.toDouble());
+      nodeProperties.setBasis(flex.basis.value.toDouble());
     }
   }
 }
@@ -222,80 +222,80 @@ YGJustify _mapJustify(JustifyContent justifyContent) {
   return justify;
 }
 
-void _mapSize(YogaNode yogaNode, BeagleSize size) {
+void _mapSize(NodeProperties nodeProperties, BeagleSize size) {
   if (size.width != null) {
     if (size.width.type == UnitType.REAL) {
-      yogaNode.setWidth(size.width.value.toDouble());
+      nodeProperties.setWidth(size.width.value.toDouble());
     } else {
-      yogaNode.setWidthPercent(size.width.value.toDouble());
+      nodeProperties.setWidthPercent(size.width.value.toDouble());
     }
   }
   if (size.height != null) {
     if (size.height.type == UnitType.REAL) {
-      yogaNode.setHeight(size.height.value.toDouble());
+      nodeProperties.setHeight(size.height.value.toDouble());
     } else {
-      yogaNode.setHeightPercent(size.height.value.toDouble());
+      nodeProperties.setHeightPercent(size.height.value.toDouble());
     }
   }
   if (size.maxWidth != null) {
     if (size.maxWidth.type == UnitType.REAL) {
-      yogaNode.setMaxWidth(size.maxWidth.value.toDouble());
+      nodeProperties.setMaxWidth(size.maxWidth.value.toDouble());
     } else {
-      yogaNode.setMaxWidthPercent(size.maxWidth.value.toDouble());
+      nodeProperties.setMaxWidthPercent(size.maxWidth.value.toDouble());
     }
   }
   if (size.maxHeight != null) {
     if (size.maxHeight.type == UnitType.REAL) {
-      yogaNode.setMaxHeight(size.maxHeight.value.toDouble());
+      nodeProperties.setMaxHeight(size.maxHeight.value.toDouble());
     } else {
-      yogaNode.setMaxHeightPercent(size.maxHeight.value.toDouble());
+      nodeProperties.setMaxHeightPercent(size.maxHeight.value.toDouble());
     }
   }
   if (size.minWidth != null) {
     if (size.minWidth.type == UnitType.REAL) {
-      yogaNode.setMinWidth(size.minWidth.value.toDouble());
+      nodeProperties.setMinWidth(size.minWidth.value.toDouble());
     } else {
-      yogaNode.setMinWidthPercent(size.minWidth.value.toDouble());
+      nodeProperties.setMinWidthPercent(size.minWidth.value.toDouble());
     }
   }
   if (size.minHeight != null) {
     if (size.minHeight.type == UnitType.REAL) {
-      yogaNode.setMinHeight(size.minHeight.value.toDouble());
+      nodeProperties.setMinHeight(size.minHeight.value.toDouble());
     } else {
-      yogaNode.setMinHeightPercent(size.minHeight.value.toDouble());
+      nodeProperties.setMinHeightPercent(size.minHeight.value.toDouble());
     }
   }
   if (size.aspectRatio != null) {
-    yogaNode.setAspectRatio(size.aspectRatio.toDouble());
+    nodeProperties.setAspectRatio(size.aspectRatio.toDouble());
   }
 }
 
-void _mapMargin(YogaNode yogaNode, EdgeValue margin) {
+void _mapMargin(NodeProperties nodeProperties, EdgeValue margin) {
   _mapEdgeValue(margin, (YGEdge edge, UnitValue unitValue) {
     if (unitValue.type == UnitType.REAL) {
-      yogaNode.setMargin(edge, unitValue.value.toDouble());
+      nodeProperties.setMargin(edge, unitValue.value.toDouble());
     } else {
-      yogaNode.setMarginPercent(edge, unitValue.value.toDouble());
+      nodeProperties.setMarginPercent(edge, unitValue.value.toDouble());
     }
   });
 }
 
-void _mapPadding(YogaNode yogaNode, EdgeValue padding) {
+void _mapPadding(NodeProperties nodeProperties, EdgeValue padding) {
   _mapEdgeValue(padding, (YGEdge edge, UnitValue unitValue) {
     if (unitValue.type == UnitType.REAL) {
-      yogaNode.setPadding(edge, unitValue.value.toDouble());
+      nodeProperties.setPadding(edge, unitValue.value.toDouble());
     } else {
-      yogaNode.setPaddingPercent(edge, unitValue.value.toDouble());
+      nodeProperties.setPaddingPercent(edge, unitValue.value.toDouble());
     }
   });
 }
 
-void _mapPosition(YogaNode yogaNode, EdgeValue position) {
+void _mapPosition(NodeProperties nodeProperties, EdgeValue position) {
   _mapEdgeValue(position, (YGEdge edge, UnitValue unitValue) {
     if (unitValue.type == UnitType.REAL) {
-      yogaNode.setPosition(edge, unitValue.value.toDouble());
+      nodeProperties.setPosition(edge, unitValue.value.toDouble());
     } else {
-      yogaNode.setPositionPercent(edge, unitValue.value.toDouble());
+      nodeProperties.setPositionPercent(edge, unitValue.value.toDouble());
     }
   });
 }

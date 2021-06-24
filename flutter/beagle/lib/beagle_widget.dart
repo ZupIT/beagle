@@ -17,20 +17,20 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:beagle/model/beagle_style.dart';
-import 'package:beagle/style/beagle_style_widget.dart';
-import 'package:beagle/style/style_mapper.dart';
-import 'package:beagle/utils/build_context_utils.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
 import 'package:beagle/components/beagle_undefined_widget.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/model/beagle_config.dart';
+import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/route.dart';
 import 'package:beagle/networking/beagle_screen_request.dart';
 import 'package:beagle/service_locator.dart';
+import 'package:beagle/style/beagle_style_widget.dart';
+import 'package:beagle/style/style_mapper.dart';
+import 'package:beagle/utils/build_context_utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:yoga_engine/yoga_engine.dart';
 
@@ -89,8 +89,8 @@ class _BeagleWidget extends State<BeagleWidget> {
       ..subscribe((tree) {
         final widgetLoaded = _buildViewFromTree(tree);
         setState(() {
-          widgetState = YogaTree(
-            yogaNode: mapToYogaNode(BeagleStyle()),
+          widgetState = YogaLayout(
+            nodeProperties: mapToNodeProperties(BeagleStyle()),
             children: [widgetLoaded],
           );
         });
