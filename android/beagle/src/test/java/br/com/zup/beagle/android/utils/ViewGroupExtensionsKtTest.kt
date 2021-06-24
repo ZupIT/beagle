@@ -20,7 +20,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.components.utils.viewExtensionsViewFactory
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.view.ViewFactory
@@ -31,6 +30,7 @@ import br.com.zup.beagle.android.widget.FragmentRootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.verifySequence
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -47,7 +47,6 @@ internal class ViewGroupExtensionsKtTest : BaseTest() {
 
     private val viewGroup: ViewGroup = mockk(relaxed = true, relaxUnitFun = true)
     private val beagleView: BeagleView = mockk(relaxed = true, relaxUnitFun = true)
-    private val viewFactory: ViewFactory = mockk(relaxed = true, relaxUnitFun = true)
     private val activityMock: AppCompatActivity = mockk(relaxed = true, relaxUnitFun = true)
     private val serializerFactory: BeagleSerializer = mockk(relaxed = true)
     private val component: ServerDrivenComponent = mockk(relaxed = true)
@@ -56,9 +55,10 @@ internal class ViewGroupExtensionsKtTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
-        viewExtensionsViewFactory = viewFactory
+        mockkObject(ViewFactory)
+
         beagleSerializerFactory = serializerFactory
-        every { viewFactory.makeBeagleView(any()) } returns beagleView
+        every { ViewFactory.makeBeagleView(any()) } returns beagleView
         every { serializerFactory.deserializeComponent(any()) } returns component
     }
 
@@ -74,7 +74,7 @@ internal class ViewGroupExtensionsKtTest : BaseTest() {
 
             // Then
             verifySequence {
-                viewFactory.makeBeagleView(any<ActivityRootView>())
+                ViewFactory.makeBeagleView(any<ActivityRootView>())
                 beagleView.stateChangedListener = null
                 beagleView.serverStateChangedListener = null
                 beagleView.loadView(REQUEST_DATA_FAKE)
@@ -98,7 +98,7 @@ internal class ViewGroupExtensionsKtTest : BaseTest() {
 
             // Then
             verifySequence {
-                viewFactory.makeBeagleView(any<ActivityRootView>())
+                ViewFactory.makeBeagleView(any<ActivityRootView>())
                 beagleView.stateChangedListener = null
                 beagleView.serverStateChangedListener = listenerMock
                 beagleView.loadView(REQUEST_DATA_FAKE)
@@ -122,7 +122,7 @@ internal class ViewGroupExtensionsKtTest : BaseTest() {
 
             // Then
             verifySequence {
-                viewFactory.makeBeagleView(any<FragmentRootView>())
+                ViewFactory.makeBeagleView(any<FragmentRootView>())
                 beagleView.stateChangedListener = null
                 beagleView.serverStateChangedListener = null
                 beagleView.loadView(REQUEST_DATA_FAKE)
@@ -147,7 +147,7 @@ internal class ViewGroupExtensionsKtTest : BaseTest() {
 
             // Then
             verifySequence {
-                viewFactory.makeBeagleView(any<FragmentRootView>())
+                ViewFactory.makeBeagleView(any<FragmentRootView>())
                 beagleView.stateChangedListener = null
                 beagleView.serverStateChangedListener = listenerMock
                 beagleView.loadView(REQUEST_DATA_FAKE)
@@ -179,7 +179,7 @@ internal class ViewGroupExtensionsKtTest : BaseTest() {
             verifySequence {
                 viewGroup.id
                 serializerFactory.deserializeComponent(screenJson)
-                viewFactory.makeBeagleView(any<ActivityRootView>())
+                ViewFactory.makeBeagleView(any<ActivityRootView>())
                 beagleView.addServerDrivenComponent(component)
                 beagleView.listenerOnViewDetachedFromWindow = any()
                 viewGroup.removeAllViews()

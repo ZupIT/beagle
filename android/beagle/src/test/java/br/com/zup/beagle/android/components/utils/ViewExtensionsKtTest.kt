@@ -31,8 +31,11 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.utils.*
-import br.com.zup.beagle.android.view.BeagleFragment
+import br.com.zup.beagle.android.utils.beagleSerializerFactory
+import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.utils.loadView
+import br.com.zup.beagle.android.utils.renderScreen
+import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleView
@@ -89,9 +92,6 @@ class ViewExtensionsKtTest : BaseTest() {
     @RelaxedMockK
     private lateinit var activity: AppCompatActivity
 
-    @MockK
-    private lateinit var viewFactory: ViewFactory
-
     @RelaxedMockK
     private lateinit var beagleView: BeagleView
 
@@ -120,12 +120,12 @@ class ViewExtensionsKtTest : BaseTest() {
         mockkStatic("br.com.zup.beagle.android.utils.StringExtensionsKt")
         mockkStatic("br.com.zup.beagle.android.utils.NumberExtensionsKt")
 
-        viewExtensionsViewFactory = viewFactory
+        mockkObject(ViewFactory)
 
         prepareViewModelMock(contextViewModel)
         prepareViewModelMock(generateIdViewModel)
-        every { viewFactory.makeBeagleView(any()) } returns beagleView
-        every { viewFactory.makeView(any()) } returns beagleView
+        every { ViewFactory.makeBeagleView(any()) } returns beagleView
+        every { ViewFactory.makeView(any()) } returns beagleView
         every { viewGroup.addView(capture(viewSlot)) } just Runs
         every { viewGroup.context } returns activity
         every { beagleView.loadView(any<RequestData>()) } just Runs
@@ -159,7 +159,7 @@ class ViewExtensionsKtTest : BaseTest() {
         fun testHideKeyboardShouldCallHideSoftInputFromWindowWithCreatedView() {
             // Given
             every { activity.currentFocus } returns null
-            every { viewExtensionsViewFactory.makeView(activity) } returns beagleView
+            every { ViewFactory.makeView(activity) } returns beagleView
 
             // When
             viewGroup.hideKeyboard()
@@ -286,7 +286,7 @@ class ViewExtensionsKtTest : BaseTest() {
             val requestData = screenRequest.toRequestData()
             verifySequence {
                 generateIdViewModel.createIfNotExisting(0)
-                viewFactory.makeBeagleView(any<FragmentRootView>())
+                ViewFactory.makeBeagleView(any<FragmentRootView>())
                 beagleView.stateChangedListener = any()
                 beagleView.serverStateChangedListener = any()
                 beagleView.loadView(requestData)
@@ -304,7 +304,7 @@ class ViewExtensionsKtTest : BaseTest() {
             // Then
             val requestData = screenRequest.toRequestData()
             verify {
-                viewFactory.makeBeagleView(any<ActivityRootView>())
+                ViewFactory.makeBeagleView(any<ActivityRootView>())
                 beagleView.loadView(requestData)
             }
         }
@@ -438,7 +438,7 @@ class ViewExtensionsKtTest : BaseTest() {
 
         private fun commonGiven(): CapturingSlot<RootView> {
             val slot = slot<RootView>()
-            every { viewFactory.makeBeagleView(capture(slot)) } returns beagleView
+            every { ViewFactory.makeBeagleView(capture(slot)) } returns beagleView
             return slot
         }
     }
@@ -471,7 +471,7 @@ class ViewExtensionsKtTest : BaseTest() {
             verifySequence {
                 viewGroup.id
                 serializerFactory.deserializeComponent(json)
-                viewFactory.makeBeagleView(any<ActivityRootView>())
+                ViewFactory.makeBeagleView(any<ActivityRootView>())
                 beagleView.addServerDrivenComponent(component)
                 beagleView.listenerOnViewDetachedFromWindow = any()
                 viewGroup.removeAllViews()
@@ -493,7 +493,7 @@ class ViewExtensionsKtTest : BaseTest() {
             verifySequence {
                 viewGroup.id
                 serializerFactory.deserializeComponent(json)
-                viewFactory.makeBeagleView(any<FragmentRootView>())
+                ViewFactory.makeBeagleView(any<FragmentRootView>())
                 beagleView.addServerDrivenComponent(component)
                 beagleView.listenerOnViewDetachedFromWindow = any()
                 viewGroup.removeAllViews()

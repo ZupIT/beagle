@@ -30,22 +30,22 @@ import br.com.zup.beagle.annotation.RegisterWidget
 @RegisterWidget("undefinedWidget")
 internal class UndefinedWidget : InputWidget(), PageIndicatorComponent {
 
-    private val viewFactory: ViewFactory = ViewFactory()
-
     @SuppressLint("SetTextI18n")
     override fun buildView(rootView: RootView): View {
         return if (BeagleEnvironment.beagleSdk.config.environment == Environment.DEBUG) {
-            viewFactory.makeTextView(rootView.getContext()).apply {
+            ViewFactory.makeTextView(rootView.getContext()).apply {
                 text = "undefined component"
                 setTextColor(Color.RED)
                 setBackgroundColor(Color.YELLOW)
             }
         } else {
-            viewFactory.makeView(rootView.getContext())
+            ViewFactory.makeView(rootView.getContext())
         }
     }
 
-    override fun getValue(): Any { return "" }
+    override fun getValue(): Any {
+        return ""
+    }
 
     override fun onErrorMessage(message: String) {}
 

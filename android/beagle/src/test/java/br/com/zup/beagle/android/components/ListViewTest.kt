@@ -80,10 +80,10 @@ class ListViewTest : BaseComponentTest() {
         listView = ListView(ListDirection.VERTICAL, context, onInit, dataSource, template, onScrollEnd, iteratorName = iteratorName, key = key)
 
         every { beagleFlexView.addView(any<ServerDrivenComponent>()) } just Runs
-        every { anyConstructed<ViewFactory>().makeRecyclerView(rootView.getContext()) } returns recyclerView
-        every { anyConstructed<ViewFactory>().makeBeagleRecyclerView(rootView.getContext()) } returns beagleRecyclerView
-        every { anyConstructed<ViewFactory>().makeBeagleRecyclerViewScrollIndicatorVertical(rootView.getContext()) } returns beagleRecyclerView
-        every { anyConstructed<ViewFactory>().makeBeagleRecyclerViewScrollIndicatorHorizontal(rootView.getContext()) } returns beagleRecyclerView
+        every { ViewFactory.makeRecyclerView(rootView.getContext()) } returns recyclerView
+        every { ViewFactory.makeBeagleRecyclerView(rootView.getContext()) } returns beagleRecyclerView
+        every { ViewFactory.makeBeagleRecyclerViewScrollIndicatorVertical(rootView.getContext()) } returns beagleRecyclerView
+        every { ViewFactory.makeBeagleRecyclerViewScrollIndicatorHorizontal(rootView.getContext()) } returns beagleRecyclerView
         every { recyclerView.layoutManager = capture(layoutManagerSlot) } just Runs
         every { recyclerView.adapter = any() } just Runs
     }
@@ -197,7 +197,7 @@ class ListViewTest : BaseComponentTest() {
             listView.buildView(rootView)
 
             // Then
-            verify(exactly = 1) { anyConstructed<ViewFactory>().makeBeagleRecyclerView(rootView.getContext()) }
+            verify(exactly = 1) { ViewFactory.makeBeagleRecyclerView(rootView.getContext()) }
         }
 
         @Test
@@ -210,7 +210,7 @@ class ListViewTest : BaseComponentTest() {
             listView.buildView(rootView)
 
             // Then
-            verify(exactly = 1) { anyConstructed<ViewFactory>().makeBeagleRecyclerViewScrollIndicatorVertical(rootView.getContext()) }
+            verify(exactly = 1) { ViewFactory.makeBeagleRecyclerViewScrollIndicatorVertical(rootView.getContext()) }
         }
 
         @Test
@@ -223,7 +223,7 @@ class ListViewTest : BaseComponentTest() {
             listView.buildView(rootView)
 
             // Then
-            verify(exactly = 1) { anyConstructed<ViewFactory>().makeBeagleRecyclerViewScrollIndicatorHorizontal(rootView.getContext()) }
+            verify(exactly = 1) { ViewFactory.makeBeagleRecyclerViewScrollIndicatorHorizontal(rootView.getContext()) }
         }
     }
 

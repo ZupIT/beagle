@@ -175,9 +175,6 @@ data class TextInput(
     )
 
     @Transient
-    private val viewFactory = ViewFactory()
-
-    @Transient
     private lateinit var textInputView: EditText
 
     @Transient
@@ -199,8 +196,8 @@ data class TextInput(
             }
 
     private fun createEditText(rootView: RootView): EditText {
-        return if (styleId.isNullOrEmpty()) viewFactory.makeInputText(rootView.getContext())
-        else viewFactory.makeInputText(rootView.getContext(), styleManagerFactory.getInputTextStyle(styleId))
+        return if (styleId.isNullOrEmpty()) ViewFactory.makeInputText(rootView.getContext())
+        else ViewFactory.makeInputText(rootView.getContext(), styleManagerFactory.getInputTextStyle(styleId))
     }
 
     override fun getValue(): Any = textInputView.text.toString()

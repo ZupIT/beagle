@@ -34,11 +34,11 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
 private const val SELECTED_COLOR = "#000000"
 private const val UNSELECTED_COLOR = "#FF0000"
@@ -68,7 +68,7 @@ class PageIndicatorTest : BaseComponentTest() {
         mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
         mockkObject(ColorUtils::class)
         every { Color.parseColor(any()) } returns 0
-        every { anyConstructed<ViewFactory>().makePageIndicator(any()) } returns beaglePageIndicatorView
+        every { ViewFactory.makePageIndicator(any()) } returns beaglePageIndicatorView
         every {
             pageIndicator.observeBindChanges(
                 rootView = rootView,

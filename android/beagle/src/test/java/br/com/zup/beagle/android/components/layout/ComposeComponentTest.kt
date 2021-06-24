@@ -23,9 +23,9 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class ComposeComponentTest : BaseComponentTest() {
 
@@ -55,7 +55,7 @@ class ComposeComponentTest : BaseComponentTest() {
         composeComponent.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(rootView) }
+        verify(exactly = once()) { ViewFactory.makeBeagleFlexView(rootView) }
     }
 
     @Test

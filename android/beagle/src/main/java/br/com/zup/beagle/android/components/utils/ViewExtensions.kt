@@ -26,11 +26,9 @@ import br.com.zup.beagle.R
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.utils.toAndroidColor
-import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.StyleComponent
 
-internal var viewExtensionsViewFactory = ViewFactory()
 internal var styleManagerFactory = StyleManager()
 const val FLOAT_ZERO = 0.0f
 
