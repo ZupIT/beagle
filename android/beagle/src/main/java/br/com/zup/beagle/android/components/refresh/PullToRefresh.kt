@@ -56,11 +56,8 @@ data class PullToRefresh constructor(
         child = child,
     )
 
-    @Transient
-    private val viewFactory = ViewFactory()
-
     override fun buildView(rootView: RootView): View {
-        return viewFactory.makeSwipeRefreshLayout(rootView.getContext()).apply {
+        return ViewFactory.makeSwipeRefreshLayout(rootView.getContext()).apply {
             addView(buildChildView(rootView))
             setOnRefreshListener {
                 handleEvent(rootView, this, onPull)
@@ -70,7 +67,7 @@ data class PullToRefresh constructor(
         }
     }
 
-    private fun buildChildView(rootView: RootView) = viewFactory.makeBeagleFlexView(rootView).apply {
+    private fun buildChildView(rootView: RootView) = ViewFactory.makeBeagleFlexView(rootView).apply {
         addView(child, false)
     }
 
