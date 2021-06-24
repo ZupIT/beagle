@@ -61,7 +61,7 @@ class PullToRefreshTest : BaseComponentTest() {
         mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
         mockkStatic(Color::class)
 
-        every { anyConstructed<ViewFactory>().makeSwipeRefreshLayout(any()) } returns swipeRefreshLayout
+        every { ViewFactory.makeSwipeRefreshLayout(any()) } returns swipeRefreshLayout
         every { swipeRefreshLayout.setOnRefreshListener(capture(listenerSlot)) } just Runs
 
         pullToRefreshComponent = PullToRefresh(
@@ -85,7 +85,7 @@ class PullToRefreshTest : BaseComponentTest() {
 
             // Then
             Assertions.assertTrue(view is SwipeRefreshLayout)
-            verify(exactly = 1) { anyConstructed<ViewFactory>().makeSwipeRefreshLayout(rootView.getContext()) }
+            verify(exactly = 1) { ViewFactory.makeSwipeRefreshLayout(rootView.getContext()) }
         }
 
         @Test
