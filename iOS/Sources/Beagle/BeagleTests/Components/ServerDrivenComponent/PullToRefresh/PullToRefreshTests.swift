@@ -28,19 +28,17 @@ class PullToRefreshTests: XCTestCase {
     }
 
     func testPullToRefreshSnapshot() throws {
-        // Given
-        let controller = BeagleScreenViewController(ComponentDummy())
-        
-        // When
-        let view = PullToRefresh(
+        // Given // When
+        let component = PullToRefresh(
             isRefreshing: false,
             color: "#FF0000",
             child: Text("Text")
-        ).toView(renderer: controller.renderer)
+        )
+        
+        let controller = BeagleScreenViewController(component)
         
         // Then
-        controller.bindings.config()
-        assertSnapshotImage(view, size: imageSize)
+        assertSnapshotImage(controller, size: imageSize)
     }
     
     func testPullToRefreshConfigWithList() {
