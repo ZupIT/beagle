@@ -17,26 +17,17 @@
 @container @android @ios
 Feature: Container component validation
 
-    As a Beagle developer/user
-    I'd like to make sure my container component works as expected
-    In order to guarantee that my application never fails
+  As a Beagle developer/user
+  I'd like to make sure my container component works as expected
 
-    Background:
-        Given the Beagle application did launch with the container screen url
+  Background:
+    Given the Beagle application did launch with the container screen url
 
-    Scenario: Container 01 - Creates a container component with some items and verify if they are
-    being rendered correctly on screen
-
-        Then the view that contains the texts with titles item1 item2 and item3 must be displayed
-
-    Scenario: Container 02 - Create container component with context and check if the context is available for it's
-    children's
-
-        Then the views that contains the text containerContextValue1 set via context must be displayed
-        Then the views that contains the text containerContextValue2 set via context must be displayed
-
-    Scenario: Container 03 - Create container component with actions when initializing and checking those
-    actions are performed. We have tested 2 setContext actions setting the global context with different values.
-
-        Then the views that contains the text FirstActionExecuted set via context must be displayed
-        Then the views that contains the text SecondActionExecuted set via context must be displayed
+  Scenario: Container 01: validate container context validation
+    Then the screen should show an element with the title item1
+    And the screen should show an element with the title item2
+    And the screen should show an element with the title item3
+    And the screen should show an element with the title containerContextValue1
+    And the screen should show an element with the title containerContextValue2
+    And the screen should show an element with the title FirstActionExecuted
+    And the screen should show an element with the title SecondActionExecuted

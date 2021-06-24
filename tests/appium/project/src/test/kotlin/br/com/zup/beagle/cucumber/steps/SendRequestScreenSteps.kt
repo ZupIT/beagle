@@ -24,7 +24,7 @@ import io.cucumber.java.en.When
 class SendRequestScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/send-request"
 
-    @Before("@sendrequest")
+    @Before("@sendRequest")
     fun setup() {
         loadBffScreen()
     }

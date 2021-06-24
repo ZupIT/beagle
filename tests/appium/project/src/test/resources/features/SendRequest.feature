@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-@sendrequest @android @ios
+@sendRequest @android @ios
 Feature: Send Request Action Validation
 
     As a Beagle developer/user
