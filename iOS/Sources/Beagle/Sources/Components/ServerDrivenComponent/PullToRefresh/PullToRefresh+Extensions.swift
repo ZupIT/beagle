@@ -38,7 +38,7 @@ extension PullToRefresh {
             list.addSubview(refreshControl)
             list.alwaysBounceVertical = true
             return true
-        } else if let scroll = view as? UIScrollView { // Scroll/Text component
+        } else if let scroll = view as? UIScrollView, !(view is UITextView) { // ScrollView component
             scroll.addSubview(refreshControl)
             scroll.alwaysBounceVertical = true
             return true

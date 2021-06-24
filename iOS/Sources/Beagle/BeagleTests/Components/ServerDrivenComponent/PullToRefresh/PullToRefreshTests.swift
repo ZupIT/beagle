@@ -28,26 +28,24 @@ class PullToRefreshTests: XCTestCase {
     }
 
     func testPullToRefreshSnapshot() throws {
-        // Given
-        let controller = BeagleScreenViewController(ComponentDummy())
-        
-        // When
-        let view = PullToRefresh(
+        // Given // When
+        let component = PullToRefresh(
             isRefreshing: false,
             color: "#FF0000",
             child: Text("Text")
-        ).toView(renderer: controller.renderer)
+        )
+        
+        let controller = BeagleScreenViewController(component)
         
         // Then
-        controller.bindings.config()
-        assertSnapshotImage(view, size: imageSize)
+        assertSnapshotImage(controller, size: imageSize)
     }
     
     func testPullToRefreshConfigWithList() {
         // Given // When
         let controller = BeagleScreenViewController(ComponentDummy())
         let view = PullToRefresh(
-            child: ListView { Image("@{context.path}") }
+            child: ListView { Text("text") }
         ).toView(renderer: controller.renderer)
         
         // Then
@@ -58,24 +56,24 @@ class PullToRefreshTests: XCTestCase {
         // Given // When
         let controller = BeagleScreenViewController(ComponentDummy())
         let view = PullToRefresh(
-            child: ScrollView { Image("@{context.path}") }
+            child: ScrollView { Text("text") }
         ).toView(renderer: controller.renderer)
         
         // Then
         XCTAssert(view is BeagleContainerScrollView)
-        XCTAssert(view.subviews[0].subviews[0] is UIImageView)
+        XCTAssert(view.subviews[0].subviews[0] is UITextView)
     }
     
     func testPullToRefreshConfigWithoutScroll() {
         // Given // When
         let controller = BeagleScreenViewController(ComponentDummy())
         let view = PullToRefresh(
-            child: Image("@{context.path}")
+            child: Text("text")
         ).toView(renderer: controller.renderer)
         
         // Then
         XCTAssert(view is BeagleContainerScrollView)
-        XCTAssert(view.subviews[0].subviews[0] is UIImageView)
+        XCTAssert(view.subviews[0].subviews[0] is UITextView)
     }
 
 }
