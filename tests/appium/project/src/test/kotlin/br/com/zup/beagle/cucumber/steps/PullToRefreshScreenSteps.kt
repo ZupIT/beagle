@@ -1,9 +1,13 @@
 package br.com.zup.beagle.cucumber.steps
 
+import br.com.zup.beagle.setup.SuiteSetup
+import br.com.zup.beagle.utils.SwipeDirection
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
+import org.openqa.selenium.Dimension
+import org.openqa.selenium.Point
 
 class PullToRefreshScreenSteps : AbstractStep() {
 
@@ -21,9 +25,19 @@ class PullToRefreshScreenSteps : AbstractStep() {
 
     @When("^I swipe (.*) from the center of the screen$")
     fun scrollDownOnElement(swipeDirection: String) {
+
+        waitForElementWithTextToBeClickable("PullToRefresh text", likeSearch = false, ignoreCase = false)
+
+        /**
+         * swipes in the center of the screen, touching the PushToRefresh element
+         */
         if ("down".equals(swipeDirection, ignoreCase = true)) {
-            // swipes inside the element since it is in the center of the screen
-            swipeDown()
+            if (SuiteSetup.isAndroid()) {
+                swipeDown()
+            } else {
+                val screenSize: Dimension = getDriver().manage().window().size
+                scrollFromOnePointToBorder(Point(screenSize.width / 2, screenSize.height / 2), SwipeDirection.DOWN)
+            }
         } else {
             throw Exception("Wrong swipe direction")
         }
