@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-@pullToRefresh @android
+@pullToRefresh @android @ios
 Feature: PullToRefresh component validation
 
   As a Beagle developer/user
