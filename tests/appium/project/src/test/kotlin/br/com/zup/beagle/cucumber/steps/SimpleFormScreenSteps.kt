@@ -32,20 +32,6 @@ class SimpleFormScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the simple form screen$")
     fun checkBaseScreen() {
-        waitForElementWithValueToBeClickable("SimpleForm", false, false)
+        waitForElementWithValueToBeClickable("SimpleForm", likeSearch = false, ignoreCase = false)
     }
-
-    @When("^I click on textInput with place holder (.*) and insert the value (.*)$")
-    fun insertEmailInTextInput(placeHolderText: String, value: String) {
-        var element: MobileElement = waitForElementWithValueToBeClickable(placeHolderText, false, false)
-        element.click()
-        element.sendKeys(value)
-
-    }
-
-    @When("^I click to (.*)$")
-    fun sendDataFromTextInputs(submit: String) {
-        waitForElementWithValueToBeClickable(submit, false, false).click()
-    }
-
 }

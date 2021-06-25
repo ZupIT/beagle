@@ -19,7 +19,6 @@ Feature: Navigation Action Validation
 
   As a Beagle developer/user
   I'd like to make sure my navigation actions work as expected
-  In order to guarantee that my application never fails
 
   Background:
     Given the Beagle application did launch with the navigation screen url

@@ -40,9 +40,11 @@ class GenericSteps : AbstractStep() {
         safeClickOnElement(waitForElementWithTextToBeClickable(text, likeSearch = false, ignoreCase = true))
     }
 
-    @When("^I click on input with hint (.*)$")
-    fun clickOnInputWithHint(hint: String) {
-        waitForElementWithTextToBeClickable(hint, likeSearch = false, ignoreCase = true)
+    @When("^I click on the input with place holder \"(.*)\" and insert \"(.*)\"$")
+    fun clickOnInputWithHint(placeHolder: String, value: String) {
+        val element = waitForElementWithValueToBeClickable(placeHolder, likeSearch = false, ignoreCase = true)
+        safeClickOnElement(element)
+        element.sendKeys(value)
     }
 
     @When("hide keyboard")

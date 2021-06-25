@@ -135,12 +135,6 @@ class ListViewScreenSteps : AbstractStep() {
         Assert.assertTrue(isListViewHorizontal(listViewId))
     }
 
-    @Then("^the screen should show text: (.*)$")
-    fun checkScreenDisplaysText(expectedText: String) {
-        waitForElementWithTextToBeClickable(expectedText, likeSearch = false, ignoreCase = false)
-    }
-
-
     @When("^I read all the elements of the listView with id (.*)$")
     fun getAllElementsOfListView(listViewId: String) {
         when (listViewId) {

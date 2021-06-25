@@ -22,8 +22,6 @@ import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
 
 
-private const val TAB_BAR_SCREEN_HEADER = "TabBar Screen"
-
 class TabBarScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/tabbar"
 
@@ -34,34 +32,30 @@ class TabBarScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the tabBar screen$")
     fun checkTabBarScreen() {
-        waitForElementWithTextToBeClickable(TAB_BAR_SCREEN_HEADER, false, true)
-    }
-
-    @When("I click on a tab with text (.*)$")
-    fun clickOnTab(text: String) {
-        waitForElementWithTextToBeClickable(text, false, true).click()
-    }
-
-    @Then("^a tabBarItem with text (.*) should exist$")
-    fun checksTabItemsExists(text: String) {
-        waitForElementWithTextToBeClickable(text, false, true)
+        waitForElementWithTextToBeClickable("TabBar Screen", likeSearch = false, ignoreCase = true)
     }
 
     @Then("^the tab position should have its text changed to (.*)$")
     fun checksSetContextResult(text: String) {
-        waitForElementWithTextToBeClickable(text, false, true)
+        waitForElementWithTextToBeClickable(text, likeSearch = false, ignoreCase = true)
     }
 
     @Then("^I click on each tabBarItem and confirm its position$")
-    fun clickOnText() {
+    fun validateTabBarItems() {
         for (i in 1..10) {
-            waitForElementWithTextToBeClickable("Tab$i", false, true).click()
-            waitForElementWithTextToBeClickable("Tab position " + (i - 1), false, true)
+            waitForElementWithTextToBeClickable("Tab$i", likeSearch = false, ignoreCase = true).click()
+            waitForElementWithTextToBeClickable("Tab position " + (i - 1), likeSearch = false, ignoreCase = true)
         }
     }
 
-    @Then("^the tab with text (.*) must be on screen$")
-    fun checkTabBarRendersTabs(text: String) {
-        waitForElementWithTextToBeClickable(text, false, true)
+    @Then("^I validate the buttons that trigger tabBars$")
+    fun validateTabBarButtons(){
+        waitForElementWithTextToBeClickable("Select tab 4 hardcoded", likeSearch = false, ignoreCase = false).click()
+        waitForElementWithTextToBeClickable("Tab position 3", likeSearch = false, ignoreCase = true)
+
+        waitForElementWithTextToBeClickable("Select tab 9 expression", likeSearch = false, ignoreCase = false).click()
+        waitForElementWithTextToBeInvisible("Tab position 3", likeSearch = false, ignoreCase = true)
+        waitForElementWithTextToBeClickable("Tab position 8", likeSearch = false, ignoreCase = true)
     }
+
 }

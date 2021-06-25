@@ -427,7 +427,7 @@ abstract class AbstractStep {
      * the element is inside another element (ex an alert) that is still loading when the click takes place.
      */
     protected fun safeClickOnElement(elementToBeClicked: MobileElement) {
-        sleep(200)
+        sleep(500)
         elementToBeClicked.click()
     }
 
@@ -581,17 +581,17 @@ abstract class AbstractStep {
     }
 
     protected fun goBack() {
+
+        // going back animation
+        sleep(200)
+
         if (SuiteSetup.isAndroid()) {
             getDriver().navigate().back()
         } else {
             // caution: not all iOS bff screens have the back button.
             var locator = By.xpath("//XCUIElementTypeNavigationBar//XCUIElementTypeButton[1]")
-            safeClickOnElement(
-                AppiumUtil.waitForElementToBeClickable(
-                    getDriver(), locator,
-                    DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
-                )
-            )
+            safeClickOnElement(AppiumUtil.waitForElementToBeClickable(getDriver(), locator, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL))
+
         }
     }
 }

@@ -38,7 +38,7 @@ class ButtonScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the button screen$")
     fun checkButtonScreen() {
-        waitForElementWithTextToBeClickable(BUTTON_SCREEN_HEADER, false, false)
+        waitForElementWithTextToBeClickable(BUTTON_SCREEN_HEADER, likeSearch = false, ignoreCase = false)
     }
 
     @Then("^validate button clicks:$")
