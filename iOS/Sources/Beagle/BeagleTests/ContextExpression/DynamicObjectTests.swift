@@ -55,6 +55,24 @@ final class DynamicObjectTests: XCTestCase {
             assertSnapshot(matching: result, as: .json, named: $0.rawValue, testName: "path")
         }
     }
+    
+    func testInitFromEncodable() throws {
+        struct User: Encodable {
+            let id: UUID
+            let name: String
+        }
+        
+        // Given
+        let user = try User(id: XCTUnwrap(UUID(uuidString: "ECCF622D-2F31-4C90-9150-0A01EFDCB4A0")), name: "John")
+
+        // When
+        let object = DynamicObject(user)
+
+        // Then
+        _assertInlineSnapshot(matching: object, as: .dump, with: """
+        - [id: ECCF622D-2F31-4C90-9150-0A01EFDCB4A0, name: John]
+        """)
+    }
 
     fileprivate struct Result: Encodable {
         let path: String
