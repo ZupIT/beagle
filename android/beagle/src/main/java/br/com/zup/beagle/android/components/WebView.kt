@@ -49,12 +49,9 @@ data class WebView(
 
     constructor(url: String) : this(expressionOrValueOf(url))
 
-    @Transient
-    private val viewFactory = ViewFactory()
-
     @SuppressLint("SetJavaScriptEnabled")
     override fun buildView(rootView: RootView): View {
-        val webView = viewFactory.makeWebView(rootView.getContext())
+        val webView = ViewFactory.makeWebView(rootView.getContext())
         webView.webViewClient = BeagleWebViewClient(rootView.getContext())
         webView.settings.javaScriptEnabled = true
         observeBindChanges(rootView, webView, url) {
@@ -87,11 +84,11 @@ data class WebView(
             notify(state = ServerDrivenState.WebViewError(throwable) { view?.reload() })
         }
 
-        fun notify(loading: Boolean) {
+        private fun notify(loading: Boolean) {
             notify(state = ServerDrivenState.Loading(loading))
         }
 
-        fun notify(state: ServerDrivenState) {
+        private fun notify(state: ServerDrivenState) {
             (context as? BeagleActivity)?.onServerDrivenContainerStateChanged(state)
         }
     }

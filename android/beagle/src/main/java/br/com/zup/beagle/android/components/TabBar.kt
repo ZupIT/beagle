@@ -67,13 +67,10 @@ data class TabBar(
         onTabSelection: List<Action>? = null,
     ) : this(items, styleId, valueOf(currentTab), onTabSelection)
 
-    @Transient
-    private val viewFactory: ViewFactory = ViewFactory()
-
     override fun buildView(rootView: RootView): View {
         val containerFlex = Style(flex = Flex(grow = 1.0))
 
-        val container = viewFactory.makeBeagleFlexView(rootView, containerFlex)
+        val container = ViewFactory.makeBeagleFlexView(rootView, containerFlex)
         val tabBar = makeTabLayout(rootView, container)
         configTabSelectedListener(tabBar, rootView)
         configCurrentTabObserver(tabBar, container, rootView)
@@ -81,12 +78,12 @@ data class TabBar(
         return container
     }
 
-    private fun makeTabLayout(rootView: RootView, container: BeagleFlexView): TabLayout = viewFactory.makeTabLayout(
+    private fun makeTabLayout(rootView: RootView, container: BeagleFlexView): TabLayout = ViewFactory.makeTabLayout(
         rootView.getContext(),
         styleManagerFactory.getTabViewStyle(styleId)
     ).apply {
         layoutParams =
-            viewFactory.makeFrameLayoutParams(
+            ViewFactory.makeFrameLayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 TAB_BAR_HEIGHT
             )

@@ -50,15 +50,12 @@ data class Container(
     ContextComponent, MultiChildComponent {
 
     @Transient
-    private val viewFactory = ViewFactory()
-
-    @Transient
     private val styleManager: StyleManager = StyleManager()
 
     override fun buildView(rootView: RootView): View {
         val styleId = styleManager.getContainerStyle(styleId)
-        val view = if (styleId == 0) viewFactory.makeBeagleFlexView(rootView, style ?: Style())
-        else viewFactory.makeBeagleFlexView(rootView, style ?: Style(), styleId)
+        val view = if (styleId == 0) ViewFactory.makeBeagleFlexView(rootView, style ?: Style())
+        else ViewFactory.makeBeagleFlexView(rootView, style ?: Style(), styleId)
 
         handleOnInit(rootView, view)
         return view.apply {

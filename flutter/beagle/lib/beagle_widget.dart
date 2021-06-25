@@ -89,15 +89,16 @@ class _BeagleWidget extends State<BeagleWidget> {
         });
       })
       ..onAction(({action, element, view}) {
-        final handler = service.actions[action.getType()];
-        if (handler != null) {
-          handler(
-            action: action,
-            view: view,
-            element: element,
-            context: context.findBuildContextForWidgetKey(element.getId()),
-          );
+        final handler = service.actions[action.getType().toLowerCase()];
+        if (handler == null) {
+          return logger.error("Couldn't find action with name ${action.getType()}. It will be ignored.");
         }
+        handler(
+          action: action,
+          view: view,
+          element: element,
+          context: context.findBuildContextForWidgetKey(element.getId()),
+        );
       });
 
     if (widget.screenRequest != null) {
@@ -111,7 +112,7 @@ class _BeagleWidget extends State<BeagleWidget> {
 
   Widget _buildViewFromTree(BeagleUIElement tree) {
     final widgetChildren = tree.getChildren().map(_buildViewFromTree).toList();
-    final builder = service.components[tree.getType()];
+    final builder = service.components[tree.getType().toLowerCase()];
     if (builder == null) {
       logger.error("Can't find builder for component ${tree.getType()}");
       return BeagleUndefinedWidget(

@@ -21,11 +21,11 @@ package br.com.zup.beagle.android.utils
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.android.components.utils.viewExtensionsViewFactory
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ServerDrivenState
+import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.OnServerStateChanged
 import br.com.zup.beagle.android.view.custom.OnStateChanged
 import br.com.zup.beagle.android.view.mapper.toRequestData
@@ -258,7 +258,7 @@ private fun loadView(
     generateIdManager: GenerateIdManager = GenerateIdManager(rootView),
 ) {
     generateIdManager.createSingleManagerByRootViewId()
-    val view = viewExtensionsViewFactory.makeBeagleView(rootView).apply {
+    val view = ViewFactory.makeBeagleView(rootView).apply {
         stateChangedListener = listener
         serverStateChangedListener = newListener
         loadView(requestData)
@@ -320,7 +320,7 @@ internal fun ViewGroup.loadView(
     }
     generateIdManager.createSingleManagerByRootViewId()
     val component = beagleSerializerFactory.deserializeComponent(screenJson)
-    val view = viewExtensionsViewFactory.makeBeagleView(rootView).apply {
+    val view = ViewFactory.makeBeagleView(rootView).apply {
         addServerDrivenComponent(component)
         listenerOnViewDetachedFromWindow = {
             generateIdManager.onViewDetachedFromWindow(this)

@@ -61,25 +61,21 @@ data class TabView(
     override val context: ContextData? = null,
 ) : WidgetView(), ContextComponent, MultiChildComponent {
 
-    @Transient
-    private val viewFactory: ViewFactory = ViewFactory()
-
     override fun buildView(rootView: RootView): View {
         val containerFlex = Style(flex = Flex(grow = 1.0))
 
-        val container = viewFactory.makeBeagleFlexView(rootView, containerFlex)
+        val container = ViewFactory.makeBeagleFlexView(rootView, containerFlex)
 
         val tabLayout = makeTabLayout(rootView)
 
-        val viewPager = viewFactory.makeViewPager(rootView.getContext()).apply {
+        val viewPager = ViewFactory.makeViewPager(rootView.getContext()).apply {
             adapter = ContentAdapter(
-                viewFactory = viewFactory,
                 children = children,
                 rootView = rootView
             )
         }
 
-        val containerViewPager = viewFactory.makeBeagleFlexView(rootView).apply {
+        val containerViewPager = ViewFactory.makeBeagleFlexView(rootView).apply {
             addView(viewPager)
         }
 
@@ -94,9 +90,9 @@ data class TabView(
 
     private fun makeTabLayout(rootView: RootView): TabLayout {
         val context = rootView.getContext()
-        return viewFactory.makeTabLayout(context, styleManagerFactory.getTabViewStyle(styleId)).apply {
+        return ViewFactory.makeTabLayout(context, styleManagerFactory.getTabViewStyle(styleId)).apply {
             layoutParams =
-                viewFactory.makeFrameLayoutParams(
+                ViewFactory.makeFrameLayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     TAB_BAR_HEIGHT
                 )
@@ -174,7 +170,6 @@ data class TabView(
 
 internal class ContentAdapter(
     private val children: List<TabItem>,
-    private val viewFactory: ViewFactory,
     private val rootView: RootView,
 ) : PagerAdapter() {
 
@@ -183,7 +178,7 @@ internal class ContentAdapter(
     override fun getCount(): Int = children.size
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val view = viewFactory.makeBeagleFlexView(rootView).also {
+        val view = ViewFactory.makeBeagleFlexView(rootView).also {
             it.addView(children[position].child)
         }
         container.addView(view)

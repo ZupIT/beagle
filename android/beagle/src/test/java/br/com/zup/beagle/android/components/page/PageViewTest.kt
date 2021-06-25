@@ -30,7 +30,14 @@ import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.view.custom.InternalBeagleFlexView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkConstructor
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -57,8 +64,8 @@ class PageViewTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
         mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
-        every { anyConstructed<ViewFactory>().makeViewPager(any()) } returns beaglePageView
-        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), capture(styleSlot)) } returns beagleFlexView
+        every { ViewFactory.makeViewPager(any()) } returns beaglePageView
+        every { ViewFactory.makeBeagleFlexView(any(), capture(styleSlot)) } returns beagleFlexView
         every { beagleFlexView.addView(any(), capture(styleSlot)) } just Runs
     }
 
@@ -90,8 +97,8 @@ class PageViewTest : BaseComponentTest() {
             pageView.buildView(rootView)
 
             // THEN
-            verify(exactly = 1) { anyConstructed<ViewFactory>().makeViewPager(any()) }
-            verify(atLeast = 1) { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), styleSlot[0]) }
+            verify(exactly = 1) { ViewFactory.makeViewPager(any()) }
+            verify(atLeast = 1) { ViewFactory.makeBeagleFlexView(any(), styleSlot[0]) }
             verify(atLeast = 1) { beagleFlexView.addView(any(), styleSlot[1]) }
         }
 

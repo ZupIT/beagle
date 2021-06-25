@@ -64,7 +64,7 @@ internal class ImageTest : BaseComponentTest() {
 
         mockkStatic("br.com.zup.beagle.android.utils.NumberExtensionsKt")
 
-        every { anyConstructed<ViewFactory>().makeImageView(rootView.getContext(), any()) } returns imageView
+        every { ViewFactory.makeImageView(rootView.getContext(), any()) } returns imageView
         every { beagleSdk.designSystem } returns mockk(relaxed = true)
         every { beagleSdk.designSystem!!.image(any()) } returns IMAGE_RES
         every { 10.0.dp() } returns 20.0
@@ -250,7 +250,7 @@ internal class ImageTest : BaseComponentTest() {
 
             // Then
             verify {
-                anyConstructed<ViewFactory>().makeImageView(rootView.getContext(), 20.0)
+                ViewFactory.makeImageView(rootView.getContext(), 20.0)
             }
         }
     }

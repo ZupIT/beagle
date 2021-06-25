@@ -443,14 +443,13 @@ abstract class AbstractStep {
         elementToBeClicked.click()
     }
 
-    private fun getImageLocator(): By {
+    private fun getImagesLocator(): By {
         return if (SuiteSetup.isAndroid()) {
             MobileBy.className("android.widget.ImageView")
         } else {
             MobileBy.className("XCUIElementTypeImage")
         }
     }
-
 
     protected fun isTextFieldNumeric(elementText: String): Boolean {
         val textElement = waitForElementWithValueToBeClickable(elementText, false, false, false)
@@ -483,7 +482,15 @@ abstract class AbstractStep {
     protected fun waitForImageElementToBeVisible(order: Int): MobileElement {
         return AppiumUtil.waitForElementToBeClickable(
             getDriver(),
-            waitForImageElements().get(order),
+            waitForImageElements()[order],
+            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+        )
+    }
+
+    protected fun waitForAllImagesToBeInvisible() {
+        AppiumUtil.waitForElementsToBeInvisible(
+            getDriver(),
+            getImagesLocator(),
             DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
         )
     }
@@ -493,7 +500,7 @@ abstract class AbstractStep {
      * @return all image elements
      */
     protected fun waitForImageElements(): List<MobileElement> {
-        return getDriver().findElements(getImageLocator()) as List<MobileElement>
+        return getDriver().findElements(getImagesLocator()) as List<MobileElement>
     }
 
     /**

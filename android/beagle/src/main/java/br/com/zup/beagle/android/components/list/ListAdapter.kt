@@ -40,7 +40,6 @@ internal class ListAdapter(
     val template: ServerDrivenComponent?,
     val iteratorName: String,
     val key: String? = null,
-    val viewFactory: ViewFactory,
     val listViewModels: ListViewModels,
     val templateList: List<Template>? = null,
     val originView: View,
@@ -191,7 +190,7 @@ internal class ListAdapter(
     }
 
     private fun generateView(newTemplate: ServerDrivenComponent) =
-        viewFactory.makeBeagleFlexView(listViewModels.rootView).apply {
+        ViewFactory.makeBeagleFlexView(listViewModels.rootView).apply {
             setIsAutoGenerateIdEnabled(false)
             addView(newTemplate, false)
             layoutParams = generateLayoutParams()
@@ -290,7 +289,6 @@ internal class ListAdapter(
             this.template,
             this.iteratorName,
             this.key,
-            this.viewFactory,
             this.listViewModels,
             this.templateList,
             this.originView

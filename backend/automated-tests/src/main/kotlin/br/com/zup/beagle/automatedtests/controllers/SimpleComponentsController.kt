@@ -25,10 +25,12 @@ import br.com.zup.beagle.automatedtests.constants.TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.ButtonScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ConditionalScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ImageScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.PullToRefreshScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.TextScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.TouchableScreenBuilder
 import br.com.zup.beagle.automatedtests.constants.ADD_CHILDREN_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.CONDITIONAL_ENDPOINT
+import br.com.zup.beagle.automatedtests.constants.PULL_TO_REFRESH_ENDPOINT
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -55,4 +57,7 @@ class SimpleComponentsController {
 
     @GetMapping(CONDITIONAL_ENDPOINT)
     fun getConditionalScreen() = ConditionalScreenBuilder.build()
+
+    @GetMapping(PULL_TO_REFRESH_ENDPOINT)
+    fun getPullToRefreshEndpoint() = PullToRefreshScreenBuilder.build()
 }
