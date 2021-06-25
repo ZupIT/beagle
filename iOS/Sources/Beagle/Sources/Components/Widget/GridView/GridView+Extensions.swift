@@ -23,13 +23,13 @@ extension GridView {
         let view = ListViewUIComponent(
             model: ListViewUIComponent.Model(
                 key: key.ifSome { Path(rawValue: $0) },
-                direction: .vertical,
+                direction: direction ?? .vertical,
+                spanCount: max(1, spanCount),
                 templates: templates,
                 iteratorName: iteratorName ?? "item",
                 onScrollEnd: onScrollEnd,
                 scrollEndThreshold: CGFloat(scrollEndThreshold ?? 100),
-                isScrollIndicatorVisible: isScrollIndicatorVisible ?? false,
-                columns: max(1, numColumns)
+                isScrollIndicatorVisible: isScrollIndicatorVisible ?? false
             ),
             renderer: renderer
         )

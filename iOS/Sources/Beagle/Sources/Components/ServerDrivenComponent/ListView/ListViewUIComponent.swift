@@ -216,12 +216,12 @@ extension ListViewUIComponent {
     struct Model {
         var key: Path?
         var direction: ListView.Direction
+        var spanCount: Int = 1
         var templates: [Template]
         var iteratorName: String
         var onScrollEnd: [Action]?
         var scrollEndThreshold: CGFloat
         var isScrollIndicatorVisible: Bool
-        var columns: Int = 1
     }
 }
 
@@ -326,7 +326,7 @@ extension ListViewUIComponent: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var size = collectionView.frame.size
-        size.width = (size.width / CGFloat(model.columns)).rounded(.down)
+        size.width = (size.width / CGFloat(model.spanCount)).rounded(.down)
         guard let items = items, indexPath.item < items.count else {
             return size
         }

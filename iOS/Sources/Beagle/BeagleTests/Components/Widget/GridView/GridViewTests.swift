@@ -29,60 +29,64 @@ class GridViewTests: XCTestCase {
     
     func testGridViewTemplateSimple() {
         // Given
-        let component = createGridView(
-            contextValue: simpleContext,
-            numColumns: 2
-        )
+        let gridView: (GridView.Direction) -> GridView = {
+            self.createGridView(contextValue: self.simpleContext, direction: $0, spanCount: 2)
+        }
         
         // When
-        let view = renderGridView(component)
+        let viewVertical = renderGridView(gridView(.vertical))
+        let viewHorizontal = renderGridView(gridView(.horizontal))
 
         // Then
-        assertSnapshotImage(view, size: imageSize)
+        assertSnapshotImage(viewVertical, size: imageSize)
+        assertSnapshotImage(viewHorizontal, size: imageSize)
     }
     
     func testGridViewWithFourColumns() {
         // Given
-        let component = createGridView(
-            contextValue: simpleContext,
-            numColumns: 4
-        )
+        let gridView: (GridView.Direction) -> GridView = {
+            self.createGridView(contextValue: self.simpleContext, direction: $0, spanCount: 4)
+        }
         
         // When
-        let view = renderGridView(component)
+        let viewVertical = renderGridView(gridView(.vertical))
+        let viewHorizontal = renderGridView(gridView(.horizontal))
 
         // Then
-        assertSnapshotImage(view, size: imageSize)
+        assertSnapshotImage(viewVertical, size: imageSize)
+        assertSnapshotImage(viewHorizontal, size: imageSize)
     }
     
     let contextDifferentSizes: DynamicObject = ["LIST VIEW", "LIST VIEW, LIST VIEW, LIST VIEW", "1", "LIST VIEW", "TEST 1, TEST 1, TEST 1", "TEST LIST VIEW, LIST VIEW, LIST VIEW", "12345, 12345, 12345"]
   
     func testGridViewTemplateWithDifferentSizes() {
         // Given
-        let component = createGridView(
-            contextValue: contextDifferentSizes,
-            numColumns: 2
-        )
+        let gridView: (GridView.Direction) -> GridView = {
+            self.createGridView(contextValue: self.contextDifferentSizes, direction: $0, spanCount: 2)
+        }
         
         // When
-        let view = renderGridView(component)
+        let viewVertical = renderGridView(gridView(.vertical))
+        let viewHorizontal = renderGridView(gridView(.horizontal))
 
         // Then
-        assertSnapshotImage(view, size: imageSize)
+        assertSnapshotImage(viewVertical, size: imageSize)
+        assertSnapshotImage(viewHorizontal, size: imageSize)
     }
     
     func testGridViewWithNumColumnsZero() {
         // Given
-        let component = createGridView(
-            contextValue: contextDifferentSizes,
-            numColumns: 0
-        )
+        let gridView: (GridView.Direction) -> GridView = {
+            self.createGridView(contextValue: self.contextDifferentSizes, direction: $0, spanCount: 0)
+        }
         
         // When
-        let view = renderGridView(component)
+        let viewVertical = renderGridView(gridView(.vertical))
+        let viewHorizontal = renderGridView(gridView(.horizontal))
 
         // Then
-        assertSnapshotImage(view, size: imageSize)
+        assertSnapshotImage(viewVertical, size: imageSize)
+        assertSnapshotImage(viewHorizontal, size: imageSize)
     }
 }
 
@@ -98,7 +102,8 @@ extension GridViewTests {
         onInit: [Action]? = nil,
         onScrollEnd: [Action]? = nil,
         isScrollIndicatorVisible: Bool? = nil,
-        numColumns: Int
+        direction: GridView.Direction,
+        spanCount: Int
     ) -> GridView {
         return GridView(
             context: Context(
@@ -107,7 +112,8 @@ extension GridViewTests {
             ),
             onInit: onInit,
             dataSource: Expression("@{initialContext}"),
-            numColumns: numColumns,
+            direction: direction,
+            spanCount: spanCount,
             templates: [
                 Template(
                     view: Container(
