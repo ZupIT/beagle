@@ -135,7 +135,19 @@ abstract class AbstractStep {
         likeSearch: Boolean,
         ignoreCase: Boolean
     ): MobileElement {
-        val xpath: By = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, true)
+        return waitForElementWithValueToBePresent(elementValue, likeSearch, ignoreCase, true)
+    }
+
+    /**
+     * Waits for an element to be present on the screen
+     */
+    protected fun waitForElementWithValueToBePresent(
+        elementValue: String,
+        likeSearch: Boolean,
+        ignoreCase: Boolean,
+        nativeLocator: Boolean
+    ): MobileElement {
+        val xpath: By = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, nativeLocator)
         return AppiumUtil.waitForElementToBePresent(
             getDriver(),
             xpath,
