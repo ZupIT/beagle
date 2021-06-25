@@ -70,7 +70,7 @@ class GridViewTest : BaseComponentTest() {
 
         gridView = GridView(context, onInit, dataSource, templates, onScrollEnd, iteratorName = iteratorName, key = key, numColumns = numColumns)
 
-        every { anyConstructed<ViewFactory>().makeBeagleRecyclerView(rootView.getContext()) } returns beagleRecyclerView
+        every { ViewFactory.makeBeagleRecyclerView(rootView.getContext()) } returns beagleRecyclerView
         every { beagleRecyclerView.layoutManager = capture(layoutManagerSlot) } just Runs
 
     }

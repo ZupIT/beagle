@@ -49,12 +49,9 @@ class PageIndicator(
     ) : this(selectedColor, unselectedColor, numberOfPages, valueOf(currentPage))
 
     @Transient
-    private val viewFactory: ViewFactory = ViewFactory()
-
-    @Transient
     private lateinit var pageIndicator: BeaglePageIndicatorView
 
-    override fun buildView(rootView: RootView) = viewFactory.makePageIndicator(rootView.getContext()).apply {
+    override fun buildView(rootView: RootView) = ViewFactory.makePageIndicator(rootView.getContext()).apply {
         pageIndicator = this
         selectedColor.toAndroidColor()?.let {
             setSelectedColor(it)

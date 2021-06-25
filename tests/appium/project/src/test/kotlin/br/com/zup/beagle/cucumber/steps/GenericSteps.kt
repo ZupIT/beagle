@@ -26,18 +26,18 @@ class GenericSteps : AbstractStep() {
     override var bffRelativeUrlPath = ""
 
     @When("^I click on button (.*)$")
-    fun clickOnButton(string1: String) {
-        waitForElementWithTextToBeClickable(string1, likeSearch = false, ignoreCase = true).click()
+    fun clickOnButton(buttonText: String) {
+        safeClickOnElement(waitForElementWithTextToBeClickable(buttonText, likeSearch = false, ignoreCase = true))
     }
 
     @Then("^The Text should show (.*)$")
-    fun textShouldShow(string1: String) {
-        waitForElementWithTextToBeClickable(string1, likeSearch = false, ignoreCase = true)
+    fun textShouldShow(text: String) {
+        waitForElementWithTextToBeClickable(text, likeSearch = false, ignoreCase = true)
     }
 
     @When("^I click on text (.*)$")
-    fun clickOnText(string1: String) {
-        waitForElementWithTextToBeClickable(string1, likeSearch = false, ignoreCase = true).click()
+    fun clickOnText(text: String) {
+        safeClickOnElement(waitForElementWithTextToBeClickable(text, likeSearch = false, ignoreCase = true))
     }
 
     @When("^I click on input with hint (.*)$")
@@ -51,8 +51,8 @@ class GenericSteps : AbstractStep() {
     }
 
     @Then("^a dialog should appear on the screen with text (.*)$")
-    fun checkDialog(string: String) {
-        waitForElementWithTextToBeClickable(string, likeSearch = true, ignoreCase = true)
+    fun checkDialog(text: String) {
+        waitForElementWithTextToBeClickable(text, likeSearch = true, ignoreCase = true)
     }
 
     @Then("^the screen should show an element with the place holder (.*)$")

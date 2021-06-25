@@ -114,6 +114,10 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.openNativeRoute(.init(route: .globalContextEndpoint))]
                 )
                 Button(
+                    text: "PullToRefresh",
+                    onPress: [Navigate.pushView(.declarative(pullToRefreshScreen))]
+                )
+                Button(
                     text: "Sample BFF",
                     onPress: [Navigate.pushView(.remote(.init(url: .componentsEndpoint)))]
                 )

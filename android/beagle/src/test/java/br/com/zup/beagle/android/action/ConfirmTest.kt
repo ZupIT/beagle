@@ -24,27 +24,23 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.verify
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals
 
 class ConfirmTest {
 
     @RelaxedMockK
     private lateinit var rootView: RootView
-
-    @MockK
-    private lateinit var viewFactory: ViewFactory
 
     private val builder = mockk<AlertDialog.Builder>()
     private val dialogBox = mockk<AlertDialog>()
@@ -59,8 +55,9 @@ class ConfirmTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+        mockkObject(ViewFactory)
 
-        every { viewFactory.makeAlertDialogBuilder(any()) } returns builder
+        every { ViewFactory.makeAlertDialogBuilder(any()) } returns builder
         every { builder.setTitle(capture(titleSlot)) } returns builder
         every { builder.setMessage(capture(messageSlot)) } returns builder
         every { builder.setPositiveButton(capture(labelOkSlot), capture(listenerOkSlot)) } returns builder
@@ -83,7 +80,6 @@ class ConfirmTest {
         )
 
         // When
-        action.viewFactory = viewFactory
         action.execute(rootView, view)
 
         // Then
@@ -106,7 +102,6 @@ class ConfirmTest {
         every { rootView.getContext().getString(android.R.string.cancel) } returns randomLabelCancel
 
         // When
-        action.viewFactory = viewFactory
         action.execute(rootView, view)
 
         // Then
@@ -127,7 +122,6 @@ class ConfirmTest {
         every { dialogBox.dismiss() } just Runs
 
         // When
-        action.viewFactory = viewFactory
         action.execute(rootView, view)
         listenerOkSlot.captured.onClick(dialogBox, 0)
 
@@ -148,7 +142,6 @@ class ConfirmTest {
         )
         every { dialogBox.dismiss() } just Runs
         // When
-        action.viewFactory = viewFactory
         action.execute(rootView, view)
         listenerOkSlot.captured.onClick(dialogBox, 0)
 
@@ -169,7 +162,6 @@ class ConfirmTest {
         )
         every { dialogBox.dismiss() } just Runs
         // When
-        action.viewFactory = viewFactory
         action.execute(rootView, view)
         listenerCancelSlot.captured.onClick(dialogBox, 0)
 

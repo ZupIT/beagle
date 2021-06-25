@@ -72,52 +72,56 @@ class TextInputScreenSteps : AbstractStep() {
     }
 
     @Then("^verify if the text (.*) is in the second plan$")
-    fun checkKeyboardFocus(string: String) {
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
-        Assert.assertTrue(string.equals(mobileElement.text))
+    fun checkKeyboardFocus(elementText: String) {
+        val mobileElement = waitForElementWithValueToBeClickable(elementText,
+            likeSearch = false,
+            ignoreCase = false,
+            nativeLocator = false
+        )
+        Assert.assertTrue(elementText.equals(mobileElement.text))
         mobileElement.sendKeys("a")
-        Assert.assertFalse(string.equals(mobileElement.text))
+        Assert.assertFalse(elementText.equals(mobileElement.text))
         mobileElement.clear()
-        Assert.assertTrue(string.equals(mobileElement.text))
+        Assert.assertTrue(elementText.equals(mobileElement.text))
     }
 
     @Then("^validate that the value of the text input component (.*) of type \"date\" is shown correctly$")
     fun checkDateWriting(string: String) {
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
+        val mobileElement = waitForElementWithValueToBeClickable(string,
+            likeSearch = false,
+            ignoreCase = false,
+            nativeLocator = false
+        )
         mobileElement.sendKeys("22/04/1500")
         waitForElementWithValueToBeClickable("22/04/1500", false, false)
     }
 
     @Then("^validate that the value of the text input component (.*) of type \"email\" is shown correctly$")
     fun checkEmailWriting(string: String) {
-        scrollUpToElementWithValue(string, false, false)
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
+        val mobileElement = scrollUpToElementWithValue(string, false, false)
         mobileElement.sendKeys("test@abc.com")
         waitForElementWithValueToBeClickable("test@abc.com", false, false)
     }
 
     @Then("^validate that the value of the text input component (.*) of type \"password\" is shown correctly$")
-    fun checkPasswordWriting(string: String) {
-        scrollDownToElementWithValue(string, false, false)
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
+    fun checkPasswordWriting(textElement: String) {
+        val mobileElement = scrollDownToElementWithValue(textElement, false, false)
         mobileElement.sendKeys("123")
         Assert.assertTrue("123" != mobileElement.text) // validates text is in password format
         Assert.assertTrue(mobileElement.text.length == 3)
-        Assert.assertTrue(string != mobileElement.text)
+        Assert.assertTrue(textElement != mobileElement.text)
     }
 
     @Then("^validate that the value of the text input component (.*) of type \"number\" is shown correctly$")
     fun checkNumberWriting(string: String) {
-        scrollDownToElementWithValue(string, false, false)
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
+        val mobileElement = scrollDownToElementWithValue(string, false, false)
         mobileElement.sendKeys("12345678")
         waitForElementWithValueToBeClickable("12345678", false, false)
     }
 
     @Then("^validate that the value of the text input component (.*) of type \"text\" is shown correctly$")
     fun checkTextWriting(string: String) {
-        scrollDownToElementWithValue(string, false, false)
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
+        val mobileElement = scrollDownToElementWithValue(string, false, false)
         mobileElement.sendKeys("This is a test!")
         waitForElementWithValueToBeClickable("This is a test!", false, false)
     }
@@ -130,8 +134,7 @@ class TextInputScreenSteps : AbstractStep() {
 
     @And("^I click the textInput with the placeholder (.*)$")
     fun textInputWithActionOfOnFocus(string: String) {
-        scrollDownToElementWithValue(string, false, false)
-        waitForElementWithValueToBeClickable(string, false, false).click()
+        scrollDownToElementWithValue(string, false, false).click()
     }
 
     @Then("^the textInput with the placeholder \"Ordered actions\" should have value (.*)$")
@@ -150,12 +153,11 @@ class TextInputScreenSteps : AbstractStep() {
     }
 
     @When("^I click to textInput (.*) then change to (.*) and to (.*)$")
-    fun textInoutWithActionOfOnFocusAndOnChange(string: String, string2: String, string3: String) {
-        scrollUpToElementWithValue(string, false, false)
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
-        waitForElementWithValueToBeClickable(string2, false, false)
-        mobileElement.sendKeys("a")
-        waitForElementWithValueToBeClickable(string3, false, false)
+    fun textInoutWithActionOfOnFocusAndOnChange(elementText1: String, elementText2: String, elementText3: String) {
+        val mobileElement = scrollUpToElementWithValue(elementText1, false, false)
+        waitForElementWithValueToBeClickable(elementText2, false, false, false)
+        mobileElement.sendKeys("a") // TODO: validar a'?
+        waitForElementWithValueToBeClickable(elementText3, false, false)
     }
 
     @Then("^the text (.*) should be appear in the correctly order$")

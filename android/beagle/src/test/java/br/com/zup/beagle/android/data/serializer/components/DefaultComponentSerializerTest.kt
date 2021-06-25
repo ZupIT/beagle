@@ -53,6 +53,10 @@ import br.com.zup.beagle.android.data.serializer.makeObjectTextInputWithExpressi
 import br.com.zup.beagle.android.data.serializer.makeObjectTouchable
 import br.com.zup.beagle.android.data.serializer.makeObjectWebView
 import br.com.zup.beagle.android.data.serializer.makeObjectWebViewWithExpression
+import br.com.zup.beagle.android.data.serializer.makePullToRefreshJson
+import br.com.zup.beagle.android.data.serializer.makePullToRefreshObject
+import br.com.zup.beagle.android.data.serializer.makePullToRefreshWithoutExpressionJson
+import br.com.zup.beagle.android.data.serializer.makePullToRefreshWithoutExpressionObject
 import br.com.zup.beagle.android.data.serializer.makeScreenComponentJson
 import br.com.zup.beagle.android.data.serializer.makeScrollViewJson
 import br.com.zup.beagle.android.data.serializer.makeSimpleFormJson
@@ -111,6 +115,8 @@ class DefaultComponentSerializerTest : DefaultSerializerTest<ServerDrivenCompone
         Arguments.of(makeTouchableJson(), makeObjectTouchable()),
         Arguments.of(makeWebViewJson(), makeObjectWebView()),
         Arguments.of(makeWebViewWithExpressionJson(), makeObjectWebViewWithExpression()),
+        Arguments.of(makePullToRefreshJson(), makePullToRefreshObject()),
+        Arguments.of(makePullToRefreshWithoutExpressionJson(), makePullToRefreshWithoutExpressionObject()),
     )
 
     private fun makeObjectScreenComponent() = ScreenComponent(

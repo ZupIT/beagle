@@ -63,15 +63,23 @@ class BeagleSdk {
   }) {
     Yoga.init();
     httpClient = httpClient ?? const DefaultHttpClient();
+    actions = actions == null ? defaultActions : { ...defaultActions, ...actions };
+
+    Map<String, ComponentBuilder> lowercaseComponents = components.map(
+      (key, value) => MapEntry(key.toLowerCase(), value)
+    );
+
+    Map<String, ActionHandler> lowercaseActions = actions.map(
+      (key, value) => MapEntry(key.toLowerCase(), value)
+    );
 
     setupServiceLocator(
       beagleConfig: beagleConfig ?? DefaultEmptyConfig(),
       httpClient: httpClient,
-      components: components,
+      components: lowercaseComponents,
       storage: storage ?? DefaultStorage(),
       useBeagleHeaders: useBeagleHeaders ?? true,
-      actions:
-          actions == null ? defaultActions : {...defaultActions, ...actions},
+      actions: lowercaseActions,
       navigationControllers: navigationControllers,
       designSystem: designSystem ?? DefaultEmptyDesignSystem(),
       imageDownloader: imageDownloader ?? DefaultBeagleImageDownloader(httpClient: httpClient),

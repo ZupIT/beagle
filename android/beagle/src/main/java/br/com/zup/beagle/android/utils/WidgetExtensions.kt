@@ -30,8 +30,6 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
-internal var viewFactory = ViewFactory()
-
 /**
  * Execute a list of actions and create an implicit context with eventName and eventValue.
  * @property rootView from buildView
@@ -184,7 +182,7 @@ internal fun ServerDrivenComponent.toView(
     generateIdManager: GenerateIdManager = GenerateIdManager(rootView),
 ): View {
     generateIdManager.createSingleManagerByRootViewId()
-    val view = viewFactory.makeBeagleFlexView(rootView).apply {
+    val view = ViewFactory.makeBeagleFlexView(rootView).apply {
         id = rootView.getParentId()
         addView(this@toView)
     }

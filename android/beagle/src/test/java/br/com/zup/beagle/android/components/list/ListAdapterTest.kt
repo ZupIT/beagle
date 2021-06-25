@@ -48,6 +48,7 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
+import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.Assert.assertEquals
@@ -79,7 +80,6 @@ class ListAdapterTest : BaseTest() {
     private val key = "id"
     private val generatedId = 10
     private val list = listOf("stub 1", "stub 2")
-    private val viewFactory = mockk<ViewFactory>(relaxed = true)
     private val listViewModels = mockk<ListViewModels>()
     private val asyncActionViewModel = mockk<AsyncActionViewModel>()
     private val contextViewModel = mockk<ScreenContextViewModel>(relaxed = true)
@@ -114,8 +114,9 @@ class ListAdapterTest : BaseTest() {
         super.setUp()
 
         mockkConstructor(ListViewHolder::class)
+        mockkObject(ViewFactory)
         every { viewHolderItemView.parent } returns recyclerViewMock
-        every { viewFactory.makeBeagleFlexView(rootView) } returns viewHolderItemView
+        every { ViewFactory.makeBeagleFlexView(rootView) } returns viewHolderItemView
         every { asyncActionViewModel.onAsyncActionExecuted(capture(asyncActionDataSlot)) } answers {
             observerSlot.captured.onChanged(asyncActionDataSlot.captured)
         }
@@ -137,7 +138,6 @@ class ListAdapterTest : BaseTest() {
             template,
             iteratorName,
             key,
-            viewFactory,
             listViewModels,
             templateList,
             recyclerViewMock
@@ -192,7 +192,6 @@ class ListAdapterTest : BaseTest() {
             template,
             iteratorName,
             key,
-            viewFactory,
             listViewModels,
             templateList,
             recyclerViewMock
@@ -210,7 +209,6 @@ class ListAdapterTest : BaseTest() {
             template,
             iteratorName,
             key,
-            viewFactory,
             listViewModels,
             templateList,
             recyclerViewMock
@@ -235,7 +233,6 @@ class ListAdapterTest : BaseTest() {
             template,
             iteratorName,
             key,
-            viewFactory,
             listViewModels,
             templateList,
             recyclerViewMock
@@ -259,7 +256,6 @@ class ListAdapterTest : BaseTest() {
             template,
             iteratorName,
             key,
-            viewFactory,
             listViewModels,
             templateList,
             recyclerViewMock
@@ -284,7 +280,6 @@ class ListAdapterTest : BaseTest() {
             template,
             iteratorName,
             key,
-            viewFactory,
             listViewModels,
             templateList,
             recyclerViewMock
@@ -321,7 +316,6 @@ class ListAdapterTest : BaseTest() {
             template,
             iteratorName,
             key,
-            viewFactory,
             listViewModels,
             templateList,
             recyclerViewMock
@@ -345,7 +339,6 @@ class ListAdapterTest : BaseTest() {
             template,
             iteratorName,
             key,
-            viewFactory,
             listViewModels,
             templateList,
             recyclerViewMock,
@@ -373,7 +366,6 @@ class ListAdapterTest : BaseTest() {
             template,
             iteratorName,
             key,
-            viewFactory,
             listViewModels,
             templateList,
             recyclerViewMock,
@@ -398,7 +390,6 @@ class ListAdapterTest : BaseTest() {
             template,
             iteratorName,
             key,
-            viewFactory,
             listViewModels,
             null,
             recyclerViewMock,
@@ -429,7 +420,6 @@ class ListAdapterTest : BaseTest() {
             null,
             iteratorName,
             key,
-            viewFactory,
             listViewModels,
             templateListWithNoDefault,
             recyclerViewMock,
@@ -670,7 +660,6 @@ class ListAdapterTest : BaseTest() {
         assertEquals(listAdapter.template, adapterCopy.template)
         assertEquals(listAdapter.iteratorName, adapterCopy.iteratorName)
         assertEquals(listAdapter.key, adapterCopy.key)
-        assertEquals(listAdapter.viewFactory, adapterCopy.viewFactory)
         assertEquals(listAdapter.listViewModels, adapterCopy.listViewModels)
         assertEquals(listAdapter.templateList, adapterCopy.templateList)
         assertEquals(listAdapter.originView, adapterCopy.originView)

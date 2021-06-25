@@ -30,10 +30,17 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextAlignment
-import io.mockk.*
-import org.junit.jupiter.api.Test
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkConstructor
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 private val STYLE_RES = RandomData.int()
 private val IMAGE_RES = RandomData.int()
@@ -64,7 +71,7 @@ class BeagleTextViewExtensionsKtTest : BaseComponentTest() {
 
         every { BeagleEnvironment.beagleSdk.designSystem } returns designSystem
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
-        every { anyConstructed<ViewFactory>().makeTextView(any(), STYLE_RES) } returns textView
+        every { ViewFactory.makeTextView(any(), STYLE_RES) } returns textView
         every { textView.context } returns activity
         every { textView.text = capture(textValueSlot) } just Runs
         every { textView.gravity = capture(textAlignment) } just Runs

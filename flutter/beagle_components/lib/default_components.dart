@@ -46,6 +46,8 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:pageIndicator': beaglePageIndicatorBuilder(),
   'beagle:touchable': beagleTouchableBuilder(),
   'beagle:webView': beagleWebViewBuilder(),
+  'beagle:screenComponent': beagleContainerBuilder(),
+  'beagle:scrollView': beagleContainerBuilder(),
 };
 
 ComponentBuilder beagleLoadingBuilder() {

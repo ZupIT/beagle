@@ -293,6 +293,28 @@ extension PageView {
     }
 }
 
+// MARK: PullToRefresh Decodable
+extension PullToRefresh {
+
+    enum CodingKeys: String, CodingKey {
+        case context
+        case onPull
+        case isRefreshing
+        case color
+        case child
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        context = try container.decodeIfPresent(Context.self, forKey: .context)
+        onPull = try container.decodeIfPresent(forKey: .onPull)
+        isRefreshing = try container.decodeIfPresent(Expression<Bool>.self, forKey: .isRefreshing)
+        color = try container.decodeIfPresent(Expression<String>.self, forKey: .color)
+        child = try container.decode(forKey: .child)
+    }
+}
+
 // MARK: Route.NewPath.HttpAdditionalData Decodable
 extension Route.NewPath.HttpAdditionalData {
 
