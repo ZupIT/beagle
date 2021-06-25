@@ -80,7 +80,6 @@ the flow. See the example below:
 
 ```dart
 import 'package:beagle/beagle.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sample/config.dart';
