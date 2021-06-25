@@ -28,11 +28,13 @@ import br.com.zup.beagle.compiler.shared.implements
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
+import java.lang.Exception
 import java.util.TreeSet
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.Processor
 import javax.annotation.processing.RoundEnvironment
+import javax.annotation.processing.SupportedOptions
 import javax.annotation.processing.SupportedSourceVersion
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.TypeElement
@@ -40,6 +42,10 @@ import javax.lang.model.element.TypeElement
 @AutoService(Processor::class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.ISOLATING)
+@SupportedOptions(
+    KAPT_BEAGLE_MODULE_NAME_OPTION_NAME,
+    KAPT_BEAGLE_HAS_INSTANCE_OPTION_NAME,
+)
 class BeagleAnnotationProcessor : AbstractProcessor() {
 
     private lateinit var beagleSetupProcessor: BeagleSetupProcessor
@@ -60,11 +66,37 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
         beagleSetupProcessor = BeagleSetupProcessor(processingEnvironment)
     }
 
+    private fun checkOptions(): Boolean {
+        return checkModuleNameOption()
+            && checkHasInstanceOption()
+    }
+
+    private fun checkModuleNameOption(): Boolean {
+        if (!processingEnv.options.containsKey(KAPT_BEAGLE_MODULE_NAME_OPTION_NAME)) {
+            val errorMessage = createOptionNotFoundErrorMessage(KAPT_BEAGLE_MODULE_NAME_OPTION_NAME)
+            processingEnv.messager.error(errorMessage)
+            return false
+        }
+        return true
+    }
+
+    private fun checkHasInstanceOption(): Boolean {
+        if (!processingEnv.options.containsKey(KAPT_BEAGLE_HAS_INSTANCE_OPTION_NAME)) {
+            val errorMessage = createOptionNotFoundErrorMessage(KAPT_BEAGLE_HAS_INSTANCE_OPTION_NAME)
+            processingEnv.messager.error(errorMessage)
+            return false
+        }
+        return true
+    }
+
+    private fun createOptionNotFoundErrorMessage(optionName: String) =
+        "kapt argument [$optionName] not found. Did you forget to pass it in your build.gradle file?"
+
     override fun process(
         annotations: Set<TypeElement>,
         roundEnvironment: RoundEnvironment
     ): Boolean {
-        if (annotations.isEmpty() || roundEnvironment.errorRaised()) return false
+        if (annotations.isEmpty() || roundEnvironment.errorRaised() || !checkOptions()) return false
 
         val beagleConfigElements = roundEnvironment.getElementsAnnotatedWith(
             BeagleComponent::class.java

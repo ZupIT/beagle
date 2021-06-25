@@ -20,10 +20,13 @@ import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionActio
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionCustomAdapter
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionCustomValidator
 import br.com.zup.beagle.android.compiler.generatefunction.RegisterControllerProcessor
+import br.com.zup.beagle.android.compiler.processor.KAPT_BEAGLE_MODULE_NAME_OPTION_NAME
 import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
 import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation
 import br.com.zup.beagle.compiler.shared.GenerateFunctionWidget
+import br.com.zup.beagle.compiler.shared.GenerateFunctionWidgetRegistrar
 import br.com.zup.beagle.compiler.shared.GenericFactoryProcessor
+import br.com.zup.beagle.compiler.shared.REGISTRAR_COMPONENTS_PACKAGE
 import br.com.zup.beagle.compiler.shared.WIDGET_VIEW
 import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.AnnotationSpec
@@ -32,7 +35,9 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
+import java.io.File
 import java.io.IOException
+import java.util.*
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 
@@ -43,6 +48,30 @@ internal data class BeagleSetupProcessor(
     private val registerAnnotationProcessor: RegisterControllerProcessor =
         RegisterControllerProcessor(processingEnv),
 ) {
+
+    private val componentRegistrarFactoryProcessor = GenericFactoryProcessor(
+        processingEnv,
+        "${getModuleName()}$WIDGETS_REGISTRAR_GENERATED",
+//        "${guessModuleName()}$COMPONENTS_REGISTRAR_GENERATED",
+        GenerateFunctionWidgetRegistrar(processingEnv)
+    )
+
+    private fun getModuleName(): String {
+        return processingEnv.options[KAPT_BEAGLE_MODULE_NAME_OPTION_NAME]
+            ?.replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+            }
+            ?: "TEST"//throw Exception("$KAPT_BEAGLE_MODULE_NAME_OPTION_NAME not found.")
+    }
+
+    //TODO: it's an option to remove beagle.moduleName argument, but it's risky. It's not guaranteed that
+    // kapt.kotlin.generated will always point to build directory
+//    private fun guessModuleName(): String {
+//        return processingEnv.options["kapt.kotlin.generated"]
+//            ?.substringBefore("${File.separator}build")
+//            ?.substringAfterLast(File.separator)
+//            ?: ""
+//    }
 
     private val widgetFactoryProcessor = GenericFactoryProcessor(
         processingEnv,
@@ -133,6 +162,7 @@ internal data class BeagleSetupProcessor(
     }
 
     private fun handleAllProcess(basePackageName: String, roundEnvironment: RoundEnvironment, property: PropertySpec) {
+        componentRegistrarFactoryProcessor.process(REGISTRAR_COMPONENTS_PACKAGE, roundEnvironment, listOf())
         widgetFactoryProcessor.process(basePackageName, roundEnvironment, WIDGET_VIEW)
         operationFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_OPERATION)
         actionFactoryProcessor.process(basePackageName, roundEnvironment, ANDROID_ACTION)
@@ -176,6 +206,7 @@ internal data class BeagleSetupProcessor(
     }
 
     companion object {
+        internal const val WIDGETS_REGISTRAR_GENERATED = "WidgetsRegistrar"
         internal const val REGISTERED_WIDGETS_GENERATED = "RegisteredWidgets"
         internal const val REGISTERED_OPERATIONS_GENERATED = "RegisteredOperations"
         internal const val REGISTERED_ACTIONS_GENERATED = "RegisteredActions"

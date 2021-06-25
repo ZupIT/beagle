@@ -24,17 +24,49 @@ import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
+import javax.lang.model.element.ElementKind
+import javax.lang.model.element.PackageElement
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
+class GenerateFunctionWidgetRegistrar(private val processingEnv: ProcessingEnvironment) :
     BeagleGeneratorFunction<RegisterWidget>(
         WIDGET_VIEW,
-        REGISTERED_WIDGETS,
+        REGISTERED_COMPONENTS,
         RegisterWidget::class.java
     ) {
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
-        return "\n${element}::class.java as Class<WidgetView>,"
+        return "\nPair(\"${getPackageName(element)}\",\"${element.simpleName}\"),"
+    }
+
+    override fun generate(roundEnvironment: RoundEnvironment): FunSpec {
+
+        val registeredComponents = StringBuilder()
+        // TODO: uncomment to enable dependencies widgets registration e.g. sample -> moduleB -> moduleC
+        // this enables to register widgets from moduleC in sample
+//        processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
+//            val fullClassName = it.toString()
+//            val cls = Class.forName(fullClassName)
+//            val kotlinClass = cls.kotlin
+//            (cls.getMethod("registeredComponents").invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { component ->
+//                registeredComponents.append("Pair(\"${component.first}\",\"${component.second}\"),")
+//            }
+//        }
+
+        val classesWithAnnotation = getAllClassWithAnnotation(roundEnvironment)
+        return createFuncSpec(getFunctionName())
+            .addCode(getCodeFormatted(classesWithAnnotation + registeredComponents))
+            .addStatement(returnStatementInGenerate())
+            .build()
+    }
+
+    private fun getPackageName(element: Element): String {
+        var enclosing = element
+        while (enclosing.kind != ElementKind.PACKAGE) {
+            enclosing = enclosing.enclosingElement
+        }
+        val packageElement = enclosing as PackageElement
+        return packageElement.toString()
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
@@ -46,37 +78,20 @@ class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
         }
     }
 
-    override fun returnStatementInGenerate(): String = "return $REGISTERED_WIDGETS"
+    override fun returnStatementInGenerate(): String = "return $REGISTERED_COMPONENTS"
 
     override fun getCodeFormatted(allCodeMappedWithAnnotation: String): String =
         """
-            |val $REGISTERED_WIDGETS = listOf<Class<WidgetView>>(
+            |val $REGISTERED_COMPONENTS = listOf<Pair<String, String>>(
             |   $allCodeMappedWithAnnotation
             |)
         |""".trimMargin()
 
-    override fun generate(roundEnvironment: RoundEnvironment): FunSpec {
-        val registeredComponents = StringBuilder()
-        processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
-            val fullClassName = it.toString()
-            val cls = Class.forName(fullClassName)
-            val kotlinClass = cls.kotlin
-            (cls.getMethod("registeredComponents").invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { component ->
-                registeredComponents.append("\n${component.first}.${component.second}::class.java as Class<WidgetView>,")
-            }
-        }
-
-        val classesWithAnnotation = getAllClassWithAnnotation(roundEnvironment)
-        return createFuncSpec(getFunctionName())
-            .addCode(getCodeFormatted(classesWithAnnotation + registeredComponents))
-            .addStatement(returnStatementInGenerate())
-            .build()
-    }
-
     override fun createFuncSpec(name: String): FunSpec.Builder {
         val listReturnType = List::class.asClassName().parameterizedBy(
-            Class::class.asClassName().parameterizedBy(
-                ClassName(WIDGET_VIEW.packageName, WIDGET_VIEW.className)
+            Pair::class.asClassName().parameterizedBy(
+                ClassName("kotlin", "String"),
+                ClassName("kotlin", "String"),
             )
         )
 
@@ -91,6 +106,6 @@ class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
     }
 
     companion object {
-        const val REGISTERED_WIDGETS = "registeredWidgets"
+        const val REGISTERED_COMPONENTS = "registeredComponents"
     }
 }

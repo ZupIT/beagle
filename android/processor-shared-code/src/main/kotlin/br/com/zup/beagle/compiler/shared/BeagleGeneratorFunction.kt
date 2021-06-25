@@ -35,7 +35,7 @@ abstract class BeagleGeneratorFunction<T : Annotation>(
 
     abstract fun createFuncSpec(name: String): FunSpec.Builder
 
-    fun generate(roundEnvironment: RoundEnvironment): FunSpec {
+    open fun generate(roundEnvironment: RoundEnvironment): FunSpec {
         val classesWithAnnotation = getAllClassWithAnnotation(roundEnvironment)
         return createFuncSpec(functionName)
             .addCode(getCodeFormatted(classesWithAnnotation))
@@ -45,7 +45,7 @@ abstract class BeagleGeneratorFunction<T : Annotation>(
 
     fun getFunctionName(): String = functionName
 
-    private fun getAllClassWithAnnotation(roundEnvironment: RoundEnvironment): String {
+    fun getAllClassWithAnnotation(roundEnvironment: RoundEnvironment): String {
         val stringBuilder = StringBuilder()
         val elements = roundEnvironment.getElementsAnnotatedWith(annotation)
 

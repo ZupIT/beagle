@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.constants
+package br.com.zup.beagle.sample.spring.service
 
-const val BASE_URL = "http://10.0.2.2:8080"
-const val SAMPLE_ENDPOINT = "/annotation-test"
+import br.com.zup.beagle.sample.builder.AnnotationTestBuilder
+import org.springframework.stereotype.Service
+
+@Service
+class AnnotationTestService {
+    fun createAnnotationTestScreen()  = AnnotationTestBuilder
+}

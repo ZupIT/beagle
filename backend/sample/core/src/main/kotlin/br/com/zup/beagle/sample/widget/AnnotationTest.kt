@@ -14,7 +14,23 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.constants
+package br.com.zup.beagle.sample.widget
 
-const val BASE_URL = "http://10.0.2.2:8080"
-const val SAMPLE_ENDPOINT = "/annotation-test"
+import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.context.Bind
+
+@RegisterWidget
+data class ModuleAWidget(
+    val text: Bind<String>,
+) : Widget()
+
+@RegisterWidget
+data class ModuleBWidget(
+    val text: Bind<String>,
+) : Widget()
+
+@RegisterWidget
+data class ModuleCWidget(
+    val text: Bind<String>,
+) : Widget()

@@ -14,7 +14,21 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.constants
+package br.com.zup.beagle.android.moduleb
 
-const val BASE_URL = "http://10.0.2.2:8080"
-const val SAMPLE_ENDPOINT = "/annotation-test"
+import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.setup.BeagleConfig
+import br.com.zup.beagle.android.setup.Cache
+import br.com.zup.beagle.android.setup.Environment
+
+@BeagleComponent
+class ModuleBBeagleConfig : BeagleConfig {
+    override val environment: Environment get() = Environment.DEBUG
+    override val baseUrl: String get() = "BASE_URL"
+    override val isLoggingEnabled: Boolean = true
+    override val cache: Cache = Cache(
+        enabled = false,
+        maxAge = 300,
+        size = 15
+    )
+}
