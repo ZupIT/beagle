@@ -91,7 +91,7 @@ class _BeagleWidget extends State<BeagleWidget> {
       ..onAction(({action, element, view}) {
         final handler = service.actions[action.getType().toLowerCase()];
         if (handler == null) {
-          logger.error("Couldn't find action with name ${action.getType()}. It will be ignored.");
+          return logger.error("Couldn't find action with name ${action.getType()}. It will be ignored.");
         }
         handler(
           action: action,
