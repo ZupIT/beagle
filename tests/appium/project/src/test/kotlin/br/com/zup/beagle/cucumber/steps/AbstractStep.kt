@@ -603,6 +603,10 @@ abstract class AbstractStep {
         if (SuiteSetup.isAndroid()) {
             getDriver().navigate().back()
         } else {
+
+            // waits for the animation to finish
+            sleep(200)
+
             // caution: not all iOS bff screens have the back button.
             var locator = By.xpath("//XCUIElementTypeNavigationBar//XCUIElementTypeButton[1]")
             safeClickOnElement(AppiumUtil.waitForElementToBeClickable(getDriver(), locator, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL))
