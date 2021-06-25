@@ -1,54 +1,56 @@
 /*
- * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 import 'package:beagle/model/beagle_style.dart';
-import 'package:beagle/model/beagle_ui_element.dart';
+import 'package:beagle_components/after_layout.dart';
+import 'package:flutter/material.dart';
 import 'package:beagle/style/beagle_style_widget.dart';
-import 'package:flutter/widgets.dart';
 
-class BeagleContainer extends StatefulWidget with StyleWidget {
+/// A simple container that can execute an action as soon as it gets created
+class BeagleContainer extends StatefulWidget {
   const BeagleContainer({
     Key key,
-    this.context,
-    this.style,
     this.onInit,
+    this.style,
     this.children,
   }) : super(key: key);
 
-  final DataContext context;
-  final BeagleStyle style;
+  /// optional function to run once the container is created
   final Function onInit;
+
+  final BeagleStyle style;
+
+  /// content of the container
   final List<Widget> children;
 
   @override
-  _BeagleContainerState createState() => _BeagleContainerState();
+  _BeagleContainer createState() => _BeagleContainer();
 }
 
-class _BeagleContainerState extends State<BeagleContainer> {
+class _BeagleContainer extends State<BeagleContainer>
+    with AfterLayoutMixin<BeagleContainer> {
   @override
-  void initState() {
-    if (widget.onInit != null) {
-      widget.onInit();
-    }
-    super.initState();
+  void afterFirstLayout(BuildContext context) {
+    if (widget.onInit != null) widget.onInit();
   }
 
   @override
   Widget build(BuildContext context) => buildBeagleWidget(
-    style: widget.style,
-    children: widget.children,
-  );
+        style: widget.style,
+        children: widget.children,
+      );
 }
