@@ -210,10 +210,10 @@ object AppiumUtil {
         var destinationPointX = originPoint.x
         var destinationPointY = originPoint.y
 
-        if (horizontalScroll){
-            destinationPointX = screenSize.width/2
-        }else{
-            destinationPointY = screenSize.height/2
+        if (horizontalScroll) {
+            destinationPointX = screenSize.width / 2
+        } else {
+            destinationPointY = screenSize.height / 2
         }
 
         val destinationPoint = PointOption.point(destinationPointX, destinationPointY)
@@ -304,10 +304,10 @@ object AppiumUtil {
         if (originPoint.y >= (screenSize.height - verticalBorderEdge))
             originPoint.y = screenSize.height - verticalBorderEdge
 
-        if (horizontalScroll){
-            destinationPointX = screenSize.width/2
-        }else{
-            destinationPointY = screenSize.height/2
+        if (horizontalScroll) {
+            destinationPointX = screenSize.width / 2
+        } else {
+            destinationPointY = screenSize.height / 2
         }
 
         val destinationPoint = PointOption.point(destinationPointX, destinationPointY)
@@ -338,8 +338,10 @@ object AppiumUtil {
         when (swipeDirection) {
             SwipeDirection.DOWN -> scrollObject["direction"] = "down" // from down to up (! differs from mobile:swipe)
             SwipeDirection.UP -> scrollObject["direction"] = "up" // from up to down (! differs from mobile:swipe)
-            SwipeDirection.LEFT -> scrollObject["direction"] = "left" // from left to right (! differs from mobile:swipe)
-            SwipeDirection.RIGHT -> scrollObject["direction"] = "right" // from right to left (! differs from mobile:swipe)
+            SwipeDirection.LEFT -> scrollObject["direction"] =
+                "left" // from left to right (! differs from mobile:swipe)
+            SwipeDirection.RIGHT -> scrollObject["direction"] =
+                "right" // from right to left (! differs from mobile:swipe)
             else -> throw IllegalArgumentException("mobileSwipeScreenIOS(): dir: '$swipeDirection' NOT supported")
         }
         scrollObject["element"] = element.id
@@ -351,7 +353,7 @@ object AppiumUtil {
      * Adapted from http://appium.io/docs/en/writing-running-appium/tutorial/swipe/simple-element/
      */
     @Synchronized
-     fun androidScrollInsideElement(
+    fun androidScrollInsideElement(
         driver: MobileDriver<*>,
         element: MobileElement,
         swipeDirection: SwipeDirection
@@ -436,7 +438,7 @@ object AppiumUtil {
                             ".scrollIntoView(new UiSelector().text(\"$elementText\"))"
                 )
             )
-        }else{
+        } else {
             driver.findElement(
                 MobileBy.AndroidUIAutomator(
                     "new UiScrollable(new UiSelector().scrollable(true)" +
@@ -466,7 +468,12 @@ object AppiumUtil {
      * necessarily mean that the element is visible.
      */
     @Synchronized
-    fun waitForChildElementToBePresent(driver: MobileDriver<*>, parentElement: MobileElement, locator: By, timeoutInMilliseconds: Long): MobileElement {
+    fun waitForChildElementToBePresent(
+        driver: MobileDriver<*>,
+        parentElement: MobileElement,
+        locator: By,
+        timeoutInMilliseconds: Long
+    ): MobileElement {
         val wait: FluentWait<MobileDriver<*>> = FluentWait<MobileDriver<*>>(driver)
         wait.pollingEvery(Duration.ofMillis(200))
         wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
@@ -482,7 +489,12 @@ object AppiumUtil {
      * necessarily mean that these elements are visible.
      */
     @Synchronized
-    fun waitForChildrenElementsToBePresent(driver: MobileDriver<*>, parentElement: MobileElement, locator: By, timeoutInMilliseconds: Long): List<MobileElement> {
+    fun waitForChildrenElementsToBePresent(
+        driver: MobileDriver<*>,
+        parentElement: MobileElement,
+        locator: By,
+        timeoutInMilliseconds: Long
+    ): List<MobileElement> {
         val wait: FluentWait<MobileDriver<*>> = FluentWait<MobileDriver<*>>(driver)
         wait.pollingEvery(Duration.ofMillis(200))
         wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
@@ -554,6 +566,19 @@ object AppiumUtil {
         wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
         wait.pollingEvery(Duration.ofMillis(200))
         return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator))
+    }
+
+    /**
+     * Waits for elements to be hidden or nonexistent
+     */
+    @Synchronized
+    fun waitForElementsToBeInvisible(driver: MobileDriver<*>, locator: By, timeoutInMilliseconds: Long): Boolean {
+        val wait = FluentWait(driver)
+        wait.withTimeout(Duration.ofMillis(timeoutInMilliseconds))
+        wait.pollingEvery(Duration.ofMillis(200))
+        return wait.until {
+            driver.findElements(locator).size == 0
+        }
     }
 
     /**
