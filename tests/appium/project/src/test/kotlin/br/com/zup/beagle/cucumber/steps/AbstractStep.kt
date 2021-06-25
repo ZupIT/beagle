@@ -427,7 +427,7 @@ abstract class AbstractStep {
      * the element is inside another element (ex an alert) that is still loading when the click takes place.
      */
     protected fun safeClickOnElement(elementToBeClicked: MobileElement) {
-        sleep(500)
+        sleep(300)
         elementToBeClicked.click()
     }
 
@@ -581,10 +581,6 @@ abstract class AbstractStep {
     }
 
     protected fun goBack() {
-
-        // going back animation
-        sleep(200)
-
         if (SuiteSetup.isAndroid()) {
             getDriver().navigate().back()
         } else {
