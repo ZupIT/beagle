@@ -207,7 +207,7 @@ class ListViewScreenSteps : AbstractStep() {
 
 
     fun validateCharactersListViewValues(dataTable: DataTable, paginationNumber: Int) {
-        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        val rows = dataTable.asLists()
         val cachedList = when (paginationNumber) {
             1 -> charactersListPage1.toList()
             else -> charactersListPage2.toList()
@@ -221,7 +221,7 @@ class ListViewScreenSteps : AbstractStep() {
     }
 
     fun validateCategoriesListViewValues(dataTable: DataTable) {
-        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        val rows = dataTable.asLists()
         var categoryListPosition: Int
         var bookListPosition: Int
         var title: String
@@ -255,7 +255,7 @@ class ListViewScreenSteps : AbstractStep() {
 
     fun validateBooksListListViewValues(dataTable: DataTable) {
 
-        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        val rows = dataTable.asLists()
 
         var booksListIndexTemp = 0
         var genreTemp = ""

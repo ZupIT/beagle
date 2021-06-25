@@ -36,7 +36,7 @@ class ConditionalScreenSteps : AbstractStep() {
 
     @Then("^validate the invoked alerts and its message:$")
     fun checkAlertProperties(dataTable: DataTable) {
-        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        val rows = dataTable.asLists()
         for ((lineCount, columns) in rows.withIndex()) {
 
             if (lineCount == 0) // skip header

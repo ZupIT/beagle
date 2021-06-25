@@ -61,7 +61,7 @@ class AddChildrenScreenSteps : AbstractStep() {
 
     @Then("^Nothing should happen when clicking in the following buttons and the component doesn't exist:$")
     fun checkNothingHappens(dataTable: DataTable) {
-        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        val rows = dataTable.asLists()
         for ((lineCount, columns) in rows.withIndex()) {
 
             if (lineCount == 0) // skip header
