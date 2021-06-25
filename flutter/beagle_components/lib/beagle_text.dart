@@ -46,7 +46,7 @@ class BeagleText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      text ?? '',
       textAlign: getTextAlign(alignment),
       style: getTextStyle(),
     );

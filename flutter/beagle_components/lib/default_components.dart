@@ -29,6 +29,7 @@ import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_text_input.dart';
 import 'package:beagle_components/beagle_touchable.dart';
 import 'package:beagle_components/beagle_webview.dart';
+import 'package:beagle_components/beagle_container.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, ComponentBuilder> defaultComponents = {
@@ -77,10 +78,11 @@ ComponentBuilder beagleTextBuilder() {
 }
 
 ComponentBuilder beagleContainerBuilder() {
-  return (element, children, _) => Container(
-        key: element.getKey(),
-        child: Column(children: children),
-      );
+  return (element, children, _) => BeagleContainer(
+    key: element.getKey(),
+    onInit: element.getAttributeValue('onInit'),
+    children: children,
+  );
 }
 
 ComponentBuilder beagleTextInputBuilder() {
