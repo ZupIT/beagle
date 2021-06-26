@@ -16,12 +16,14 @@
  */
 
 import 'package:beagle/utils/string_utils.dart';
+import 'dart:developer';
 
 class EnumUtils {
   static T fromString<T>(List<T> values, String str) {
-    return values.firstWhere(
+    return str == null ? null : values.firstWhere(
         (item) => getEnumValueName(item).toUpperCase() == str.toUpperCase(),
-        orElse: () => null);
+        orElse: () => null
+    );
   }
 
   static String getEnumValueName<T>(T enumValue) {
