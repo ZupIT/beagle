@@ -26,6 +26,7 @@ Widget buildBeagleWidget({
   BeagleStyle style,
   Widget child,
   List<Widget> children,
+  bool isLeaf = true,
 }) {
   final nodeProperties = mapToNodeProperties(style);
   if (children != null && children.isNotEmpty) {
@@ -38,6 +39,7 @@ Widget buildBeagleWidget({
         YogaLayout(nodeProperties: nodeProperties, children: children);
   } else {
     return YogaNode(
+      isLeaf: isLeaf,
       nodeProperties: nodeProperties,
       child: _buildWidget(style, child),
     );

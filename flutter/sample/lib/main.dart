@@ -106,47 +106,6 @@ class BeagleSampleApp extends StatelessWidget {
             })
           },
         ),
-        // body: BeagleContainer(
-        //   style: BeagleStyle(
-        //     size: BeagleSize(
-        //       width: UnitValue(value: 300, type: UnitType.REAL),
-        //     ),
-        //   ),
-        //   children: [
-        //     BeagleContainer(
-        //       style: BeagleStyle(
-        //         backgroundColor: '#673AB7',
-        //         flex: BeagleFlex(
-        //           flexDirection: FlexDirection.ROW,
-        //           justifyContent: JustifyContent.SPACE_AROUND,
-        //         ),
-        //       ),
-        //       children: [
-        //         BeagleText(
-        //           style: BeagleStyle(
-        //             backgroundColor: '#2196F3',
-        //             margin: EdgeValue(
-        //               top: UnitValue(
-        //                 value: 20,
-        //                 type: UnitType.REAL,
-        //               ),
-        //             ),
-        //           ),
-        //           text: 'Child 1 - Test layout',
-        //         ),
-        //         BeagleText(
-        //           style: BeagleStyle(
-        //             backgroundColor: '#FFC107',
-        //             flex: BeagleFlex(
-        //               shrink: 0,
-        //             ),
-        //           ),
-        //           text: 'Child 2',
-        //         ),
-        //       ],
-        //     )
-        //   ],
-        // ),
       ),
     );
   }

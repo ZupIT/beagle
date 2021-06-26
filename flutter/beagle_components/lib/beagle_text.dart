@@ -58,7 +58,7 @@ class BeagleText extends StatelessWidget with StyleWidget {
     return prepareYogaLeaf(
       key: key,
       style: style,
-      child: beagleText
+      child: alignment == TextAlignment.CENTER ? Center(child: beagleText) : beagleText
     );
   }
 

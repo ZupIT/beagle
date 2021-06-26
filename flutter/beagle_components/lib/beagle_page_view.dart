@@ -115,6 +115,7 @@ class _BeaglePageViewState extends State<BeaglePageView> {
   @override
   Widget build(BuildContext context) {
     return buildBeagleWidget(
+      isLeaf: false,
       style: BeagleStyle(
         flex: BeagleFlex(
           grow: 1.0,

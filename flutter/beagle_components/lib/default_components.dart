@@ -17,6 +17,7 @@
 
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
+import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_button.dart';
@@ -83,7 +84,7 @@ ComponentBuilder beagleContainerBuilder() {
   return (element, children, _) => BeagleContainer(
     key: element.getKey(),
     onInit: element.getAttributeValue('onInit'),
-    style: element.getStyle(),
+    style: BeagleStyle(flex: BeagleFlex(grow: 1.0)),
     children: children,
   );
 }

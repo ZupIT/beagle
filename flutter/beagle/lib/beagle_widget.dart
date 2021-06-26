@@ -88,11 +88,14 @@ class _BeagleWidget extends State<BeagleWidget> {
     )
       ..subscribe((tree) {
         final widgetLoaded = _buildViewFromTree(tree);
+        final widgetToBeRender = widgetLoaded is YogaLayout
+            ? widgetLoaded
+            : YogaLayout(
+                nodeProperties: mapToNodeProperties(BeagleStyle()),
+                children: [widgetLoaded],
+              );
         setState(() {
-          widgetState = YogaLayout(
-            nodeProperties: mapToNodeProperties(BeagleStyle()),
-            children: [widgetLoaded],
-          );
+          widgetState = widgetToBeRender;
         });
       })
       ..onAction(({action, element, view}) {
