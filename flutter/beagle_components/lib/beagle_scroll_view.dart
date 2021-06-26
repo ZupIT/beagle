@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-import 'package:beagle/model/beagle_button_style.dart';
-import 'package:beagle/service_locator.dart';
-import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'dart:developer';
 
 /// Defines a container that makes its content scrollable
 class BeagleScrollView extends StatelessWidget {
