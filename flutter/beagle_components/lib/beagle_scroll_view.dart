@@ -31,14 +31,13 @@ class BeagleScrollView extends StatelessWidget {
     this.children,
   }) : super(key: key);
 
-  /// Define the button text content.
+  /// Defines if the content is scrollable in the vertical direction or horizontal. Default is vertical.
   final ScrollAxis scrollDirection;
 
-  /// References a [BeagleButtonStyle] declared natively and locally in [BeagleDesignSystem]
-  /// to be applied to this widget.
+  /// Shows or hide the scroll bar. By default, it's visible.
   final bool scrollBarEnabled;
 
-  /// The content of the scroll view
+  /// The content of the scroll view.
   final List<Widget> children;
 
   @override
