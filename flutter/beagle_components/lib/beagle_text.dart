@@ -45,11 +45,12 @@ class BeagleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    final beagleText = Text(
       text ?? '',
       textAlign: getTextAlign(alignment),
       style: getTextStyle(),
     );
+    return alignment == TextAlignment.CENTER ? Center(child: beagleText) : text;
   }
 
   TextAlign getTextAlign(TextAlignment alignment) {
