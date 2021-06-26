@@ -99,7 +99,7 @@ class BeagleSampleApp extends StatelessWidget {
           ],
         ),
         body: BeagleWidget(
-          screenRequest: BeagleScreenRequest('beagle_pageview'),
+          screenRequest: BeagleScreenRequest('components'),
           onCreateView: (view) => {
             view.addErrorListener((errors) {
               //TODO
