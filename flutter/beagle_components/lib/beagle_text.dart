@@ -50,7 +50,7 @@ class BeagleText extends StatelessWidget {
       textAlign: getTextAlign(alignment),
       style: getTextStyle(),
     );
-    return alignment == TextAlignment.CENTER ? Center(child: beagleText) : text;
+    return alignment == TextAlignment.CENTER ? Center(child: beagleText) : beagleText;
   }
 
   TextAlign getTextAlign(TextAlignment alignment) {
