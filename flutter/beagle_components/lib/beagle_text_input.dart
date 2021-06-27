@@ -100,7 +100,9 @@ class _BeagleTextInput extends State<BeagleTextInput> {
     _controller = TextEditingController();
     if (widget.onChange != null) {
       _controller.addListener(() {
-        widget.onChange({'value': _controller.text});
+        if ((widget.value ?? '') != _controller.text) {
+          widget.onChange({'value': _controller.text});
+        }
       });
     }
   }
@@ -147,7 +149,7 @@ class _BeagleTextInput extends State<BeagleTextInput> {
 
   @override
   Widget build(BuildContext context) {
-    if (_controller != null && widget.value != _controller.text) {
+    if (_controller != null && widget.value != null && widget.value != _controller.text) {
       _controller.text = widget.value;
     }
     final platform = Theme.of(context).platform;
