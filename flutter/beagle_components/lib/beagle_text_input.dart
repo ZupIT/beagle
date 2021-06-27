@@ -15,8 +15,6 @@
  *  limitations under the License.
  */
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -81,7 +79,6 @@ class _BeagleTextInput extends State<BeagleTextInput> {
 
   @override
   void initState() {
-    log('Initializing TextField');
     super.initState();
 
     if (widget.onBlur != null || widget.onFocus != null) {
