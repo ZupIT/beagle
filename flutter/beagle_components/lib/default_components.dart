@@ -31,6 +31,7 @@ import 'package:beagle_components/beagle_touchable.dart';
 import 'package:beagle_components/beagle_webview.dart';
 import 'package:beagle_components/beagle_container.dart';
 import 'package:beagle_components/beagle_scroll_view.dart';
+import 'package:beagle_components/text_input_type.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, ComponentBuilder> defaultComponents = {
@@ -47,7 +48,7 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:pageIndicator': beaglePageIndicatorBuilder(),
   'beagle:touchable': beagleTouchableBuilder(),
   'beagle:webView': beagleWebViewBuilder(),
-  'beagle:screenComponent': beagleContainerBuilder(),
+  'beagle:screenComponent': beagleScreenComponentBuilder(),
   'beagle:scrollView': beagleScrollViewBuilder(),
 };
 
@@ -100,13 +101,21 @@ ComponentBuilder beagleScrollViewBuilder() {
 
 ComponentBuilder beagleTextInputBuilder() {
   return (element, _, __) => BeagleTextInput(
-        key: element.getKey(),
-        onChange: element.getAttributeValue('onChange'),
-        onFocus: element.getAttributeValue('onFocus'),
-        onBlur: element.getAttributeValue('onBlur'),
-        placeholder: element.getAttributeValue('placeholder'),
-        value: element.getAttributeValue('value'),
-      );
+    key: element.getKey(),
+    onChange: element.getAttributeValue('onChange'),
+    onFocus: element.getAttributeValue('onFocus'),
+    onBlur: element.getAttributeValue('onBlur'),
+    placeholder: element.getAttributeValue('placeholder'),
+    value: element.getAttributeValue('value'),
+    readOnly: element.getAttributeValue('readOnly'),
+    enabled: element.getAttributeValue('enabled'),
+    error: element.getAttributeValue('error'),
+    showError: element.getAttributeValue('showError'),
+    type: EnumUtils.fromString(
+      BeagleTextInputType.values,
+      element.getAttributeValue('type'),
+    ),
+  );
 }
 
 ComponentBuilder beagleButtonBuilder() {
@@ -189,3 +198,10 @@ ComponentBuilder beagleWebViewBuilder() {
         url: element.getAttributeValue('url'),
       );
 }
+ComponentBuilder beagleScreenComponentBuilder() {
+  return (element, children, __) => Container(
+    key: element.getKey(),
+    child: children[0],
+  );
+}
+
