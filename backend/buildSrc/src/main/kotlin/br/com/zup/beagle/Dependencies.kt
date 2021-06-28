@@ -61,7 +61,7 @@ class Dependencies : Plugin<Project> {
         const val kotlinPoet = "1.7.2"
         const val junit5 = "5.7.0"
         const val googleAutoService = "1.0-rc7"
-        const val mockk = "1.10.2"
+        const val mockk = "1.11.0"
         const val jacksonKotlin = "2.11.3"
         const val guava = "30.0-jre"
         const val slf4j = "1.7.30"
