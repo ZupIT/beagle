@@ -17,7 +17,6 @@
 
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
-import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_button.dart';
@@ -31,7 +30,6 @@ import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_text_input.dart';
 import 'package:beagle_components/beagle_touchable.dart';
 import 'package:beagle_components/beagle_webview.dart';
-import 'package:beagle_components/beagle_container.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, ComponentBuilder> defaultComponents = {
@@ -84,7 +82,7 @@ ComponentBuilder beagleContainerBuilder() {
   return (element, children, _) => BeagleContainer(
     key: element.getKey(),
     onInit: element.getAttributeValue('onInit'),
-    style: BeagleStyle(flex: BeagleFlex(grow: 1.0)),
+    style: element.getStyle(),
     children: children,
   );
 }
