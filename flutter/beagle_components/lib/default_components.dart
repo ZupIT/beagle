@@ -25,6 +25,7 @@ import 'package:beagle_components/beagle_image.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
 import 'package:beagle_components/beagle_page_indicator.dart';
 import 'package:beagle_components/beagle_page_view.dart';
+import 'package:beagle_components/beagle_scroll_view.dart';
 import 'package:beagle_components/beagle_tab_bar.dart';
 import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_text_input.dart';
@@ -47,7 +48,7 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:touchable': beagleTouchableBuilder(),
   'beagle:webView': beagleWebViewBuilder(),
   'beagle:screenComponent': beagleContainerBuilder(),
-  'beagle:scrollView': beagleContainerBuilder(),
+  'beagle:scrollView': beagleScrollViewBuilder(),
 };
 
 ComponentBuilder beagleLoadingBuilder() {
@@ -80,11 +81,23 @@ ComponentBuilder beagleTextBuilder() {
 
 ComponentBuilder beagleContainerBuilder() {
   return (element, children, _) => BeagleContainer(
-    key: element.getKey(),
-    onInit: element.getAttributeValue('onInit'),
-    style: element.getStyle(),
-    children: children,
-  );
+        key: element.getKey(),
+        onInit: element.getAttributeValue('onInit'),
+        style: element.getStyle(),
+        children: children,
+      );
+}
+
+ComponentBuilder beagleScrollViewBuilder() {
+  return (element, children, _) => BeagleScrollView(
+        key: element.getKey(),
+        scrollDirection: EnumUtils.fromString(
+          ScrollAxis.values,
+          element.getAttributeValue('scrollDirection'),
+        ),
+        scrollBarEnabled: element.getAttributeValue('scrollBarEnabled'),
+        children: children,
+      );
 }
 
 ComponentBuilder beagleTextInputBuilder() {
