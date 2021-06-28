@@ -31,7 +31,7 @@ class BeaglePageView extends StatefulWidget {
   final List<Widget> children;
 
   /// Action that will be performed when a page is changed.
-  final Function onPageChange;
+  final void Function(int) onPageChange;
 
   /// Current selected page.
   final int currentPage;
@@ -42,58 +42,11 @@ class BeaglePageView extends StatefulWidget {
 
 class _BeaglePageViewState extends State<BeaglePageView> {
   PageController _pageController;
-  double _pageControllerLastPage = 0;
-  int _selectedPage = 0;
-  final _pageFractionToSwipeRight = 0.10;
-  final _pageFractionToSwipeLeft = 0.90;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: widget.currentPage);
-    _pageController.addListener(() {
-      // Here we're trying to do a smooth transition between pages
-      _handlePageSwipe();
-
-      _pageControllerLastPage = _pageController.page;
-    });
-  }
-
-  void _handlePageSwipe() {
-    if (_isSwipingRight()) {
-      _handleRightSwipe();
-    } else {
-      _handleLeftSwipe();
-    }
-  }
-
-  bool _isSwipingRight() => _pageController.page < _pageControllerLastPage;
-
-  double _getPageFraction() =>
-      _pageController.page - _pageController.page.truncate();
-
-  bool _isPageCompletelySwiped() => _pageController.page == _selectedPage;
-
-  bool _verifyRightSwipeThreshold() =>
-      _getPageFraction() < _pageFractionToSwipeRight;
-
-  bool _verifyLeftSwipeThreshold() =>
-      _getPageFraction() > _pageFractionToSwipeLeft;
-
-  void _handleRightSwipe() {
-    if (_verifyRightSwipeThreshold() || _isPageCompletelySwiped()) {
-      _callOnPageChange(_selectedPage);
-    }
-  }
-
-  void _handleLeftSwipe() {
-    if (_verifyLeftSwipeThreshold() || _isPageCompletelySwiped()) {
-      _callOnPageChange(_selectedPage);
-    }
-  }
-
-  void _callOnPageChange(int page) {
-    widget.onPageChange({'value': page});
+    _pageController = PageController(initialPage: widget.currentPage ?? 0);
   }
 
   @override
@@ -116,7 +69,7 @@ class _BeaglePageViewState extends State<BeaglePageView> {
       child: PageView(
         controller: _pageController,
         onPageChanged: (page) {
-          _selectedPage = page;
+          if (widget.onPageChange != null) widget.onPageChange(page);
         },
         children: widget.children,
       ),

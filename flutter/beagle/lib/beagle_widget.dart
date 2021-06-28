@@ -115,11 +115,15 @@ class _BeagleWidget extends State<BeagleWidget> {
     final builder = service.components[tree.getType().toLowerCase()];
     if (builder == null) {
       logger.error("Can't find builder for component ${tree.getType()}");
-      return BeagleUndefinedWidget(
-        environment: config.environment,
-      );
+      return BeagleUndefinedWidget(environment: config.environment);
     }
-    return builder(tree, widgetChildren, _view);
+    try {
+      return builder(tree, widgetChildren, _view);
+    } catch(error) {
+      logger.error('Could not build component ${tree.getType()} with id ${tree.getId()} due to the following error:');
+      logger.error(error.toString());
+      return BeagleUndefinedWidget(environment: config.environment);
+    }
   }
 
   @override

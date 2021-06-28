@@ -18,6 +18,7 @@ import 'dart:typed_data';
 
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/logger/beagle_logger.dart';
+import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/foundation.dart';
@@ -30,6 +31,7 @@ class BeagleImage extends StatefulWidget {
     Key key,
     this.path,
     this.mode,
+    this.style,
   }) : super(key: key);
 
   /// Defines the location of the image resource.
@@ -37,6 +39,9 @@ class BeagleImage extends StatefulWidget {
 
   /// Defines how the declared image will fit the view.
   final ImageContentMode mode;
+
+  /// Defines the style of this image. Only width and height are supported for now.
+  final BeagleStyle style;
 
   @override
   _BeagleImageState createState() => _BeagleImageState();
@@ -74,13 +79,28 @@ class _BeagleImageState extends State<BeagleImage> {
 
   bool isLocalImage() => widget.path.runtimeType == LocalImagePath;
 
+  // todo: add support to percentage values
+  double _getWidth() {
+    final hasWidth = widget.style?.size?.width?.type == UnitType.REAL;
+    return hasWidth ? widget.style.size.width.value.toDouble() : null;
+  }
+
+  // todo: add support to percentage values
+  double _getHeight() {
+    final hasWidth = widget.style?.size?.height?.type == UnitType.REAL;
+    return hasWidth ? widget.style.size.height.value.toDouble() : null;
+  }
+
   Widget createImageFromAsset(LocalImagePath path) {
     if (isPlaceHolderValid(path)) {
       return Image.asset(
         getAssetName(path),
         fit: getBoxFit(widget.mode),
+        width: _getWidth(),
+        height: _getHeight(),
       );
     } else {
+      logger.error('Invalid local image: ${path.mobileId}. Have you declared this id in your DesignSystem class?');
       return Container();
     }
   }
@@ -110,6 +130,8 @@ class _BeagleImageState extends State<BeagleImage> {
     return Image.memory(
       bytes,
       fit: getBoxFit(widget.mode),
+      width: _getWidth(),
+      height: _getHeight(),
     );
   }
 
@@ -134,7 +156,7 @@ class _BeagleImageState extends State<BeagleImage> {
     } else if (mode == ImageContentMode.FIT_XY) {
       return BoxFit.fill;
     } else {
-      return BoxFit.none;
+      return BoxFit.fill;
     }
   }
 }

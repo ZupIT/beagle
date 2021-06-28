@@ -14,31 +14,24 @@
  * limitations under the License.
  */
 
-import 'package:beagle/model/beagle_button_style.dart';
-import 'package:beagle/setup/beagle_design_system.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter/material.dart';
 
-class AppDesignSystem extends BeagleDesignSystem {
-  Map<String, String> imageMap = {
-    'bus': 'images/bus.png',
-    'car': 'images/car.png',
-    'person': 'images/person.png',
-    'beagle': 'images/beagle.png',
-    'delete': 'images/delete.png',
-  };
+enum BeagleTextInputType {
+  DATE,
+  EMAIL,
+  PASSWORD,
+  NUMBER,
+  TEXT,
+}
 
-  @override
-  String image(String id) {
-    return imageMap[id];
-  }
+const Map<BeagleTextInputType, TextInputType> inputTypeMap = {
+  BeagleTextInputType.DATE: TextInputType.datetime,
+  BeagleTextInputType.EMAIL: TextInputType.emailAddress,
+  BeagleTextInputType.PASSWORD: TextInputType.visiblePassword,
+  BeagleTextInputType.NUMBER: TextInputType.number,
+  BeagleTextInputType.TEXT: TextInputType.text,
+};
 
-  @override
-  BeagleButtonStyle buttonStyle(String id) {
-    return null;
-  }
-
-  @override
-  TextStyle textStyle(String id) {
-    return null;
-  }
+TextInputType getMaterialInputType(BeagleTextInputType type) {
+  return inputTypeMap[type] ?? TextInputType.text;
 }
