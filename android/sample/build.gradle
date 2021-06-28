@@ -65,7 +65,7 @@ android {
 
 dependencies {
     implementation project(':moduleA')
-    implementation project(':moduleB')
+//    implementation project(':moduleB')
     implementation Dependencies.AndroidxLibraries.appcompat
     implementation Dependencies.AndroidxLibraries.coreKtx
 
@@ -79,9 +79,9 @@ dependencies {
     kapt project(Dependencies.Modules.processor)
 }
 
-kapt {
-    arguments {
-        arg("beagle.moduleName", "sample")
-        arg("beagle.hasInstance", "false")
-    }
-}
+//kapt {
+//    arguments {
+//        arg("beagle.moduleName", "sample")
+//        arg("beagle.hasInstance", "false")
+//    }
+//}

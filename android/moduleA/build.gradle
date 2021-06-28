@@ -55,6 +55,8 @@ dependencies {
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
 
+    api project(':moduleB')
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.5.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
@@ -66,7 +68,7 @@ dependencies {
 
 kapt {
     arguments {
-        arg("beagle.moduleName", "moduleA")
+//        arg("beagle.moduleName", "moduleA")
         arg("beagle.hasInstance", "false")
     }
 }

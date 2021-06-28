@@ -34,7 +34,7 @@ class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
     ) {
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
-        return "\n${element}::class.java as Class<WidgetView>,"
+        return "\n\t${element}::class.java as Class<WidgetView>,"
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
@@ -56,22 +56,28 @@ class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
         |""".trimMargin()
 
     override fun generate(roundEnvironment: RoundEnvironment): FunSpec {
+        val dependenciesRegisteredWidgets = getDependenciesRegisteredWidgets()
+        val classesWithAnnotation = getAllClassWithAnnotation(roundEnvironment)
+        return createFuncSpec(getFunctionName())
+            .addCode(getCodeFormatted(classesWithAnnotation + dependenciesRegisteredWidgets))
+            .addStatement(returnStatementInGenerate())
+            .build()
+    }
+
+    private fun getDependenciesRegisteredWidgets(): StringBuilder {
+        val test = 1
         val registeredComponents = StringBuilder()
         processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
             val fullClassName = it.toString()
             val cls = Class.forName(fullClassName)
             val kotlinClass = cls.kotlin
             (cls.getMethod("registeredComponents").invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { component ->
-                registeredComponents.append("\n${component.first}.${component.second}::class.java as Class<WidgetView>,")
+                registeredComponents.append("\n\t${component.first}.${component.second}::class.java as Class<WidgetView>,")
             }
         }
-
-        val classesWithAnnotation = getAllClassWithAnnotation(roundEnvironment)
-        return createFuncSpec(getFunctionName())
-            .addCode(getCodeFormatted(classesWithAnnotation + registeredComponents))
-            .addStatement(returnStatementInGenerate())
-            .build()
+        return registeredComponents
     }
+
 
     override fun createFuncSpec(name: String): FunSpec.Builder {
         val listReturnType = List::class.asClassName().parameterizedBy(

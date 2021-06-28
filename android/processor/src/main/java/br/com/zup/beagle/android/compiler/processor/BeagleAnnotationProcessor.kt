@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.compiler.BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.compiler.shared.REGISTRAR_COMPONENTS_PACKAGE
 import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.implements
 import com.google.auto.service.AutoService
@@ -37,6 +38,7 @@ import javax.annotation.processing.RoundEnvironment
 import javax.annotation.processing.SupportedOptions
 import javax.annotation.processing.SupportedSourceVersion
 import javax.lang.model.SourceVersion
+import javax.lang.model.element.ElementKind
 import javax.lang.model.element.TypeElement
 
 @AutoService(Processor::class)
@@ -66,7 +68,19 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
         beagleSetupProcessor = BeagleSetupProcessor(processingEnvironment)
     }
 
-    private fun checkOptions(): Boolean {
+    private fun checkBeagleMultiModules(): Boolean {
+        if (!processingEnv.options.containsKey(KAPT_BEAGLE_MODULE_NAME_OPTION_NAME)) {
+            processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
+                if (it.kind == ElementKind.CLASS && it.simpleName.toString().endsWith("Registrar")) {
+                    processingEnv.messager.error(createOptionNotFoundErrorMessage(KAPT_BEAGLE_MODULE_NAME_OPTION_NAME))
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+    /*private fun checkOptions(): Boolean {
         return checkModuleNameOption()
             && checkHasInstanceOption()
     }
@@ -87,16 +101,20 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             return false
         }
         return true
-    }
+    }*/
 
     private fun createOptionNotFoundErrorMessage(optionName: String) =
-        "kapt argument [$optionName] not found. Did you forget to pass it in your build.gradle file?"
+        "Your project seems to have more than one module using Beagle annotation processor and kapt argument" +
+            " [$optionName] was not found. Did you forget to configure it in your build.gradle file?"
+
 
     override fun process(
         annotations: Set<TypeElement>,
         roundEnvironment: RoundEnvironment
     ): Boolean {
-        if (annotations.isEmpty() || roundEnvironment.errorRaised() || !checkOptions()) return false
+
+        // TODO: não permitir que a option de module name seja string vaiza
+        if (annotations.isEmpty() || roundEnvironment.errorRaised() /*|| !checkBeagleMultiModules()*//* || !checkOptions()*/) return false
 
         val beagleConfigElements = roundEnvironment.getElementsAnnotatedWith(
             BeagleComponent::class.java
@@ -110,7 +128,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
                 processingEnv.messager.error("BeagleConfig already defined, " +
                     "remove one implementation from the application.")
             }
-            beagleConfigElements.isEmpty() -> {
+            beagleConfigElements.isEmpty() && !beagleClassesGenerationDisabled(processingEnv) -> {
                 processingEnv.messager.error("Did you miss to annotate your " +
                     "BeagleConfig class with @BeagleComponent?")
             }

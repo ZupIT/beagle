@@ -20,7 +20,9 @@ import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionActio
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionCustomAdapter
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionCustomValidator
 import br.com.zup.beagle.android.compiler.generatefunction.RegisterControllerProcessor
+import br.com.zup.beagle.android.compiler.processor.KAPT_BEAGLE_HAS_INSTANCE_OPTION_NAME
 import br.com.zup.beagle.android.compiler.processor.KAPT_BEAGLE_MODULE_NAME_OPTION_NAME
+import br.com.zup.beagle.android.compiler.processor.beagleClassesGenerationDisabled
 import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
 import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation
 import br.com.zup.beagle.compiler.shared.GenerateFunctionWidget
@@ -40,6 +42,7 @@ import java.io.IOException
 import java.util.*
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
+import kotlin.random.asKotlinRandom
 
 internal data class BeagleSetupProcessor(
     private val processingEnv: ProcessingEnvironment,
@@ -51,7 +54,7 @@ internal data class BeagleSetupProcessor(
 
     private val componentRegistrarFactoryProcessor = GenericFactoryProcessor(
         processingEnv,
-        "${getModuleName()}$WIDGETS_REGISTRAR_GENERATED",
+        "$WIDGETS_REGISTRAR_GENERATED${getModuleName()}",
 //        "${guessModuleName()}$COMPONENTS_REGISTRAR_GENERATED",
         GenerateFunctionWidgetRegistrar(processingEnv)
     )
@@ -61,7 +64,8 @@ internal data class BeagleSetupProcessor(
             ?.replaceFirstChar {
                 if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
             }
-            ?: "TEST"//throw Exception("$KAPT_BEAGLE_MODULE_NAME_OPTION_NAME not found.")
+            ?: //""//throw Exception("$KAPT_BEAGLE_MODULE_NAME_OPTION_NAME not found.")
+        UUID.randomUUID().toString().replace("-", "")
     }
 
     //TODO: it's an option to remove beagle.moduleName argument, but it's risky. It's not guaranteed that
@@ -108,6 +112,10 @@ internal data class BeagleSetupProcessor(
         beagleConfigClassName: String,
         roundEnvironment: RoundEnvironment,
     ) {
+        if(beagleClassesGenerationDisabled(processingEnv)){
+            componentRegistrarFactoryProcessor.process(REGISTRAR_COMPONENTS_PACKAGE, roundEnvironment, listOf())
+            return
+        }
 
         val properties = beagleSetupPropertyGenerator.generate(roundEnvironment)
         val typeSpec = TypeSpec.classBuilder(BEAGLE_SETUP_GENERATED)

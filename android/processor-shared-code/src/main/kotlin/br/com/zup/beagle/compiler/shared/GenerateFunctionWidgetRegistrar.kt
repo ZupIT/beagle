@@ -36,28 +36,7 @@ class GenerateFunctionWidgetRegistrar(private val processingEnv: ProcessingEnvir
     ) {
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
-        return "\nPair(\"${getPackageName(element)}\",\"${element.simpleName}\"),"
-    }
-
-    override fun generate(roundEnvironment: RoundEnvironment): FunSpec {
-
-        val registeredComponents = StringBuilder()
-        // TODO: uncomment to enable dependencies widgets registration e.g. sample -> moduleB -> moduleC
-        // this enables to register widgets from moduleC in sample
-//        processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
-//            val fullClassName = it.toString()
-//            val cls = Class.forName(fullClassName)
-//            val kotlinClass = cls.kotlin
-//            (cls.getMethod("registeredComponents").invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { component ->
-//                registeredComponents.append("Pair(\"${component.first}\",\"${component.second}\"),")
-//            }
-//        }
-
-        val classesWithAnnotation = getAllClassWithAnnotation(roundEnvironment)
-        return createFuncSpec(getFunctionName())
-            .addCode(getCodeFormatted(classesWithAnnotation + registeredComponents))
-            .addStatement(returnStatementInGenerate())
-            .build()
+        return "\n\tPair(\"${getPackageName(element)}\",\"${element.simpleName}\"),"
     }
 
     private fun getPackageName(element: Element): String {

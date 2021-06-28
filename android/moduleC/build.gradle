@@ -66,7 +66,7 @@ dependencies {
 
 kapt {
     arguments {
-        arg("beagle.moduleName", "ModuleC")
+//        arg("beagle.moduleName", "ModuleC")
         arg("beagle.hasInstance", "false")
     }
 }
