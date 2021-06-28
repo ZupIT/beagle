@@ -23,6 +23,7 @@ import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
+import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.TextAlignment
@@ -58,8 +59,16 @@ object PageViewScreenBuilder : ScreenBuilder {
         child = Container(
             children = listOf(
                 Button(
-                    "ir página 3",
+                    "Go to Page 3",
                     onPress = listOf(SetContext("context", 2))
+                ),
+                Button(
+                    "Go to Page 2",
+                    onPress = listOf(SetContext("context", 1))
+                ),
+                Button(
+                    "Go to Page 1",
+                    onPress = listOf(SetContext("context", 0))
                 ),
                 PageView(
                     children = (1..3).map {
@@ -70,15 +79,15 @@ object PageViewScreenBuilder : ScreenBuilder {
                             )
                         )
                     },
-                    onPageChange = listOf(SetContext("context", "@{onPageChange}")),
+//                    onPageChange = listOf(SetContext("context", "@{onPageChange}")),
                     currentPage = expressionOf("@{context}")
                 ),
-                PageIndicator(
-                    numberOfPages = 3,
-                    selectedColor = BLACK,
-                    unselectedColor = LIGHT_GREY,
-                    currentPage = expressionOf("@{context}")
-                )
+//                PageIndicator(
+//                    numberOfPages = 3,
+//                    selectedColor = BLACK,
+//                    unselectedColor = LIGHT_GREY,
+//                    currentPage = expressionOf("@{context}")
+//                )
             ),
             context = ContextData("context", 0)
         ).applyFlex(Flex(grow = 1.0))
