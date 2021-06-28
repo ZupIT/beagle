@@ -30,6 +30,7 @@ import 'package:beagle_components/beagle_text_input.dart';
 import 'package:beagle_components/beagle_touchable.dart';
 import 'package:beagle_components/beagle_webview.dart';
 import 'package:beagle_components/beagle_container.dart';
+import 'package:beagle_components/beagle_scroll_view.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, ComponentBuilder> defaultComponents = {
@@ -47,7 +48,7 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:touchable': beagleTouchableBuilder(),
   'beagle:webView': beagleWebViewBuilder(),
   'beagle:screenComponent': beagleContainerBuilder(),
-  'beagle:scrollView': beagleContainerBuilder(),
+  'beagle:scrollView': beagleScrollViewBuilder(),
 };
 
 ComponentBuilder beagleLoadingBuilder() {
@@ -81,6 +82,18 @@ ComponentBuilder beagleContainerBuilder() {
   return (element, children, _) => BeagleContainer(
     key: element.getKey(),
     onInit: element.getAttributeValue('onInit'),
+    children: children,
+  );
+}
+
+ComponentBuilder beagleScrollViewBuilder() {
+  return (element, children, _) => BeagleScrollView(
+    key: element.getKey(),
+    scrollDirection: EnumUtils.fromString(
+      ScrollAxis.values,
+      element.getAttributeValue('scrollDirection'),
+    ),
+    scrollBarEnabled: element.getAttributeValue('scrollBarEnabled'),
     children: children,
   );
 }
