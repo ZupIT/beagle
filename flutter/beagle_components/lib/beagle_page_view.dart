@@ -46,7 +46,7 @@ class _BeaglePageViewState extends State<BeaglePageView> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: widget.currentPage);
+    _pageController = PageController(initialPage: widget.currentPage ?? 0);
   }
 
   @override
