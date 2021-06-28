@@ -98,10 +98,10 @@ class BeagleJSEngine {
   dynamic _deserializeJsFunctions(dynamic value, [String viewId]) {
     if (value.runtimeType.toString() == 'String' &&
         value.toString().startsWith('__beagleFn:')) {
-      return ([Map<String, dynamic> argumentsMap]) {
-        final args = argumentsMap == null
+      return ([dynamic argument]) {
+        final args = argument == null
             ? "'$value'"
-            : "'$value', ${json.encode(argumentsMap)}";
+            : "'$value', ${json.encode(argument)}";
         final jsMethod =
             viewId == null ? 'call(' : "callViewFunction('$viewId', ";
         final result = _jsRuntime.evaluate('global.beagle.$jsMethod$args)');
