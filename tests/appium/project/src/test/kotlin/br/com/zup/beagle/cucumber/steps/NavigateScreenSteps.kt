@@ -209,8 +209,6 @@ class NavigateScreenSteps : AbstractStep() {
                      * going backing in these cases closes the app
                      */
                     checkAppIsClosed()
-                    //getDriver().launchApp()
-                    //loadBffScreenFromMainScreen()
                     loadBffScreenFromDeepLink()
                 }
 
