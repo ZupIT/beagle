@@ -61,6 +61,7 @@ android {
 
         unitTests.all {
             useJUnitPlatform()
+            systemProperty 'robolectric.dependency.repo.url', 'https://repo1.maven.org/maven2'
         }
     }
 
