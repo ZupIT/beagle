@@ -23,8 +23,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.GridView
 import br.com.zup.beagle.android.components.GridViewDirection
-import br.com.zup.beagle.android.components.Image
-import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.NavigationBar
