@@ -36,6 +36,8 @@ class TextStyleScreenSteps : AbstractStep() {
 
     @Then("^take a screenshot and assert it is identical to the (.*) image$")
     fun checkStyle(imageDbToCompare: String) {
+        // waits before taking screenshot. Helps to avoid taking the shot while the screen is transitioning (iOS animation)
+        sleep(1000)
         Assert.assertTrue(compareCurrentScreenWithDatabase(imageDbToCompare))
     }
 

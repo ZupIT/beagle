@@ -111,16 +111,35 @@ class NavigateScreenSteps : AbstractStep() {
                     }
                     "opens a closable screen" -> {
                         waitForElementWithTextToBeClickable(actionScreenTitle, likeSearch = false, ignoreCase = false)
-                        sleep(400)
-                        swipeDown() // closes screen
-                        waitForElementWithTextToBeInvisible(actionScreenTitle, likeSearch = false, ignoreCase = false)
+                        swipeDown()
+
+                        /**
+                         * Retries to close the screen in case the first attempt failed. This behavior seems to exist
+                         * only on iOS
+                         */
+                        try {
+                            waitForElementWithTextToBeInvisible(
+                                actionScreenTitle,
+                                likeSearch = false,
+                                ignoreCase = false
+                            )
+                        } catch (e: Exception) {
+                            println("Failed to close the screen invoked by $button1Title / $button2Title. Trying once more...")
+                            swipeDown()
+                            waitForElementWithTextToBeInvisible(
+                                actionScreenTitle,
+                                likeSearch = false,
+                                ignoreCase = false
+                            )
+                            println("Success!")
+                        }
+
                         checkIsInMainPage()
                     }
                     "opens a non-closable screen" -> {
                         waitForElementWithTextToBeClickable(actionScreenTitle, likeSearch = false, ignoreCase = false)
-                        sleep(400)
                         swipeDown() // tries to close the screen
-                        sleep(1000) // swipe animation
+                        sleep(400) // swipe animation
 
                         // confirm the screen is still showing and restarts the app
                         waitForElementWithTextToBeClickable(actionScreenTitle, likeSearch = false, ignoreCase = false)
