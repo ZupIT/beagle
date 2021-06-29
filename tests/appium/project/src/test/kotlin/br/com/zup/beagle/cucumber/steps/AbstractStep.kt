@@ -292,7 +292,33 @@ abstract class AbstractStep {
     }
 
     protected fun hideKeyboard() {
-        getDriver().hideKeyboard()
+        /**
+         * Appium's method hideKeyBoard doesn't work properly on iOS due to XCUITest issues
+         */
+        if (SuiteSetup.isAndroid()) {
+            getDriver().hideKeyboard()
+        } else {
+            val numericKeyboardCloseButtonLocator =
+                MobileBy.iOSClassChain("**/XCUIElementTypeKeyboard/**/XCUIElementTypeButton[`label == \"retorno\" OR label == \"return\"`]")
+            val genericKeyboardCloseButtonLocator =
+                MobileBy.iOSClassChain("**/XCUIElementTypeToolbar/**/XCUIElementTypeButton[`label == \"Done\"`]")
+
+            if (elementExists(genericKeyboardCloseButtonLocator)) {
+                AppiumUtil.waitForElementToBeClickable(
+                    getDriver(),
+                    genericKeyboardCloseButtonLocator,
+                    DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+                ).click()
+            } else {
+                AppiumUtil.waitForElementToBeClickable(
+                    getDriver(),
+                    numericKeyboardCloseButtonLocator,
+                    DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+                ).click()
+            }
+
+
+        }
     }
 
     /**
@@ -609,7 +635,13 @@ abstract class AbstractStep {
 
             // caution: not all iOS bff screens have the back button.
             var locator = By.xpath("//XCUIElementTypeNavigationBar//XCUIElementTypeButton[1]")
-            safeClickOnElement(AppiumUtil.waitForElementToBeClickable(getDriver(), locator, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL))
+            safeClickOnElement(
+                AppiumUtil.waitForElementToBeClickable(
+                    getDriver(),
+                    locator,
+                    DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+                )
+            )
 
         }
     }
