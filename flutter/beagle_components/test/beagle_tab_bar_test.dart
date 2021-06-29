@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:beagle_components/beagle_tab_bar.dart';
@@ -26,9 +27,11 @@ import 'package:mockito/mockito.dart';
 import 'service_locator/service_locator.dart';
 
 class MockDesignSystem extends Mock implements BeagleDesignSystem {}
+class MockBeagleLogger extends Mock implements BeagleLogger {}
 
 void main() {
   final designSystemMock = MockDesignSystem();
+  final beagleLoggerMock = MockBeagleLogger();
   when(designSystemMock.image(any)).thenReturn('images/beagle.png');
 
   const tabBarKey = Key('BeagleTabBar');
@@ -43,10 +46,11 @@ void main() {
     BeagleDesignSystem designSystem,
     List<TabBarItem> items = const [],
     int currentTab = 0,
-    Function onTabSelection,
+    void Function(int) onTabSelection,
   }) async {
     await testSetupServiceLocator(
       designSystem: designSystem,
+      logger: beagleLoggerMock,
     );
 
     return MaterialApp(
@@ -81,6 +85,15 @@ void main() {
         final tabFinder = find.byType(Tab);
 
         expect(tabFinder, findsNWidgets(tabBarItems.length));
+      });
+
+      testWidgets('Then it should have icons',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(await createWidget(items: tabBarItems));
+
+        final imageFinder = find.byType(BeagleImage);
+
+        expect(imageFinder, findsNWidgets(tabBarItems.length));
       });
     });
 
@@ -133,7 +146,7 @@ void main() {
       testWidgets('Then it should call onTabSelection callback',
           (WidgetTester tester) async {
         final log = <int>[];
-        void onTabSelection(Map<String, dynamic> map) {
+        void onTabSelection(int tabIndex) {
           log.add(0);
         }
 
@@ -165,8 +178,8 @@ void main() {
       testWidgets('Then it should update currentTab',
           (WidgetTester tester) async {
         var currentTab = -1;
-        void onTabSelection(Map<String, dynamic> map) {
-          currentTab = map['value'];
+        void onTabSelection(int tabIndex) {
+          currentTab = tabIndex;
         }
 
         final widget = await createWidget(

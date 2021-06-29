@@ -206,11 +206,11 @@ void main() {
     });
 
     group('When I do not set ImageContentMode', () {
-      testWidgets('Then the widget should have BoxFit.none',
+      testWidgets('Then the widget should have BoxFit.contain',
           (WidgetTester tester) async {
         await tester.pumpWidget(createLocalWidget());
 
-        expect(tester.widget<Image>(find.byType(Image)).fit, BoxFit.none);
+        expect(tester.widget<Image>(find.byType(Image)).fit, BoxFit.contain);
       });
     });
   });
@@ -330,14 +330,14 @@ void main() {
     });
 
     group('When I do not set ImageContentMode', () {
-      testWidgets('Then the widget should have BoxFit.none',
+      testWidgets('Then the widget should have BoxFit.contain',
           (WidgetTester tester) async {
         await tester.runAsync(() async {
           await tester.pumpWidget(createRemoteWidget());
           await precacheImageForTest(tester);
         });
 
-        expect(tester.widget<Image>(find.byType(Image)).fit, BoxFit.none);
+        expect(tester.widget<Image>(find.byType(Image)).fit, BoxFit.contain);
       });
     });
   });
