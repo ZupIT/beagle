@@ -24,8 +24,6 @@ class RendererJS implements Renderer {
     final jsonTree = jsonEncode(tree.properties);
     final anchorArg = anchor == null ? '' : ", '$anchor'";
     final modeArg = mode == null ? '' : ", '${_getJsTreeUpdateModeName(mode)}'";
-    debugPrint(
-        "global.beagle.getViewById('$_viewId').getRenderer().$method($jsonTree$anchorArg$modeArg)");
     _beagleJSEngine.evaluateJavascriptCode(
         "global.beagle.getViewById('$_viewId').getRenderer().$method($jsonTree$anchorArg$modeArg)");
   }

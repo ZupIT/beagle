@@ -21,6 +21,7 @@ import 'package:beagle/beagle.dart';
 import 'package:beagle/default/url_builder.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/beagle_view.dart';
+import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/model/tree_update_mode.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle_components/after_layout.dart';
@@ -84,11 +85,11 @@ class _BeagleLazyComponent extends State<BeagleLazyComponent>
             .getRenderer()
             .doFullRender(component, widget.beagleId, TreeUpdateMode.replace);
       } else {
-        debugPrint(
+        beagleServiceLocator<BeagleLogger>().error(
             'BeagleLazyComponent: connection error: ${result.status} ${result.body}');
       }
     } catch (err) {
-      debugPrint('BeagleLazyComponent: error: $err');
+      beagleServiceLocator<BeagleLogger>().error('BeagleLazyComponent: error: $err');
     }
   }
 

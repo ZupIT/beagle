@@ -105,6 +105,7 @@ class BeagleJSEngine {
         final jsMethod =
             viewId == null ? 'call(' : "callViewFunction('$viewId', ";
         final result = _jsRuntime.evaluate('global.beagle.$jsMethod$args)');
+        Log
         debugPrint('dynamic function result: $result');
       };
     }
@@ -404,13 +405,11 @@ class BeagleJSEngine {
         ? "'$functionId'"
         : "'$functionId', ${json.encode(argumentsMap)}";
     final result = _jsRuntime.evaluate('global.beagle.call($args)');
-    debugPrint('dynamic function result: $result');
   }
 
   void respondHttpRequest(String id, Response response) {
     final result = _jsRuntime.evaluate(
         'global.beagle.httpClient.respond($id, ${response.toJson()})');
-    debugPrint('httpClient.respond result: $result');
   }
 }
 
