@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.view
 
 import android.app.Application
-import android.os.Looper
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
@@ -29,6 +28,7 @@ import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
+import br.com.zup.beagle.android.testutil.InstantExecutorExtension
 import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import br.com.zup.beagle.android.view.viewmodel.BeagleScreenViewModel
 import io.mockk.Runs
@@ -36,30 +36,26 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkConstructor
 import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.runner.RunWith
-import org.robolectric.Shadows
 import org.robolectric.annotation.Config
-import org.robolectric.annotation.LooperMode
 
-@ExperimentalCoroutinesApi
 @Config(application = ApplicationTest::class)
 @RunWith(AndroidJUnit4::class)
-@LooperMode(LooperMode.Mode.PAUSED)
+@ExperimentalCoroutinesApi
+@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class BeagleActivityTest : BaseSoLoaderTest() {
 
     @get:Rule
-    val testDispatcher = CoroutinesTestExtension()
-
-    @get:Rule
-    val instantExecutorRule = InstantTaskExecutorRule()
+    var instantExecutorRule = InstantTaskExecutorRule()
 
     private val component by lazy { Text("Test component") }
     private val componentRequester: ComponentRequester = mockk()
@@ -69,10 +65,9 @@ class BeagleActivityTest : BaseSoLoaderTest() {
     private val screenIdentifierSlot = slot<String>()
 
     @Before
-    override fun setUp() {
-        super.setUp()
+    fun mockBeforeTest() {
         coEvery { componentRequester.fetchComponent(RequestData(url = "/url")) } returns component
-        beagleViewModel = BeagleScreenViewModel(testDispatcher.dispatcher, componentRequester)
+        beagleViewModel = BeagleScreenViewModel(ioDispatcher = TestCoroutineDispatcher(), componentRequester)
         prepareViewModelMock(beagleViewModel)
         val activityScenario: ActivityScenario<ServerDrivenActivity> = ActivityScenario.launch(ServerDrivenActivity::class.java)
         activityScenario.onActivity {
@@ -82,7 +77,7 @@ class BeagleActivityTest : BaseSoLoaderTest() {
     }
 
     @Test
-    fun `Given a screen request When navigate to Then should call BeagleFragment newInstance with right parameters`() = testDispatcher.runBlockingTest {
+    fun `Given a screen request When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
         // Given
         val url = "/url"
         val screenRequest = RequestData(url = url)
@@ -93,13 +88,12 @@ class BeagleActivityTest : BaseSoLoaderTest() {
         activity?.navigateTo(screenRequest, null)
 
         //Then
-        Shadows.shadowOf(Looper.getMainLooper()).idle()
         assertEquals(url, screenIdentifierSlot.captured)
     }
 
 
     @Test
-    fun `Given a screen with id When navigate to Then should call BeagleFragment newInstance with right parameters`() = testDispatcher.runBlockingTest {
+    fun `Given a screen with id When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
         // Given
         val screenRequest = RequestData(url = "")
         val screenId = "myScreen"
@@ -113,12 +107,11 @@ class BeagleActivityTest : BaseSoLoaderTest() {
         activity?.navigateTo(screenRequest, screen)
 
         // THEN
-        Shadows.shadowOf(Looper.getMainLooper()).idle()
         assertEquals(screenId, screenIdentifierSlot.captured)
     }
 
     @Test
-    fun `Given a screen with identifier When navigate to Then should call BeagleFragment newInstance with right parameters`() = testDispatcher.runBlockingTest {
+    fun `Given a screen with identifier When navigate to Then should call BeagleFragment newInstance with right parameters`() = runBlockingTest {
         // Given
         val screenRequest = RequestData(url = "")
         val screenIdentifier = "myScreen"
@@ -133,7 +126,6 @@ class BeagleActivityTest : BaseSoLoaderTest() {
         activity?.navigateTo(screenRequest, screen)
 
         // THEN
-        Shadows.shadowOf(Looper.getMainLooper()).idle()
         assertEquals(screenIdentifier, screenIdentifierSlot.captured)
     }
 

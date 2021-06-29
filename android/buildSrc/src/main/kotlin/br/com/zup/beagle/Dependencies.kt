@@ -48,7 +48,7 @@ class Dependencies : Plugin<Project> {
         const val minSdk = 19
         const val targetSdk = 30
         const val buildTools = "30.0.2"
-        const val kotlin = "1.5.20"
+        const val kotlin = "1.5.10"
 
         const val kotlinCoroutines = "1.5.0"
 
@@ -86,7 +86,7 @@ class Dependencies : Plugin<Project> {
         const val archCoreTesting = "2.1.0"
         const val testRules = "1.3.1-alpha02"
         const val testCore = "1.3.1-alpha02"
-        const val robolectric = "4.5.1"
+        const val robolectric = "4.3"
 
         const val incap = "0.3"
 

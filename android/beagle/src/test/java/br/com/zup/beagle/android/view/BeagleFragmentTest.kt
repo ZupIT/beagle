@@ -16,14 +16,11 @@
 
 package br.com.zup.beagle.android.view
 
-import android.os.Looper
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseSoLoaderTest
-import br.com.zup.beagle.android.testutil.CoroutinesTestExtension
 import br.com.zup.beagle.android.view.viewmodel.AnalyticsViewModel
 import io.mockk.Runs
 import io.mockk.every
@@ -33,24 +30,14 @@ import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Shadows
 import org.robolectric.annotation.Config
-import org.robolectric.annotation.LooperMode
 
-@ExperimentalCoroutinesApi
 @Config(application = ApplicationTest::class)
 @RunWith(AndroidJUnit4::class)
-@LooperMode(LooperMode.Mode.PAUSED)
+@ExperimentalCoroutinesApi
 class BeagleFragmentTest : BaseSoLoaderTest() {
-
-    @get:Rule
-    val testDispatcher = CoroutinesTestExtension()
-
-    @get:Rule
-    val executorRule = InstantTaskExecutorRule()
 
     private val analyticsViewModel = mockk<AnalyticsViewModel>()
     private val screenIdentifierSlot = slot<String>()
@@ -65,8 +52,7 @@ class BeagleFragmentTest : BaseSoLoaderTest() {
     private var activity: ServerDrivenActivity? = null
 
     @Before
-    override fun setUp() {
-        super.setUp()
+    fun mockBeforeTest() {
         prepareViewModelMock(analyticsViewModel)
         every { analyticsViewModel.createScreenReport(capture(screenIdentifierSlot)) } just Runs
         val activityScenario: ActivityScenario<ServerDrivenActivity> = ActivityScenario.launch(ServerDrivenActivity::class.java)
@@ -84,7 +70,6 @@ class BeagleFragmentTest : BaseSoLoaderTest() {
         )?.commit()
 
         //Then
-        Shadows.shadowOf(Looper.getMainLooper()).idle()
         assertEquals(url, screenIdentifierSlot.captured)
     }
 
@@ -97,7 +82,6 @@ class BeagleFragmentTest : BaseSoLoaderTest() {
         )?.commit()
 
         //then
-        Shadows.shadowOf(Looper.getMainLooper()).idle()
         assertEquals(false, screenIdentifierSlot.isCaptured)
     }
 }
