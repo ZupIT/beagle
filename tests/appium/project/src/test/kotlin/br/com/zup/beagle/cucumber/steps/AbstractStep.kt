@@ -465,7 +465,9 @@ abstract class AbstractStep {
      * the element is inside another element (ex an alert) that is still loading when the click takes place.
      */
     protected fun safeClickOnElement(elementToBeClicked: MobileElement) {
-        sleep(300)
+        if (SuiteSetup.isIos()){
+            sleep(300)
+        }
         elementToBeClicked.click()
     }
 

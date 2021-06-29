@@ -99,7 +99,7 @@ class NavigateScreenSteps : AbstractStep() {
             if (SuiteSetup.isIos()) {
 
                 // iOS screen transition animation
-                sleep(200)
+                sleep(400)
 
                 when (iosAction) {
                     "no action" -> {
