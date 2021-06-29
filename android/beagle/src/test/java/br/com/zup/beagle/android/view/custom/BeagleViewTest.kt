@@ -67,13 +67,15 @@ internal class BeagleViewTest : BaseTest() {
     private val screenIdentifierSlot = slot<String>()
 
     private val mutableLiveData = MutableLiveData<ViewState>()
-    private val url = "/url".formatUrl()!!
+    private val url = "/url".formatUrl()
     private val component = Text("Test component")
 
     private lateinit var beagleView: BeagleView
 
     @Before
-    fun setup() {
+    override fun setUp() {
+        super.setUp()
+
         val application: Application = ApplicationProvider.getApplicationContext() as Application
         mockYoga(application)
         BeagleSdk.setInTestMode()
@@ -89,9 +91,9 @@ internal class BeagleViewTest : BaseTest() {
     }
 
     @After
-    fun teardown() {
+    override fun tearDown() {
+        super.tearDown()
         BeagleSdk.deinitForTest()
-        unmockkAll()
     }
 
     private fun mockYoga(application: Application) {

@@ -74,8 +74,8 @@ class BeagleNavigatorTest : BaseTest() {
     private lateinit var deepLinkHandler: DeepLinkHandler
 
     @BeforeEach
-    fun setup() {
-        MockKAnnotations.init(this)
+    override fun setUp() {
+        super.setUp()
         mockkStatic("android.net.Uri")
 
         every { beagleSdk.config.baseUrl } returns RandomData.httpUrl()
