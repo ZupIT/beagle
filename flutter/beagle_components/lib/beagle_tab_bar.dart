@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/model/beagle_style.dart';
-import 'package:beagle/service_locator.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +48,6 @@ class BeagleTabBar extends StatefulWidget {
 class _BeagleTabBarState extends State<BeagleTabBar>
     with TickerProviderStateMixin {
   TabController _tabController;
-  final BeagleLogger _logger = beagleServiceLocator<BeagleLogger>();
   static final imageStyle = BeagleStyle(
     size: Size(height: UnitValue(value: BeagleTabBar.ICON_SIZE, type: UnitType.REAL))
   );
