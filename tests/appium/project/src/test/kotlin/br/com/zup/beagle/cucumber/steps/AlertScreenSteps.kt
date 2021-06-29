@@ -20,8 +20,6 @@ import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
-import org.junit.Assert
 
 
 class AlertScreenSteps : AbstractStep() {
@@ -35,7 +33,7 @@ class AlertScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the alert screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("Alert Screen", false, false)
+        waitForElementWithTextToBeClickable("Alert Screen", likeSearch = false, ignoreCase = false)
     }
 
 
@@ -61,7 +59,13 @@ class AlertScreenSteps : AbstractStep() {
             }
 
             // checks if clicking on the alert button closes it
-            safeClickOnElement(waitForElementWithTextToBeClickable(alertButtonTitle, likeSearch = false, ignoreCase = true))
+            safeClickOnElement(
+                waitForElementWithTextToBeClickable(
+                    alertButtonTitle,
+                    likeSearch = false,
+                    ignoreCase = true
+                )
+            )
             waitForElementWithTextToBeInvisible(alertTitle, likeSearch = false, ignoreCase = false)
         }
     }

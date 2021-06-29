@@ -19,7 +19,6 @@ package br.com.zup.beagle.cucumber.steps
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
 
 
 class TabBarScreenSteps : AbstractStep() {
@@ -49,7 +48,7 @@ class TabBarScreenSteps : AbstractStep() {
     }
 
     @Then("^I validate the buttons that trigger tabBars$")
-    fun validateTabBarButtons(){
+    fun validateTabBarButtons() {
         waitForElementWithTextToBeClickable("Select tab 4 hardcoded", likeSearch = false, ignoreCase = false).click()
         waitForElementWithTextToBeClickable("Tab position 3", likeSearch = false, ignoreCase = true)
 

@@ -31,7 +31,7 @@ class ConditionalScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the conditional screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("Conditional Screen", false, false)
+        waitForElementWithTextToBeClickable("Conditional Screen", likeSearch = false, ignoreCase = false)
     }
 
     @Then("^validate the invoked alerts and its message:$")

@@ -18,7 +18,6 @@ package br.com.zup.beagle.cucumber.steps
 
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
-import io.cucumber.java.en.Then
 
 class ContainerScreenSteps : AbstractStep() {
 

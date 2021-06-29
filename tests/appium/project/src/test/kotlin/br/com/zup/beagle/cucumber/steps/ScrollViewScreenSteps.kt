@@ -28,11 +28,12 @@ import io.cucumber.java.en.When
 import org.junit.Assert
 import org.openqa.selenium.By
 
-private const val SCROLLVIEW_SCREEN_HEADER = "Beagle ScrollView"
-private const val NEW_TEXT_PREFIX = "Lorem ipsum diam luctus"
-private const val NEW_TEXT_SUFFIX = "proin iaculis orci gravida molestie."
-
 class ScrollViewScreenSteps : AbstractStep() {
+
+    private val scrollViewScreenHeader = "Beagle ScrollView"
+    private val newTextPrefix = "Lorem ipsum diam luctus"
+    private val newTextSufix = "proin iaculis orci gravida molestie."
+
     override var bffRelativeUrlPath = "/scrollview"
 
     // cache
@@ -49,7 +50,7 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the scrollview screen$")
     fun checkScrollViewScreen() {
-        waitForElementWithTextToBeClickable(SCROLLVIEW_SCREEN_HEADER, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(scrollViewScreenHeader, likeSearch = false, ignoreCase = false)
     }
 
     @When("^I access ScrollView (.*)$")
@@ -134,9 +135,9 @@ class ScrollViewScreenSteps : AbstractStep() {
         // ScrollView 1 second state: new texts showing instead of text 2 and 3
         textElement2.click()
         Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement1, text2))
-        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement1, NEW_TEXT_PREFIX).last()
-        Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
-        Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement1, newTextPrefix).last()
+        Assert.assertTrue(textElement2.text.startsWith(newTextPrefix))
+        Assert.assertTrue(textElement2.text.endsWith(newTextSufix))
 
         if (SuiteSetup.isIos()) {
             AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement1, SwipeDirection.RIGHT)
@@ -146,9 +147,9 @@ class ScrollViewScreenSteps : AbstractStep() {
 
         textElement3.click()
         Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement1, text3))
-        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement1, NEW_TEXT_PREFIX).last()
-        Assert.assertTrue(textElement3.text.startsWith(NEW_TEXT_PREFIX))
-        Assert.assertTrue(textElement3.text.endsWith(NEW_TEXT_SUFFIX))
+        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement1, newTextPrefix).last()
+        Assert.assertTrue(textElement3.text.startsWith(newTextPrefix))
+        Assert.assertTrue(textElement3.text.endsWith(newTextSufix))
 
         // ScrollView 1 third state: scrolls until the end
         if (SuiteSetup.isIos()) {
@@ -179,9 +180,9 @@ class ScrollViewScreenSteps : AbstractStep() {
         // ScrollView 2 second state: new texts showing instead of text 2 and 3
         textElement2.click()
         Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2, text2))
-        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement2, NEW_TEXT_PREFIX).last()
-        Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
-        Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement2, newTextPrefix).last()
+        Assert.assertTrue(textElement2.text.startsWith(newTextPrefix))
+        Assert.assertTrue(textElement2.text.endsWith(newTextSufix))
 
         // Scrolls to text3
         if (SuiteSetup.isIos()) {
@@ -197,9 +198,9 @@ class ScrollViewScreenSteps : AbstractStep() {
 
         textElement3.click()
         Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2, text3))
-        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement2, NEW_TEXT_PREFIX).last()
-        Assert.assertTrue(textElement3.text.startsWith(NEW_TEXT_PREFIX))
-        Assert.assertTrue(textElement3.text.endsWith(NEW_TEXT_SUFFIX))
+        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement2, newTextPrefix).last()
+        Assert.assertTrue(textElement3.text.startsWith(newTextPrefix))
+        Assert.assertTrue(textElement3.text.endsWith(newTextSufix))
 
         // ScrollView 2 third state: scrolls until the end
         if (SuiteSetup.isIos()) {
@@ -229,9 +230,9 @@ class ScrollViewScreenSteps : AbstractStep() {
         // ScrollView 3 second state: only the new text showing
         textElement2.click()
         Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement3, text2))
-        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement3, NEW_TEXT_PREFIX).last()
-        Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
-        Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement3, newTextPrefix).last()
+        Assert.assertTrue(textElement2.text.startsWith(newTextPrefix))
+        Assert.assertTrue(textElement2.text.endsWith(newTextSufix))
 
         // Scrolls to the bottom
         if (SuiteSetup.isIos()) {

@@ -16,18 +16,16 @@
 
 package br.com.zup.beagle.cucumber.steps
 
-import br.com.zup.beagle.setup.SuiteSetup
 import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import org.junit.Assert
 
-
-private const val BUTTON_SCREEN_HEADER = "Beagle Button"
-private const val ACTION_CLICK_TEXT = "You clicked right"
-
 class ButtonScreenSteps : AbstractStep() {
+
+    private val buttonScreenHeader = "Beagle Button"
+    private val actionClickText = "You clicked right"
 
     override var bffRelativeUrlPath = "/button"
 
@@ -38,7 +36,7 @@ class ButtonScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the button screen$")
     fun checkButtonScreen() {
-        waitForElementWithTextToBeClickable(BUTTON_SCREEN_HEADER, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(buttonScreenHeader, likeSearch = false, ignoreCase = false)
     }
 
     @Then("^validate button clicks:$")
@@ -57,9 +55,9 @@ class ButtonScreenSteps : AbstractStep() {
                 Assert.assertFalse(buttonElement.isEnabled)
             } else {
                 safeClickOnElement(buttonElement)
-                waitForElementWithTextToBeClickable(ACTION_CLICK_TEXT, likeSearch = false, ignoreCase = false)
+                waitForElementWithTextToBeClickable(actionClickText, likeSearch = false, ignoreCase = false)
                 goBack()
-                waitForElementWithTextToBeInvisible(ACTION_CLICK_TEXT, likeSearch = false, ignoreCase = false)
+                waitForElementWithTextToBeInvisible(actionClickText, likeSearch = false, ignoreCase = false)
             }
         }
     }

@@ -21,12 +21,13 @@ import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 
-private const val PAGEVIEW_SCREEN_HEADER = "Beagle PageView"
-private const val PAGE_1_TEXT = "Page 1"
-private const val PAGE_2_TEXT = "Page 2"
-private const val PAGE_3_TEXT = "Page 3"
-
 class PageViewScreenSteps : AbstractStep() {
+
+    private val pageViewScreenHeader = "Beagle PageView"
+    private val page1Text = "Page 1"
+    private val page2Text = "Page 2"
+    private val page3Text = "Page 3"
+
     override var bffRelativeUrlPath = "/pageview"
 
     @Before("@pageview")
@@ -36,16 +37,16 @@ class PageViewScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the pageview screen$")
     fun checkTabViewScreen() {
-        waitForElementWithTextToBeClickable(PAGEVIEW_SCREEN_HEADER, false, false)
+        waitForElementWithTextToBeClickable(pageViewScreenHeader, likeSearch = false, ignoreCase = false)
     }
 
     @Then("^my pageview components should render their respective pages attributes correctly$")
     fun checkTabViewRendersTabs() {
-        waitForElementWithTextToBeClickable(PAGE_1_TEXT, false, false)
+        waitForElementWithTextToBeClickable(page1Text, likeSearch = false, ignoreCase = false)
         swipeLeft()
-        waitForElementWithTextToBeClickable(PAGE_2_TEXT, false, false)
+        waitForElementWithTextToBeClickable(page2Text, likeSearch = false, ignoreCase = false)
         swipeLeft()
-        waitForElementWithTextToBeClickable(PAGE_3_TEXT, false, false)
+        waitForElementWithTextToBeClickable(page3Text, likeSearch = false, ignoreCase = false)
     }
 
 }

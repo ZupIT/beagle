@@ -55,35 +55,35 @@ class AnalyticsScreenSteps : AbstractStep() {
     fun checkBaseScreen(url: String) {
         bffRelativeUrlPath = url
         loadBffScreen()
-        waitForElementWithTextToBeClickable("Analytics 2.0", false, false)
+        waitForElementWithTextToBeClickable("Analytics 2.0", likeSearch = false, ignoreCase = false)
     }
 
     @Then("^an alert dialog should appear on the screen$")
     fun checkAlertDialog() {
-        waitForElementWithTextToBeClickable("AlertMessage", false, false)
+        waitForElementWithTextToBeClickable("AlertMessage", likeSearch = false, ignoreCase = false)
     }
 
     @Then("^a confirm dialog should appear on the screen$")
     fun checkConfirmDialog() {
-        waitForElementWithTextToBeClickable("Confirm Message", false, false)
+        waitForElementWithTextToBeClickable("Confirm Message", likeSearch = false, ignoreCase = false)
     }
 
     @Then("^no analytics record should be created$")
     fun checkNoAnalyticsGenerated() {
-        waitForElementWithTextToBeClickable("Analytics 2.0 native", false, false)
-        waitForElementWithTextToBeInvisible("type", true, false)
+        waitForElementWithTextToBeClickable("Analytics 2.0 native", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeInvisible("type", likeSearch = true, ignoreCase = false)
     }
 
     @Then("^an analytics record should be created for (.*)$")
     fun checkAnalyticsGenerated(string: String) {
         waitForElementWithTextToBeClickable("Analytics 2.0 native", likeSearch = false, ignoreCase = false)
         val text = waitForElementWithTextToBeClickable("platform", likeSearch = true, ignoreCase = false).text
-        
+
         val analytics = recordHashMap[string]
         analytics?.forEach {
             val value = if (it.value is Regex)
                 it.value.toString()
-                else "\"${it.value}\""
+            else "\"${it.value}\""
 
             val regex = Regex("\"${it.key}\": $value")
             if (!text.contains(regex))

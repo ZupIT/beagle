@@ -33,7 +33,7 @@ class TextInputScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the textInput on screen$")
     fun checkBaseScreen() {
-        waitForElementWithValueToBeClickable("Beagle Text Input", false, false)
+        waitForElementWithValueToBeClickable("Beagle Text Input", likeSearch = false, ignoreCase = false)
     }
 
     @Then("^validate place holders and visibility:$")

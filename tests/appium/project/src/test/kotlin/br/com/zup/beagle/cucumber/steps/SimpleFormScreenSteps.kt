@@ -16,11 +16,8 @@
 
 package br.com.zup.beagle.cucumber.steps
 
-import io.appium.java_client.MobileElement
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
-import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
 
 class SimpleFormScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/simpleform"

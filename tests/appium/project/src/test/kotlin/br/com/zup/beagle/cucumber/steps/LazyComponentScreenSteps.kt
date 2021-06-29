@@ -29,7 +29,7 @@ class LazyComponentScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the LazyComponent Screen$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("LazyComponent Screen", false, false)
+        waitForElementWithTextToBeClickable("LazyComponent Screen", likeSearch = false, ignoreCase = false)
     }
 
 }

@@ -21,10 +21,11 @@ import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 
-private const val TOUCHABLE_SCREEN_HEADER = "Beagle Touchable"
-private const val TOUCHABLE_REDIRECT_TEXT = "You clicked right"
-
 class TouchScreenSteps : AbstractStep() {
+
+    private val touchableScreenHeader = "Beagle Touchable"
+    private val touchableRedirectText = "You clicked right"
+
     override var bffRelativeUrlPath = "/touchable"
 
     @Before("@touchable")
@@ -34,7 +35,7 @@ class TouchScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the touchable screen$")
     fun checkImageScreen() {
-        waitForElementWithTextToBeClickable(TOUCHABLE_SCREEN_HEADER, false, false)
+        waitForElementWithTextToBeClickable(touchableScreenHeader, likeSearch = false, ignoreCase = false)
     }
 
     @Then("^validate touchable clicks:$")
@@ -46,17 +47,21 @@ class TouchScreenSteps : AbstractStep() {
                 continue
             var touchableText = columns[0]!!
 
-            if ("Text 1" == touchableText) {
-                waitForElementWithTextToBeClickable("Click here!", likeSearch = false, ignoreCase = false).click()
-            } else if ("Image 1" == touchableText) {
-                safeClickOnElement(waitForImageElements()[0])
-            } else if ("Image 2" == touchableText) {
-                safeClickOnElement(waitForImageElements()[1])
+            when (touchableText) {
+                "Text 1" -> {
+                    waitForElementWithTextToBeClickable("Click here!", likeSearch = false, ignoreCase = false).click()
+                }
+                "Image 1" -> {
+                    safeClickOnElement(waitForImageElements()[0])
+                }
+                "Image 2" -> {
+                    safeClickOnElement(waitForImageElements()[1])
+                }
             }
 
-            waitForElementWithTextToBeClickable(TOUCHABLE_REDIRECT_TEXT, likeSearch = false, ignoreCase = false)
+            waitForElementWithTextToBeClickable(touchableRedirectText, likeSearch = false, ignoreCase = false)
             goBack()
-            waitForElementWithTextToBeInvisible(TOUCHABLE_REDIRECT_TEXT, likeSearch = false, ignoreCase = false)
+            waitForElementWithTextToBeInvisible(touchableRedirectText, likeSearch = false, ignoreCase = false)
 
         }
     }

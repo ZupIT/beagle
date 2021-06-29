@@ -97,10 +97,7 @@ class NavigateScreenSteps : AbstractStep() {
             )
 
             if (SuiteSetup.isIos()) {
-
                 // iOS screen transition animation
-                sleep(400)
-
                 when (iosAction) {
                     "no action" -> {
                         waitForElementWithTextToBeClickable(button2Title, likeSearch = false, ignoreCase = false)
@@ -114,12 +111,14 @@ class NavigateScreenSteps : AbstractStep() {
                     }
                     "opens a closable screen" -> {
                         waitForElementWithTextToBeClickable(actionScreenTitle, likeSearch = false, ignoreCase = false)
+                        sleep(400)
                         swipeDown() // closes screen
                         waitForElementWithTextToBeInvisible(actionScreenTitle, likeSearch = false, ignoreCase = false)
                         checkIsInMainPage()
                     }
                     "opens a non-closable screen" -> {
                         waitForElementWithTextToBeClickable(actionScreenTitle, likeSearch = false, ignoreCase = false)
+                        sleep(400)
                         swipeDown() // tries to close the screen
                         sleep(1000) // swipe animation
 

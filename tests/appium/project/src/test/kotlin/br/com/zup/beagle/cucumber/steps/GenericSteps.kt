@@ -18,7 +18,6 @@ package br.com.zup.beagle.cucumber.steps
 
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
-import org.junit.Assert
 
 
 class GenericSteps : AbstractStep() {
