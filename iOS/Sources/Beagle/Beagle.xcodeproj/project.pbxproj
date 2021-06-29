@@ -286,6 +286,9 @@
 		A0EF0AAC238811AA0019BE83 /* LocalFormHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EF0AAB238811AA0019BE83 /* LocalFormHandler.swift */; };
 		A0EF0AC2238B0CEC0019BE83 /* SubmitFormGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EF0AC1238B0CEC0019BE83 /* SubmitFormGestureRecognizer.swift */; };
 		A0F45498237B87E900B146A1 /* BeagleNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F45497237B87E800B146A1 /* BeagleNavigator.swift */; };
+		B755B58A2686602700A7EDC5 /* GridViewDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B755B5892686602700A7EDC5 /* GridViewDecodeTests.swift */; };
+		B755B58D268661B800A7EDC5 /* gridViewNumColumns.json in Resources */ = {isa = PBXBuildFile; fileRef = B755B58C268661B800A7EDC5 /* gridViewNumColumns.json */; };
+		B755B591268667D400A7EDC5 /* gridViewSpanCount.json in Resources */ = {isa = PBXBuildFile; fileRef = B755B590268667D400A7EDC5 /* gridViewSpanCount.json */; };
 		C0291889247D5BFA00C3AA13 /* ComponentFromJsonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291888247D5BFA00C3AA13 /* ComponentFromJsonFile.swift */; };
 		C0479F57243272460040E30C /* DeprecatedAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0479F56243272460040E30C /* DeprecatedAnalytics.swift */; };
 		C048EBDB242BD78500A24075 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C048EBDA242BD78500A24075 /* Analytics.swift */; };
@@ -680,6 +683,9 @@
 		A0EF0AAB238811AA0019BE83 /* LocalFormHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFormHandler.swift; sourceTree = "<group>"; };
 		A0EF0AC1238B0CEC0019BE83 /* SubmitFormGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitFormGestureRecognizer.swift; sourceTree = "<group>"; };
 		A0F45497237B87E800B146A1 /* BeagleNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeagleNavigator.swift; sourceTree = "<group>"; };
+		B755B5892686602700A7EDC5 /* GridViewDecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridViewDecodeTests.swift; sourceTree = "<group>"; };
+		B755B58C268661B800A7EDC5 /* gridViewNumColumns.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = gridViewNumColumns.json; sourceTree = "<group>"; };
+		B755B590268667D400A7EDC5 /* gridViewSpanCount.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = gridViewSpanCount.json; sourceTree = "<group>"; };
 		C0291888247D5BFA00C3AA13 /* ComponentFromJsonFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentFromJsonFile.swift; sourceTree = "<group>"; };
 		C0479F56243272460040E30C /* DeprecatedAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeprecatedAnalytics.swift; sourceTree = "<group>"; };
 		C048EBDA242BD78500A24075 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
@@ -1147,6 +1153,7 @@
 				9356CC99262482810021EFC6 /* Touchable */,
 				9356CCA0262482810021EFC6 /* TabBar */,
 				9356CCA9262482810021EFC6 /* TabView */,
+				B755B5882686600400A7EDC5 /* GridView */,
 				9356CCB2262482810021EFC6 /* ListView */,
 				9356CCC6262482810021EFC6 /* Screen */,
 				9356CCCF262482810021EFC6 /* Lazy */,
@@ -1911,6 +1918,24 @@
 			path = Action;
 			sourceTree = "<group>";
 		};
+		B755B5882686600400A7EDC5 /* GridView */ = {
+			isa = PBXGroup;
+			children = (
+				B755B5892686602700A7EDC5 /* GridViewDecodeTests.swift */,
+				B755B58B268660A700A7EDC5 /* JSON */,
+			);
+			path = GridView;
+			sourceTree = "<group>";
+		};
+		B755B58B268660A700A7EDC5 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				B755B58C268661B800A7EDC5 /* gridViewNumColumns.json */,
+				B755B590268667D400A7EDC5 /* gridViewSpanCount.json */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
 		C0291887247D5BEE00C3AA13 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -2367,6 +2392,7 @@
 			files = (
 				937B585826321BF800AA5267 /* listViewWithTemplate.json in Resources */,
 				9356CDEB262482820021EFC6 /* TouchableDecoderTest.json in Resources */,
+				B755B591268667D400A7EDC5 /* gridViewSpanCount.json in Resources */,
 				9356CDE2262482820021EFC6 /* WebView.json in Resources */,
 				9356CBB9262481BE0021EFC6 /* pushview.json in Resources */,
 				9356CD9E262482820021EFC6 /* PushStack-2.json in Resources */,
@@ -2388,6 +2414,7 @@
 				9356CE58262482820021EFC6 /* declarativeText2.json in Resources */,
 				9356CDE5262482820021EFC6 /* PageViewWithCustomIndicator.json in Resources */,
 				9356CE1D262482820021EFC6 /* ImageTests.xcassets in Resources */,
+				B755B58D268661B800A7EDC5 /* gridViewNumColumns.json in Resources */,
 				9356CE36262482820021EFC6 /* TextComponent.json in Resources */,
 				9356CBB8262481BE0021EFC6 /* pushViewWithAdditionalData.json in Resources */,
 				9356CE2C262482820021EFC6 /* buttonComponent.json in Resources */,
@@ -2700,6 +2727,7 @@
 				9356CDA0262482820021EFC6 /* ActionRecordFactoryTests.swift in Sources */,
 				9356CE47262482820021EFC6 /* MirrorExtension.swift in Sources */,
 				C0E569152476F026003D413F /* BeaglePrefetchHelpingSpy.swift in Sources */,
+				B755B58A2686602700A7EDC5 /* GridViewDecodeTests.swift in Sources */,
 				9356CD90262482820021EFC6 /* BeagleLoggerProxyTests.swift in Sources */,
 				9356CDC6262482820021EFC6 /* FormManagerTests.swift in Sources */,
 				9356CDD0262482820021EFC6 /* PageViewUIComponentTests.swift in Sources */,

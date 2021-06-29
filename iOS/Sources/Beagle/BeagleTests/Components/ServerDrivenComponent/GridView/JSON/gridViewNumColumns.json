@@ -1,0 +1,13 @@
+{
+  "_beagleComponent_": "beagle:gridview",
+  "dataSource": [],
+  "numColumns": 3,
+  "templates": [
+    {
+      "view": {
+        "_beagleComponent_": "beagle:container",
+        "children": []
+      }
+    }
+  ]
+}

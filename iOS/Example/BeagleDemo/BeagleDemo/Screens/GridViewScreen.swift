@@ -52,7 +52,7 @@ struct GridViewScreen: DeeplinkScreen {
                 value: ["page": 0, "total_pages": 0, "results": []]
             ),
             dataSource: "@{moviePage.results}",
-            numColumns: 3,
+            spanCount: 3,
             templates: [movieTemplate, badMovieTemplate],
             iteratorName: "movie",
             onScrollEnd: [
@@ -71,7 +71,8 @@ struct GridViewScreen: DeeplinkScreen {
                     ]
                 )
             ],
-            scrollEndThreshold: 50
+            scrollEndThreshold: 50,
+            widgetProperties: WidgetProperties(Flex().grow(1))
         )
     }
     
