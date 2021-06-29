@@ -16,7 +16,6 @@
  */
 
 import 'package:beagle/utils/string_utils.dart';
-import 'dart:developer';
 
 class EnumUtils {
   static T fromString<T>(List<T> values, String str) {
