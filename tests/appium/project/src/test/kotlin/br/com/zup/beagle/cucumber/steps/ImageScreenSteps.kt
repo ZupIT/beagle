@@ -39,6 +39,8 @@ class ImageScreenSteps : AbstractStep() {
 
     @Then("^take a screenshot from ImageScreenBuilder and assert it is identical to the (.*) image$")
     fun checkImageAttributes(imageDbToCompare: String) {
+        // waits before taking screenshot. Helps to avoid taking the shot while the screen is transitioning (iOS animation)
+        sleep(1000)
         Assert.assertTrue(compareCurrentScreenWithDatabase(imageDbToCompare))
     }
 }
