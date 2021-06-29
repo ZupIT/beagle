@@ -156,7 +156,7 @@ class _BeagleImageState extends State<BeagleImage> {
     } else if (mode == ImageContentMode.FIT_XY) {
       return BoxFit.fill;
     } else {
-      return BoxFit.fill;
+      return BoxFit.contain;
     }
   }
 }

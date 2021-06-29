@@ -24,6 +24,8 @@ import 'package:flutter/material.dart';
 /// Defines a widget that displays a horizontal row of tabs, that will be
 /// rendered according to the style of the running platform.
 class BeagleTabBar extends StatefulWidget {
+  static const ICON_SIZE = 32;
+
   const BeagleTabBar({
     Key key,
     this.items,
@@ -49,7 +51,9 @@ class _BeagleTabBarState extends State<BeagleTabBar>
     with TickerProviderStateMixin {
   TabController _tabController;
   final BeagleLogger _logger = beagleServiceLocator<BeagleLogger>();
-  static final imageStyle = BeagleStyle(size: Size(height: UnitValue(value: 32, type: UnitType.REAL)));
+  static final imageStyle = BeagleStyle(
+    size: Size(height: UnitValue(value: BeagleTabBar.ICON_SIZE, type: UnitType.REAL))
+  );
 
   @override
   void initState() {
@@ -80,11 +84,6 @@ class _BeagleTabBarState extends State<BeagleTabBar>
 
   @override
   Widget build(BuildContext context) {
-    if (widget.items == null || widget.items.isEmpty) {
-      _logger.error('A tab bar should have at least one item. The tab bar with id ${widget.key} has no items.');
-      return Container();
-    }
-
     final _platform = Theme.of(context).platform;
     return _platform == TargetPlatform.iOS
         ? buildCupertinoWidget()
