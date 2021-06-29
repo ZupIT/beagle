@@ -104,9 +104,7 @@ class BeagleJSEngine {
             : "'$value', ${json.encode(argument)}";
         final jsMethod =
             viewId == null ? 'call(' : "callViewFunction('$viewId', ";
-        final result = _jsRuntime.evaluate('global.beagle.$jsMethod$args)');
-        Log
-        debugPrint('dynamic function result: $result');
+        _jsRuntime.evaluate('global.beagle.$jsMethod$args)');
       };
     }
 
@@ -331,8 +329,7 @@ class BeagleJSEngine {
       final beagleJS =
           await rootBundle.loadString('packages/beagle/assets/js/beagle.js');
       _jsRuntime.evaluate('var window = global = globalThis;');
-      final bundleResult = await _jsRuntime.evaluateAsync(beagleJS);
-      debugPrint('Initialization result: $bundleResult');
+      await _jsRuntime.evaluateAsync(beagleJS);
     }
   }
 

@@ -21,7 +21,6 @@ import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyAccessibility
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.setAccessibility
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_ACCESSIBILITY
 import br.com.zup.beagle.widget.core.AlignItems
@@ -86,10 +85,12 @@ object AccessibilityScreenBuilder : ScreenBuilder {
     ) =
         Text(
             text = text
-        ).setAccessibility {
-            this.accessible = accessible
-            this.accessibilityLabel = accessibilityLabel
-        }.applyStyle(Style(
+        ).applyAccessibility(
+            accessibility = Accessibility(
+                accessible = accessible,
+                accessibilityLabel = accessibilityLabel
+            )
+        ).applyStyle(Style(
                 margin = EdgeValue(
                     top = 8.unitReal(),
                     bottom = 8.unitReal()),
