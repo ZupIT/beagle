@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+/// A web view widget for showing html content.
 class BeagleWebView extends StatefulWidget {
   /// Creates a new web view.
   const BeagleWebView({
@@ -32,7 +33,6 @@ class BeagleWebView extends StatefulWidget {
   _BeagleWebView createState() => _BeagleWebView();
 }
 
-/// A web view widget for showing html content.
 class _BeagleWebView extends State<BeagleWebView> {
   WebViewController _controller;
 
