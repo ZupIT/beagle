@@ -89,7 +89,7 @@ class _BeagleTabBarState extends State<BeagleTabBar>
 
   Widget buildCupertinoWidget() {
     return CupertinoTabBar(
-      currentIndex: widget.currentTab,
+      currentIndex: widget.currentTab ?? 0,
       onTap: widget.onTabSelection,
       items: buildCupertinoTabs(),
     );
@@ -100,7 +100,7 @@ class _BeagleTabBarState extends State<BeagleTabBar>
       return BottomNavigationBarItem(
         label: tabBarItem.title ?? '',
         icon: tabBarItem.icon == null
-          ? null
+          ? Container()
           : BeagleImage(path: tabBarItem.icon, style: imageStyle),
       );
     }).toList();
