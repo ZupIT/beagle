@@ -16,31 +16,28 @@
  */
 
 import 'package:beagle/interface/storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DefaultStorage implements Storage {
+  Map<String, String> store = {};
+
   @override
   Future<void> clear() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    store.clear();
   }
 
   @override
   Future<String> getItem(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    final result = prefs.getString(key);
-    return result;
+    return store[key];
   }
 
   @override
   Future<void> removeItem(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(key);
+    store.remove(key);
   }
 
   @override
   Future<void> setItem(String key, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, value);
+    store[key] = value;
   }
+
 }
