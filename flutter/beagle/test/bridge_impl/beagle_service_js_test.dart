@@ -66,7 +66,7 @@ void main() {
         final expectedParams = {
           'baseUrl': baseUrl,
           'actionKeys': actions.keys.toList(),
-          'operations': operations.keys.toList(),
+          'customOperations': operations.keys.toList(),
           'useBeagleHeaders': useBeagleHeaders,
           'strategy': NetworkStrategyUtils.getJsStrategyName(strategy),
           'navigationControllers': {
