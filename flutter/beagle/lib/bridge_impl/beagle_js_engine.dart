@@ -31,7 +31,6 @@ import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/response.dart';
 import 'package:beagle/networking/beagle_network_options.dart';
 import 'package:beagle/networking/beagle_request.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_js/flutter_js.dart';
 import 'package:beagle/service_locator.dart';
@@ -401,11 +400,11 @@ class BeagleJSEngine {
     final args = argumentsMap == null
         ? "'$functionId'"
         : "'$functionId', ${json.encode(argumentsMap)}";
-    final result = _jsRuntime.evaluate('global.beagle.call($args)');
+    _jsRuntime.evaluate('global.beagle.call($args)');
   }
 
   void respondHttpRequest(String id, Response response) {
-    final result = _jsRuntime.evaluate(
+    _jsRuntime.evaluate(
         'global.beagle.httpClient.respond($id, ${response.toJson()})');
   }
 }
