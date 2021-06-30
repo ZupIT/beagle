@@ -20,6 +20,7 @@ import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.android.compiler.BEAGLE_ACTIVITY
 import br.com.zup.beagle.android.compiler.CONTROLLER_REFERENCE
 import br.com.zup.beagle.android.compiler.DEFAULT_BEAGLE_ACTIVITY
+import br.com.zup.beagle.compiler.shared.REGISTRAR_COMPONENTS_PACKAGE
 import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
@@ -38,6 +39,10 @@ import javax.lang.model.type.MirroredTypeException
 const val CONTROLLER_REFERENCE_GENERATED = "ControllerReferenceGenerated"
 
 internal class RegisterControllerProcessor(private val processingEnv: ProcessingEnvironment) {
+
+    companion object{
+            const val REGISTERED_CONTROLLERS = "registeredControllers"
+    }
 
     var defaultActivityRegistered: String = ""
 
@@ -139,6 +144,25 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             }
         }
 
+        validators.append(getRegisteredControllersInDependencies())
+
         return validators.toString() to defaultControllerClass
+    }
+
+    private fun getRegisteredControllersInDependencies(): java.lang.StringBuilder {
+        val registeredWidgets = StringBuilder()
+        processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
+            val fullClassName = it.toString()
+            val cls = Class.forName(fullClassName)
+            val kotlinClass = cls.kotlin
+            try {
+                (cls.getMethod(REGISTERED_CONTROLLERS).invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { registeredDependency ->
+                    registeredWidgets.append("\"${registeredDependency.first}\" -> ${registeredDependency.second}::class.java as Class<BeagleActivity>\n")
+                }
+            } catch (e: NoSuchMethodException) {
+                // intentionally left blank
+            }
+        }
+        return registeredWidgets
     }
 }

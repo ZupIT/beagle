@@ -23,14 +23,12 @@ import br.com.zup.beagle.android.compiler.BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.compiler.shared.REGISTRAR_COMPONENTS_PACKAGE
 import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.implements
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
-import java.lang.Exception
-import java.util.TreeSet
+import java.util.*
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.Processor
@@ -38,7 +36,6 @@ import javax.annotation.processing.RoundEnvironment
 import javax.annotation.processing.SupportedOptions
 import javax.annotation.processing.SupportedSourceVersion
 import javax.lang.model.SourceVersion
-import javax.lang.model.element.ElementKind
 import javax.lang.model.element.TypeElement
 
 @AutoService(Processor::class)
@@ -68,53 +65,12 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
         beagleSetupProcessor = BeagleSetupProcessor(processingEnvironment)
     }
 
-    private fun checkBeagleMultiModules(): Boolean {
-        if (!processingEnv.options.containsKey(KAPT_BEAGLE_MODULE_NAME_OPTION_NAME)) {
-            processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
-                if (it.kind == ElementKind.CLASS && it.simpleName.toString().endsWith("Registrar")) {
-                    processingEnv.messager.error(createOptionNotFoundErrorMessage(KAPT_BEAGLE_MODULE_NAME_OPTION_NAME))
-                    return false
-                }
-            }
-        }
-        return true
-    }
-
-    /*private fun checkOptions(): Boolean {
-        return checkModuleNameOption()
-            && checkHasInstanceOption()
-    }
-
-    private fun checkModuleNameOption(): Boolean {
-        if (!processingEnv.options.containsKey(KAPT_BEAGLE_MODULE_NAME_OPTION_NAME)) {
-            val errorMessage = createOptionNotFoundErrorMessage(KAPT_BEAGLE_MODULE_NAME_OPTION_NAME)
-            processingEnv.messager.error(errorMessage)
-            return false
-        }
-        return true
-    }
-
-    private fun checkHasInstanceOption(): Boolean {
-        if (!processingEnv.options.containsKey(KAPT_BEAGLE_HAS_INSTANCE_OPTION_NAME)) {
-            val errorMessage = createOptionNotFoundErrorMessage(KAPT_BEAGLE_HAS_INSTANCE_OPTION_NAME)
-            processingEnv.messager.error(errorMessage)
-            return false
-        }
-        return true
-    }*/
-
-    private fun createOptionNotFoundErrorMessage(optionName: String) =
-        "Your project seems to have more than one module using Beagle annotation processor and kapt argument" +
-            " [$optionName] was not found. Did you forget to configure it in your build.gradle file?"
-
-
     override fun process(
         annotations: Set<TypeElement>,
         roundEnvironment: RoundEnvironment
     ): Boolean {
 
-        // TODO: não permitir que a option de module name seja string vaiza
-        if (annotations.isEmpty() || roundEnvironment.errorRaised() /*|| !checkBeagleMultiModules()*//* || !checkOptions()*/) return false
+        if (annotations.isEmpty() || roundEnvironment.errorRaised()) return false
 
         val beagleConfigElements = roundEnvironment.getElementsAnnotatedWith(
             BeagleComponent::class.java

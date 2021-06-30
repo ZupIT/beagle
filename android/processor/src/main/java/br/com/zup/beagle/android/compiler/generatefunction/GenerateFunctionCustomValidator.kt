@@ -17,9 +17,7 @@
 package br.com.zup.beagle.android.compiler.generatefunction
 
 import br.com.zup.beagle.android.annotation.RegisterValidator
-import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.REGISTERED_CUSTOM_VALIDATOR_GENERATED
 import br.com.zup.beagle.android.compiler.VALIDATOR
-import br.com.zup.beagle.android.compiler.VALIDATOR_HANDLER
 import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
 import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.implementsInterface
@@ -29,13 +27,15 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
+import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionCustomValidator(private val processingEnv: ProcessingEnvironment) :
+class GenerateFunctionCustomValidator(processingEnv: ProcessingEnvironment) :
     BeagleGeneratorFunction<RegisterValidator>(
-        VALIDATOR_HANDLER,
-        REGISTERED_CUSTOM_VALIDATOR_GENERATED,
+//        VALIDATOR_HANDLER,
+        processingEnv,
+        REGISTERED_CUSTOM_VALIDATOR,
         RegisterValidator::class.java
     ) {
 
@@ -43,6 +43,7 @@ class GenerateFunctionCustomValidator(private val processingEnv: ProcessingEnvir
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
         val name = (annotation as RegisterValidator).name
+        // TODO: aqui tem código duplicado
         return "\"$name\" -> $element() as Validator<Any, Any>\n"
     }
 
@@ -72,7 +73,7 @@ class GenerateFunctionCustomValidator(private val processingEnv: ProcessingEnvir
             .parameterizedBy(Any::class.asClassName(), Any::class.asClassName())
             .copy(nullable = true)
 
-        return FunSpec.builder(REGISTERED_CUSTOM_VALIDATOR)
+        return FunSpec.builder(name)
             .addModifiers(KModifier.OVERRIDE)
             .addParameter("name", String::class)
             .returns(returnType)
@@ -80,5 +81,14 @@ class GenerateFunctionCustomValidator(private val processingEnv: ProcessingEnvir
 
     companion object {
         const val REGISTERED_CUSTOM_VALIDATOR = "getValidator"
+    }
+
+    override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
+        // TODO: aqui tem código duplicado
+        return "\"${registeredDependency.first}\" -> ${registeredDependency.second}() as Validator<Any, Any>\n"
+    }
+
+    override fun generate(roundEnvironment: RoundEnvironment): FunSpec {
+        return super.generate(roundEnvironment)
     }
 }

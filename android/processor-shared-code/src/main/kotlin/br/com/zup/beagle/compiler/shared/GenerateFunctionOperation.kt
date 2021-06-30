@@ -22,12 +22,14 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
+import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionOperation(private val processingEnv: ProcessingEnvironment)
+class GenerateFunctionOperation(processingEnv: ProcessingEnvironment)
     : BeagleGeneratorFunction<RegisterOperation>(
-    ANDROID_OPERATION,
+//    ANDROID_OPERATION,
+    processingEnv,
     REGISTERED_OPERATIONS,
     RegisterOperation::class.java
 ) {
@@ -37,9 +39,10 @@ class GenerateFunctionOperation(private val processingEnv: ProcessingEnvironment
     override fun returnStatementInGenerate(): String = "return operations"
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
+        // TODO: aqui tem código duplicado
         val name = (annotation as RegisterOperation).name
         temporaryListOfNames.add(name)
-        return "\"$name\" to $element(), \n"
+        return "\t\"$name\" to $element(), \n"
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
@@ -82,5 +85,10 @@ class GenerateFunctionOperation(private val processingEnv: ProcessingEnvironment
 
     companion object {
         const val REGISTERED_OPERATIONS = "registeredOperations"
+    }
+
+    override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
+        // TODO: aqui tem código duplicado
+        return "\t\"${registeredDependency.first}\" to ${registeredDependency.second}(), \n"
     }
 }

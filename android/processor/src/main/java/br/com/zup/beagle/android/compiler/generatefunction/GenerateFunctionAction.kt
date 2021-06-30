@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.compiler.generatefunction
 import br.com.zup.beagle.android.compiler.ANDROID_ACTION
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
+import br.com.zup.beagle.compiler.shared.REGISTRAR_COMPONENTS_PACKAGE
 import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.implements
 import com.squareup.kotlinpoet.ClassName
@@ -26,17 +27,20 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
+import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionAction(private val processingEnv: ProcessingEnvironment) :
-    BeagleGeneratorFunction<RegisterAction>(
-        ANDROID_ACTION,
-        REGISTERED_ACTIONS,
-        RegisterAction::class.java
-    ) {
+class GenerateFunctionAction(processingEnv: ProcessingEnvironment)
+    : BeagleGeneratorFunction<RegisterAction>(
+//    ANDROID_ACTION,
+    processingEnv,
+    REGISTERED_ACTIONS,
+    RegisterAction::class.java
+) {
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
+        // TODO: aqui tem código duplicado
         return "\t${element}::class.java as Class<Action>,"
     }
 
@@ -75,5 +79,10 @@ class GenerateFunctionAction(private val processingEnv: ProcessingEnvironment) :
 
     companion object {
         const val REGISTERED_ACTIONS = "registeredActions"
+    }
+
+    override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
+        // TODO: aqui tem código duplicado
+        return "\n\t${registeredDependency.second}::class.java as Class<Action>,"
     }
 }

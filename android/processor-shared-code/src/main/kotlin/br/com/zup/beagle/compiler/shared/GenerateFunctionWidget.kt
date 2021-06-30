@@ -26,14 +26,16 @@ import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
-    BeagleGeneratorFunction<RegisterWidget>(
-        WIDGET_VIEW,
-        REGISTERED_WIDGETS,
-        RegisterWidget::class.java
-    ) {
+class GenerateFunctionWidget(processingEnv: ProcessingEnvironment)
+    : BeagleGeneratorFunction<RegisterWidget>(
+//    WIDGET_VIEW,
+    processingEnv,
+    REGISTERED_WIDGETS,
+    RegisterWidget::class.java
+) {
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
+        // TODO: aqui tem código duplicado
         return "\n\t${element}::class.java as Class<WidgetView>,"
     }
 
@@ -55,30 +57,6 @@ class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
             |)
         |""".trimMargin()
 
-    override fun generate(roundEnvironment: RoundEnvironment): FunSpec {
-        val dependenciesRegisteredWidgets = getDependenciesRegisteredWidgets()
-        val classesWithAnnotation = getAllClassWithAnnotation(roundEnvironment)
-        return createFuncSpec(getFunctionName())
-            .addCode(getCodeFormatted(classesWithAnnotation + dependenciesRegisteredWidgets))
-            .addStatement(returnStatementInGenerate())
-            .build()
-    }
-
-    private fun getDependenciesRegisteredWidgets(): StringBuilder {
-        val test = 1
-        val registeredComponents = StringBuilder()
-        processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
-            val fullClassName = it.toString()
-            val cls = Class.forName(fullClassName)
-            val kotlinClass = cls.kotlin
-            (cls.getMethod("registeredComponents").invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { component ->
-                registeredComponents.append("\n\t${component.first}.${component.second}::class.java as Class<WidgetView>,")
-            }
-        }
-        return registeredComponents
-    }
-
-
     override fun createFuncSpec(name: String): FunSpec.Builder {
         val listReturnType = List::class.asClassName().parameterizedBy(
             Class::class.asClassName().parameterizedBy(
@@ -98,5 +76,10 @@ class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
 
     companion object {
         const val REGISTERED_WIDGETS = "registeredWidgets"
+    }
+
+    override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
+        // TODO: aqui tem código duplicado
+        return "\n\t${registeredDependency.second}::class.java as Class<WidgetView>,"
     }
 }

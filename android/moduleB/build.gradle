@@ -56,6 +56,7 @@ dependencies {
     kapt project(Dependencies.Modules.processor)
 
     api project(':moduleC')
+//    api "br.com.zup.beagle:modulec:1.0.0-automated"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.5.0'
@@ -66,9 +67,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
 
-//kapt {
-//    arguments {
-//        arg("beagle.moduleName", "ModuleA")
+kapt {
+    arguments {
+        arg("beagle.moduleName", "ModuleB")
 //        arg("beagle.hasInstance", "false")
-//    }
-//}
+    }
+}

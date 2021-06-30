@@ -79,9 +79,9 @@ dependencies {
     kapt project(Dependencies.Modules.processor)
 }
 
-//kapt {
-//    arguments {
-//        arg("beagle.moduleName", "sample")
+kapt {
+    arguments {
+        arg("beagle.moduleName", "sample")
 //        arg("beagle.hasInstance", "false")
-//    }
-//}
+    }
+}
