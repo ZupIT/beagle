@@ -19,7 +19,7 @@ import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 /// A web view widget for showing html content.
-class BeagleWebView extends StatelessWidget {
+class BeagleWebView extends StatefulWidget {
   /// Creates a new web view.
   const BeagleWebView({
     Key key,
@@ -30,13 +30,29 @@ class BeagleWebView extends StatelessWidget {
   final String url;
 
   @override
+  _BeagleWebView createState() => _BeagleWebView();
+}
+
+class _BeagleWebView extends State<BeagleWebView> {
+  WebViewController _controller;
+
+  @override
+  void didUpdateWidget(covariant BeagleWebView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.url != oldWidget.url) {
+      _controller.loadUrl(widget.url);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WebView(
-      initialUrl: url,
+      initialUrl: widget.url,
       javascriptMode: JavascriptMode.unrestricted,
       onWebResourceError: _handleError,
       onPageStarted: _handleLoading,
       onPageFinished: _handleSuccess,
+      onWebViewCreated: (WebViewController webViewController) => _controller = webViewController,
     );
   }
 
