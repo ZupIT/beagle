@@ -36,7 +36,7 @@ class BeagleServiceJS implements BeagleService {
     this.actions,
     this.strategy,
     this.navigationControllers,
-    this.customOperations,
+    this.operations,
   });
 
   @override
@@ -54,7 +54,7 @@ class BeagleServiceJS implements BeagleService {
   @override
   Map<String, NavigationController> navigationControllers;
   @override
-  Map<String, Operation> customOperations;
+  Map<String, Operation> operations;
 
   final BeagleJSEngine _beagleJSEngine;
 
@@ -82,7 +82,7 @@ class BeagleServiceJS implements BeagleService {
     final params = {
       'baseUrl': baseUrl,
       'actionKeys': actions.keys.toList(),
-      'customOperations': customOperations.keys.toList(),
+      'customOperations': operations.keys.toList(),
       'useBeagleHeaders': useBeagleHeaders,
       'strategy': NetworkStrategyUtils.getJsStrategyName(strategy),
     };
@@ -103,7 +103,7 @@ class BeagleServiceJS implements BeagleService {
 
   void _registerOperationListener() {
     _beagleJSEngine.onOperation((operationName, params) {
-      final handler = customOperations[operationName];
+      final handler = operations[operationName];
       if (handler == null) {
         return;
       }

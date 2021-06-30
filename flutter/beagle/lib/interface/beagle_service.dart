@@ -77,7 +77,7 @@ abstract class BeagleService {
    * it also must contain at least one letter or _.
    * Note: If you create custom operations using the same name of a default from Beagle, the default will be overwritten by the custom one
    */
-  Map<String, Operation> customOperations;
+  Map<String, Operation> operations;
 
   // todo:
   /*Analytics analytics;
