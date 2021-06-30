@@ -82,7 +82,7 @@ class BeagleServiceJS implements BeagleService {
     final params = {
       'baseUrl': baseUrl,
       'actionKeys': actions.keys.toList(),
-      'operations': operations.keys.toList(),
+      'customOperations': operations.keys.toList(),
       'useBeagleHeaders': useBeagleHeaders,
       'strategy': NetworkStrategyUtils.getJsStrategyName(strategy),
     };
