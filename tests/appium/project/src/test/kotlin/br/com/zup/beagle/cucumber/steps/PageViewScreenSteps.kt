@@ -30,23 +30,47 @@ class PageViewScreenSteps : AbstractStep() {
 
     override var bffRelativeUrlPath = "/pageview"
 
-    @Before("@pageview")
+    @Before("@pageView")
     fun setup() {
         loadBffScreen()
     }
 
-    @Given("^that I'm on the pageview screen$")
-    fun checkTabViewScreen() {
+    @Given("^that I'm on the PageView screen$")
+    fun checkPageViewScreen() {
         waitForElementWithTextToBeClickable(pageViewScreenHeader)
     }
 
-    @Then("^my pageview components should render their respective pages attributes correctly$")
-    fun checkTabViewRendersTabs() {
+    @Then("^my PageView components should render their respective pages attributes correctly when swiping left$")
+    fun checkPageViewRendersTabs() {
+
+        /**
+         * Swipe screen sometimes fail due to the screen not being completely loaded, so there are some sleeps below
+         */
+        sleep(400)
+
+        // state 1: shows only page1Text and Context0
+        waitForElementWithTextToBeInvisible(page2Text)
+        waitForElementWithTextToBeInvisible(page3Text)
         waitForElementWithTextToBeClickable(page1Text)
+        waitForElementWithTextToBeClickable("Context0")
+
+        sleep(300)
         swipeLeft()
+
+        // state 2: shows only page2Text and Context1
+        waitForElementWithTextToBeInvisible(page1Text)
+        waitForElementWithTextToBeInvisible(page3Text)
         waitForElementWithTextToBeClickable(page2Text)
+        waitForElementWithTextToBeClickable("Context1")
+
+        sleep(300)
         swipeLeft()
+
+        // state 3: shows only page3Text and Context2
+        waitForElementWithTextToBeInvisible(page1Text)
+        waitForElementWithTextToBeInvisible(page2Text)
         waitForElementWithTextToBeClickable(page3Text)
+        waitForElementWithTextToBeClickable("Context2")
     }
 
 }

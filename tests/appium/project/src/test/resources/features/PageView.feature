@@ -14,14 +14,19 @@
 # limitations under the License.
 #
 
-@pageview @android @ios
+@pageView @android @ios
 Feature: PageView Component Validation
 
     As a Beagle developer/user
     I'd like to make sure my pageView component works as expected
 
     Background:
-        Given that I'm on the pageview screen
+        Given that I'm on the PageView screen
 
-    Scenario: PageView 01 - PageView component renders text attribute correctly
-        Then my pageview components should render their respective pages attributes correctly
+    Scenario: PageView 01 - PageView component renders text attribute correctly by screen swiping
+        Then my PageView components should render their respective pages attributes correctly when swiping left
+
+    Scenario: PageView 02 - PageView component renders text attribute correctly by context
+        When I click on button Click to go to page three
+        Then the screen should show an element with the title Page 3
+        And the screen should show an element with the title Context2
