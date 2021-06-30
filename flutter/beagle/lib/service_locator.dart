@@ -46,7 +46,7 @@ void setupServiceLocator({
   BeagleDesignSystem designSystem,
   BeagleImageDownloader imageDownloader,
   BeagleLogger logger,
-  Map<String, Operation> customOperations,
+  Map<String, Operation> operations,
 }) {
   beagleServiceLocator
     ..registerSingleton<JavascriptRuntimeWrapper>(
@@ -69,7 +69,7 @@ void setupServiceLocator({
         actions: actions,
         strategy: strategy,
         navigationControllers: navigationControllers,
-        customOperations: customOperations,
+        operations: operations,
       );
 
       await configService.start();

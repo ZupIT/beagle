@@ -52,7 +52,7 @@ void main() {
           isDefault: true, loadingComponent: 'custom:loading'),
     },
     designSystem: AppDesignSystem(),
-    customOperations: {},
+    operations: {},
   );
 
   runApp(const MaterialApp(home: BeagleSampleApp()));

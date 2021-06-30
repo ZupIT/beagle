@@ -58,7 +58,7 @@ class BeagleSdk {
 
     /// [BeagleLogger] interface that provides logger to beagle use in application.
     BeagleLogger logger,
-    Map<String, Operation> customOperations,
+    Map<String, Operation> operations,
   }) {
     httpClient = httpClient ?? const DefaultHttpClient();
     actions = actions == null ? defaultActions : { ...defaultActions, ...actions };
@@ -83,7 +83,7 @@ class BeagleSdk {
       imageDownloader: imageDownloader ?? DefaultBeagleImageDownloader(httpClient: httpClient),
       strategy: strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache,
       logger: logger ?? DefaultEmptyLogger(),
-      customOperations: customOperations,
+      operations: operations,
     );
   }
 }
