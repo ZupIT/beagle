@@ -38,25 +38,25 @@ class AddChildrenScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the addChildren Screen$")
     fun checkImageScreen() {
-        waitForElementWithTextToBeClickable(addChildrenHeader, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(addChildrenHeader)
     }
 
     @Then("^A text needs to be added after the already existing one$")
     fun checkTextAddedAfterTheExistedOrder() {
         waitForFixedAndAddedTexts()
-        Assert.assertTrue(isElementAbove(fixedText, addedText, likeSearch = false, ignoreCase = false))
+        Assert.assertTrue(isElementAbove(fixedText, addedText))
     }
 
     @Then("^A text needs to be added before the already existing one$")
     fun checkTextAddedBeforeTheExistedOrder() {
         waitForFixedAndAddedTexts()
-        Assert.assertTrue(isElementAbove(addedText, fixedText, likeSearch = false, ignoreCase = false))
+        Assert.assertTrue(isElementAbove(addedText, fixedText))
     }
 
     @Then("^A text needs to replace the already existing one$")
     fun checkTextReplaceTheExistedOne() {
         waitForAddedText()
-        waitForElementWithTextToBeInvisible(fixedText, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeInvisible(fixedText)
     }
 
     @Then("^Nothing should happen when clicking in the following buttons and the component doesn't exist:$")
@@ -67,10 +67,10 @@ class AddChildrenScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var buttonTitle = columns[0]!!
+            val buttonTitle = columns[0]!!
             safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle, likeSearch = false, ignoreCase = true))
             waitForFixedText()
-            waitForElementWithTextToBeInvisible(addedText, likeSearch = false, ignoreCase = false)
+            waitForElementWithTextToBeInvisible(addedText)
         }
     }
 
@@ -80,10 +80,10 @@ class AddChildrenScreenSteps : AbstractStep() {
     }
 
     private fun waitForFixedText() {
-        waitForElementWithTextToBeClickable(fixedText, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(fixedText)
     }
 
     private fun waitForAddedText() {
-        waitForElementWithTextToBeClickable(addedText, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(addedText)
     }
 }

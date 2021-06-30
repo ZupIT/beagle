@@ -33,7 +33,7 @@ class TextInputScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the textInput on screen$")
     fun checkBaseScreen() {
-        waitForElementWithValueToBeClickable("Beagle Text Input", likeSearch = false, ignoreCase = false)
+        waitForElementWithValueToBeClickable("Beagle Text Input")
     }
 
     @Then("^validate place holders and visibility:$")
@@ -44,14 +44,14 @@ class TextInputScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var placeHolder = columns[0]!!
-            var isVisible = columns[1]!!.toString().toBoolean()
-            var isEnabled = columns[2]!!.toString().toBoolean()
+            val placeHolder = columns[0]!!
+            val isVisible = columns[1]!!.toString().toBoolean()
+            val isEnabled = columns[2]!!.toString().toBoolean()
 
             if (!isVisible) {
-                waitForElementWithValueToBeInvisible(placeHolder, likeSearch = false, ignoreCase = true)
+                waitForElementWithValueToBeInvisible(placeHolder, ignoreCase = true)
             } else {
-                val element = waitForElementWithValueToBePresent(placeHolder, likeSearch = false, ignoreCase = true)
+                val element = waitForElementWithValueToBePresent(placeHolder, ignoreCase = true)
                 Assert.assertEquals(element.isEnabled, isEnabled)
             }
         }
@@ -65,18 +65,12 @@ class TextInputScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var placeHolder = columns[0]!!
-            var validationAction = columns[1]!!
+            val placeHolder = columns[0]!!
 
-            when (validationAction) {
+            when (val validationAction = columns[1]!!) {
                 "place holder keeps showing after click" -> {
 
-                    val element = waitForElementWithValueToBeClickable(
-                        placeHolder,
-                        likeSearch = false,
-                        ignoreCase = false,
-                        nativeLocator = false
-                    )
+                    val element = waitForElementWithValueToBeClickable(placeHolder, nativeLocator = false)
                     element.sendKeys("randomValue")
                     Assert.assertFalse(placeHolder == element.text)
                     element.clear()
@@ -84,50 +78,52 @@ class TextInputScreenSteps : AbstractStep() {
 
                 }
                 "validate typed text" -> {
-                    if (placeHolder.contains("writing date")) {
+                    when {
+                        placeHolder.contains("writing date") -> {
 
-                        val mobileElement = waitForElementWithValueToBeClickable(
-                            placeHolder,
-                            likeSearch = false,
-                            ignoreCase = false,
-                            nativeLocator = false
-                        )
-                        mobileElement.sendKeys("22/04/1500")
-                        waitForElementWithValueToBeClickable("22/04/1500", likeSearch = false, ignoreCase = false)
+                            val mobileElement = waitForElementWithValueToBeClickable(placeHolder, nativeLocator = false)
+                            mobileElement.sendKeys("22/04/1500")
+                            waitForElementWithValueToBeClickable("22/04/1500")
 
-                    } else if (placeHolder.contains("writing e-mail")) {
+                        }
+                        placeHolder.contains("writing e-mail") -> {
 
-                        val element = scrollUpToElementWithValue(placeHolder, likeSearch = false, ignoreCase = false)
-                        element.sendKeys("test@abc.com")
-                        waitForElementWithValueToBeClickable("test@abc.com", likeSearch = false, ignoreCase = false)
+                            val element = scrollUpToElementWithValue(placeHolder)
+                            element.sendKeys("test@abc.com")
+                            waitForElementWithValueToBeClickable("test@abc.com")
 
-                    } else if (placeHolder.contains("writing password")) {
+                        }
+                        placeHolder.contains("writing password") -> {
 
-                        val element = scrollDownToElementWithValue(placeHolder, likeSearch = false, ignoreCase = false)
-                        element.sendKeys("1234")
-                        Assert.assertTrue("1234" != element.text) // validates text is in password format
-                        Assert.assertTrue(element.text.length == 4)
-                        Assert.assertTrue(placeHolder != element.text)
+                            val element = scrollDownToElementWithValue(placeHolder)
+                            element.sendKeys("1234")
+                            Assert.assertTrue("1234" != element.text) // validates text is in password format
+                            Assert.assertTrue(element.text.length == 4)
+                            Assert.assertTrue(placeHolder != element.text)
 
-                    } else if (placeHolder.contains("writing number")) {
+                        }
+                        placeHolder.contains("writing number") -> {
 
-                        val element = scrollDownToElementWithValue(placeHolder, likeSearch = false, ignoreCase = false)
-                        element.sendKeys("12345678")
-                        waitForElementWithValueToBeClickable("12345678", likeSearch = false, ignoreCase = false)
+                            val element = scrollDownToElementWithValue(placeHolder)
+                            element.sendKeys("12345678")
+                            waitForElementWithValueToBeClickable("12345678")
 
-                    } else if (placeHolder.contains("writing text")) {
+                        }
+                        placeHolder.contains("writing text") -> {
 
-                        val element = scrollDownToElementWithValue(placeHolder, likeSearch = false, ignoreCase = false)
-                        element.sendKeys("This is a test!")
-                        waitForElementWithValueToBeClickable("This is a test!", likeSearch = false, ignoreCase = false)
+                            val element = scrollDownToElementWithValue(placeHolder)
+                            element.sendKeys("This is a test!")
+                            waitForElementWithValueToBeClickable("This is a test!")
 
-                    } else {
-                        throw Exception("Wrong place holder: $placeHolder")
+                        }
+                        else -> {
+                            throw Exception("Wrong place holder: $placeHolder")
+                        }
                     }
                 }
                 "validate is number only textInput" -> {
 
-                    scrollDownToElementWithValue(placeHolder, likeSearch = false, ignoreCase = false)
+                    scrollDownToElementWithValue(placeHolder)
                     Assert.assertTrue(isTextFieldNumeric(placeHolder))
 
                 }
@@ -144,13 +140,11 @@ class TextInputScreenSteps : AbstractStep() {
         swipeUp()
 
         val actionValidationTextInputElement = waitForElementWithValueToBeClickable(
-            "action validation",
-            likeSearch = false, ignoreCase = false, nativeLocator = false
+            "action validation", nativeLocator = false
         )
 
         val unorderedActionsTextInputElement = waitForElementWithValueToBePresent(
-            "Unordered actions",
-            likeSearch = false, ignoreCase = false, nativeLocator = false
+            "Unordered actions", nativeLocator = false
         )
 
         val rows = dataTable.asLists()
@@ -159,9 +153,7 @@ class TextInputScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var event = columns[0]!!
-
-            when (event) {
+            when (val event = columns[0]!!) {
                 "DidOnFocus" -> {
                     safeClickOnElement(actionValidationTextInputElement)
                     Assert.assertEquals(event, unorderedActionsTextInputElement.text)
@@ -172,26 +164,13 @@ class TextInputScreenSteps : AbstractStep() {
                     actionValidationTextInputElement.sendKeys("anyText")
                     Assert.assertEquals(event, unorderedActionsTextInputElement.text)
                     hideKeyboard()
-                    //actionValidationTextInputElement.clear()
                 }
                 "DidOnBlur" -> {
                     safeClickOnElement(actionValidationTextInputElement)
-                    safeClickOnElement(
-                        waitForElementWithValueToBeClickable(
-                            "is textInput type number",
-                            ignoreCase = false,
-                            likeSearch = false
-                        )
-                    )
+                    safeClickOnElement(waitForElementWithValueToBeClickable("is textInput type number"))
                     Assert.assertEquals(event, unorderedActionsTextInputElement.text)
                     if (SuiteSetup.isIos()) {
-                        safeClickOnElement(
-                            waitForElementWithTextToBeClickable(
-                                "Done",
-                                ignoreCase = false,
-                                likeSearch = false
-                            )
-                        )
+                        safeClickOnElement(waitForElementWithTextToBeClickable("Done"))
                     } else {
                         hideKeyboard()
                     }
@@ -201,31 +180,19 @@ class TextInputScreenSteps : AbstractStep() {
                 "DidOnFocusDidOnChangeDidOnBlur" -> {
 
                     // validate the actions of the textInput when they're executed in sequence
-                    val orderedActionsElement = waitForElementWithValueToBePresent(
-                        "Ordered actions",
-                        ignoreCase = false,
-                        likeSearch = false,
-                        nativeLocator = false
-                    )
+                    val orderedActionsElement =
+                        waitForElementWithValueToBePresent("Ordered actions", nativeLocator = false)
                     val actionOrderElement =
-                        waitForElementWithValueToBeClickable("action order", ignoreCase = false, likeSearch = false)
+                        waitForElementWithValueToBeClickable("action order")
                     safeClickOnElement(actionOrderElement)
                     actionOrderElement.sendKeys("anyText")
-                    safeClickOnElement(
-                        waitForElementWithValueToBeClickable(
-                            "is textInput type number",
-                            ignoreCase = false,
-                            likeSearch = false
-                        )
-                    )
+                    safeClickOnElement(waitForElementWithValueToBeClickable("is textInput type number"))
                     Assert.assertEquals(event, orderedActionsElement.text)
                 }
                 else -> {
                     throw Exception("Wrong event: $event")
                 }
             }
-
-
         }
     }
 }

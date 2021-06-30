@@ -37,16 +37,16 @@ class PageViewScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the pageview screen$")
     fun checkTabViewScreen() {
-        waitForElementWithTextToBeClickable(pageViewScreenHeader, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(pageViewScreenHeader)
     }
 
     @Then("^my pageview components should render their respective pages attributes correctly$")
     fun checkTabViewRendersTabs() {
-        waitForElementWithTextToBeClickable(page1Text, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(page1Text)
         swipeLeft()
-        waitForElementWithTextToBeClickable(page2Text, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(page2Text)
         swipeLeft()
-        waitForElementWithTextToBeClickable(page3Text, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(page3Text)
     }
 
 }

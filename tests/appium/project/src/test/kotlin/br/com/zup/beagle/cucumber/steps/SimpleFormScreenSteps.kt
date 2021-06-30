@@ -29,6 +29,6 @@ class SimpleFormScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the simple form screen$")
     fun checkBaseScreen() {
-        waitForElementWithValueToBeClickable("SimpleForm", likeSearch = false, ignoreCase = false)
+        waitForElementWithValueToBeClickable("SimpleForm")
     }
 }

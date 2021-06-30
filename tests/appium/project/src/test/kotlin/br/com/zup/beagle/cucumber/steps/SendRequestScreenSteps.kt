@@ -31,7 +31,7 @@ class SendRequestScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the send request screen url$")
     fun checkTitleScreen() {
-        waitForElementWithTextToBeClickable("Send Request Screen", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("Send Request Screen")
     }
 
     @Then("^validate the invoked buttons and its sendRequest actions:$")
@@ -42,18 +42,18 @@ class SendRequestScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var buttonTitle = columns[0]!!
-            var alertTitle: String? = columns[1]
+            val buttonTitle = columns[0]!!
+            val alertTitle: String? = columns[1]
 
-            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle, likeSearch = false, ignoreCase = false))
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle))
 
             if (buttonTitle == "onFinish with success" || buttonTitle == "onFinish with error") {
-                waitForElementWithTextToBeInvisible(buttonTitle, likeSearch = false, ignoreCase = false)
-                waitForElementWithTextToBeClickable("didFinish", likeSearch = false, ignoreCase = false)
+                waitForElementWithTextToBeInvisible(buttonTitle)
+                waitForElementWithTextToBeClickable("didFinish")
             } else {
-                waitForElementWithTextToBeClickable(alertTitle!!, likeSearch = false, ignoreCase = false)
-                safeClickOnElement(waitForElementWithTextToBeClickable("OK", likeSearch = false, ignoreCase = true))
-                waitForElementWithTextToBeInvisible(alertTitle!!, likeSearch = false, ignoreCase = false)
+                waitForElementWithTextToBeClickable(alertTitle!!)
+                safeClickOnElement(waitForElementWithTextToBeClickable("OK", ignoreCase = true))
+                waitForElementWithTextToBeInvisible(alertTitle)
             }
         }
     }

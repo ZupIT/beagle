@@ -34,7 +34,7 @@ class NavigateScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the navigation screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("Navigation Screen", false, false)
+        waitForElementWithTextToBeClickable("Navigation Screen")
     }
 
     @Then("^validate PushStack and PushView screen titles:$")
@@ -45,22 +45,15 @@ class NavigateScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var button1Title = columns[0]!!
-            var newScreenTitle = columns[1]!!
+            val button1Title = columns[0]!!
+            val newScreenTitle = columns[1]!!
 
-            safeClickOnElement(
-                waitForElementWithTextToBeClickable(
-                    button1Title,
-                    likeSearch = false,
-                    ignoreCase = false
-                )
-            )
-
-            waitForElementWithTextToBeClickable(newScreenTitle, likeSearch = false, ignoreCase = true)
+            safeClickOnElement(waitForElementWithTextToBeClickable(button1Title))
+            waitForElementWithTextToBeClickable(newScreenTitle, ignoreCase = true)
 
             // goes back to the main screen
-            safeClickOnElement(waitForElementWithTextToBeClickable("PopView", likeSearch = false, ignoreCase = false))
-            waitForElementWithTextToBeClickable(button1Title, likeSearch = false, ignoreCase = false)
+            safeClickOnElement(waitForElementWithTextToBeClickable("PopView"))
+            waitForElementWithTextToBeClickable(button1Title)
 
         }
 
@@ -76,41 +69,29 @@ class NavigateScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var button1Title = columns[0]!!
-            var button2Title = columns[1]!!
-            var iosAction = columns[2]!!
-            var androidAction = columns[3]!!
+            val button1Title = columns[0]!!
+            val button2Title = columns[1]!!
+            val iosAction = columns[2]!!
+            val androidAction = columns[3]!!
 
-            safeClickOnElement(
-                waitForElementWithTextToBeClickable(
-                    button1Title,
-                    likeSearch = false,
-                    ignoreCase = false
-                )
-            )
-            safeClickOnElement(
-                waitForElementWithTextToBeClickable(
-                    button2Title,
-                    likeSearch = false,
-                    ignoreCase = false
-                )
-            )
+            safeClickOnElement(waitForElementWithTextToBeClickable(button1Title))
+            safeClickOnElement(waitForElementWithTextToBeClickable(button2Title))
 
             if (SuiteSetup.isIos()) {
                 // iOS screen transition animation
                 when (iosAction) {
                     "no action" -> {
-                        waitForElementWithTextToBeClickable(button2Title, likeSearch = false, ignoreCase = false)
+                        waitForElementWithTextToBeClickable(button2Title)
 
                         // goes back to the main screen
-                        waitForElementWithTextToBeClickable("PopView", likeSearch = false, ignoreCase = false).click()
-                        waitForElementWithTextToBeClickable(button1Title, likeSearch = false, ignoreCase = false)
+                        waitForElementWithTextToBeClickable("PopView").click()
+                        waitForElementWithTextToBeClickable(button1Title)
                     }
                     "goes back to main screen" -> {
-                        waitForElementWithTextToBeClickable(button1Title, likeSearch = false, ignoreCase = false)
+                        waitForElementWithTextToBeClickable(button1Title)
                     }
                     "opens a closable screen" -> {
-                        waitForElementWithTextToBeClickable(actionScreenTitle, likeSearch = false, ignoreCase = false)
+                        waitForElementWithTextToBeClickable(actionScreenTitle)
                         swipeDown()
 
                         /**
@@ -118,31 +99,23 @@ class NavigateScreenSteps : AbstractStep() {
                          * only on iOS
                          */
                         try {
-                            waitForElementWithTextToBeInvisible(
-                                actionScreenTitle,
-                                likeSearch = false,
-                                ignoreCase = false
-                            )
+                            waitForElementWithTextToBeInvisible(actionScreenTitle)
                         } catch (e: Exception) {
                             println("Failed to close the screen invoked by $button1Title / $button2Title. Trying once more...")
                             swipeDown()
-                            waitForElementWithTextToBeInvisible(
-                                actionScreenTitle,
-                                likeSearch = false,
-                                ignoreCase = false
-                            )
+                            waitForElementWithTextToBeInvisible(actionScreenTitle)
                             println("Success!")
                         }
 
                         checkIsInMainPage()
                     }
                     "opens a non-closable screen" -> {
-                        waitForElementWithTextToBeClickable(actionScreenTitle, likeSearch = false, ignoreCase = false)
+                        waitForElementWithTextToBeClickable(actionScreenTitle)
                         swipeDown() // tries to close the screen
                         sleep(400) // swipe animation
 
                         // confirm the screen is still showing and restarts the app
-                        waitForElementWithTextToBeClickable(actionScreenTitle, likeSearch = false, ignoreCase = false)
+                        waitForElementWithTextToBeClickable(actionScreenTitle)
                         SuiteSetup.restartApp()
                         loadBffScreen()
                     }
@@ -153,21 +126,21 @@ class NavigateScreenSteps : AbstractStep() {
             } else {
                 when (androidAction) {
                     "no action" -> {
-                        waitForElementWithTextToBeClickable(button2Title, likeSearch = false, ignoreCase = false)
+                        waitForElementWithTextToBeClickable(button2Title)
 
                         // goes back to the main screen
                         goBack()
                     }
                     "goes back to main screen" -> {
-                        waitForElementWithTextToBeClickable(button1Title, likeSearch = false, ignoreCase = false)
+                        waitForElementWithTextToBeClickable(button1Title)
                     }
                     "opens a closable screen" -> {
-                        waitForElementWithTextToBeClickable(actionScreenTitle, likeSearch = false, ignoreCase = false)
+                        waitForElementWithTextToBeClickable(actionScreenTitle)
                         goBack()
                         checkIsInMainPage()
                     }
                     "opens a non-closable screen" -> {
-                        waitForElementWithTextToBeClickable(actionScreenTitle, likeSearch = false, ignoreCase = false)
+                        waitForElementWithTextToBeClickable(actionScreenTitle)
                         goBack() // closes the app in this case
 
                         // opens the app
@@ -198,24 +171,18 @@ class NavigateScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var mainButtonTitle = columns[0]!!
-            var newScreenIosButtonTitle = columns[1]!!
-            var newScreenAndroidButtonTitle = columns[2]!!
+            val mainButtonTitle = columns[0]!!
+            val newScreenIosButtonTitle = columns[1]!!
+            val newScreenAndroidButtonTitle = columns[2]!!
 
-            safeClickOnElement(
-                waitForElementWithTextToBeClickable(
-                    mainButtonTitle,
-                    likeSearch = false,
-                    ignoreCase = false
-                )
-            )
+            safeClickOnElement(waitForElementWithTextToBeClickable(mainButtonTitle))
 
             if (SuiteSetup.isIos()) {
-                waitForElementWithTextToBeClickable(newScreenIosButtonTitle, likeSearch = false, ignoreCase = false)
-                safeClickOnElement(waitForElementWithTextToBeClickable("Close", likeSearch = false, ignoreCase = false))
+                waitForElementWithTextToBeClickable(newScreenIosButtonTitle)
+                safeClickOnElement(waitForElementWithTextToBeClickable("Close"))
             } else {
 
-                waitForElementWithTextToBeClickable(newScreenAndroidButtonTitle, likeSearch = false, ignoreCase = false)
+                waitForElementWithTextToBeClickable(newScreenAndroidButtonTitle)
                 goBack()
 
                 if (mainButtonTitle == "ResetStackOtherSDAFailsToShowButton" ||
@@ -236,35 +203,15 @@ class NavigateScreenSteps : AbstractStep() {
     }
 
     private fun checkIsInMainPage() {
-        waitForElementWithTextToBeClickable("PushStackRemote", likeSearch = false, ignoreCase = false)
-        waitForElementWithTextToBeClickable("PushViewRemote", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("PushStackRemote")
+        waitForElementWithTextToBeClickable("PushViewRemote")
     }
 
     private fun checkAppIsClosed() {
-        waitForElementWithTextToBeInvisible(
-            "PushStackRemote",
-            likeSearch = false,
-            ignoreCase = false
-        )
-        waitForElementWithTextToBeInvisible(
-            "PopToViewInvalidRoute",
-            likeSearch = false,
-            ignoreCase = false
-        )
-        waitForElementWithTextToBeInvisible(
-            "Reset Screen",
-            likeSearch = false,
-            ignoreCase = false
-        )
-        waitForElementWithTextToBeInvisible(
-            "Try again",
-            likeSearch = false,
-            ignoreCase = true
-        )
-        waitForElementWithTextToBeInvisible(
-            "Retry",
-            likeSearch = false,
-            ignoreCase = true
-        )
+        waitForElementWithTextToBeInvisible("PushStackRemote")
+        waitForElementWithTextToBeInvisible("PopToViewInvalidRoute")
+        waitForElementWithTextToBeInvisible("Reset Screen")
+        waitForElementWithTextToBeInvisible("Try again")
+        waitForElementWithTextToBeInvisible("Retry", ignoreCase = true)
     }
 }

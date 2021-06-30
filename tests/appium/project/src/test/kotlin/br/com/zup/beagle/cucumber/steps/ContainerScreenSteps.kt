@@ -30,6 +30,6 @@ class ContainerScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the container screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("Container Screen", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("Container Screen")
     }
 }

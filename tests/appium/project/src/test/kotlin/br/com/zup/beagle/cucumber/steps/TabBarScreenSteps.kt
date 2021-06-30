@@ -31,30 +31,30 @@ class TabBarScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the tabBar screen$")
     fun checkTabBarScreen() {
-        waitForElementWithTextToBeClickable("TabBar Screen", likeSearch = false, ignoreCase = true)
+        waitForElementWithTextToBeClickable("TabBar Screen", ignoreCase = true)
     }
 
     @Then("^the tab position should have its text changed to (.*)$")
     fun checksSetContextResult(text: String) {
-        waitForElementWithTextToBeClickable(text, likeSearch = false, ignoreCase = true)
+        waitForElementWithTextToBeClickable(text, ignoreCase = true)
     }
 
     @Then("^I click on each tabBarItem and confirm its position$")
     fun validateTabBarItems() {
         for (i in 1..10) {
-            waitForElementWithTextToBeClickable("Tab$i", likeSearch = false, ignoreCase = true).click()
-            waitForElementWithTextToBeClickable("Tab position " + (i - 1), likeSearch = false, ignoreCase = true)
+            waitForElementWithTextToBeClickable("Tab$i", ignoreCase = true).click()
+            waitForElementWithTextToBeClickable("Tab position " + (i - 1), ignoreCase = true)
         }
     }
 
     @Then("^I validate the buttons that trigger tabBars$")
     fun validateTabBarButtons() {
-        waitForElementWithTextToBeClickable("Select tab 4 hardcoded", likeSearch = false, ignoreCase = false).click()
-        waitForElementWithTextToBeClickable("Tab position 3", likeSearch = false, ignoreCase = true)
+        waitForElementWithTextToBeClickable("Select tab 4 hardcoded").click()
+        waitForElementWithTextToBeClickable("Tab position 3", ignoreCase = true)
 
-        waitForElementWithTextToBeClickable("Select tab 9 expression", likeSearch = false, ignoreCase = false).click()
-        waitForElementWithTextToBeInvisible("Tab position 3", likeSearch = false, ignoreCase = true)
-        waitForElementWithTextToBeClickable("Tab position 8", likeSearch = false, ignoreCase = true)
+        waitForElementWithTextToBeClickable("Select tab 9 expression").click()
+        waitForElementWithTextToBeInvisible("Tab position 3", ignoreCase = true)
+        waitForElementWithTextToBeClickable("Tab position 8", ignoreCase = true)
     }
 
 }

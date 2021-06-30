@@ -30,11 +30,11 @@ class ActionNotRegisteredScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the ActionNotRegistered Screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("ActionNotRegistered Screen", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("ActionNotRegistered Screen")
     }
 
     @Then("^nothing happens and the (.*) should still be visible$")
     fun checkScreenExists(string: String) {
-        waitForElementWithTextToBeClickable(string, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(string)
     }
 }

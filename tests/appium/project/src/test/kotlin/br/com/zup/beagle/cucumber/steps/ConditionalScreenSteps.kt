@@ -31,7 +31,7 @@ class ConditionalScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the conditional screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("Conditional Screen", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("Conditional Screen")
     }
 
     @Then("^validate the invoked alerts and its message:$")
@@ -42,13 +42,13 @@ class ConditionalScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var buttonTitle = columns[0]!!
-            var alertMessage = columns[1]!!
+            val buttonTitle = columns[0]!!
+            val alertMessage = columns[1]!!
 
-            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle, likeSearch = false, ignoreCase = false))
-            waitForElementWithTextToBeClickable(alertMessage, likeSearch = false, ignoreCase = false)
-            safeClickOnElement(waitForElementWithTextToBeClickable("OK", likeSearch = false, ignoreCase = true))
-            waitForElementWithTextToBeInvisible("OK", likeSearch = false, ignoreCase = true)
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle))
+            waitForElementWithTextToBeClickable(alertMessage)
+            safeClickOnElement(waitForElementWithTextToBeClickable("OK", ignoreCase = true))
+            waitForElementWithTextToBeInvisible("OK", ignoreCase = true)
         }
     }
 }

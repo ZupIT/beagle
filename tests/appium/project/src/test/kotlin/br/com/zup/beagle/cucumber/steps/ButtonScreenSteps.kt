@@ -36,7 +36,7 @@ class ButtonScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the button screen$")
     fun checkButtonScreen() {
-        waitForElementWithTextToBeClickable(buttonScreenHeader, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(buttonScreenHeader)
     }
 
     @Then("^validate button clicks:$")
@@ -47,17 +47,17 @@ class ButtonScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var buttonTitle = columns[0]!!
-            var actionText = columns[1]!!
-            var buttonElement = waitForElementWithTextToBePresent(buttonTitle, likeSearch = false, ignoreCase = true)
+            val buttonTitle = columns[0]!!
+            val actionText = columns[1]!!
+            val buttonElement = waitForElementWithTextToBePresent(buttonTitle, likeSearch = false, ignoreCase = true)
 
             if (actionText == "Disabled") {
                 Assert.assertFalse(buttonElement.isEnabled)
             } else {
                 safeClickOnElement(buttonElement)
-                waitForElementWithTextToBeClickable(actionClickText, likeSearch = false, ignoreCase = false)
+                waitForElementWithTextToBeClickable(actionClickText)
                 goBack()
-                waitForElementWithTextToBeInvisible(actionClickText, likeSearch = false, ignoreCase = false)
+                waitForElementWithTextToBeInvisible(actionClickText)
             }
         }
     }

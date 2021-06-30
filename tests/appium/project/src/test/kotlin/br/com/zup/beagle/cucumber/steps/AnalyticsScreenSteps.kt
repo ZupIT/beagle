@@ -55,28 +55,28 @@ class AnalyticsScreenSteps : AbstractStep() {
     fun checkBaseScreen(url: String) {
         bffRelativeUrlPath = url
         loadBffScreen()
-        waitForElementWithTextToBeClickable("Analytics 2.0", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("Analytics 2.0")
     }
 
     @Then("^an alert dialog should appear on the screen$")
     fun checkAlertDialog() {
-        waitForElementWithTextToBeClickable("AlertMessage", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("AlertMessage")
     }
 
     @Then("^a confirm dialog should appear on the screen$")
     fun checkConfirmDialog() {
-        waitForElementWithTextToBeClickable("Confirm Message", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("Confirm Message")
     }
 
     @Then("^no analytics record should be created$")
     fun checkNoAnalyticsGenerated() {
-        waitForElementWithTextToBeClickable("Analytics 2.0 native", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("Analytics 2.0 native")
         waitForElementWithTextToBeInvisible("type", likeSearch = true, ignoreCase = false)
     }
 
     @Then("^an analytics record should be created for (.*)$")
     fun checkAnalyticsGenerated(string: String) {
-        waitForElementWithTextToBeClickable("Analytics 2.0 native", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("Analytics 2.0 native")
         val text = waitForElementWithTextToBeClickable("platform", likeSearch = true, ignoreCase = false).text
 
         val analytics = recordHashMap[string]

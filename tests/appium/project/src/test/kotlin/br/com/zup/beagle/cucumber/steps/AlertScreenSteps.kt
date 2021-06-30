@@ -33,7 +33,7 @@ class AlertScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the alert screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("Alert Screen", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("Alert Screen")
     }
 
 
@@ -45,17 +45,17 @@ class AlertScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var buttonTitle = columns[0]!!
-            var alertTitle = columns[1]!!
-            var alertMessage: String? = columns[2]
-            var alertButtonTitle = columns[3]!!
+            val buttonTitle = columns[0]!!
+            val alertTitle = columns[1]!!
+            val alertMessage: String? = columns[2]
+            val alertButtonTitle = columns[3]!!
 
-            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle, likeSearch = false, ignoreCase = false))
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle))
 
             // checks if the alert appeared on screen with the correct properties
-            waitForElementWithTextToBeClickable(alertTitle, likeSearch = false, ignoreCase = false)
+            waitForElementWithTextToBeClickable(alertTitle)
             if (alertMessage != null && alertMessage.trim().isNotEmpty()) {
-                waitForElementWithTextToBeClickable(alertMessage, likeSearch = false, ignoreCase = false)
+                waitForElementWithTextToBeClickable(alertMessage)
             }
 
             // checks if clicking on the alert button closes it
@@ -66,7 +66,7 @@ class AlertScreenSteps : AbstractStep() {
                     ignoreCase = true
                 )
             )
-            waitForElementWithTextToBeInvisible(alertTitle, likeSearch = false, ignoreCase = false)
+            waitForElementWithTextToBeInvisible(alertTitle)
         }
     }
 

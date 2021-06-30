@@ -31,7 +31,7 @@ class ConfirmScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the confirm screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("Confirm Screen", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("Confirm Screen")
     }
 
     @Then("^validate the invoked alerts and its confirm properties:$")
@@ -44,54 +44,40 @@ class ConfirmScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var buttonTitle = columns[0]!!
-            var alertContents = columns[1]!!.split(";")
-            var secondAlertTittle: String? = columns[2]
+            val buttonTitle = columns[0]!!
+            val alertContents = columns[1]!!.split(";")
+            val secondAlertTittle: String? = columns[2]
 
-            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle, likeSearch = false, ignoreCase = false))
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle))
 
             // checks if the alert appeared on screen with the correct properties
             for (alertContent in alertContents) {
-                waitForElementWithTextToBeClickable(alertContent, likeSearch = false, ignoreCase = true)
+                waitForElementWithTextToBeClickable(alertContent, ignoreCase = true)
             }
 
-            if (buttonTitle == "TriggersAnActionWhenConfirmed") {
-                waitForElementWithTextToBeClickable("ConfirmMessage", likeSearch = false, ignoreCase = true)
-                safeClickOnElement(waitForElementWithTextToBeClickable(okButton, likeSearch = false, ignoreCase = true))
-                waitForElementWithTextToBeClickable(secondAlertTittle!!, likeSearch = false, ignoreCase = false)
-                safeClickOnElement(waitForElementWithTextToBeClickable(okButton, likeSearch = false, ignoreCase = true))
-                waitForElementWithTextToBeInvisible(secondAlertTittle!!, likeSearch = false, ignoreCase = false)
-            } else if (buttonTitle == "TriggersAnActionWhenCanceled") {
-                waitForElementWithTextToBeClickable("CancelMessage", likeSearch = false, ignoreCase = true)
-                safeClickOnElement(
-                    waitForElementWithTextToBeClickable(
-                        cancelButton,
-                        likeSearch = false,
-                        ignoreCase = true
-                    )
-                )
-                waitForElementWithTextToBeClickable(secondAlertTittle!!, likeSearch = false, ignoreCase = false)
-                safeClickOnElement(waitForElementWithTextToBeClickable(okButton, likeSearch = false, ignoreCase = true))
-                waitForElementWithTextToBeInvisible(secondAlertTittle!!, likeSearch = false, ignoreCase = false)
-            } else if (buttonTitle == "CustomConfirmLabel") {
-                safeClickOnElement(
-                    waitForElementWithTextToBeClickable(
-                        "CustomLabelOK",
-                        likeSearch = false,
-                        ignoreCase = true
-                    )
-                )
-                waitForElementWithTextToBeInvisible("CustomLabelOK", likeSearch = false, ignoreCase = false)
-            } else {
-                safeClickOnElement(
-                    waitForElementWithTextToBeClickable(
-                        cancelButton,
-                        likeSearch = false,
-                        ignoreCase = true
-                    )
-                )
+            when (buttonTitle) {
+                "TriggersAnActionWhenConfirmed" -> {
+                    waitForElementWithTextToBeClickable("ConfirmMessage", ignoreCase = true)
+                    safeClickOnElement(waitForElementWithTextToBeClickable(okButton, ignoreCase = true))
+                    waitForElementWithTextToBeClickable(secondAlertTittle!!)
+                    safeClickOnElement(waitForElementWithTextToBeClickable(okButton, ignoreCase = true))
+                    waitForElementWithTextToBeInvisible(secondAlertTittle)
+                }
+                "TriggersAnActionWhenCanceled" -> {
+                    waitForElementWithTextToBeClickable("CancelMessage", ignoreCase = true)
+                    safeClickOnElement(waitForElementWithTextToBeClickable(cancelButton, ignoreCase = true))
+                    waitForElementWithTextToBeClickable(secondAlertTittle!!)
+                    safeClickOnElement(waitForElementWithTextToBeClickable(okButton, ignoreCase = true))
+                    waitForElementWithTextToBeInvisible(secondAlertTittle)
+                }
+                "CustomConfirmLabel" -> {
+                    safeClickOnElement(waitForElementWithTextToBeClickable("CustomLabelOK", ignoreCase = true))
+                    waitForElementWithTextToBeInvisible("CustomLabelOK")
+                }
+                else -> {
+                    safeClickOnElement(waitForElementWithTextToBeClickable(cancelButton, ignoreCase = true))
+                }
             }
-
         }
     }
 }

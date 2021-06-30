@@ -50,20 +50,20 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the scrollview screen$")
     fun checkScrollViewScreen() {
-        waitForElementWithTextToBeClickable(scrollViewScreenHeader, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(scrollViewScreenHeader)
     }
 
     @When("^I access ScrollView (.*)$")
     fun cacheScrollView(scrollViewElementNumber: Int) {
         when (scrollViewElementNumber) {
             1 -> {
-                scrollViewElement1 = getScrollViewElement(1)!!
+                scrollViewElement1 = getScrollViewElement(1)
             }
             2 -> {
-                scrollViewElement2 = getScrollViewElement(2)!!
+                scrollViewElement2 = getScrollViewElement(2)
             }
             else -> {
-                scrollViewElement3 = getScrollViewElement(3)!!
+                scrollViewElement3 = getScrollViewElement(3)
             }
         }
     }
@@ -122,8 +122,8 @@ class ScrollViewScreenSteps : AbstractStep() {
         val text2 = "Click to see the new text in horizontal"
         val text3 = "Click to see the text change, rotate and scroll horizontally"
 
-        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement1)
-        var textElement1 = textElementsTemp.elementAt(0)
+        val textElementsTemp = getScrollViewChildTextElements(scrollViewElement1)
+        val textElement1 = textElementsTemp.elementAt(0)
         var textElement2 = textElementsTemp.elementAt(1)
         var textElement3 = textElementsTemp.elementAt(2)
 
@@ -166,8 +166,8 @@ class ScrollViewScreenSteps : AbstractStep() {
         val text2 = "Click to see the new text in vertical"
         val text3 = "Click to see the text change, rotate and scroll vertically"
 
-        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement2)
-        var textElement1 = textElementsTemp.elementAt(0)
+        val textElementsTemp = getScrollViewChildTextElements(scrollViewElement2)
+        val textElement1 = textElementsTemp.elementAt(0)
         var textElement2 = textElementsTemp.elementAt(1)
         var textElement3 = textElementsTemp.elementAt(2)
 
@@ -217,10 +217,10 @@ class ScrollViewScreenSteps : AbstractStep() {
         val text2 = "Click to see the new text"
         val text3 = "Horizontal scroll within scroll"
 
-        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement3)
-        var textElement1 = textElementsTemp.elementAt(0)
+        val textElementsTemp = getScrollViewChildTextElements(scrollViewElement3)
+        val textElement1 = textElementsTemp.elementAt(0)
         var textElement2 = textElementsTemp.elementAt(1)
-        var textElement3 = textElementsTemp.elementAt(2)
+        val textElement3 = textElementsTemp.elementAt(2)
 
         // ScrollView 3 original state: three elements showing
         Assert.assertEquals(text1, textElement1.text)
@@ -267,8 +267,8 @@ class ScrollViewScreenSteps : AbstractStep() {
         }
     }
 
-    private fun getScrollViewElement(scrollViewElementNumber: Int): MobileElement? {
-        var locator: By?
+    private fun getScrollViewElement(scrollViewElementNumber: Int): MobileElement {
+        val locator: By?
 
         when (scrollViewElementNumber) {
             1 -> {
@@ -301,18 +301,16 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     }
 
+    @Suppress("SameParameterValue")
     private fun getScrollViewChildrenTextElementByText(
         scrollViewElement: MobileElement,
         elementTextQuery: String
     ): Collection<MobileElement> {
-        var locator: By?
 
-        if (SuiteSetup.isIos()) {
-            locator =
-                MobileBy.iOSClassChain("**/XCUIElementTypeTextView[`value BEGINSWITH \"$elementTextQuery\"`]")
+        val locator: By = if (SuiteSetup.isIos()) {
+            MobileBy.iOSClassChain("**/XCUIElementTypeTextView[`value BEGINSWITH \"$elementTextQuery\"`]")
         } else {
-            locator =
-                By.xpath(".//android.widget.TextView[starts-with(@text,'$elementTextQuery')]")
+            By.xpath(".//android.widget.TextView[starts-with(@text,'$elementTextQuery')]")
         }
 
         return waitForChildrenElementsToBePresent(scrollViewElement, locator)
@@ -321,14 +319,11 @@ class ScrollViewScreenSteps : AbstractStep() {
     private fun getScrollViewChildTextElements(
         scrollViewElement: MobileElement
     ): Collection<MobileElement> {
-        var locator: By?
 
-        if (SuiteSetup.isIos()) {
-            locator =
-                MobileBy.iOSClassChain("**/XCUIElementTypeTextView")
+        val locator: By = if (SuiteSetup.isIos()) {
+            MobileBy.iOSClassChain("**/XCUIElementTypeTextView")
         } else {
-            locator =
-                By.xpath(".//android.widget.TextView")
+            By.xpath(".//android.widget.TextView")
         }
 
         return waitForChildrenElementsToBePresent(scrollViewElement, locator)
@@ -338,26 +333,22 @@ class ScrollViewScreenSteps : AbstractStep() {
         scrollViewElement: MobileElement,
         elementTextQuery: String
     ): Boolean {
-        var locator: By?
 
-        if (SuiteSetup.isIos()) {
-            locator =
-                MobileBy.iOSClassChain("**/XCUIElementTypeTextView[`value == \"$elementTextQuery\"`]")
+        val locator: By = if (SuiteSetup.isIos()) {
+            MobileBy.iOSClassChain("**/XCUIElementTypeTextView[`value == \"$elementTextQuery\"`]")
         } else {
-            locator =
-                By.xpath(".//android.widget.TextView[@text='$elementTextQuery']")
+            By.xpath(".//android.widget.TextView[@text='$elementTextQuery']")
         }
 
         return childElementExists(scrollViewElement, locator)
     }
 
     private fun isButtonShowingInsideOfScrollView(scrollViewElement: MobileElement, buttonText: String): Boolean {
-        var locator: By
 
-        if (SuiteSetup.isIos()) {
-            locator = MobileBy.iOSClassChain("**/XCUIElementTypeButton[`name == \"$buttonText\"`]")
+        val locator: By = if (SuiteSetup.isIos()) {
+            MobileBy.iOSClassChain("**/XCUIElementTypeButton[`name == \"$buttonText\"`]")
         } else {
-            locator = By.xpath(".//android.widget.Button[@text='$buttonText']")
+            By.xpath(".//android.widget.Button[@text='$buttonText']")
         }
 
         if (childElementExists(scrollViewElement, locator)) {

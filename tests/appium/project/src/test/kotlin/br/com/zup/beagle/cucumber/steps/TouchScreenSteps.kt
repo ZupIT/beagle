@@ -35,21 +35,20 @@ class TouchScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the touchable screen$")
     fun checkImageScreen() {
-        waitForElementWithTextToBeClickable(touchableScreenHeader, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(touchableScreenHeader)
     }
 
     @Then("^validate touchable clicks:$")
-    fun checkTouchableCliks(dataTable: DataTable) {
+    fun checkTouchableClicks(dataTable: DataTable) {
         val rows = dataTable.asLists()
         for ((lineCount, columns) in rows.withIndex()) {
 
             if (lineCount == 0) // skip header
                 continue
-            var touchableText = columns[0]!!
 
-            when (touchableText) {
+            when (columns[0]!!) {
                 "Text 1" -> {
-                    waitForElementWithTextToBeClickable("Click here!", likeSearch = false, ignoreCase = false).click()
+                    waitForElementWithTextToBeClickable("Click here!").click()
                 }
                 "Image 1" -> {
                     safeClickOnElement(waitForImageElements()[0])
@@ -59,9 +58,9 @@ class TouchScreenSteps : AbstractStep() {
                 }
             }
 
-            waitForElementWithTextToBeClickable(touchableRedirectText, likeSearch = false, ignoreCase = false)
+            waitForElementWithTextToBeClickable(touchableRedirectText)
             goBack()
-            waitForElementWithTextToBeInvisible(touchableRedirectText, likeSearch = false, ignoreCase = false)
+            waitForElementWithTextToBeInvisible(touchableRedirectText)
 
         }
     }

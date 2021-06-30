@@ -31,7 +31,7 @@ class SetContextScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the SetContext screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("SetContext Screen", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("SetContext Screen")
     }
 
     @Then("^validate the invoked context buttons and its actions:$")
@@ -42,11 +42,11 @@ class SetContextScreenSteps : AbstractStep() {
             if (lineCount == 0) // skip header
                 continue
 
-            var buttonTitle = columns[0]!!
-            var actionMessage = columns[1]!!
+            val buttonTitle = columns[0]!!
+            val actionMessage = columns[1]!!
 
-            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle, likeSearch = false, ignoreCase = false))
-            waitForElementWithTextToBeClickable(actionMessage, likeSearch = false, ignoreCase = false)
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle))
+            waitForElementWithTextToBeClickable(actionMessage)
         }
     }
 }

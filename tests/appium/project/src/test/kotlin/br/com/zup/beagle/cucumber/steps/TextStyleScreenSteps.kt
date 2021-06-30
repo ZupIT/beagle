@@ -31,7 +31,7 @@ class TextStyleScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the texts on the screen$")
     fun checkScreen() {
-        waitForElementWithTextToBeClickable("TextScreen", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("TextScreen")
     }
 
     @Then("^take a screenshot and assert it is identical to the (.*) image$")
