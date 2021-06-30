@@ -46,15 +46,13 @@ class _BeagleWebView extends State<BeagleWebView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: WebView(
-        initialUrl: widget.url,
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebResourceError: _handleError,
-        onPageStarted: _handleLoading,
-        onPageFinished: _handleSuccess,
-        onWebViewCreated: (WebViewController webViewController) => _controller = webViewController,
-      ),
+    return WebView(
+      initialUrl: widget.url,
+      javascriptMode: JavascriptMode.unrestricted,
+      onWebResourceError: _handleError,
+      onPageStarted: _handleLoading,
+      onPageFinished: _handleSuccess,
+      onWebViewCreated: (WebViewController webViewController) => _controller = webViewController,
     );
   }
 
