@@ -18,26 +18,26 @@
 import 'package:beagle/interface/storage.dart';
 
 class DefaultStorage implements Storage {
-  Map<String, String> store = {};
+  Map<String, String> storage = {};
 
   @override
   Future<void> clear() async {
-    store.clear();
+    storage.clear();
   }
 
   @override
   Future<String> getItem(String key) async {
-    return store[key];
+    return storage[key];
   }
 
   @override
   Future<void> removeItem(String key) async {
-    store.remove(key);
+    storage.remove(key);
   }
 
   @override
   Future<void> setItem(String key, String value) async {
-    store[key] = value;
+    storage[key] = value;
   }
 
 }
