@@ -24,7 +24,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sample/app_design_system.dart';
 import 'package:sample/beagle_sample_screen.dart';
-import 'package:sample/default_logger.dart';
 
 const BASE_URL =
     'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/ef803a5a3f32aff8c2b7b2d65e0633d485c658a2';
@@ -45,7 +44,6 @@ Map<String, ActionHandler> myCustomActions = {
 
 void main() {
   BeagleSdk.init(
-    logger: AppLogger(),
     baseUrl: BASE_URL,
     environment: kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production,
     components: {...defaultComponents, ...myCustomComponents},
@@ -55,7 +53,6 @@ void main() {
           isDefault: true, loadingComponent: 'custom:loading'),
     },
     designSystem: AppDesignSystem(),
-    operations: {},
   );
 
   runApp(const MaterialApp(home: BeagleSampleApp()));

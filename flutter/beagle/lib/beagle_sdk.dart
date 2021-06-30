@@ -38,10 +38,10 @@ class BeagleSdk {
   /// documentation for more details.
   static void init({
     /// Attribute responsible for informing Beagle about the current build status of the application.
-    BeagleEnvironment environment = BeagleEnvironment.debug,
+    BeagleEnvironment environment,
 
     /// Informs the base URL used in Beagle in the application.
-    String baseUrl = "",
+    String baseUrl,
     /// Interface that provides client to beagle make the requests.
     HttpClient httpClient,
     Map<String, ComponentBuilder> components,
@@ -59,9 +59,21 @@ class BeagleSdk {
 
     /// [BeagleLogger] interface that provides logger to beagle use in application.
     BeagleLogger logger,
+
     Map<String, Operation> operations,
   }) {
+
+    baseUrl = baseUrl ?? "";
     httpClient = httpClient ?? const DefaultHttpClient();
+    environment = environment ?? BeagleEnvironment.debug;
+    useBeagleHeaders = useBeagleHeaders ?? true;
+    storage = storage ?? DefaultStorage();
+    designSystem = designSystem ?? DefaultEmptyDesignSystem();
+    imageDownloader = imageDownloader ?? DefaultBeagleImageDownloader(httpClient: httpClient);
+    strategy = strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache;
+    logger = logger ?? DefaultEmptyLogger();
+    operations = operations ?? {};
+
     actions = actions == null ? defaultActions : { ...defaultActions, ...actions };
 
     Map<String, ComponentBuilder> lowercaseComponents = components.map(
@@ -77,14 +89,14 @@ class BeagleSdk {
       httpClient: httpClient,
       environment: environment,
       components: lowercaseComponents,
-      storage: storage ?? DefaultStorage(),
-      useBeagleHeaders: useBeagleHeaders ?? true,
+      storage: storage,
+      useBeagleHeaders: useBeagleHeaders,
       actions: lowercaseActions,
       navigationControllers: navigationControllers,
-      designSystem: designSystem ?? DefaultEmptyDesignSystem(),
-      imageDownloader: imageDownloader ?? DefaultBeagleImageDownloader(httpClient: httpClient),
-      strategy: strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache,
-      logger: logger ?? DefaultEmptyLogger(),
+      designSystem: designSystem,
+      imageDownloader: imageDownloader ,
+      strategy: strategy,
+      logger: logger,
       operations: operations,
     );
   }
