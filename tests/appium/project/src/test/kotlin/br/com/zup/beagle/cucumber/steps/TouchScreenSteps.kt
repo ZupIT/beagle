@@ -21,10 +21,11 @@ import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 
-private const val TOUCHABLE_SCREEN_HEADER = "Beagle Touchable"
-private const val TOUCHABLE_REDIRECT_TEXT = "You clicked right"
-
 class TouchScreenSteps : AbstractStep() {
+
+    private val touchableScreenHeader = "Beagle Touchable"
+    private val touchableRedirectText = "You clicked right"
+
     override var bffRelativeUrlPath = "/touchable"
 
     @Before("@touchable")
@@ -34,29 +35,32 @@ class TouchScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the touchable screen$")
     fun checkImageScreen() {
-        waitForElementWithTextToBeClickable(TOUCHABLE_SCREEN_HEADER, false, false)
+        waitForElementWithTextToBeClickable(touchableScreenHeader)
     }
 
     @Then("^validate touchable clicks:$")
-    fun checkTouchableCliks(dataTable: DataTable) {
-        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+    fun checkTouchableClicks(dataTable: DataTable) {
+        val rows = dataTable.asLists()
         for ((lineCount, columns) in rows.withIndex()) {
 
             if (lineCount == 0) // skip header
                 continue
-            var touchableText = columns[0]!!
 
-            if ("Text 1" == touchableText) {
-                waitForElementWithTextToBeClickable("Click here!", likeSearch = false, ignoreCase = false).click()
-            } else if ("Image 1" == touchableText) {
-                safeClickOnElement(waitForImageElements()[0])
-            } else if ("Image 2" == touchableText) {
-                safeClickOnElement(waitForImageElements()[1])
+            when (columns[0]!!) {
+                "Text 1" -> {
+                    waitForElementWithTextToBeClickable("Click here!").click()
+                }
+                "Image 1" -> {
+                    safeClickOnElement(waitForImageElements()[0])
+                }
+                "Image 2" -> {
+                    safeClickOnElement(waitForImageElements()[1])
+                }
             }
 
-            waitForElementWithTextToBeClickable(TOUCHABLE_REDIRECT_TEXT, likeSearch = false, ignoreCase = false)
+            waitForElementWithTextToBeClickable(touchableRedirectText)
             goBack()
-            waitForElementWithTextToBeInvisible(TOUCHABLE_REDIRECT_TEXT, likeSearch = false, ignoreCase = false)
+            waitForElementWithTextToBeInvisible(touchableRedirectText)
 
         }
     }

@@ -20,13 +20,13 @@ class PullToRefreshScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the pull to refresh screen$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("Beagle PullToRefresh screen", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("Beagle PullToRefresh screen")
     }
 
     @When("^I swipe (.*) from the center of the screen$")
     fun scrollDownOnElement(swipeDirection: String) {
 
-        waitForElementWithTextToBeClickable("PullToRefresh text", likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable("PullToRefresh text")
 
         /**
          * swipes in the center of the screen, touching the PushToRefresh element

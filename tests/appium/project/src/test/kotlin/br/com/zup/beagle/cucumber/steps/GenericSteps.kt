@@ -18,7 +18,6 @@ package br.com.zup.beagle.cucumber.steps
 
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
-import org.junit.Assert
 
 
 class GenericSteps : AbstractStep() {
@@ -27,22 +26,24 @@ class GenericSteps : AbstractStep() {
 
     @When("^I click on button (.*)$")
     fun clickOnButton(buttonText: String) {
-        safeClickOnElement(waitForElementWithTextToBeClickable(buttonText, likeSearch = false, ignoreCase = true))
+        safeClickOnElement(waitForElementWithTextToBeClickable(buttonText, ignoreCase = true))
     }
 
     @Then("^The Text should show (.*)$")
     fun textShouldShow(text: String) {
-        waitForElementWithTextToBeClickable(text, likeSearch = false, ignoreCase = true)
+        waitForElementWithTextToBeClickable(text, ignoreCase = true)
     }
 
     @When("^I click on text (.*)$")
     fun clickOnText(text: String) {
-        safeClickOnElement(waitForElementWithTextToBeClickable(text, likeSearch = false, ignoreCase = true))
+        safeClickOnElement(waitForElementWithTextToBeClickable(text, ignoreCase = true))
     }
 
-    @When("^I click on input with hint (.*)$")
-    fun clickOnInputWithHint(hint: String) {
-        waitForElementWithTextToBeClickable(hint, likeSearch = false, ignoreCase = true)
+    @When("^I click on the input with place holder \"(.*)\" and insert \"(.*)\"$")
+    fun clickOnInputWithHint(placeHolder: String, value: String) {
+        val element = waitForElementWithValueToBeClickable(placeHolder, ignoreCase = true)
+        safeClickOnElement(element)
+        element.sendKeys(value)
     }
 
     @When("hide keyboard")

@@ -14,7 +14,6 @@ import io.cucumber.java.en.When
 import org.junit.Assert
 import org.openqa.selenium.By
 import java.util.*
-import kotlin.collections.LinkedHashSet
 
 
 /**
@@ -22,14 +21,14 @@ import kotlin.collections.LinkedHashSet
  * For the Categories ListView tests, some methods include in its name references to lists of Type A or B. Refer to
  * the drawing bellow to understand these references.
  *
- *  categoriesListViewA [listView]
+ *  categoriesListViewA [ listView ]
  *         |
  *         |-------------> Title ...
- *         |-------------> categoryListViewB1 [listView] ('Fantasy' list)
+ *         |-------------> categoryListViewB1 [ listView ] ('Fantasy' list)
  *         |                      |
  *         |                      |------------> Title ...
  *         |                      |------------> Author ...
- *         |                      |------------> CharactersListView [listView]
+ *         |                      |------------> CharactersListView [ listView ]
  *         |                      |                    |
  *         |                      |                    |-------------> Character 1
  *         |                      |                    |-------------> Character 2
@@ -39,7 +38,7 @@ import kotlin.collections.LinkedHashSet
  *         |                      |
  *         |                      |------------> Title ...
  *         |                      |------------> Author ...
- *         |                      |------------> CharactersListView [listView]
+ *         |                      |------------> CharactersListView [ listView ]
  *         |                      |                    |
  *         |                      |                    |-------------> Character 1
  *         |                      |                    |-------------> Character 2
@@ -48,13 +47,13 @@ import kotlin.collections.LinkedHashSet
  *         |
  *         |
  *         |-------------> Title ...
- *         |-------------> categoryListViewB2 [listView] ('Sci-fi' list)
+ *         |-------------> categoryListViewB2 [ listView ] ('Sci-fi' list)
  *         |                      |
  *         |                      | ...
  *         |
  *         |
  *         |-------------> Title ...
- *         |-------------> categoryListViewB3 [listView] ('Other' list)
+ *         |-------------> categoryListViewB3 [ listView ] ('Other' list)
  *         |                      |
  *         |                      | ...
  *         |
@@ -135,12 +134,6 @@ class ListViewScreenSteps : AbstractStep() {
         Assert.assertTrue(isListViewHorizontal(listViewId))
     }
 
-    @Then("^the screen should show text: (.*)$")
-    fun checkScreenDisplaysText(expectedText: String) {
-        waitForElementWithTextToBeClickable(expectedText, likeSearch = false, ignoreCase = false)
-    }
-
-
     @When("^I read all the elements of the listView with id (.*)$")
     fun getAllElementsOfListView(listViewId: String) {
         when (listViewId) {
@@ -161,7 +154,7 @@ class ListViewScreenSteps : AbstractStep() {
             "booksList" -> {
 
                 val anchorElementForSwipe = getChildrenElementsOfListView(getListViewElement("categoriesList")!!)[1]
-                scrollFromOnePointToBorder(anchorElementForSwipe!!.location, SwipeDirection.UP)
+                scrollFromOnePointToBorder(anchorElementForSwipe.location, SwipeDirection.UP)
                 swipeUp()
 
                 val listViewElement = getListViewElement("booksList")
@@ -182,7 +175,7 @@ class ListViewScreenSteps : AbstractStep() {
         }
     }
 
-    fun isListViewHorizontal(listViewId: String): Boolean {
+    private fun isListViewHorizontal(listViewId: String): Boolean {
         val listViewElement = getListViewElement(listViewId)
         return when (listViewId) {
             "charactersList" -> isListViewCharactersListHorizontal(listViewElement!!)
@@ -203,7 +196,7 @@ class ListViewScreenSteps : AbstractStep() {
             return initialChildrenList[0].location.y == initialChildrenList[1].location.y
         }
 
-        scrollFromOnePointToBorder(initialChildrenList.get(0).location, SwipeDirection.LEFT)
+        scrollFromOnePointToBorder(initialChildrenList[0].location, SwipeDirection.LEFT)
         initialChildrenList = getChildrenElementsOfListView(listViewElement)
         if (initialChildrenList.size > 1) {
             return initialChildrenList[0].location.y == initialChildrenList[1].location.y
@@ -212,8 +205,8 @@ class ListViewScreenSteps : AbstractStep() {
     }
 
 
-    fun validateCharactersListViewValues(dataTable: DataTable, paginationNumber: Int) {
-        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+    private fun validateCharactersListViewValues(dataTable: DataTable, paginationNumber: Int) {
+        val rows = dataTable.asLists()
         val cachedList = when (paginationNumber) {
             1 -> charactersListPage1.toList()
             else -> charactersListPage2.toList()
@@ -226,8 +219,8 @@ class ListViewScreenSteps : AbstractStep() {
         }
     }
 
-    fun validateCategoriesListViewValues(dataTable: DataTable) {
-        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+    private fun validateCategoriesListViewValues(dataTable: DataTable) {
+        val rows = dataTable.asLists()
         var categoryListPosition: Int
         var bookListPosition: Int
         var title: String
@@ -235,7 +228,7 @@ class ListViewScreenSteps : AbstractStep() {
         var characterListPosition: Int
         var character: String
         var categoryListViewItem: CategoryListViewItem
-        var categoriesList = categoriesList.toList()
+        val categoriesList = categoriesList.toList()
 
         for ((lineCount, columns) in rows.withIndex()) {
 
@@ -259,17 +252,17 @@ class ListViewScreenSteps : AbstractStep() {
         }
     }
 
-    fun validateBooksListListViewValues(dataTable: DataTable) {
+    private fun validateBooksListListViewValues(dataTable: DataTable) {
 
-        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        val rows = dataTable.asLists()
 
-        var booksListIndexTemp = 0
-        var genreTemp = ""
-        var titleTemp = ""
-        var authorTemp = ""
-        var collectionTemp = ""
-        var bookNumberTemp = ""
-        var ratingTemp = ""
+        var booksListIndexTemp: Int
+        var genreTemp: String
+        var titleTemp: String
+        var authorTemp: String
+        var collectionTemp: String
+        var bookNumberTemp: String
+        var ratingTemp: String
         var booksListItemTemp: BooksListListViewItem
 
         for ((lineCount, columns) in rows.withIndex()) {
@@ -311,7 +304,7 @@ class ListViewScreenSteps : AbstractStep() {
         // scrolls up so all the three lists show
         scrollFromOnePointToBorder(listViewElement.location, SwipeDirection.UP)
 
-        var childrenOfCategoriesListViewOfTypeA = getChildrenOfCategoriesListViewOfTypeA(listViewElement)
+        val childrenOfCategoriesListViewOfTypeA = getChildrenOfCategoriesListViewOfTypeA(listViewElement)
 
         if (childrenOfCategoriesListViewOfTypeA.isEmpty())
             return null
@@ -341,7 +334,7 @@ class ListViewScreenSteps : AbstractStep() {
         val categoriesListViewOfTypeBElement = getListViewElement(childOfCategoriesListViewOfTypeA)
 
         var childrenTextElementsOfCategoriesListOfTypeBTemp =
-            getChildrenTextElementsOfCategoriesListViewOfTypeB(categoriesListViewOfTypeBElement!!)
+            getChildrenTextElementsOfCategoriesListViewOfTypeB(categoriesListViewOfTypeBElement)
 
         if (childrenTextElementsOfCategoriesListOfTypeBTemp.isEmpty())
             return null
@@ -352,9 +345,9 @@ class ListViewScreenSteps : AbstractStep() {
         val allItems = LinkedHashSet<CategoryListViewItem>()
         do {
 
-            var lastParsedChildElementTemp = parsedChildrenElementsTemp!!.last()
+            val lastParsedChildElementTemp = parsedChildrenElementsTemp.last()
 
-            for (parsedItem in parsedChildrenElementsTemp!!) {
+            for (parsedItem in parsedChildrenElementsTemp) {
                 allItems.add(parsedItem)
             }
 
@@ -373,7 +366,7 @@ class ListViewScreenSteps : AbstractStep() {
             parsedChildrenElementsTemp =
                 parseElementsToCategoryListViewItems(childrenTextElementsOfCategoriesListOfTypeBTemp)
 
-        } while (parsedChildrenElementsTemp!!.last() != lastParsedChildElementTemp)
+        } while (parsedChildrenElementsTemp.last() != lastParsedChildElementTemp)
 
         return allItems
     }
@@ -381,13 +374,13 @@ class ListViewScreenSteps : AbstractStep() {
     /**
      * Parse the contents of a given category list of type C to a CategoryListViewItem object
      */
-    private fun parseElementsToCategoryListViewItems(childrenTextElementsOfCategoriesListOfTypeB: List<MobileElement>): LinkedHashSet<CategoryListViewItem>? {
+    private fun parseElementsToCategoryListViewItems(childrenTextElementsOfCategoriesListOfTypeB: List<MobileElement>): LinkedHashSet<CategoryListViewItem> {
         val resultList = LinkedHashSet<CategoryListViewItem>()
 
         var titleTemp = ""
         var authorTemp = ""
         var charsListTemp = LinkedList<String>()
-        var textTemp = ""
+        var textTemp: String
         for ((count, textElement) in childrenTextElementsOfCategoriesListOfTypeB.withIndex()) {
 
             textTemp = textElement.text
@@ -428,23 +421,19 @@ class ListViewScreenSteps : AbstractStep() {
      */
     private fun getChildrenOfCategoriesListViewOfTypeA(categoriesListViewOfTypeAElement: MobileElement): List<MobileElement> {
 
-        var childrenOfCategoryListViewOfTypeALocator: By?
-
-        if (SuiteSetup.isIos()) {
-            childrenOfCategoryListViewOfTypeALocator =
-                MobileBy.iOSNsPredicateString("type == 'XCUIElementTypeOther' AND name BEGINSWITH[c] 'category:'")
+        val childrenOfCategoryListViewOfTypeALocator: By? = if (SuiteSetup.isIos()) {
+            MobileBy.iOSNsPredicateString("type == 'XCUIElementTypeOther' AND name BEGINSWITH[c] 'category:'")
 
         } else {
-            childrenOfCategoryListViewOfTypeALocator =
-                By.xpath(
-                    ".//android.view.ViewGroup[.//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView" +
-                            "//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView]"
-                )
+            By.xpath(
+                ".//android.view.ViewGroup[.//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView" +
+                        "//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView]"
+            )
         }
 
         return waitForChildrenElementsToBePresent(
             categoriesListViewOfTypeAElement,
-            childrenOfCategoryListViewOfTypeALocator
+            childrenOfCategoryListViewOfTypeALocator!!
         )
     }
 
@@ -455,23 +444,19 @@ class ListViewScreenSteps : AbstractStep() {
      */
     private fun getChildrenTextElementsOfCategoriesListViewOfTypeB(categoriesListViewOfTypeBElement: MobileElement): List<MobileElement> {
 
-        var childrenOfCategoryListViewOfTypeBLocator: By?
-
-        if (SuiteSetup.isIos()) {
-            childrenOfCategoryListViewOfTypeBLocator =
-                MobileBy.iOSClassChain("**/XCUIElementTypeCell[\$type == 'XCUIElementTypeCollectionView'\$]/**/XCUIElementTypeTextView")
+        val childrenOfCategoryListViewOfTypeBLocator: By? = if (SuiteSetup.isIos()) {
+            MobileBy.iOSClassChain("**/XCUIElementTypeCell[\$type == 'XCUIElementTypeCollectionView'\$]/**/XCUIElementTypeTextView")
 
 
         } else {
-            childrenOfCategoryListViewOfTypeBLocator =
-                By.xpath(
-                    ".//android.view.ViewGroup[.//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView]//android.widget.TextView"
-                )
+            By.xpath(
+                ".//android.view.ViewGroup[.//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView]//android.widget.TextView"
+            )
         }
 
         return waitForChildrenElementsToBePresent(
             categoriesListViewOfTypeBElement,
-            childrenOfCategoryListViewOfTypeBLocator
+            childrenOfCategoryListViewOfTypeBLocator!!
         )
     }
 
@@ -482,7 +467,7 @@ class ListViewScreenSteps : AbstractStep() {
         listViewElement: MobileElement
     ): Collection<String>? {
 
-        var childrenElementsValues = LinkedHashSet<String>()
+        val childrenElementsValues = LinkedHashSet<String>()
         childrenElementsValues.addAll(getChildrenOfListViewCharactersList(listViewElement))
 
         if (childrenElementsValues.isEmpty())
@@ -514,7 +499,7 @@ class ListViewScreenSteps : AbstractStep() {
         listViewElement: MobileElement
     ): Collection<BooksListListViewItem>? {
 
-        var childrenElementsValues = LinkedHashSet<BooksListListViewItem>()
+        val childrenElementsValues = LinkedHashSet<BooksListListViewItem>()
         childrenElementsValues.addAll(getChildrenOfListViewBooksList(listViewElement))
 
         if (childrenElementsValues.isEmpty())
@@ -546,13 +531,13 @@ class ListViewScreenSteps : AbstractStep() {
     /**
      * Returns the first listView element that is a child of a given element.
      */
-    private fun getListViewElement(parentElement: MobileElement): MobileElement? {
-        if (SuiteSetup.isIos()) {
-            return waitForChildElementToBePresent(
+    private fun getListViewElement(parentElement: MobileElement): MobileElement {
+        return if (SuiteSetup.isIos()) {
+            waitForChildElementToBePresent(
                 parentElement, MobileBy.iOSClassChain("**/XCUIElementTypeCollectionView[1]")
             )
         } else {
-            return waitForChildElementToBePresent(
+            waitForChildElementToBePresent(
                 parentElement,
                 By.xpath("(.//android.view.ViewGroup//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView)[1]")
             )
@@ -561,27 +546,27 @@ class ListViewScreenSteps : AbstractStep() {
 
     private fun getListViewElement(listViewId: String): MobileElement? {
         if (SuiteSetup.isIos()) {
-            when (listViewId) {
-                "charactersList" -> return waitForElementToBePresent(MobileBy.id("charactersList"))
-                "categoriesList" -> return waitForElementToBePresent(MobileBy.id("categoriesList"))
-                "booksList" -> return waitForElementToBePresent(MobileBy.id("booksList"))
-                else -> return null
+            return when (listViewId) {
+                "charactersList" -> waitForElementToBePresent(MobileBy.id("charactersList"))
+                "categoriesList" -> waitForElementToBePresent(MobileBy.id("categoriesList"))
+                "booksList" -> waitForElementToBePresent(MobileBy.id("booksList"))
+                else -> null
             }
         } else {
-            when (listViewId) {
+            return when (listViewId) {
                 "charactersList" ->
-                    return waitForElementToBePresent(By.xpath("(//androidx.recyclerview.widget.RecyclerView)[1]"))
+                    waitForElementToBePresent(By.xpath("(//androidx.recyclerview.widget.RecyclerView)[1]"))
                 "categoriesList" ->
-                    return waitForElementToBePresent(By.xpath("(//androidx.recyclerview.widget.RecyclerView)[2]"))
+                    waitForElementToBePresent(By.xpath("(//androidx.recyclerview.widget.RecyclerView)[2]"))
                 "booksList" ->
-                    return waitForElementToBePresent(
+                    waitForElementToBePresent(
                         By.xpath(
                             "//android.widget.TextView[contains(@text," +
                                     "'Books List View (infinite scroll):')]/following-sibling::" +
                                     "androidx.recyclerview.widget.RecyclerView[1]"
                         )
                     )
-                else -> return null
+                else -> null
             }
         }
 
@@ -595,8 +580,8 @@ class ListViewScreenSteps : AbstractStep() {
 
         var nameTemp = ""
         var bookTemp = ""
-        var collectionTemp = ""
-        var elementTextTemp = ""
+        var collectionTemp: String
+        var elementTextTemp: String
         for (textElement in getTextChildrenElementsOfListView(charactersListViewElement)) {
             elementTextTemp = textElement.text
             when {
@@ -623,8 +608,8 @@ class ListViewScreenSteps : AbstractStep() {
         var collectionTemp = ""
         var bookNumberTemp = ""
         var genreTemp = ""
-        var ratingTemp = ""
-        var elementTextTemp = ""
+        var ratingTemp: String
+        var elementTextTemp: String
         for (textElement in getTextChildrenElementsOfListView(booksListListViewElement)) {
             elementTextTemp = textElement.text
 
@@ -672,13 +657,10 @@ class ListViewScreenSteps : AbstractStep() {
      */
     private fun getChildrenElementsOfListView(listViewElement: MobileElement): List<MobileElement> {
 
-        var lastChildOfListViewLocator: By?
-
-        if (SuiteSetup.isIos()) {
-            lastChildOfListViewLocator =
-                By.xpath(".//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther]")
+        val lastChildOfListViewLocator: By = if (SuiteSetup.isIos()) {
+            By.xpath(".//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther]")
         } else {
-            lastChildOfListViewLocator = By.xpath(".//android.view.ViewGroup[.//android.view.ViewGroup]")
+            By.xpath(".//android.view.ViewGroup[.//android.view.ViewGroup]")
         }
 
         return waitForChildrenElementsToBePresent(
@@ -694,15 +676,11 @@ class ListViewScreenSteps : AbstractStep() {
      */
     private fun getTextChildrenElementsOfListView(listViewElement: MobileElement): List<MobileElement> {
 
-        var lastChildOfListViewLocator: By?
-
-        if (SuiteSetup.isIos()) {
-            lastChildOfListViewLocator =
-                MobileBy.iOSClassChain("**/XCUIElementTypeCell/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextView")
+        val lastChildOfListViewLocator: By = if (SuiteSetup.isIos()) {
+            MobileBy.iOSClassChain("**/XCUIElementTypeCell/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextView")
 
         } else {
-            lastChildOfListViewLocator =
-                By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")
+            By.xpath(".//android.view.ViewGroup//android.view.ViewGroup//android.widget.TextView")
         }
 
         return waitForChildrenElementsToBePresent(
@@ -719,14 +697,11 @@ class ListViewScreenSteps : AbstractStep() {
      */
     private fun getLastChildOfListView(listViewElement: MobileElement): MobileElement {
 
-        var lastChildOfListViewLocator: By?
-
-        if (SuiteSetup.isIos()) {
-            lastChildOfListViewLocator =
-                By.xpath(".//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther][last()]")
+        val lastChildOfListViewLocator: By = if (SuiteSetup.isIos()) {
+            By.xpath(".//XCUIElementTypeCell[.//XCUIElementTypeOther//XCUIElementTypeOther//XCUIElementTypeOther][last()]")
 
         } else {
-            lastChildOfListViewLocator = By.xpath("(.//android.view.ViewGroup[.//android.view.ViewGroup])[last()]")
+            By.xpath("(.//android.view.ViewGroup[.//android.view.ViewGroup])[last()]")
         }
 
         return waitForChildElementToBePresent(listViewElement, lastChildOfListViewLocator)
@@ -735,14 +710,10 @@ class ListViewScreenSteps : AbstractStep() {
 
     private fun getLastChildOfListViewOfTypeB(listViewOfTypeBElement: MobileElement): MobileElement {
 
-        var lastChildOfListViewLocator: By?
-
-        if (SuiteSetup.isIos()) {
-            lastChildOfListViewLocator =
-                MobileBy.iOSClassChain("**/XCUIElementTypeCell[\$type == 'XCUIElementTypeCollectionView'\$][-1]")
+        val lastChildOfListViewLocator: By = if (SuiteSetup.isIos()) {
+            MobileBy.iOSClassChain("**/XCUIElementTypeCell[\$type == 'XCUIElementTypeCollectionView'\$][-1]")
         } else {
-            lastChildOfListViewLocator =
-                By.xpath(".//android.view.ViewGroup[.//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView][last()]")
+            By.xpath(".//android.view.ViewGroup[.//android.view.ViewGroup//androidx.recyclerview.widget.RecyclerView][last()]")
         }
 
         return waitForChildElementToBePresent(listViewOfTypeBElement, lastChildOfListViewLocator)

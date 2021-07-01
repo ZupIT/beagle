@@ -31,4 +31,4 @@ Feature: Button Component Validation
       | Button with Appearance           | New page |
       | BUTTON WITH APPEARANCE AND STYLE | New page |
       | Disabled Button                  | Disabled |
-#      | Disabled Button by context | Disabled | TODO: investigate why on mobile this button is enabled!
+      | Disabled Button by context       | Disabled |

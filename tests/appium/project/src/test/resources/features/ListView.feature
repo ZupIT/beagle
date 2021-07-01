@@ -19,7 +19,6 @@ Feature: ListView Component Validation
 
   As a Beagle developer/user
   I'd like to make sure my listView component works as expected
-  In order to guarantee that my application never fails
 
   Background:
     Given that I'm on the listView screen
@@ -31,8 +30,8 @@ Feature: ListView Component Validation
   Scenario: ListView 01 - Characters ListView on pagination 1
     When I read all the elements of the listView with id charactersList on pagination 1
     Then the listView with id charactersList on pagination 1 should have exactly 34 items
-    And  the screen should show text: status: read
-    And  the screen should show text: 1/2
+    And  the screen should show an element with the title status: read
+    And  the screen should show an element with the title 1/2
     And  the values of the listView with id charactersList on pagination 1 should be:
       | Name: Vin                     | Book: The Final Empire                         | Collection: Mistborn Era 1         |
       | Name: Kelsier                 | Book: The Final Empire                         | Collection: Mistborn Era 1         |
@@ -74,8 +73,8 @@ Feature: ListView Component Validation
     When I click on button next
     And  I read all the elements of the listView with id charactersList on pagination 2
     Then the listView with id charactersList on pagination 2 should have exactly 33 items
-    And  the screen should show text: status: read
-    And  the screen should show text: 2/2
+    And  the screen should show an element with the title status: read
+    And  the screen should show an element with the title 2/2
     And  the values of the listView with id charactersList on pagination 2 should be:
       | Name: Dumbledore             | Book: Harry Potter and the Philosopher's Stone | Collection: Harry Potter        |
       | Name: Spensa Nightshade      | Book: Starsight                                | Collection: Skyward             |
@@ -115,7 +114,7 @@ Feature: ListView Component Validation
   Scenario: ListView 03 - Characters ListView: going back from page 2 to 1
     When I click on button next
     And I click on button prev
-    Then the screen should show text: 1/2
+    Then the screen should show an element with the title 1/2
     And the listView with id charactersList should be on pagination 1
 
 
@@ -210,7 +209,7 @@ Feature: ListView Component Validation
   Scenario: ListView 05 - BookList ListView with infinite scroll
     When I read all the elements of the listView with id booksList
     Then the listView with id booksList should have exactly 15 items
-    And  the screen should show text: Books List View (infinite scroll): 15 items initialized
+    And  the screen should show an element with the title Books List View (infinite scroll): 15 items initialized
     And  the values of the listView with id booksList should be:
       | position | genre          | title                                    | author                      | collection                         | bookNumber      | rating      |
       | 0        | Genre: Fantasy | The Final Empire                         | Author: Brandon Sanderson   | Collection: Mistborn Era 1         | Book Number: 1  | Rating: 4.7 |
