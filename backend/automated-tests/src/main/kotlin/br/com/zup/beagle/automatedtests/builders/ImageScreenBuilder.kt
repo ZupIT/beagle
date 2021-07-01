@@ -17,6 +17,7 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE
+import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE_URL
 import br.com.zup.beagle.ext.setFlex
 import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.core.FlexDirection
@@ -45,13 +46,13 @@ object ImageScreenBuilder {
                 createStruct(
                     direction = flexDirection,
                     text = "without size",
-                    image = Image(Local.justMobile(LOGO_BEAGLE))
+                    image = Image(Local.both(LOGO_BEAGLE_URL, LOGO_BEAGLE))
                 ),
                 createStruct(
                     direction = flexDirection,
                     text = "${ImageContentMode.FIT_XY} and height = 40",
                     image = Image(
-                        Local.justMobile(LOGO_BEAGLE), ImageContentMode.FIT_XY,
+                        Local.both(LOGO_BEAGLE_URL, LOGO_BEAGLE), ImageContentMode.FIT_XY,
                     ).setStyle {
                         size = Size(height = UnitValue.real(40))
                     },
@@ -60,7 +61,7 @@ object ImageScreenBuilder {
                     direction = flexDirection,
                     text = "${ImageContentMode.FIT_CENTER} and width = 40",
                     image = Image(
-                        Local.justMobile(LOGO_BEAGLE), ImageContentMode.FIT_CENTER,
+                        Local.both(LOGO_BEAGLE_URL, LOGO_BEAGLE), ImageContentMode.FIT_CENTER,
                     ).setStyle {
                         size = Size(width = UnitValue.real(40))
                     },
@@ -69,7 +70,7 @@ object ImageScreenBuilder {
                     direction = flexDirection,
                     text = "${ImageContentMode.CENTER_CROP} and width = 100 and height = 40",
                     image = Image(
-                        Local.justMobile(LOGO_BEAGLE), ImageContentMode.CENTER_CROP,
+                        Local.both(LOGO_BEAGLE_URL, LOGO_BEAGLE), ImageContentMode.CENTER_CROP,
                     ).setStyle {
                         size = Size.box(100, 40)
                     },
@@ -78,7 +79,7 @@ object ImageScreenBuilder {
                     direction = flexDirection,
                     text = "${ImageContentMode.CENTER} and width = 300 and height = 40",
                     image = Image(
-                        Local.justMobile(LOGO_BEAGLE), ImageContentMode.CENTER,
+                        Local.both(LOGO_BEAGLE_URL, LOGO_BEAGLE), ImageContentMode.CENTER,
                     ).setStyle {
                         size = Size.box(300, 40)
                     },
