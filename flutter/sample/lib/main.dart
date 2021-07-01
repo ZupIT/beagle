@@ -18,17 +18,15 @@
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/navigation_controller.dart';
-import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle_components/beagle_components.dart';
-import 'package:beagle_components/beagle_container.dart';
-import 'package:beagle_components/beagle_scroll_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sample/app_beagle_config.dart';
 import 'package:sample/app_design_system.dart';
 import 'package:sample/beagle_sample_screen.dart';
 import 'package:sample/default_logger.dart';
+
+const BASE_URL = 'http://localhost:8080';
 
 Map<String, ComponentBuilder> myCustomComponents = {
   'custom:loading': (element, _, __) {
@@ -47,7 +45,8 @@ Map<String, ActionHandler> myCustomActions = {
 void main() {
   BeagleSdk.init(
     logger: AppLogger(),
-    beagleConfig: AppBeagleConfig(),
+    baseUrl: BASE_URL,
+    environment: kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production,
     components: {...defaultComponents, ...myCustomComponents},
     actions: myCustomActions,
     navigationControllers: {
@@ -57,7 +56,7 @@ void main() {
       ),
     },
     designSystem: AppDesignSystem(),
-    customOperations: {},
+    operations: {},
   );
 
   runApp(const MaterialApp(home: BeagleSampleApp()));

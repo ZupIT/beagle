@@ -205,9 +205,12 @@ constructor(
             val orientation = listDirectionToRecyclerViewOrientation()
             LinearLayoutManager(context, orientation, false)
         } else {
-            GridLayoutManager(context, numColumns)
+            GridLayoutManager(context, numColumns, getGridDirection(), false)
         }
     }
+
+    private fun getGridDirection() =
+        if (direction == ListDirection.HORIZONTAL) GridLayoutManager.HORIZONTAL else GridLayoutManager.VERTICAL
 
     private fun buildOldListView(): View {
         val recyclerView = ViewFactory.makeRecyclerView(rootView.getContext())

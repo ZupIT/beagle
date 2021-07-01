@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import 'package:beagle/beagle.dart';
 import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/bridge_impl/beagle_service_js.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
@@ -25,7 +26,6 @@ import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/logger/beagle_logger.dart';
-import 'package:beagle/model/beagle_config.dart';
 import 'package:beagle/networking/beagle_network_options.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
@@ -35,7 +35,8 @@ import 'package:get_it/get_it.dart';
 final GetIt beagleServiceLocator = GetIt.instance;
 
 void setupServiceLocator({
-  BeagleConfig beagleConfig,
+  String baseUrl,
+  BeagleEnvironment environment,
   HttpClient httpClient,
   Map<String, ComponentBuilder> components,
   Storage storage,
@@ -46,7 +47,7 @@ void setupServiceLocator({
   BeagleDesignSystem designSystem,
   BeagleImageDownloader imageDownloader,
   BeagleLogger logger,
-  Map<String, Operation> customOperations,
+  Map<String, Operation> operations,
 }) {
   beagleServiceLocator
     ..registerSingleton<JavascriptRuntimeWrapper>(
@@ -55,21 +56,21 @@ void setupServiceLocator({
     ..registerSingleton<BeagleJSEngine>(
       createBeagleJSEngineInstance(storage),
     )
-    ..registerSingleton<BeagleConfig>(beagleConfig)
     ..registerSingleton<BeagleDesignSystem>(designSystem)
     ..registerSingleton<BeagleImageDownloader>(imageDownloader)
     ..registerSingleton<BeagleLogger>(logger)
+    ..registerSingleton<BeagleEnvironment>(environment)
     ..registerSingletonAsync<BeagleService>(() async {
       final configService = BeagleServiceJS(
         beagleServiceLocator<BeagleJSEngine>(),
-        baseUrl: beagleConfig.baseUrl,
+        baseUrl: baseUrl,
         httpClient: httpClient,
         components: components,
         useBeagleHeaders: useBeagleHeaders,
         actions: actions,
         strategy: strategy,
         navigationControllers: navigationControllers,
-        customOperations: customOperations,
+        operations: operations,
       );
 
       await configService.start();
@@ -82,7 +83,7 @@ void setupServiceLocator({
         initialControllerId: initialControllerId,
       ),
     )
-    ..registerFactory<UrlBuilder>(() => UrlBuilder(beagleConfig.baseUrl))
+    ..registerFactory<UrlBuilder>(() => UrlBuilder(baseUrl))
     ..registerFactory(
       () => GlobalContextJS(beagleServiceLocator<BeagleJSEngine>()),
     );

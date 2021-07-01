@@ -36,21 +36,13 @@ extension ListView {
     }
 }
 
-extension ListView.Direction {
+extension ScrollAxis {
     var scrollDirection: UICollectionView.ScrollDirection {
         switch self {
         case .vertical:
             return .vertical
         case .horizontal:
             return .horizontal
-        }
-    }
-    var flexDirection: Flex.FlexDirection {
-        switch self {
-        case .vertical:
-            return .column
-        case .horizontal:
-            return .row
         }
     }
     var sizeKeyPath: WritableKeyPath<CGSize, CGFloat> {

@@ -27,6 +27,8 @@ public class AutoLayoutWrapper: UIView {
         
         addSubview(view)
         
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
         let trailing = view.trailingAnchor.constraint(equalTo: trailingAnchor)
         trailing.priority = .init(999)
         trailing.isActive = true

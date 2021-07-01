@@ -17,12 +17,13 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:beagle/model/beagle_environment.dart';
+import 'package:beagle/utils/build_context_utils.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
 import 'package:beagle/components/beagle_undefined_widget.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/logger/beagle_logger.dart';
-import 'package:beagle/model/beagle_config.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/route.dart';
 import 'package:beagle/networking/beagle_screen_request.dart';
@@ -61,7 +62,7 @@ class _BeagleWidget extends State<BeagleWidget> {
 
   BeagleService service;
   final logger = beagleServiceLocator<BeagleLogger>();
-  final config = beagleServiceLocator<BeagleConfig>();
+  final environment = beagleServiceLocator<BeagleEnvironment>();
 
   @override
   void initState() {
@@ -114,9 +115,15 @@ class _BeagleWidget extends State<BeagleWidget> {
     final builder = service.components[tree.getType().toLowerCase()];
     if (builder == null) {
       logger.error("Can't find builder for component ${tree.getType()}");
-      return BeagleUndefinedWidget(environment: config.environment);
+      return BeagleUndefinedWidget(environment: environment);
     }
-    return builder(tree, widgetChildren, _view);
+    try {
+      return builder(tree, widgetChildren, _view);
+    } catch(error) {
+      logger.error('Could not build component ${tree.getType()} with id ${tree.getId()} due to the following error:');
+      logger.error(error.toString());
+      return BeagleUndefinedWidget(environment: environment);
+    }
   }
 
   @override

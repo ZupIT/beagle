@@ -19,7 +19,6 @@ import 'package:beagle/default/default_actions.dart';
 import 'package:beagle/default/default_http_client.dart';
 import 'package:beagle/default/default_image_downloader.dart';
 import 'package:beagle/default/default_storage.dart';
-import 'package:beagle/default/empty/default_empty_config.dart';
 import 'package:beagle/default/empty/default_empty_design_system.dart';
 import 'package:beagle/default/empty/default_empty_logger.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
@@ -28,7 +27,7 @@ import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/logger/beagle_logger.dart';
-import 'package:beagle/model/beagle_config.dart';
+import 'package:beagle/model/beagle_environment.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
@@ -39,9 +38,11 @@ class BeagleSdk {
   /// The parameters are all the attributes of the class BeagleService. Please check its
   /// documentation for more details.
   static void init({
-    /// Interface that provides initial beagle configuration attributes.
-    BeagleConfig beagleConfig,
+    /// Attribute responsible for informing Beagle about the current build status of the application.
+    BeagleEnvironment environment = BeagleEnvironment.debug,
 
+    /// Informs the base URL used in Beagle in the application.
+    String baseUrl = "",
     /// Interface that provides client to beagle make the requests.
     HttpClient httpClient,
     Map<String, ComponentBuilder> components,
@@ -59,7 +60,7 @@ class BeagleSdk {
 
     /// [BeagleLogger] interface that provides logger to beagle use in application.
     BeagleLogger logger,
-    Map<String, Operation> customOperations,
+    Map<String, Operation> operations,
   }) {
     Yoga.init();
     httpClient = httpClient ?? const DefaultHttpClient();
@@ -74,8 +75,9 @@ class BeagleSdk {
     );
     
     setupServiceLocator(
-      beagleConfig: beagleConfig ?? DefaultEmptyConfig(),
+      baseUrl: baseUrl,
       httpClient: httpClient,
+      environment: environment,
       components: lowercaseComponents,
       storage: storage ?? DefaultStorage(),
       useBeagleHeaders: useBeagleHeaders ?? true,
@@ -85,7 +87,7 @@ class BeagleSdk {
       imageDownloader: imageDownloader ?? DefaultBeagleImageDownloader(httpClient: httpClient),
       strategy: strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache,
       logger: logger ?? DefaultEmptyLogger(),
-      customOperations: customOperations,
+      operations: operations,
     );
   }
 }

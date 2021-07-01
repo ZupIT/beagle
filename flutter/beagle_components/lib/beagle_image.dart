@@ -41,7 +41,7 @@ class BeagleImage extends StatefulWidget with YogaWidget {
   /// Defines how the declared image will fit the view.
   final ImageContentMode mode;
 
-
+  /// Defines the style of this image. Only width and height are supported for now.
   final BeagleStyle style;
 
   @override
@@ -88,6 +88,7 @@ class _BeagleImageState extends State<BeagleImage> {
         fit: getBoxFit(widget.mode),
       );
     } else {
+      logger.error('Invalid local image: ${path.mobileId}. Have you declared this id in your DesignSystem class?');
       return Container();
     }
   }
@@ -141,7 +142,7 @@ class _BeagleImageState extends State<BeagleImage> {
     } else if (mode == ImageContentMode.FIT_XY) {
       return BoxFit.fill;
     } else {
-      return BoxFit.none;
+      return BoxFit.contain;
     }
   }
 }

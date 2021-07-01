@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import 'package:beagle/service_locator.dart';
-import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +22,8 @@ import 'package:flutter/material.dart';
 /// Defines a widget that displays a horizontal row of tabs, that will be
 /// rendered according to the style of the running platform.
 class BeagleTabBar extends StatefulWidget {
+  static const ICON_SIZE = 32;
+
   const BeagleTabBar({
     Key key,
     this.items,
@@ -30,14 +31,15 @@ class BeagleTabBar extends StatefulWidget {
     this.onTabSelection,
   }) : super(key: key);
 
-  /// List of tabs that will be displayed.
+  /// List of tabs that will be displayed. Note that the number of tabs of a TabView is final and cannot be changed
+  /// after the component has initialized.
   final List<TabBarItem> items;
 
   /// Currently selected Tab.
   final int currentTab;
 
   /// Action that will be performed when a tab is pressed.
-  final Function onTabSelection;
+  final void Function(int) onTabSelection;
 
   @override
   _BeagleTabBarState createState() => _BeagleTabBarState();
@@ -46,13 +48,18 @@ class BeagleTabBar extends StatefulWidget {
 class _BeagleTabBarState extends State<BeagleTabBar>
     with TickerProviderStateMixin {
   TabController _tabController;
+  static final imageStyle = BeagleStyle(
+    size: BeagleSize(
+      height: UnitValue(value: BeagleTabBar.ICON_SIZE, type: UnitType.REAL),
+    ),
+  );
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(
-      initialIndex: widget.currentTab,
-      length: widget.items.length,
+      initialIndex: widget.currentTab ?? 0,
+      length: widget.items == null ? 0 : widget.items.length,
       vsync: this,
     );
   }
@@ -60,7 +67,10 @@ class _BeagleTabBarState extends State<BeagleTabBar>
   @override
   void didUpdateWidget(covariant BeagleTabBar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.currentTab != oldWidget.currentTab) {
+    final currentSelectedTab = widget.currentTab ?? 0;
+    final previousSelectedTab = oldWidget.currentTab ?? 0;
+
+    if (previousSelectedTab != currentSelectedTab) {
       _tabController.animateTo(widget.currentTab);
     }
   }
@@ -81,10 +91,8 @@ class _BeagleTabBarState extends State<BeagleTabBar>
 
   Widget buildCupertinoWidget() {
     return CupertinoTabBar(
-      currentIndex: widget.currentTab,
-      onTap: (tabIndex) {
-        widget.onTabSelection({'value': tabIndex});
-      },
+      currentIndex: widget.currentTab ?? 0,
+      onTap: widget.onTabSelection,
       items: buildCupertinoTabs(),
     );
   }
@@ -92,10 +100,10 @@ class _BeagleTabBarState extends State<BeagleTabBar>
   List<BottomNavigationBarItem> buildCupertinoTabs() {
     return widget.items.map((tabBarItem) {
       return BottomNavigationBarItem(
-        label: tabBarItem.title,
-        icon: _getImageFromAsset(
-          tabBarItem.path.mobileId,
-        ),
+        label: tabBarItem.title ?? '',
+        icon: tabBarItem.icon == null
+            ? Container()
+            : BeagleImage(path: tabBarItem.icon, style: imageStyle),
       );
     }).toList();
   }
@@ -106,9 +114,7 @@ class _BeagleTabBarState extends State<BeagleTabBar>
       color: Theme.of(context).primaryColor,
       child: TabBar(
         controller: _tabController,
-        onTap: (tabIndex) {
-          widget.onTabSelection({'value': tabIndex});
-        },
+        onTap: widget.onTabSelection,
         tabs: buildMaterialTabs(),
       ),
     );
@@ -119,30 +125,23 @@ class _BeagleTabBarState extends State<BeagleTabBar>
         .map(
           (tabBarItem) => Tab(
             text: tabBarItem.title,
-            icon: _getImageFromAsset(
-              tabBarItem.path.mobileId,
-            ),
+            icon: tabBarItem.icon == null
+                ? null
+                : BeagleImage(path: tabBarItem.icon, style: imageStyle),
           ),
         )
         .toList();
   }
-
-  Image _getImageFromAsset(String mobileId) {
-    final designSystem = beagleServiceLocator<BeagleDesignSystem>();
-
-    final assetName = designSystem.image(mobileId);
-
-    return assetName != null ? Image.asset(assetName, fit: BoxFit.fill) : null;
-  }
 }
 
 class TabBarItem {
-  TabBarItem(this.title, this.path);
+  TabBarItem(this.title, this.icon);
 
   TabBarItem.fromJson(Map<String, dynamic> json)
-      : title = json['title'],
-        path = ImagePath.fromJson(json['icon']);
+      : title = json['title'] ?? '',
+        icon =
+            json['icon'] == null ? null : LocalImagePath.fromJson(json['icon']);
 
   final String title;
-  final LocalImagePath path;
+  final LocalImagePath icon;
 }

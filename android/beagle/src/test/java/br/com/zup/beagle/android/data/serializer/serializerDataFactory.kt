@@ -31,6 +31,7 @@ import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.GridView
+import br.com.zup.beagle.android.components.GridViewDirection
 import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.LazyComponent
@@ -184,7 +185,8 @@ fun makeJsonGridView() = """
       "isScrollIndicatorVisible": true,
       "iteratorName": "listItem",
       "key": "listKey",
-      "numColumns": 2
+      "spanCount": 2,
+      "direction": "HORIZONTAL"
     }
 """
 
@@ -290,7 +292,8 @@ fun makeObjectGridView() = GridView(
     isScrollIndicatorVisible = true,
     iteratorName = "listItem",
     key = "listKey",
-    numColumns = 2
+    spanCount = 2,
+    direction = GridViewDirection.HORIZONTAL
 )
 
 fun makeObjectImageWithLocalPath() = Image(
