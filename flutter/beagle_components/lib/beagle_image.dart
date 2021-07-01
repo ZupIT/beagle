@@ -18,18 +18,21 @@ import 'dart:typed_data';
 
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/logger/beagle_logger.dart';
+import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:beagle/style/style_builder.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 /// Defines an image widget that renders local or remote resource depending on
 /// the value passed to [path].
-class BeagleImage extends StatefulWidget {
+class BeagleImage extends StatefulWidget with YogaWidget {
   const BeagleImage({
     Key key,
     this.path,
     this.mode,
+    this.style,
   }) : super(key: key);
 
   /// Defines the location of the image resource.
@@ -37,6 +40,9 @@ class BeagleImage extends StatefulWidget {
 
   /// Defines how the declared image will fit the view.
   final ImageContentMode mode;
+
+
+  final BeagleStyle style;
 
   @override
   _BeagleImageState createState() => _BeagleImageState();
@@ -57,9 +63,10 @@ class _BeagleImageState extends State<BeagleImage> {
 
   @override
   Widget build(BuildContext context) {
-    return isLocalImage()
+    final image = isLocalImage()
         ? createImageFromAsset(widget.path)
         : createImageFromNetwork(widget.path);
+    return buildYogaNode(style: widget.style, child: image);
   }
 
   Future<void> downloadImage() async {

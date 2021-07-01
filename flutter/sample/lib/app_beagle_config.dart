@@ -18,8 +18,7 @@ import 'package:beagle/beagle.dart';
 import 'package:flutter/foundation.dart';
 
 class AppBeagleConfig implements BeagleConfig {
-  static const BASE_URL =
-      'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/ef803a5a3f32aff8c2b7b2d65e0633d485c658a2';
+  static const BASE_URL = 'http://localhost:8080';
 
   @override
   String get baseUrl => BASE_URL;

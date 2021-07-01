@@ -17,7 +17,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:beagle/utils/build_context_utils.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
 import 'package:beagle/components/beagle_undefined_widget.dart';
 import 'package:beagle/interface/beagle_service.dart';
@@ -28,6 +27,7 @@ import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/route.dart';
 import 'package:beagle/networking/beagle_screen_request.dart';
 import 'package:beagle/service_locator.dart';
+import 'package:beagle/utils/build_context_utils.dart';
 import 'package:flutter/widgets.dart';
 
 typedef OnCreateViewListener = void Function(BeagleView view);
@@ -66,7 +66,6 @@ class _BeagleWidget extends State<BeagleWidget> {
   @override
   void initState() {
     super.initState();
-
     _startBeagleView();
   }
 
@@ -115,9 +114,7 @@ class _BeagleWidget extends State<BeagleWidget> {
     final builder = service.components[tree.getType().toLowerCase()];
     if (builder == null) {
       logger.error("Can't find builder for component ${tree.getType()}");
-      return BeagleUndefinedWidget(
-        environment: config.environment,
-      );
+      return BeagleUndefinedWidget(environment: config.environment);
     }
     return builder(tree, widgetChildren, _view);
   }

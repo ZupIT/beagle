@@ -83,6 +83,7 @@ ComponentBuilder beagleContainerBuilder() {
   return (element, children, _) => BeagleContainer(
     key: element.getKey(),
     onInit: element.getAttributeValue('onInit'),
+    style: element.getStyle(),
     children: children,
   );
 }
@@ -171,6 +172,7 @@ ComponentBuilder beagleImageBuilder() {
           ImageContentMode.values,
           element.getAttributeValue('mode') ?? '',
         ),
+        style: element.getStyle(),
       );
 }
 
