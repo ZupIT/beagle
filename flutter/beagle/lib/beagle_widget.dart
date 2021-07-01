@@ -17,13 +17,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:beagle/model/beagle_environment.dart';
-import 'package:beagle/utils/build_context_utils.dart';
 import 'package:beagle/bridge_impl/beagle_view_js.dart';
 import 'package:beagle/components/beagle_undefined_widget.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/beagle_view.dart';
 import 'package:beagle/logger/beagle_logger.dart';
+import 'package:beagle/model/beagle_environment.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/route.dart';
 import 'package:beagle/networking/beagle_screen_request.dart';
