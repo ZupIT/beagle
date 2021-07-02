@@ -47,7 +47,13 @@ class _BeagleSampleScreenState extends State<BeagleSampleScreen> {
           title: Text(widget.title),
         ),
         body: BeagleWidget(
-          screenRequest: BeagleScreenRequest(widget.route)
+          screenJson: """
+         {
+      "_beagleComponent_": "beagle:text",
+      "text": "@{global}",
+      "alignment": "CENTER"
+    }
+          """
         ),
       ),
     );

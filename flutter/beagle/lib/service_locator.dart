@@ -32,6 +32,8 @@ import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter_js/flutter_js.dart';
 import 'package:get_it/get_it.dart';
 
+import 'interface/global_context.dart';
+
 final GetIt beagleServiceLocator = GetIt.instance;
 
 void setupServiceLocator({
@@ -84,7 +86,7 @@ void setupServiceLocator({
       ),
     )
     ..registerFactory<UrlBuilder>(() => UrlBuilder(baseUrl))
-    ..registerFactory(
+    ..registerFactory<GlobalContext>(
       () => GlobalContextJS(beagleServiceLocator<BeagleJSEngine>()),
     );
 }

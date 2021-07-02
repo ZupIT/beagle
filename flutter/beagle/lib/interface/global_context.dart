@@ -1,4 +1,9 @@
+import 'package:beagle/service_locator.dart';
+
 abstract class GlobalContext {
+
+  static GlobalContext get getInstance => beagleServiceLocator();
+
   /// Gets a value in the global context according to the [path] passed as parameter. The [path] is
   /// optional, if not passed, the entire global context is returned. If no value is found for the
   /// provided [path], null is returned.

@@ -17,6 +17,7 @@
 
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
+import 'package:beagle/interface/global_context.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,6 +60,7 @@ void main() {
 }
 
 class BeagleSampleApp extends StatelessWidget {
+
   const BeagleSampleApp({Key key}) : super(key: key);
 
   static final _appBarMenuOptions = [
@@ -101,11 +103,18 @@ class BeagleSampleApp extends StatelessWidget {
         body: Column(
           children: [
             BeagleWidget(
-              screenRequest: BeagleScreenRequest('beagle_lazy'),
-              onCreateView: (view) => {
+              screenJson: """
+            {
+                "_beagleComponent_": "beagle:text",
+                "text": "sadasd @{global.text}",
+                "alignment": "CENTER"
+            }
+          """,
+              onCreateView: (view) {
+
                 view.addErrorListener((errors) {
                   //TODO
-                })
+                });
               },
             ),
           ],
@@ -118,7 +127,8 @@ class BeagleSampleApp extends StatelessWidget {
     Navigator.push(
         context,
         MaterialPageRoute<BeagleSampleScreen>(
-            builder: (buildContext) => BeagleSampleScreen(
+            builder: (buildContext) =>
+                BeagleSampleScreen(
                   title: menuOption.title,
                   route: menuOption.route,
                 )));
