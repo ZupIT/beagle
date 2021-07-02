@@ -45,7 +45,7 @@ object ButtonScreenBuilder {
 
     private fun createButtonScreen(alignContent: AlignContent, marginTop: UnitValue): Screen {
         return Screen(
-            context = ContextData(id = "disabled", value = true),
+            context = ContextData(id = "enabled", value = false),
             navigationBar = NavigationBar(
                 title = "Beagle Button",
                 showBackButton = true,

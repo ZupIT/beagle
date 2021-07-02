@@ -17,39 +17,17 @@
 @tabBar @android @ios
 Feature: TabBar Component Validation
 
-    As a Beagle developer/user
-    I'd like to make sure my tabView component works as expected
-    In order to guarantee that my application never fails
+  As a Beagle developer/user
+  I'd like to make sure my tabView component works as expected
 
-    Background:
-        Given that I'm on the tabBar screen
+  Background:
+    Given that I'm on the tabBar screen
 
+  Scenario: TabBar 01 - Checks that a TabBar component renders all its TabBarItems in the correct order
+    Then I click on each tabBarItem and confirm its position
+    And I validate the buttons that trigger tabBars
 
-    Scenario: TabBar 01 - Checks that a TabBar component renders all its TabBarItems
-    in the correct order
-        Then I click on each tabBarItem and confirm its position
-
-    Scenario Outline: TabBar 02 - Checks that a TabPosition is selected when the currentTab
-    attribute is set HARDCODED and via EXPRESSION
-
-        When I click on button <title>
-        Then the tab with text <tab> must be on screen
-
-        Examples:
-            | title                   | tab  |
-            | Select tab 4 hardcoded  | Tab4 |
-            | Select tab 9 expression | Tab9 |
-
-    Scenario Outline: TabBar 03 - Checks that a list of actions is triggered when a tab is selected.
-
-        When I click on a tab with text <title>
-        Then the tab position should have its text changed to <position>
-
-        Examples:
-            | title | position       |
-            | Tab4  | Tab position 3 |
-
-
+# TODO: tabBar with image (scenarios bellow) are not working on iOS
 # VALIDATE WITH SNAPSHOT TESTS
 
 #    Scenario: TabBar 04 - Checks that a TabBarItem with an ICON is showing the ICON

@@ -16,18 +16,16 @@
 
 package br.com.zup.beagle.cucumber.steps
 
-import br.com.zup.beagle.setup.SuiteSetup
 import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import org.junit.Assert
 
-
-private const val BUTTON_SCREEN_HEADER = "Beagle Button"
-private const val ACTION_CLICK_TEXT = "You clicked right"
-
 class ButtonScreenSteps : AbstractStep() {
+
+    private val buttonScreenHeader = "Beagle Button"
+    private val actionClickText = "You clicked right"
 
     override var bffRelativeUrlPath = "/button"
 
@@ -38,28 +36,28 @@ class ButtonScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the button screen$")
     fun checkButtonScreen() {
-        waitForElementWithTextToBeClickable(BUTTON_SCREEN_HEADER, false, false)
+        waitForElementWithTextToBeClickable(buttonScreenHeader)
     }
 
     @Then("^validate button clicks:$")
     fun checkAlertProperties(dataTable: DataTable) {
-        val rows: List<List<String?>> = dataTable.asLists(String::class.java)
+        val rows = dataTable.asLists()
         for ((lineCount, columns) in rows.withIndex()) {
 
             if (lineCount == 0) // skip header
                 continue
 
-            var buttonTitle = columns[0]!!
-            var actionText = columns[1]!!
-            var buttonElement = waitForElementWithTextToBePresent(buttonTitle, likeSearch = false, ignoreCase = true)
+            val buttonTitle = columns[0]!!
+            val actionText = columns[1]!!
+            val buttonElement = waitForElementWithTextToBePresent(buttonTitle, likeSearch = false, ignoreCase = true)
 
             if (actionText == "Disabled") {
                 Assert.assertFalse(buttonElement.isEnabled)
             } else {
                 safeClickOnElement(buttonElement)
-                waitForElementWithTextToBeClickable(ACTION_CLICK_TEXT, likeSearch = false, ignoreCase = false)
+                waitForElementWithTextToBeClickable(actionClickText)
                 goBack()
-                waitForElementWithTextToBeInvisible(ACTION_CLICK_TEXT, likeSearch = false, ignoreCase = false)
+                waitForElementWithTextToBeInvisible(actionClickText)
             }
         }
     }

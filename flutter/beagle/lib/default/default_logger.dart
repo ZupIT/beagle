@@ -18,7 +18,7 @@ import 'dart:developer' as developer;
 
 import 'package:beagle/logger/beagle_logger.dart';
 
-class AppLogger implements BeagleLogger {
+class DefaultLogger implements BeagleLogger {
   static const BEAGLE_TAG = 'BeagleSDK';
 
   @override

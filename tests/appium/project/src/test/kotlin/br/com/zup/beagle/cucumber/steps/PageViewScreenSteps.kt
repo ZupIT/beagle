@@ -21,31 +21,56 @@ import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 
-private const val PAGEVIEW_SCREEN_HEADER = "Beagle PageView"
-private const val PAGE_1_TEXT = "Page 1"
-private const val PAGE_2_TEXT = "Page 2"
-private const val PAGE_3_TEXT = "Page 3"
-
 class PageViewScreenSteps : AbstractStep() {
+
+    private val pageViewScreenHeader = "Beagle PageView"
+    private val page1Text = "Page 1"
+    private val page2Text = "Page 2"
+    private val page3Text = "Page 3"
+
     override var bffRelativeUrlPath = "/pageview"
 
-    @Before("@pageview")
+    @Before("@pageView")
     fun setup() {
         loadBffScreen()
     }
 
-    @Given("^that I'm on the pageview screen$")
-    fun checkTabViewScreen() {
-        waitForElementWithTextToBeClickable(PAGEVIEW_SCREEN_HEADER, false, false)
+    @Given("^that I'm on the PageView screen$")
+    fun checkPageViewScreen() {
+        waitForElementWithTextToBeClickable(pageViewScreenHeader)
     }
 
-    @Then("^my pageview components should render their respective pages attributes correctly$")
-    fun checkTabViewRendersTabs() {
-        waitForElementWithTextToBeClickable(PAGE_1_TEXT, false, false)
+    @Then("^my PageView components should render their respective pages attributes correctly when swiping left$")
+    fun checkPageViewRendersTabs() {
+
+        /**
+         * Swipe screen sometimes fail due to the screen not being completely loaded, so there are some sleeps below
+         */
+        sleep(400)
+
+        // state 1: shows only page1Text and Context0
+        waitForElementWithTextToBeInvisible(page2Text)
+        waitForElementWithTextToBeInvisible(page3Text)
+        waitForElementWithTextToBeClickable(page1Text)
+        waitForElementWithTextToBeClickable("Context0")
+
+        sleep(300)
         swipeLeft()
-        waitForElementWithTextToBeClickable(PAGE_2_TEXT, false, false)
+
+        // state 2: shows only page2Text and Context1
+        waitForElementWithTextToBeInvisible(page1Text)
+        waitForElementWithTextToBeInvisible(page3Text)
+        waitForElementWithTextToBeClickable(page2Text)
+        waitForElementWithTextToBeClickable("Context1")
+
+        sleep(300)
         swipeLeft()
-        waitForElementWithTextToBeClickable(PAGE_3_TEXT, false, false)
+
+        // state 3: shows only page3Text and Context2
+        waitForElementWithTextToBeInvisible(page1Text)
+        waitForElementWithTextToBeInvisible(page2Text)
+        waitForElementWithTextToBeClickable(page3Text)
+        waitForElementWithTextToBeClickable("Context2")
     }
 
 }

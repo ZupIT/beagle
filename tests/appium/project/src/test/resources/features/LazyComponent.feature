@@ -17,25 +17,23 @@
 @lazyComponent @android @ios
 Feature: Lazy component Validation
 
-    As a Beagle developer/user
-    I'd like to make sure my lazyComponent work as expected
-    In order to guarantee that my application never fails
+  As a Beagle developer/user
+  I'd like to make sure my lazyComponent work as expected
 
-    Background:
-        Given the Beagle application did launch with the LazyComponent Screen
+  Background:
+    Given the Beagle application did launch with the LazyComponent Screen
 
-    Scenario: LazyComponent 01 - Create LazyComponent component and check if it shows the initial
-    component and after making the request it shows the new component.
-
-        When I click on button Call lazy successful component screen
-        Then an screen with an element WebView screen should be visible
+  Scenario: LazyComponent 01 - Create LazyComponent component and check if it shows the initial
+  component and after making the request it shows the new component.
+    When I click on button Call lazy successful component screen
+    Then the screen should show an element with the title WebView screen
 
 #
 #    Scenario 2 is being removed until we have a proper definition on what will happen with error cases.
 #
-#    Scenario: LazyComponent 02 - Create LazyComponent component and check if it shows the initial component
-#    and after making the request with error and check if it only shows the initial component
+#  Scenario: LazyComponent 02 - Create LazyComponent component and check if it shows the initial component
+#  and after making the request with error and check if it only shows the initial component
 #
-#        When I click on button Call lazy failure component screen
-#        Then an screen with an element LazyComponent Failure Screen should be visible
-#        Then an screen with an element Loading to failure should be visible
+#    When I click on button Call lazy failure component screen
+#    Then an screen with an element LazyComponent Failure Screen should be visible
+#    Then an screen with an element Loading to failure should be visible

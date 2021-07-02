@@ -16,41 +16,46 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
 
 class SendRequestScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/send-request"
 
-    @Before("@sendrequest")
+    @Before("@sendRequest")
     fun setup() {
         loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the send request screen url$")
     fun checkTitleScreen() {
-        waitForElementWithTextToBeClickable("Send Request Screen", false, false)
+        waitForElementWithTextToBeClickable("Send Request Screen")
     }
 
-    @When("^I press the (.*) button$")
-    fun clickOnButtonSendRequestSuccess(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
+    @Then("^validate the invoked buttons and its sendRequest actions:$")
+    fun checkAlertProperties(dataTable: DataTable) {
+        val rows = dataTable.asLists()
+        for ((lineCount, columns) in rows.withIndex()) {
+
+            if (lineCount == 0) // skip header
+                continue
+
+            val buttonTitle = columns[0]!!
+            val alertTitle: String? = columns[1]
+
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle))
+
+            if (buttonTitle == "onFinish with success" || buttonTitle == "onFinish with error") {
+                waitForElementWithTextToBeInvisible(buttonTitle)
+                waitForElementWithTextToBeClickable("didFinish")
+            } else {
+                waitForElementWithTextToBeClickable(alertTitle!!)
+                safeClickOnElement(waitForElementWithTextToBeClickable("OK", ignoreCase = true))
+                waitForElementWithTextToBeInvisible(alertTitle)
+            }
+        }
     }
 
-    @Then("^the screen should show some alert with (.*) title$")
-    fun verifyAlertTitle(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false)
-    }
-
-    @When("^I click on sendRequestError button (.*)")
-    fun clickOnButtonSendRequestError(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
-    }
-
-    @Then("^the pressed button changes it's (.*) title to didFinish$")
-    fun verifyChangeTitle(string: String) {
-        waitForElementWithTextToBeInvisible(string, false, false)
-    }
 }

@@ -33,7 +33,6 @@ import org.apache.commons.io.FilenameUtils
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.Point
-import org.openqa.selenium.ScreenOrientation
 import java.io.File
 
 
@@ -50,6 +49,7 @@ abstract class AbstractStep {
         return driver!!
     }
 
+    @Suppress("WeakerAccess")
     protected fun loadBffScreenFromMainScreen() {
         val mainScreen = MainScreen(getDriver())
         mainScreen.setBffUrl(SuiteSetup.getBffBaseUrl() + bffRelativeUrlPath)
@@ -87,8 +87,8 @@ abstract class AbstractStep {
      */
     protected fun waitForElementWithTextToBeClickable(
         elementText: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
+        likeSearch: Boolean = false,
+        ignoreCase: Boolean = false
     ): MobileElement {
         val xpath: By = getNamePropertyLocator(elementText, likeSearch, ignoreCase, nativeLocator = true)
         return AppiumUtil.waitForElementToBeClickable(
@@ -104,8 +104,8 @@ abstract class AbstractStep {
      */
     protected fun waitForElementWithValueToBeClickable(
         elementValue: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
+        likeSearch: Boolean = false,
+        ignoreCase: Boolean = false
     ): MobileElement {
         return waitForElementWithValueToBeClickable(elementValue, likeSearch, ignoreCase, true)
     }
@@ -113,11 +113,12 @@ abstract class AbstractStep {
     /**
      * Waits for an element to be visible and enabled (clickable)
      */
+    @Suppress("WeakerAccess", "SameParameterValue")
     protected fun waitForElementWithValueToBeClickable(
         elementValue: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean,
-        nativeLocator: Boolean
+        likeSearch: Boolean = false,
+        ignoreCase: Boolean = false,
+        nativeLocator: Boolean = false
     ): MobileElement {
         val xpath: By = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, nativeLocator)
         return AppiumUtil.waitForElementToBeClickable(
@@ -132,10 +133,23 @@ abstract class AbstractStep {
      */
     protected fun waitForElementWithValueToBePresent(
         elementValue: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
+        likeSearch: Boolean = false,
+        ignoreCase: Boolean = false
     ): MobileElement {
-        val xpath: By = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, true)
+        return waitForElementWithValueToBePresent(elementValue, likeSearch, ignoreCase, true)
+    }
+
+    /**
+     * Waits for an element to be present on the screen
+     */
+    @Suppress("SameParameterValue")
+    protected fun waitForElementWithValueToBePresent(
+        elementValue: String,
+        likeSearch: Boolean = false,
+        ignoreCase: Boolean = false,
+        nativeLocator: Boolean = false
+    ): MobileElement {
+        val xpath: By = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, nativeLocator)
         return AppiumUtil.waitForElementToBePresent(
             getDriver(),
             xpath,
@@ -146,10 +160,11 @@ abstract class AbstractStep {
     /**
      * Waits for an element to be present on the screen
      */
+    @Suppress("SameParameterValue")
     protected fun waitForElementWithTextToBePresent(
         elementValue: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
+        likeSearch: Boolean = false,
+        ignoreCase: Boolean = false
     ): MobileElement {
         val xpath: By = getNamePropertyLocator(elementValue, likeSearch, ignoreCase, nativeLocator = true)
         return AppiumUtil.waitForElementToBePresent(
@@ -183,36 +198,12 @@ abstract class AbstractStep {
     }
 
     /**
-     * Waits for an element to be visible and disabled (not clickable)
-     */
-    protected fun waitForElementWithTextToBeDisabled(
-        elementText: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
-    ) {
-        val xpath: By = getNamePropertyLocator(elementText, likeSearch, ignoreCase, nativeLocator = true)
-        AppiumUtil.waitForElementToBeDisabled(getDriver(), xpath, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
-    }
-
-    /**
-     * Waits for an element to be visible and disabled (not clickable)
-     */
-    protected fun waitForElementWithValueToBeDisabled(
-        elementValue: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
-    ) {
-        val xpath: By = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, nativeLocator = true)
-        AppiumUtil.waitForElementToBeDisabled(getDriver(), xpath, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
-    }
-
-    /**
      * Waits for an element to be hidden or nonexistent
      */
     protected fun waitForElementWithTextToBeInvisible(
         elementText: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
+        likeSearch: Boolean = false,
+        ignoreCase: Boolean = false
     ) {
         val xpath: By = getNamePropertyLocator(elementText, likeSearch, ignoreCase, nativeLocator = true)
         AppiumUtil.waitForElementToBeInvisible(getDriver(), xpath, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
@@ -223,44 +214,26 @@ abstract class AbstractStep {
      */
     protected fun waitForElementWithValueToBeInvisible(
         elementValue: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
+        likeSearch: Boolean = false,
+        ignoreCase: Boolean = false
     ) {
         val xpath: By = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, nativeLocator = true)
         AppiumUtil.waitForElementToBeInvisible(getDriver(), xpath, DEFAULT_ELEMENT_WAIT_TIME_IN_MILL)
     }
 
-    protected fun scrollDownToElementWithText(
-        elementText: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
-    ): MobileElement {
-        val locator = getNamePropertyLocator(elementText, likeSearch, ignoreCase, false)
-        return scrollToElement(locator, SwipeDirection.UP) // swiping up scrolls down...
-    }
-
     protected fun scrollDownToElementWithValue(
         elementValue: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
+        likeSearch: Boolean = false,
+        ignoreCase: Boolean = false
     ): MobileElement {
         val locator = getValuePropertyLocator(elementValue, likeSearch, ignoreCase, false)
         return scrollToElement(locator, SwipeDirection.UP)
     }
 
-    protected fun scrollUpToElementWithText(
-        elementText: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
-    ): MobileElement {
-        val locator = getNamePropertyLocator(elementText, likeSearch, ignoreCase, false)
-        return scrollToElement(locator, SwipeDirection.DOWN) // swiping down scrolls up...
-    }
-
     protected fun scrollUpToElementWithValue(
         elementText: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
+        likeSearch: Boolean = false,
+        ignoreCase: Boolean = false
     ): MobileElement {
         val locator = getValuePropertyLocator(elementText, likeSearch, ignoreCase, false)
         return scrollToElement(locator, SwipeDirection.DOWN) // swiping down scrolls up...
@@ -280,7 +253,33 @@ abstract class AbstractStep {
     }
 
     protected fun hideKeyboard() {
-        getDriver().hideKeyboard()
+        /**
+         * Appium's method hideKeyBoard doesn't work properly on iOS due to XCUITest issues
+         */
+        if (SuiteSetup.isAndroid()) {
+            getDriver().hideKeyboard()
+        } else {
+            val numericKeyboardCloseButtonLocator =
+                MobileBy.iOSClassChain("**/XCUIElementTypeKeyboard/**/XCUIElementTypeButton[`label == \"retorno\" OR label == \"return\"`]")
+            val genericKeyboardCloseButtonLocator =
+                MobileBy.iOSClassChain("**/XCUIElementTypeToolbar/**/XCUIElementTypeButton[`label == \"Done\"`]")
+
+            if (elementExists(genericKeyboardCloseButtonLocator)) {
+                AppiumUtil.waitForElementToBeClickable(
+                    getDriver(),
+                    genericKeyboardCloseButtonLocator,
+                    DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+                ).click()
+            } else {
+                AppiumUtil.waitForElementToBeClickable(
+                    getDriver(),
+                    numericKeyboardCloseButtonLocator,
+                    DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
+                ).click()
+            }
+
+
+        }
     }
 
     /**
@@ -289,8 +288,8 @@ abstract class AbstractStep {
     protected fun isElementAbove(
         elementText1: String,
         elementText2: String,
-        likeSearch: Boolean,
-        ignoreCase: Boolean
+        likeSearch: Boolean = false,
+        ignoreCase: Boolean = false
     ): Boolean {
         val element1: MobileElement = waitForElementWithTextToBeClickable(elementText1, likeSearch, ignoreCase)
         val element2: MobileElement = waitForElementWithTextToBeClickable(elementText2, likeSearch, ignoreCase)
@@ -306,10 +305,6 @@ abstract class AbstractStep {
 
     protected fun swipeLeft() {
         AppiumUtil.swipeScreenTo(getDriver(), SwipeDirection.LEFT)
-    }
-
-    protected fun swipeRight() {
-        AppiumUtil.swipeScreenTo(getDriver(), SwipeDirection.RIGHT)
     }
 
     protected fun swipeUp() {
@@ -336,6 +331,7 @@ abstract class AbstractStep {
 
     }
 
+    @Suppress("SameParameterValue")
     protected fun scrollFromOnePointToCenterPoint(
         originPoint: Point,
         horizontalScroll: Boolean
@@ -352,15 +348,7 @@ abstract class AbstractStep {
 
     }
 
-
-    protected fun rotateToLandscapePosition() {
-        getDriver().rotate(ScreenOrientation.LANDSCAPE)
-    }
-
-    protected fun rotateToPortraitPosition() {
-        getDriver().rotate(ScreenOrientation.PORTRAIT)
-    }
-
+    @Suppress("SameParameterValue")
     private fun getNamePropertyLocator(
         elementPropertyValue: String,
         likeSearch: Boolean,
@@ -427,7 +415,9 @@ abstract class AbstractStep {
      * the element is inside another element (ex an alert) that is still loading when the click takes place.
      */
     protected fun safeClickOnElement(elementToBeClicked: MobileElement) {
-        sleep(200)
+        if (SuiteSetup.isIos()) {
+            sleep(300)
+        }
         elementToBeClicked.click()
     }
 
@@ -440,7 +430,7 @@ abstract class AbstractStep {
     }
 
     protected fun isTextFieldNumeric(elementText: String): Boolean {
-        val textElement = waitForElementWithValueToBeClickable(elementText, false, false, false)
+        val textElement = waitForElementWithValueToBeClickable(elementText, nativeLocator = false)
         textElement.click()
         sleep(1000) // TouchActions sometimes get called before an element is ready to write
         if (SuiteSetup.isAndroid()) {
@@ -464,17 +454,6 @@ abstract class AbstractStep {
         return true
     }
 
-    /**
-     * Waits for the image at order @order to be clickable and return it
-     */
-    protected fun waitForImageElementToBeVisible(order: Int): MobileElement {
-        return AppiumUtil.waitForElementToBeClickable(
-            getDriver(),
-            waitForImageElements()[order],
-            DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
-        )
-    }
-
     protected fun waitForAllImagesToBeInvisible() {
         AppiumUtil.waitForElementsToBeInvisible(
             getDriver(),
@@ -487,6 +466,7 @@ abstract class AbstractStep {
     /**
      * @return all image elements
      */
+    @Suppress("UNCHECKED_CAST")
     protected fun waitForImageElements(): List<MobileElement> {
         return getDriver().findElements(getImagesLocator()) as List<MobileElement>
     }
@@ -525,6 +505,7 @@ abstract class AbstractStep {
      * Takes a screenshot of the current screen and saves it in the screenshot database folder with
      * the given @param imageName.
      */
+    @Suppress("unused")
     protected fun registerCurrentScreenInDatabase(imageName: String) {
         val screenshotFile = getAppScreenShot()
         val destinationFile = File("${getScreenshotDatabaseFolderPath()}/${imageName}.png")
@@ -539,12 +520,11 @@ abstract class AbstractStep {
     }
 
     private fun getAppScreenShot(): File {
-        if (SuiteSetup.isAndroid()) {
-            return AppiumUtil.getAppScreenshot(getDriver(), getAndroidBaseElementXpath())
+        return if (SuiteSetup.isAndroid()) {
+            AppiumUtil.getAppScreenshot(getDriver(), getAndroidBaseElementXpath())
         } else {
-            return AppiumUtil.getIosAppScreenshot(getDriver())
+            AppiumUtil.getIosAppScreenshot(getDriver())
         }
-
     }
 
     // currently, only Android has an element that is present in all screens
@@ -567,7 +547,7 @@ abstract class AbstractStep {
 
         if (!File(dataBaseFolderPath).exists())
             throw Exception(
-                "Screenshot database folder not found: ${dataBaseFolderPath} " +
+                "Screenshot database folder not found: $dataBaseFolderPath " +
                         "\nCreate this folder and refer to function registerCurrentScreenInDatabase " +
                         "to create a reference screenshot inside that folder"
             )
@@ -579,7 +559,7 @@ abstract class AbstractStep {
         SuiteSetup.restartApp()
     }
 
-    protected fun elementExists(locator: By): Boolean {
+    private fun elementExists(locator: By): Boolean {
         return AppiumUtil.elementExists(getDriver(), locator, 2000)
     }
 
@@ -591,14 +571,20 @@ abstract class AbstractStep {
         if (SuiteSetup.isAndroid()) {
             getDriver().navigate().back()
         } else {
+
+            // waits for the animation to finish
+            sleep(200)
+
             // caution: not all iOS bff screens have the back button.
-            var locator = By.xpath("//XCUIElementTypeNavigationBar//XCUIElementTypeButton[1]")
+            val locator = By.xpath("//XCUIElementTypeNavigationBar//XCUIElementTypeButton[1]")
             safeClickOnElement(
                 AppiumUtil.waitForElementToBeClickable(
-                    getDriver(), locator,
+                    getDriver(),
+                    locator,
                     DEFAULT_ELEMENT_WAIT_TIME_IN_MILL
                 )
             )
+
         }
     }
 }

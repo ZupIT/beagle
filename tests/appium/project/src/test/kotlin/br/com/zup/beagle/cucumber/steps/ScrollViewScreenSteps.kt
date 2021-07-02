@@ -28,11 +28,12 @@ import io.cucumber.java.en.When
 import org.junit.Assert
 import org.openqa.selenium.By
 
-private const val SCROLLVIEW_SCREEN_HEADER = "Beagle ScrollView"
-private const val NEW_TEXT_PREFIX = "Lorem ipsum diam luctus"
-private const val NEW_TEXT_SUFFIX = "proin iaculis orci gravida molestie."
-
 class ScrollViewScreenSteps : AbstractStep() {
+
+    private val scrollViewScreenHeader = "Beagle ScrollView"
+    private val newTextPrefix = "Lorem ipsum diam luctus"
+    private val newTextSufix = "proin iaculis orci gravida molestie."
+
     override var bffRelativeUrlPath = "/scrollview"
 
     // cache
@@ -49,20 +50,20 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the scrollview screen$")
     fun checkScrollViewScreen() {
-        waitForElementWithTextToBeClickable(SCROLLVIEW_SCREEN_HEADER, likeSearch = false, ignoreCase = false)
+        waitForElementWithTextToBeClickable(scrollViewScreenHeader)
     }
 
     @When("^I access ScrollView (.*)$")
     fun cacheScrollView(scrollViewElementNumber: Int) {
         when (scrollViewElementNumber) {
             1 -> {
-                scrollViewElement1 = getScrollViewElement(1)!!
+                scrollViewElement1 = getScrollViewElement(1)
             }
             2 -> {
-                scrollViewElement2 = getScrollViewElement(2)!!
+                scrollViewElement2 = getScrollViewElement(2)
             }
             else -> {
-                scrollViewElement3 = getScrollViewElement(3)!!
+                scrollViewElement3 = getScrollViewElement(3)
             }
         }
     }
@@ -121,8 +122,8 @@ class ScrollViewScreenSteps : AbstractStep() {
         val text2 = "Click to see the new text in horizontal"
         val text3 = "Click to see the text change, rotate and scroll horizontally"
 
-        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement1)
-        var textElement1 = textElementsTemp.elementAt(0)
+        val textElementsTemp = getScrollViewChildTextElements(scrollViewElement1)
+        val textElement1 = textElementsTemp.elementAt(0)
         var textElement2 = textElementsTemp.elementAt(1)
         var textElement3 = textElementsTemp.elementAt(2)
 
@@ -134,9 +135,9 @@ class ScrollViewScreenSteps : AbstractStep() {
         // ScrollView 1 second state: new texts showing instead of text 2 and 3
         textElement2.click()
         Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement1, text2))
-        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement1, NEW_TEXT_PREFIX).last()
-        Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
-        Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement1, newTextPrefix).last()
+        Assert.assertTrue(textElement2.text.startsWith(newTextPrefix))
+        Assert.assertTrue(textElement2.text.endsWith(newTextSufix))
 
         if (SuiteSetup.isIos()) {
             AppiumUtil.iosScrollInsideElement(getDriver(), scrollViewElement1, SwipeDirection.RIGHT)
@@ -146,9 +147,9 @@ class ScrollViewScreenSteps : AbstractStep() {
 
         textElement3.click()
         Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement1, text3))
-        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement1, NEW_TEXT_PREFIX).last()
-        Assert.assertTrue(textElement3.text.startsWith(NEW_TEXT_PREFIX))
-        Assert.assertTrue(textElement3.text.endsWith(NEW_TEXT_SUFFIX))
+        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement1, newTextPrefix).last()
+        Assert.assertTrue(textElement3.text.startsWith(newTextPrefix))
+        Assert.assertTrue(textElement3.text.endsWith(newTextSufix))
 
         // ScrollView 1 third state: scrolls until the end
         if (SuiteSetup.isIos()) {
@@ -165,8 +166,8 @@ class ScrollViewScreenSteps : AbstractStep() {
         val text2 = "Click to see the new text in vertical"
         val text3 = "Click to see the text change, rotate and scroll vertically"
 
-        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement2)
-        var textElement1 = textElementsTemp.elementAt(0)
+        val textElementsTemp = getScrollViewChildTextElements(scrollViewElement2)
+        val textElement1 = textElementsTemp.elementAt(0)
         var textElement2 = textElementsTemp.elementAt(1)
         var textElement3 = textElementsTemp.elementAt(2)
 
@@ -179,9 +180,9 @@ class ScrollViewScreenSteps : AbstractStep() {
         // ScrollView 2 second state: new texts showing instead of text 2 and 3
         textElement2.click()
         Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2, text2))
-        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement2, NEW_TEXT_PREFIX).last()
-        Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
-        Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement2, newTextPrefix).last()
+        Assert.assertTrue(textElement2.text.startsWith(newTextPrefix))
+        Assert.assertTrue(textElement2.text.endsWith(newTextSufix))
 
         // Scrolls to text3
         if (SuiteSetup.isIos()) {
@@ -197,9 +198,9 @@ class ScrollViewScreenSteps : AbstractStep() {
 
         textElement3.click()
         Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement2, text3))
-        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement2, NEW_TEXT_PREFIX).last()
-        Assert.assertTrue(textElement3.text.startsWith(NEW_TEXT_PREFIX))
-        Assert.assertTrue(textElement3.text.endsWith(NEW_TEXT_SUFFIX))
+        textElement3 = getScrollViewChildrenTextElementByText(scrollViewElement2, newTextPrefix).last()
+        Assert.assertTrue(textElement3.text.startsWith(newTextPrefix))
+        Assert.assertTrue(textElement3.text.endsWith(newTextSufix))
 
         // ScrollView 2 third state: scrolls until the end
         if (SuiteSetup.isIos()) {
@@ -216,10 +217,10 @@ class ScrollViewScreenSteps : AbstractStep() {
         val text2 = "Click to see the new text"
         val text3 = "Horizontal scroll within scroll"
 
-        var textElementsTemp = getScrollViewChildTextElements(scrollViewElement3)
-        var textElement1 = textElementsTemp.elementAt(0)
+        val textElementsTemp = getScrollViewChildTextElements(scrollViewElement3)
+        val textElement1 = textElementsTemp.elementAt(0)
         var textElement2 = textElementsTemp.elementAt(1)
-        var textElement3 = textElementsTemp.elementAt(2)
+        val textElement3 = textElementsTemp.elementAt(2)
 
         // ScrollView 3 original state: three elements showing
         Assert.assertEquals(text1, textElement1.text)
@@ -229,9 +230,9 @@ class ScrollViewScreenSteps : AbstractStep() {
         // ScrollView 3 second state: only the new text showing
         textElement2.click()
         Assert.assertFalse(scrollViewChildElementTextExists(scrollViewElement3, text2))
-        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement3, NEW_TEXT_PREFIX).last()
-        Assert.assertTrue(textElement2.text.startsWith(NEW_TEXT_PREFIX))
-        Assert.assertTrue(textElement2.text.endsWith(NEW_TEXT_SUFFIX))
+        textElement2 = getScrollViewChildrenTextElementByText(scrollViewElement3, newTextPrefix).last()
+        Assert.assertTrue(textElement2.text.startsWith(newTextPrefix))
+        Assert.assertTrue(textElement2.text.endsWith(newTextSufix))
 
         // Scrolls to the bottom
         if (SuiteSetup.isIos()) {
@@ -266,8 +267,8 @@ class ScrollViewScreenSteps : AbstractStep() {
         }
     }
 
-    private fun getScrollViewElement(scrollViewElementNumber: Int): MobileElement? {
-        var locator: By?
+    private fun getScrollViewElement(scrollViewElementNumber: Int): MobileElement {
+        val locator: By?
 
         when (scrollViewElementNumber) {
             1 -> {
@@ -300,18 +301,16 @@ class ScrollViewScreenSteps : AbstractStep() {
 
     }
 
+    @Suppress("SameParameterValue")
     private fun getScrollViewChildrenTextElementByText(
         scrollViewElement: MobileElement,
         elementTextQuery: String
     ): Collection<MobileElement> {
-        var locator: By?
 
-        if (SuiteSetup.isIos()) {
-            locator =
-                MobileBy.iOSClassChain("**/XCUIElementTypeTextView[`value BEGINSWITH \"$elementTextQuery\"`]")
+        val locator: By = if (SuiteSetup.isIos()) {
+            MobileBy.iOSClassChain("**/XCUIElementTypeTextView[`value BEGINSWITH \"$elementTextQuery\"`]")
         } else {
-            locator =
-                By.xpath(".//android.widget.TextView[starts-with(@text,'$elementTextQuery')]")
+            By.xpath(".//android.widget.TextView[starts-with(@text,'$elementTextQuery')]")
         }
 
         return waitForChildrenElementsToBePresent(scrollViewElement, locator)
@@ -320,14 +319,11 @@ class ScrollViewScreenSteps : AbstractStep() {
     private fun getScrollViewChildTextElements(
         scrollViewElement: MobileElement
     ): Collection<MobileElement> {
-        var locator: By?
 
-        if (SuiteSetup.isIos()) {
-            locator =
-                MobileBy.iOSClassChain("**/XCUIElementTypeTextView")
+        val locator: By = if (SuiteSetup.isIos()) {
+            MobileBy.iOSClassChain("**/XCUIElementTypeTextView")
         } else {
-            locator =
-                By.xpath(".//android.widget.TextView")
+            By.xpath(".//android.widget.TextView")
         }
 
         return waitForChildrenElementsToBePresent(scrollViewElement, locator)
@@ -337,26 +333,22 @@ class ScrollViewScreenSteps : AbstractStep() {
         scrollViewElement: MobileElement,
         elementTextQuery: String
     ): Boolean {
-        var locator: By?
 
-        if (SuiteSetup.isIos()) {
-            locator =
-                MobileBy.iOSClassChain("**/XCUIElementTypeTextView[`value == \"$elementTextQuery\"`]")
+        val locator: By = if (SuiteSetup.isIos()) {
+            MobileBy.iOSClassChain("**/XCUIElementTypeTextView[`value == \"$elementTextQuery\"`]")
         } else {
-            locator =
-                By.xpath(".//android.widget.TextView[@text='$elementTextQuery']")
+            By.xpath(".//android.widget.TextView[@text='$elementTextQuery']")
         }
 
         return childElementExists(scrollViewElement, locator)
     }
 
     private fun isButtonShowingInsideOfScrollView(scrollViewElement: MobileElement, buttonText: String): Boolean {
-        var locator: By
 
-        if (SuiteSetup.isIos()) {
-            locator = MobileBy.iOSClassChain("**/XCUIElementTypeButton[`name == \"$buttonText\"`]")
+        val locator: By = if (SuiteSetup.isIos()) {
+            MobileBy.iOSClassChain("**/XCUIElementTypeButton[`name == \"$buttonText\"`]")
         } else {
-            locator = By.xpath(".//android.widget.Button[@text='$buttonText']")
+            By.xpath(".//android.widget.Button[@text='$buttonText']")
         }
 
         if (childElementExists(scrollViewElement, locator)) {

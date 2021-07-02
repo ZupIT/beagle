@@ -18,7 +18,6 @@ package br.com.zup.beagle.cucumber.steps
 
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
-import io.cucumber.java.en.Then
 
 class ContainerScreenSteps : AbstractStep() {
 
@@ -31,20 +30,6 @@ class ContainerScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the container screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("Container Screen", false, false)
+        waitForElementWithTextToBeClickable("Container Screen")
     }
-
-    @Then("^the view that contains the texts with titles (.*) (.*) and (.*) must be displayed$")
-    fun checkTextExistsInAView(string1:String, string2:String, string3:String) {
-        waitForElementWithTextToBeClickable(string1, false, false)
-        waitForElementWithTextToBeClickable(string2, false, false)
-        waitForElementWithTextToBeClickable(string3, false, false)
-    }
-
-    @Then("^the views that contains the text (.*) set via context must be displayed$")
-    fun checkTextExistsInAViewSetViaContext(string1:String) {
-        waitForElementWithTextToBeClickable(string1, false, false)
-    }
-
-
 }
