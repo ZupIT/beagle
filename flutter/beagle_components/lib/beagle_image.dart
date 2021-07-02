@@ -67,7 +67,8 @@ class _BeagleImageState extends State<BeagleImage> {
     final image = isLocalImage()
         ? createImageFromAsset(widget.path)
         : createImageFromNetwork(widget.path);
-    return beagleYogaFactory.createYogaNode(style: widget.style, child: image);
+    // TODO when implement yoga to all beagle components, this YogaLayout should be replaced by a single YogaNode
+    return beagleYogaFactory.createYogaLayout(style: widget.style, children: [image]);
   }
 
   Future<void> downloadImage() async {

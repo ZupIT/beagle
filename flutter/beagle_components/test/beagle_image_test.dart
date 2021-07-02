@@ -60,11 +60,12 @@ void main() {
   const errorStatusCode = 404;
   const imageKey = Key('BeagleImage');
 
-  when(beagleYogaFactoryMock.createYogaNode(
+  when(beagleYogaFactoryMock.createYogaLayout(
     style: anyNamed('style'),
-    child: anyNamed('child'),
+    children: anyNamed('children'),
   )).thenAnswer((realInvocation) {
-    return realInvocation.namedArguments.values.last;
+    final List<Widget> children = realInvocation.namedArguments.values.last;
+    return children.first;
   });
 
   when(designSystemMock.image(defaultPlaceholder))
