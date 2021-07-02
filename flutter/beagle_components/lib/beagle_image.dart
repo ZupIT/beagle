@@ -51,6 +51,7 @@ class BeagleImage extends StatefulWidget with YogaWidget {
 class _BeagleImageState extends State<BeagleImage> {
   Future<Uint8List> imageBytes;
   BeagleLogger logger = beagleServiceLocator<BeagleLogger>();
+  BeagleYogaFactory beagleYogaFactory = beagleServiceLocator();
 
   @override
   void initState() {
@@ -66,7 +67,7 @@ class _BeagleImageState extends State<BeagleImage> {
     final image = isLocalImage()
         ? createImageFromAsset(widget.path)
         : createImageFromNetwork(widget.path);
-    return buildYogaNode(style: widget.style, child: image);
+    return beagleYogaFactory.createYogaNode(style: widget.style, child: image);
   }
 
   Future<void> downloadImage() async {

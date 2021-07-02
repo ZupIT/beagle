@@ -23,3 +23,4 @@ export 'package:beagle/beagle_widget.dart';
 export 'package:beagle/model/beagle_environment.dart';
 export 'package:beagle/networking/beagle_request.dart';
 export 'package:beagle/networking/beagle_screen_request.dart';
+export 'package:beagle/style/style_builder.dart';

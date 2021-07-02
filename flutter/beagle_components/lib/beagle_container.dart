@@ -16,6 +16,7 @@
  */
 
 import 'package:beagle/model/beagle_style.dart';
+import 'package:beagle/service_locator.dart';
 import 'package:beagle/style/style_builder.dart';
 import 'package:beagle_components/after_layout.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,8 @@ class BeagleContainer extends StatefulWidget with YogaWidget {
 }
 
 class _BeagleContainer extends State<BeagleContainer> with AfterLayoutMixin<BeagleContainer> {
+  BeagleYogaFactory beagleYogaFactory = beagleServiceLocator();
+
   @override
   void afterFirstLayout(BuildContext context) {
     if (widget.onInit != null) widget.onInit();
@@ -50,8 +53,7 @@ class _BeagleContainer extends State<BeagleContainer> with AfterLayoutMixin<Beag
 
   @override
   Widget build(BuildContext context) {
-    return buildYogaLayout(
-      key: widget.key,
+    return beagleYogaFactory.createYogaLayout(
       style: widget.style,
       children: widget.children,
     );

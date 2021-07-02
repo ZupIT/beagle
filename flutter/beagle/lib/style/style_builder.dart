@@ -21,37 +21,36 @@ import 'package:yoga_engine/yoga_engine.dart';
 
 mixin YogaWidget {}
 
-YogaLayout buildYogaLayout({
-  Key key,
-  BeagleStyle style,
-  List<Widget> children,
-}) {
-  final nodeProperties = mapToNodeProperties(style);
-  final mappedChildren = children
-      .map(
-        (child) => child is YogaWidget
-            ? child
-            : YogaNode(
-                nodeProperties: mapToNodeProperties(BeagleStyle()),
-                child: child,
-              ),
-      )
-      .toList();
-  return YogaLayout(
-    key: key,
-    nodeProperties: nodeProperties,
-    children: mappedChildren,
-  );
-}
+class BeagleYogaFactory {
+  Widget createYogaNode({
+    BeagleStyle style,
+    Widget child,
+  }) {
+    final nodeProperties = mapToNodeProperties(style);
+    return YogaNode(
+      nodeProperties: nodeProperties,
+      child: child,
+    );
+  }
 
-YogaNode buildYogaNode({
-  Key key,
-  BeagleStyle style,
-  Widget child,
-}) {
-  final nodeProperties = mapToNodeProperties(style);
-  return YogaNode(
-    nodeProperties: nodeProperties,
-    child: child,
-  );
+  Widget createYogaLayout({
+    BeagleStyle style,
+    List<Widget> children,
+  }) {
+    final nodeProperties = mapToNodeProperties(style);
+    final mappedChildren = children
+        .map(
+          (child) => child is YogaWidget
+              ? child
+              : YogaNode(
+                  nodeProperties: mapToNodeProperties(BeagleStyle()),
+                  child: child,
+                ),
+        )
+        .toList();
+    return YogaLayout(
+      nodeProperties: nodeProperties,
+      children: mappedChildren,
+    );
+  }
 }
