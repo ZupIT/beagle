@@ -16,10 +16,9 @@ dependencies:
   get_it: ^7.1.3
   url_launcher: ^6.0.6
   yoga_engine:
-    path: ../../../yoga/flutter
-#    git:
-#      url: git://github.com/ZupIT/yoga.git
-#      path: flutter
+    git:
+      url: git://github.com/ZupIT/yoga.git
+      path: flutter
 
 dev_dependencies:
   flutter_test:
