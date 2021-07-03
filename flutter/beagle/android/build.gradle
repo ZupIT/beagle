@@ -47,13 +47,11 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
     }
     lintOptions {
         disable 'InvalidPackage'
     }
-    ndkVersion '22.1.7171670'
-    buildToolsVersion '30.0.3'
 }
 
 dependencies {
