@@ -41,30 +41,22 @@ NodeProperties mapToNodeProperties(BeagleStyle style) {
   return nodeProperties;
 }
 
+const Map<FlexPosition, YGPositionType> _flexPositionMap = {
+  FlexPosition.ABSOLUTE: YGPositionType.YGPositionTypeAbsolute,
+  FlexPosition.RELATIVE: YGPositionType.YGPositionTypeRelative,
+};
+
 YGPositionType _mapPositionType(FlexPosition flexPosition) {
-  var positionType = YGPositionType.YGPositionTypeStatic;
-  switch (flexPosition) {
-    case FlexPosition.ABSOLUTE:
-      positionType = YGPositionType.YGPositionTypeAbsolute;
-      break;
-    case FlexPosition.RELATIVE:
-      positionType = YGPositionType.YGPositionTypeRelative;
-      break;
-  }
-  return positionType;
+  return _flexPositionMap[flexPosition] ?? YGPositionType.YGPositionTypeStatic;
 }
 
+const Map<FlexDisplay, YGDisplay> _flexDisplayMap = {
+  FlexDisplay.FLEX: YGDisplay.YGDisplayFlex,
+  FlexDisplay.NONE: YGDisplay.YGDisplayNone,
+};
+
 YGDisplay _mapDisplay(FlexDisplay flexDisplay) {
-  var display = YGDisplay.YGDisplayFlex;
-  switch (flexDisplay) {
-    case FlexDisplay.FLEX:
-      display = YGDisplay.YGDisplayFlex;
-      break;
-    case FlexDisplay.NONE:
-      display = YGDisplay.YGDisplayNone;
-      break;
-  }
-  return display;
+  return _flexDisplayMap[flexDisplay] ?? YGDisplay.YGDisplayFlex;
 }
 
 void _mapFlex(NodeProperties nodeProperties, BeagleFlex flex) {
@@ -90,136 +82,76 @@ void _mapFlex(NodeProperties nodeProperties, BeagleFlex flex) {
   }
 }
 
+const Map<AlignContent, YGAlign> _alignContentMap = {
+  AlignContent.FLEX_START: YGAlign.YGAlignFlexStart,
+  AlignContent.CENTER: YGAlign.YGAlignFlexStart,
+  AlignContent.FLEX_END: YGAlign.YGAlignFlexEnd,
+  AlignContent.STRETCH: YGAlign.YGAlignStretch,
+  AlignContent.SPACE_AROUND: YGAlign.YGAlignSpaceAround,
+  AlignContent.SPACE_BETWEEN: YGAlign.YGAlignSpaceBetween,
+};
+
 YGAlign _mapAlignContent(AlignContent alignContent) {
-  var align = YGAlign.YGAlignFlexStart;
-  switch (alignContent) {
-    case AlignContent.FLEX_START:
-      align = YGAlign.YGAlignFlexStart;
-      break;
-    case AlignContent.CENTER:
-      align = YGAlign.YGAlignCenter;
-      break;
-    case AlignContent.FLEX_END:
-      align = YGAlign.YGAlignFlexEnd;
-      break;
-    case AlignContent.STRETCH:
-      align = YGAlign.YGAlignStretch;
-      break;
-    case AlignContent.SPACE_AROUND:
-      align = YGAlign.YGAlignSpaceAround;
-      break;
-    case AlignContent.SPACE_BETWEEN:
-      align = YGAlign.YGAlignSpaceBetween;
-      break;
-  }
-  return align;
+  return _alignContentMap[alignContent] ?? YGAlign.YGAlignFlexStart;
 }
+
+const Map<AlignItems, YGAlign> _alignItemsMap = {
+  AlignItems.STRETCH: YGAlign.YGAlignStretch,
+  AlignItems.FLEX_START: YGAlign.YGAlignFlexStart,
+  AlignItems.CENTER: YGAlign.YGAlignCenter,
+  AlignItems.FLEX_END: YGAlign.YGAlignFlexEnd,
+  AlignItems.BASELINE: YGAlign.YGAlignBaseline,
+};
 
 YGAlign _mapAlignItems(AlignItems alignItems) {
-  var align = YGAlign.YGAlignStretch;
-  switch (alignItems) {
-    case AlignItems.STRETCH:
-      align = YGAlign.YGAlignStretch;
-      break;
-    case AlignItems.FLEX_START:
-      align = YGAlign.YGAlignFlexStart;
-      break;
-    case AlignItems.CENTER:
-      align = YGAlign.YGAlignCenter;
-      break;
-    case AlignItems.FLEX_END:
-      align = YGAlign.YGAlignFlexEnd;
-      break;
-    case AlignItems.BASELINE:
-      align = YGAlign.YGAlignBaseline;
-      break;
-  }
-  return align;
+  return _alignItemsMap[alignItems] ?? YGAlign.YGAlignStretch;
 }
+
+const Map<AlignSelf, YGAlign> _alignSelfMap = {
+  AlignSelf.AUTO: YGAlign.YGAlignAuto,
+  AlignSelf.FLEX_START: YGAlign.YGAlignFlexStart,
+  AlignSelf.CENTER: YGAlign.YGAlignCenter,
+  AlignSelf.FLEX_END: YGAlign.YGAlignFlexEnd,
+  AlignSelf.STRETCH: YGAlign.YGAlignStretch,
+  AlignSelf.BASELINE: YGAlign.YGAlignBaseline,
+};
 
 YGAlign _mapAlignSelf(AlignSelf alignSelf) {
-  var align = YGAlign.YGAlignAuto;
-  switch (alignSelf) {
-    case AlignSelf.AUTO:
-      align = YGAlign.YGAlignAuto;
-      break;
-    case AlignSelf.FLEX_START:
-      align = YGAlign.YGAlignFlexStart;
-      break;
-    case AlignSelf.CENTER:
-      align = YGAlign.YGAlignCenter;
-      break;
-    case AlignSelf.FLEX_END:
-      align = YGAlign.YGAlignFlexEnd;
-      break;
-    case AlignSelf.STRETCH:
-      align = YGAlign.YGAlignStretch;
-      break;
-    case AlignSelf.BASELINE:
-      align = YGAlign.YGAlignBaseline;
-      break;
-  }
-  return align;
+  return _alignSelfMap[alignSelf] ?? YGAlign.YGAlignAuto;
 }
+
+const Map<FlexDirection, YGFlexDirection> _flexDirectionMap = {
+  FlexDirection.COLUMN: YGFlexDirection.YGFlexDirectionColumn,
+  FlexDirection.ROW: YGFlexDirection.YGFlexDirectionRow,
+  FlexDirection.COLUMN_REVERSE: YGFlexDirection.YGFlexDirectionColumnReverse,
+  FlexDirection.ROW_REVERSE: YGFlexDirection.YGFlexDirectionRowReverse,
+};
 
 YGFlexDirection _mapFlexDirection(FlexDirection flexDirection) {
-  var direction = YGFlexDirection.YGFlexDirectionColumn;
-  switch (flexDirection) {
-    case FlexDirection.COLUMN:
-      direction = YGFlexDirection.YGFlexDirectionColumn;
-      break;
-    case FlexDirection.ROW:
-      direction = YGFlexDirection.YGFlexDirectionRow;
-      break;
-    case FlexDirection.COLUMN_REVERSE:
-      direction = YGFlexDirection.YGFlexDirectionColumnReverse;
-      break;
-    case FlexDirection.ROW_REVERSE:
-      direction = YGFlexDirection.YGFlexDirectionRowReverse;
-      break;
-  }
-  return direction;
+  return _flexDirectionMap[flexDirection] ?? YGFlexDirection.YGFlexDirectionColumn;
 }
+
+const Map<FlexWrap, YGWrap> _flexWrapMap = {
+  FlexWrap.NO_WRAP: YGWrap.YGWrapNoWrap,
+  FlexWrap.WRAP: YGWrap.YGWrapWrap,
+  FlexWrap.WRAP_REVERSE: YGWrap.YGWrapWrapReverse,
+};
 
 YGWrap _mapWrap(FlexWrap flexWrap) {
-  var wrap = YGWrap.YGWrapNoWrap;
-  switch (flexWrap) {
-    case FlexWrap.NO_WRAP:
-      wrap = YGWrap.YGWrapNoWrap;
-      break;
-    case FlexWrap.WRAP:
-      wrap = YGWrap.YGWrapWrap;
-      break;
-    case FlexWrap.WRAP_REVERSE:
-      wrap = YGWrap.YGWrapWrapReverse;
-      break;
-  }
-  return wrap;
+  return _flexWrapMap[flexWrap] ?? YGWrap.YGWrapNoWrap;
 }
 
+const Map<JustifyContent, YGJustify> _justifyContentMap = {
+  JustifyContent.FLEX_START: YGJustify.YGJustifyFlexStart,
+  JustifyContent.CENTER: YGJustify.YGJustifyCenter,
+  JustifyContent.FLEX_END: YGJustify.YGJustifyFlexEnd,
+  JustifyContent.SPACE_BETWEEN: YGJustify.YGJustifySpaceBetween,
+  JustifyContent.SPACE_AROUND: YGJustify.YGJustifySpaceAround,
+  JustifyContent.SPACE_EVENLY: YGJustify.YGJustifySpaceEvenly,
+};
+
 YGJustify _mapJustify(JustifyContent justifyContent) {
-  var justify = YGJustify.YGJustifyFlexStart;
-  switch (justifyContent) {
-    case JustifyContent.FLEX_START:
-      justify = YGJustify.YGJustifyFlexStart;
-      break;
-    case JustifyContent.CENTER:
-      justify = YGJustify.YGJustifyCenter;
-      break;
-    case JustifyContent.FLEX_END:
-      justify = YGJustify.YGJustifyFlexEnd;
-      break;
-    case JustifyContent.SPACE_BETWEEN:
-      justify = YGJustify.YGJustifySpaceBetween;
-      break;
-    case JustifyContent.SPACE_AROUND:
-      justify = YGJustify.YGJustifySpaceAround;
-      break;
-    case JustifyContent.SPACE_EVENLY:
-      justify = YGJustify.YGJustifySpaceEvenly;
-      break;
-  }
-  return justify;
+  return _justifyContentMap[justifyContent] ?? YGJustify.YGJustifyFlexStart;
 }
 
 void _mapSize(NodeProperties nodeProperties, BeagleSize size) {
