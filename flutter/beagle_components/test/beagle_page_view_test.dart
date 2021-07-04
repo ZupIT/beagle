@@ -37,15 +37,11 @@ void main() {
   }) {
     return MaterialApp(
       home: Scaffold(
-        body: Column(
-          children: [
-            BeaglePageView(
-              key: key,
-              onPageChange: onPageChange,
-              currentPage: currentPage,
-              children: pages,
-            ),
-          ],
+        body: BeaglePageView(
+          key: key,
+          onPageChange: onPageChange,
+          currentPage: currentPage,
+          children: pages,
         ),
       ),
     );
