@@ -58,6 +58,7 @@ void setupServiceLocator({
     ..registerSingleton<BeagleJSEngine>(
       createBeagleJSEngineInstance(storage),
     )
+    ..registerSingleton<GlobalContext>(GlobalContextJS(beagleServiceLocator<BeagleJSEngine>()),)
     ..registerSingleton<BeagleDesignSystem>(designSystem)
     ..registerSingleton<BeagleImageDownloader>(imageDownloader)
     ..registerSingleton<BeagleLogger>(logger)
@@ -85,10 +86,7 @@ void setupServiceLocator({
         initialControllerId: initialControllerId,
       ),
     )
-    ..registerFactory<UrlBuilder>(() => UrlBuilder(baseUrl))
-    ..registerFactory<GlobalContext>(
-      () => GlobalContextJS(beagleServiceLocator<BeagleJSEngine>()),
-    );
+    ..registerFactory<UrlBuilder>(() => UrlBuilder(baseUrl));
 }
 
 JavascriptRuntimeWrapper createJavascriptRuntimeWrapperInstance() =>

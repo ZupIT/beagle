@@ -72,6 +72,8 @@ class BeagleSampleApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalContext.getInstance().then((value) => value.set("Value One", "key_one"));
+    GlobalContext.getInstance().then((value) => value.set("Value Two", "key_two"));
     return MaterialApp(
       title: 'Beagle Sample',
       theme: ThemeData(
@@ -106,12 +108,11 @@ class BeagleSampleApp extends StatelessWidget {
               screenJson: """
             {
                 "_beagleComponent_": "beagle:text",
-                "text": "sadasd @{global.text}",
+                "text": "sadasd @{global}",
                 "alignment": "CENTER"
             }
           """,
               onCreateView: (view) {
-
                 view.addErrorListener((errors) {
                   //TODO
                 });
