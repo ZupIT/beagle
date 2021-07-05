@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.setFlex
 import br.com.zup.beagle.sample.constants.BLACK
 import br.com.zup.beagle.sample.constants.LIGHT_GREY
 import br.com.zup.beagle.widget.action.Alert
@@ -24,7 +24,6 @@ import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -58,17 +57,15 @@ object PageViewScreenBuilder : ScreenBuilder {
         child = Container(
             children = listOf(
                 Button(
-                    "ir página 3",
+                    "Go to Page 3",
                     onPress = listOf(SetContext("context", 2))
                 ),
                 PageView(
                     children = (1..3).map {
-                        Text("Page $it", alignment = TextAlignment.CENTER).applyFlex(
-                            Flex(
-                                alignSelf = AlignSelf.CENTER,
-                                grow = 1.0
-                            )
-                        )
+                        Text("Page $it", alignment = TextAlignment.CENTER).setFlex {
+                            alignSelf = AlignSelf.CENTER
+                            grow = 1.0
+                        }
                     },
                     onPageChange = listOf(SetContext("context", "@{onPageChange}")),
                     currentPage = expressionOf("@{context}")
@@ -81,6 +78,6 @@ object PageViewScreenBuilder : ScreenBuilder {
                 )
             ),
             context = ContextData("context", 0)
-        ).applyFlex(Flex(grow = 1.0))
+        ).setFlex { grow = 1.0 }
     )
 }

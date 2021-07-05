@@ -47,6 +47,7 @@ class BeaglePageIndicator extends StatelessWidget {
   Widget buildDot(int index) {
     return SizedBox(
       width: dotSpacing,
+      height: dotSpacing,
       child: Center(
         child: Material(
           color:

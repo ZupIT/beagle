@@ -21,12 +21,13 @@ import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:beagle/style/style_builder.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 /// Defines an image widget that renders local or remote resource depending on
 /// the value passed to [path].
-class BeagleImage extends StatefulWidget {
+class BeagleImage extends StatefulWidget with YogaWidget {
   const BeagleImage({
     Key key,
     this.path,
@@ -50,6 +51,7 @@ class BeagleImage extends StatefulWidget {
 class _BeagleImageState extends State<BeagleImage> {
   Future<Uint8List> imageBytes;
   BeagleLogger logger = beagleServiceLocator<BeagleLogger>();
+  BeagleYogaFactory beagleYogaFactory = beagleServiceLocator();
 
   @override
   void initState() {
@@ -62,9 +64,11 @@ class _BeagleImageState extends State<BeagleImage> {
 
   @override
   Widget build(BuildContext context) {
-    return isLocalImage()
+    final image = isLocalImage()
         ? createImageFromAsset(widget.path)
         : createImageFromNetwork(widget.path);
+    // TODO when implement yoga to all beagle components, this YogaLayout should be replaced by a single YogaNode
+    return beagleYogaFactory.createYogaLayout(style: widget.style, children: [image]);
   }
 
   Future<void> downloadImage() async {
@@ -79,25 +83,11 @@ class _BeagleImageState extends State<BeagleImage> {
 
   bool isLocalImage() => widget.path.runtimeType == LocalImagePath;
 
-  // todo: add support to percentage values
-  double _getWidth() {
-    final hasWidth = widget.style?.size?.width?.type == UnitType.REAL;
-    return hasWidth ? widget.style.size.width.value.toDouble() : null;
-  }
-
-  // todo: add support to percentage values
-  double _getHeight() {
-    final hasWidth = widget.style?.size?.height?.type == UnitType.REAL;
-    return hasWidth ? widget.style.size.height.value.toDouble() : null;
-  }
-
   Widget createImageFromAsset(LocalImagePath path) {
     if (isPlaceHolderValid(path)) {
       return Image.asset(
         getAssetName(path),
         fit: getBoxFit(widget.mode),
-        width: _getWidth(),
-        height: _getHeight(),
       );
     } else {
       logger.error('Invalid local image: ${path.mobileId}. Have you declared this id in your DesignSystem class?');
@@ -130,8 +120,6 @@ class _BeagleImageState extends State<BeagleImage> {
     return Image.memory(
       bytes,
       fit: getBoxFit(widget.mode),
-      width: _getWidth(),
-      height: _getHeight(),
     );
   }
 

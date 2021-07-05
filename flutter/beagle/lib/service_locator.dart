@@ -52,6 +52,7 @@ void setupServiceLocator({
   Map<String, Operation> operations,
 }) {
   beagleServiceLocator
+    ..registerSingleton<BeagleYogaFactory>(BeagleYogaFactory())
     ..registerSingleton<JavascriptRuntimeWrapper>(
       createJavascriptRuntimeWrapperInstance(),
     )

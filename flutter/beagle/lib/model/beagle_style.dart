@@ -49,20 +49,21 @@ enum FlexDisplay { FLEX, NONE }
 
 enum FlexPosition { ABSOLUTE, RELATIVE }
 
-class Flex {
-  Flex(
-      {this.alignContent,
-      this.alignItems,
-      this.alignSelf,
-      this.basis,
-      this.flex,
-      this.flexDirection,
-      this.flexWrap,
-      this.grow,
-      this.justifyContent,
-      this.shrink});
+class BeagleFlex {
+  BeagleFlex({
+    this.alignContent,
+    this.alignItems,
+    this.alignSelf,
+    this.basis,
+    this.flex,
+    this.flexDirection,
+    this.flexWrap,
+    this.grow,
+    this.justifyContent,
+    this.shrink,
+  });
 
-  Flex.fromMap(Map<String, dynamic> map) {
+  BeagleFlex.fromMap(Map<String, dynamic> map) {
     if (map.containsKey('flexDirection')) {
       flexDirection =
           EnumUtils.fromString(FlexDirection.values, map['flexDirection']);
@@ -122,17 +123,18 @@ class UnitValue {
   UnitType type;
 }
 
-class Size {
-  Size(
-      {this.width,
-      this.height,
-      this.maxWidth,
-      this.maxHeight,
-      this.minWidth,
-      this.minHeight,
-      this.aspectRatio});
+class BeagleSize {
+  BeagleSize({
+    this.width,
+    this.height,
+    this.maxWidth,
+    this.maxHeight,
+    this.minWidth,
+    this.minHeight,
+    this.aspectRatio,
+  });
 
-  Size.fromMap(Map<String, dynamic> map) {
+  BeagleSize.fromMap(Map<String, dynamic> map) {
     if (map.containsKey('width')) {
       width = UnitValue.fromMap(map['width']);
     }
@@ -166,16 +168,17 @@ class Size {
 }
 
 class EdgeValue {
-  EdgeValue(
-      {this.all,
-      this.bottom,
-      this.end,
-      this.horizontal,
-      this.left,
-      this.right,
-      this.start,
-      this.top,
-      this.vertical});
+  EdgeValue({
+    this.all,
+    this.bottom,
+    this.end,
+    this.horizontal,
+    this.left,
+    this.right,
+    this.start,
+    this.top,
+    this.vertical,
+  });
 
   EdgeValue.fromMap(Map<String, dynamic> map) {
     if (map.containsKey('left')) {
@@ -231,18 +234,19 @@ class CornerRadius {
 }
 
 class BeagleStyle {
-  BeagleStyle(
-      {this.backgroundColor,
-      this.borderColor,
-      this.borderWidth,
-      this.cornerRadius,
-      this.display,
-      this.flex,
-      this.margin,
-      this.padding,
-      this.position,
-      this.positionType,
-      this.size});
+  BeagleStyle({
+    this.backgroundColor,
+    this.borderColor,
+    this.borderWidth,
+    this.cornerRadius,
+    this.display,
+    this.flex,
+    this.margin,
+    this.padding,
+    this.position,
+    this.positionType,
+    this.size,
+  });
 
   BeagleStyle.fromMap(Map<String, dynamic> map) {
     if (map.containsKey('backgroundColor')) {
@@ -252,7 +256,7 @@ class BeagleStyle {
       cornerRadius = CornerRadius.fromMap(map['cornerRadius']);
     }
     if (map.containsKey('flex')) {
-      flex = Flex.fromMap(map['flex']);
+      flex = BeagleFlex.fromMap(map['flex']);
     }
     if (map.containsKey('positionType')) {
       positionType =
@@ -262,7 +266,7 @@ class BeagleStyle {
       display = EnumUtils.fromString(FlexDisplay.values, map['display']);
     }
     if (map.containsKey('size')) {
-      size = Size.fromMap(map['size']);
+      size = BeagleSize.fromMap(map['size']);
     }
     if (map.containsKey('margin')) {
       margin = EdgeValue.fromMap(map['margin']);
@@ -283,10 +287,10 @@ class BeagleStyle {
 
   String backgroundColor;
   CornerRadius cornerRadius;
-  Flex flex;
+  BeagleFlex flex;
   FlexPosition positionType = FlexPosition.RELATIVE;
   FlexDisplay display = FlexDisplay.FLEX;
-  Size size;
+  BeagleSize size;
   EdgeValue margin;
   EdgeValue padding;
   EdgeValue position;

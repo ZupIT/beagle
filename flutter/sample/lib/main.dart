@@ -26,8 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:sample/app_design_system.dart';
 import 'package:sample/beagle_sample_screen.dart';
 
-const BASE_URL =
-    'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/ef803a5a3f32aff8c2b7b2d65e0633d485c658a2';
+const BASE_URL = 'http://localhost:8080';
 
 Map<String, ComponentBuilder> myCustomComponents = {
   'custom:loading': (element, _, __) {
@@ -51,7 +50,9 @@ void main() {
     actions: myCustomActions,
     navigationControllers: {
       'general': NavigationController(
-          isDefault: true, loadingComponent: 'custom:loading'),
+        isDefault: true,
+        loadingComponent: 'custom:loading',
+      ),
     },
     designSystem: AppDesignSystem(),
   );
@@ -64,10 +65,10 @@ class BeagleSampleApp extends StatelessWidget {
   const BeagleSampleApp({Key key}) : super(key: key);
 
   static final _appBarMenuOptions = [
-    MenuOption(title: 'Tab Bar', route: '/beagle_tab_bar'),
-    MenuOption(title: 'Page View', route: '/beagle_pageview'),
-    MenuOption(title: 'Touchable', route: '/beagle_touchable'),
-    MenuOption(title: 'Web View', route: '/beagle_webview'),
+    MenuOption(title: 'Tab Bar', route: 'tab-bar'),
+    MenuOption(title: 'Page View', route: 'page-view-screen'),
+    MenuOption(title: 'Touchable', route: 'touchable'),
+    MenuOption(title: 'Web View', route: 'web-view'),
   ];
 
   @override
@@ -102,23 +103,13 @@ class BeagleSampleApp extends StatelessWidget {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            BeagleWidget(
-              screenJson: """
-            {
-                "_beagleComponent_": "beagle:text",
-                "text": "sadasd @{global}",
-                "alignment": "CENTER"
-            }
-          """,
-              onCreateView: (view) {
-                view.addErrorListener((errors) {
-                  //TODO
-                });
-              },
-            ),
-          ],
+        body: BeagleWidget(
+          screenRequest: BeagleScreenRequest('components'),
+          onCreateView: (view) => {
+            view.addErrorListener((errors) {
+              //TODO
+            })
+          },
         ),
       ),
     );
@@ -126,13 +117,14 @@ class BeagleSampleApp extends StatelessWidget {
 
   void _handleAppBarMenuOption(MenuOption menuOption, BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute<BeagleSampleScreen>(
-            builder: (buildContext) =>
-                BeagleSampleScreen(
-                  title: menuOption.title,
-                  route: menuOption.route,
-                )));
+      context,
+      MaterialPageRoute<BeagleSampleScreen>(
+        builder: (buildContext) => BeagleSampleScreen(
+          title: menuOption.title,
+          route: menuOption.route,
+        ),
+      ),
+    );
   }
 }
 
