@@ -49,7 +49,9 @@ class _BeagleTabBarState extends State<BeagleTabBar>
     with TickerProviderStateMixin {
   TabController _tabController;
   static final imageStyle = BeagleStyle(
-    size: Size(height: UnitValue(value: BeagleTabBar.ICON_SIZE, type: UnitType.REAL))
+    size: BeagleSize(
+      height: UnitValue(value: BeagleTabBar.ICON_SIZE, type: UnitType.REAL),
+    ),
   );
 
   @override
@@ -100,8 +102,8 @@ class _BeagleTabBarState extends State<BeagleTabBar>
       return BottomNavigationBarItem(
         label: tabBarItem.title ?? '',
         icon: tabBarItem.icon == null
-          ? Container()
-          : BeagleImage(path: tabBarItem.icon, style: imageStyle),
+            ? Container()
+            : BeagleImage(path: tabBarItem.icon, style: imageStyle),
       );
     }).toList();
   }
@@ -124,8 +126,8 @@ class _BeagleTabBarState extends State<BeagleTabBar>
           (tabBarItem) => Tab(
             text: tabBarItem.title,
             icon: tabBarItem.icon == null
-              ? null
-              : BeagleImage(path: tabBarItem.icon, style: imageStyle),
+                ? null
+                : BeagleImage(path: tabBarItem.icon, style: imageStyle),
           ),
         )
         .toList();

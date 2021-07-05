@@ -17,21 +17,20 @@
 
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
-import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_button.dart';
+import 'package:beagle_components/beagle_container.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
 import 'package:beagle_components/beagle_page_indicator.dart';
 import 'package:beagle_components/beagle_page_view.dart';
+import 'package:beagle_components/beagle_scroll_view.dart';
 import 'package:beagle_components/beagle_tab_bar.dart';
 import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_text_input.dart';
 import 'package:beagle_components/beagle_touchable.dart';
 import 'package:beagle_components/beagle_webview.dart';
-import 'package:beagle_components/beagle_container.dart';
-import 'package:beagle_components/beagle_scroll_view.dart';
 import 'package:beagle_components/text_input_type.dart';
 import 'package:flutter/material.dart';
 
@@ -84,6 +83,7 @@ ComponentBuilder beagleContainerBuilder() {
   return (element, children, _) => BeagleContainer(
     key: element.getKey(),
     onInit: element.getAttributeValue('onInit'),
+    style: element.getStyle(),
     children: children,
   );
 }
@@ -166,7 +166,6 @@ ComponentBuilder beaglePageViewBuilder() {
 
 ComponentBuilder beagleImageBuilder() {
   return (element, _, __) {
-    final styleMap = element.getAttributeValue('style');
     return BeagleImage(
       key: element.getKey(),
       path: ImagePath.fromJson(element.getAttributeValue('path')),
@@ -174,7 +173,7 @@ ComponentBuilder beagleImageBuilder() {
         ImageContentMode.values,
         element.getAttributeValue('mode') ?? '',
       ),
-      style: styleMap == null ? null : BeagleStyle.fromMap(styleMap),
+      style: element.getStyle(),
     );
   };
 }

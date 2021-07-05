@@ -16,14 +16,12 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitPercent
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.sample.constants.TEXT_FONT_MAX
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -51,8 +49,7 @@ object ScrollViewScreenBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = ScrollView(
-            scrollDirection = ScrollAxis.VERTICAL,
+        child = Container(
             children = listOf(
                 getVerticalScrollView(),
                 getHorizontalScrollView()
@@ -74,13 +71,11 @@ object ScrollViewScreenBuilder : ScreenBuilder {
                 scrollDirection = ScrollAxis.VERTICAL
             )
         )
-    ).applyStyle(Style(
-            size = Size(
-                height = 130.unitReal(),
-                width = 100.unitPercent()
-            )
+    ).setStyle {
+        size = Size(
+            height = UnitValue.real(130)
         )
-    )
+    }
 
     private fun getHorizontalScrollView() = Container(
         children = listOf(
@@ -91,13 +86,21 @@ object ScrollViewScreenBuilder : ScreenBuilder {
                     createText("Hello 2"),
                     createText("Hello 3"),
                     createText("Hello 4"),
-                    createText("Hello 5")
-
+                    createText("Hello 5"),
+                    createText("Hello 6"),
+                    createText("Hello 7"),
+                    createText("Hello 8"),
+                    createText("Hello 9"),
+                    createText("Hello 10"),
                 ),
                 scrollDirection = ScrollAxis.HORIZONTAL
             )
         )
-    )
+    ).setStyle {
+        size = Size(
+            height = UnitValue.real(130)
+        )
+    }
 
     private fun createText(text: String) = Text(text, TEXT_FONT_MAX)
 }

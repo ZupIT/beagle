@@ -65,14 +65,12 @@ class _BeaglePageViewState extends State<BeaglePageView> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: PageView(
-        controller: _pageController,
-        onPageChanged: (page) {
-          if (widget.onPageChange != null) widget.onPageChange(page);
-        },
-        children: widget.children,
-      ),
+    return PageView(
+      controller: _pageController,
+      onPageChanged: (page) {
+        if (widget.onPageChange != null) widget.onPageChange(page);
+      },
+      children: widget.children,
     );
   }
 }

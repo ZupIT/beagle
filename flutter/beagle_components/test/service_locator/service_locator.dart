@@ -40,10 +40,12 @@ Future<void> testSetupServiceLocator({
   BeagleDesignSystem designSystem,
   BeagleImageDownloader imageDownloader,
   BeagleLogger logger,
+  BeagleYogaFactory beagleYogaFactory,
 }) async {
   await beagleServiceLocator.reset();
 
   beagleServiceLocator
+    ..registerSingleton<BeagleYogaFactory>(beagleYogaFactory)
     ..registerSingleton<BeagleDesignSystem>(designSystem ?? FakeDesignSystem())
     ..registerSingleton<BeagleImageDownloader>(imageDownloader)
     ..registerSingleton<BeagleLogger>(logger);
