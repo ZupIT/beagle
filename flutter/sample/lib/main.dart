@@ -15,6 +15,8 @@
  *  limitations under the License.
  */
 
+import 'dart:io' show Platform;
+
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/navigation_controller.dart';
@@ -24,8 +26,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sample/app_design_system.dart';
 import 'package:sample/beagle_sample_screen.dart';
-
-const BASE_URL = 'http://localhost:8080';
 
 Map<String, ComponentBuilder> myCustomComponents = {
   'custom:loading': (element, _, __) {
@@ -42,8 +42,10 @@ Map<String, ActionHandler> myCustomActions = {
 };
 
 void main() {
+  final localhost = Platform.isAndroid ? '10.0.2.2' : 'localhost';
+
   BeagleSdk.init(
-    baseUrl: BASE_URL,
+    baseUrl: 'http://$localhost:8080',
     environment: kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production,
     components: {...defaultComponents, ...myCustomComponents},
     actions: myCustomActions,
