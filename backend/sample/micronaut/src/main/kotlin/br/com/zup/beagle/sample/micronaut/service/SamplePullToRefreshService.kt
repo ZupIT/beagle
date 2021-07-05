@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import 'package:beagle/beagle.dart';
+package br.com.zup.beagle.sample.micronaut.service
 
-class DefaultEmptyConfig extends BeagleConfig {
-  @override
-  BeagleEnvironment get environment => BeagleEnvironment.debug;
+import br.com.zup.beagle.sample.builder.PullToRefreshScreenBuilder
+import javax.inject.Singleton
 
-  @override
-  String get baseUrl => '';
+@Singleton
+class SamplePullToRefreshService {
+    fun createPullToRefreshView() = PullToRefreshScreenBuilder
 }

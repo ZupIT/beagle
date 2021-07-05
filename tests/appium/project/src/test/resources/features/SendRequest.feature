@@ -14,49 +14,22 @@
 # limitations under the License.
 #
 
-@sendrequest @android @ios
+@sendRequest @android @ios
 Feature: Send Request Action Validation
 
-    As a Beagle developer/user
-    I'd like to make sure my send request action work as expected
-    In order to guarantee that my application never fails
+  As a Beagle developer/user
+  I'd like to make sure my send request action work as expected
 
-    Background:
-        Given the Beagle application did launch with the send request screen url
+  Background:
+    Given the Beagle application did launch with the send request screen url
 
-    Scenario Outline: Send Request 01 - The send request action get some result and show alert
-        When I press the <buttonTitle> button
-        Then the screen should show some alert with <alertTitle> title
-
-        Examples:
-            | buttonTitle          | alertTitle |
-            | request with success | Success    |
-            | request with error   | Error      |
-
-
-    Scenario Outline: Send Request 02 - The send request onFinish action get some result and modify the pressed button
-        When I press the <title> button
-        Then the pressed button changes it's <title> title to didFinish
-
-        Examples:
-            | title                 |
-            | onFinish with success |
-            | onFinish with error   |
-
-    Scenario Outline: Send Request 03 - The send request action get some result and show alert when setting the
-    URL as an expression
-        When I press the <buttonTitle> button
-        Then the screen should show some alert with <alertTitle> title
-
-        Examples:
-            | buttonTitle                               | alertTitle |
-            | request with success using expression URL | Success    |
-
-    Scenario Outline: Send Request 04 - The send request action get some result and show alert when setting the
-    METHOD as an expression
-        When I press the <buttonTitle> button
-        Then the screen should show some alert with <alertTitle> title
-
-        Examples:
-            | buttonTitle                    | alertTitle |
-            | request with expression method | Success    |
+  Scenario: SendRequest 01 - validate sendRequest scenarios
+    Then validate the invoked buttons and its sendRequest actions:
+      | BUTTON-TITLE                              | ALERT-TITLE |
+      | request with success                      | Success     |
+      | request with error                        | Error       |
+      # onFinish buttons change their tittle to didFinish when clicked
+      | onFinish with success                     |             |
+      | onFinish with error                       |             |
+      | request with success using expression URL | Success     |
+      | request with expression method            | Success     |

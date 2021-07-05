@@ -19,7 +19,6 @@ import 'package:beagle/default/default_actions.dart';
 import 'package:beagle/default/default_http_client.dart';
 import 'package:beagle/default/default_image_downloader.dart';
 import 'package:beagle/default/default_storage.dart';
-import 'package:beagle/default/empty/default_empty_config.dart';
 import 'package:beagle/default/empty/default_empty_design_system.dart';
 import 'package:beagle/default/empty/default_empty_logger.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
@@ -28,19 +27,22 @@ import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/logger/beagle_logger.dart';
-import 'package:beagle/model/beagle_config.dart';
+import 'package:beagle/model/beagle_environment.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:yoga_engine/yoga_engine.dart';
 
 class BeagleSdk {
   /// Starts the BeagleService. Only a single instance of this service is allowed.
   /// The parameters are all the attributes of the class BeagleService. Please check its
   /// documentation for more details.
   static void init({
-    /// Interface that provides initial beagle configuration attributes.
-    BeagleConfig beagleConfig,
+    /// Attribute responsible for informing Beagle about the current build status of the application.
+    BeagleEnvironment environment,
 
+    /// Informs the base URL used in Beagle in the application.
+    String baseUrl,
     /// Interface that provides client to beagle make the requests.
     HttpClient httpClient,
     Map<String, ComponentBuilder> components,
@@ -58,24 +60,46 @@ class BeagleSdk {
 
     /// [BeagleLogger] interface that provides logger to beagle use in application.
     BeagleLogger logger,
-    Map<String, Operation> customOperations,
+
+    Map<String, Operation> operations,
   }) {
+    Yoga.init();
+
+    baseUrl = baseUrl ?? "";
     httpClient = httpClient ?? const DefaultHttpClient();
-    
+    environment = environment ?? BeagleEnvironment.debug;
+    useBeagleHeaders = useBeagleHeaders ?? true;
+    storage = storage ?? DefaultStorage();
+    designSystem = designSystem ?? DefaultEmptyDesignSystem();
+    imageDownloader = imageDownloader ?? DefaultBeagleImageDownloader(httpClient: httpClient);
+    strategy = strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache;
+    logger = logger ?? DefaultEmptyLogger();
+    operations = operations ?? {};
+
+    actions = actions == null ? defaultActions : { ...defaultActions, ...actions };
+
+    Map<String, ComponentBuilder> lowercaseComponents = components.map(
+      (key, value) => MapEntry(key.toLowerCase(), value)
+    );
+
+    Map<String, ActionHandler> lowercaseActions = actions.map(
+      (key, value) => MapEntry(key.toLowerCase(), value)
+    );
+
     setupServiceLocator(
-      beagleConfig: beagleConfig ?? DefaultEmptyConfig(),
+      baseUrl: baseUrl,
       httpClient: httpClient,
-      components: components,
-      storage: storage ?? DefaultStorage(),
-      useBeagleHeaders: useBeagleHeaders ?? true,
-      actions:
-          actions == null ? defaultActions : {...defaultActions, ...actions},
+      environment: environment,
+      components: lowercaseComponents,
+      storage: storage,
+      useBeagleHeaders: useBeagleHeaders,
+      actions: lowercaseActions,
       navigationControllers: navigationControllers,
-      designSystem: designSystem ?? DefaultEmptyDesignSystem(),
-      imageDownloader: imageDownloader ?? DefaultBeagleImageDownloader(httpClient: httpClient),
-      strategy: strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache,
-      logger: logger ?? DefaultEmptyLogger(),
-      customOperations: customOperations,
+      designSystem: designSystem,
+      imageDownloader: imageDownloader ,
+      strategy: strategy,
+      logger: logger,
+      operations: operations,
     );
   }
 }

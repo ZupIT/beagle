@@ -16,17 +16,18 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import org.junit.Assert
 
-private const val ADD_CHILDREN_HEADER = "Add Children"
-private const val TEXT_FIXED = "I'm the single text on screen"
-private const val TEXT_ADDED = "New text added"
-
 @Suppress("unused")
 class AddChildrenScreenSteps : AbstractStep() {
+
+    private val addChildrenHeader = "Add Children"
+    private val fixedText = "I'm the single text on screen"
+    private val addedText = "New text added"
 
     override var bffRelativeUrlPath = "/add-children"
 
@@ -37,31 +38,40 @@ class AddChildrenScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the addChildren Screen$")
     fun checkImageScreen() {
-        waitForElementWithTextToBeClickable(ADD_CHILDREN_HEADER, false, false)
+        waitForElementWithTextToBeClickable(addChildrenHeader)
     }
 
-    @Then("^A Text needs to be added after the already existing one$")
+    @Then("^A text needs to be added after the already existing one$")
     fun checkTextAddedAfterTheExistedOrder() {
         waitForFixedAndAddedTexts()
-        Assert.assertTrue(isElementAbove(TEXT_FIXED, TEXT_ADDED, false, false))
+        Assert.assertTrue(isElementAbove(fixedText, addedText))
     }
 
-    @Then("^A Text needs to be added before the already existing one$")
+    @Then("^A text needs to be added before the already existing one$")
     fun checkTextAddedBeforeTheExistedOrder() {
         waitForFixedAndAddedTexts()
-        Assert.assertTrue(isElementAbove(TEXT_ADDED, TEXT_FIXED, false, false))
+        Assert.assertTrue(isElementAbove(addedText, fixedText))
     }
 
-    @Then("^A Text needs to replace the already existing one$")
+    @Then("^A text needs to replace the already existing one$")
     fun checkTextReplaceTheExistedOne() {
         waitForAddedText()
-        waitForElementWithTextToBeInvisible(TEXT_FIXED, false, false)
+        waitForElementWithTextToBeInvisible(fixedText)
     }
 
-    @Then("^Nothing should happen$")
-    fun checkTextAddedPositionIsNull() {
-        waitForFixedText()
-        waitForElementWithTextToBeInvisible(TEXT_ADDED, false, false)
+    @Then("^Nothing should happen when clicking in the following buttons and the component doesn't exist:$")
+    fun checkNothingHappens(dataTable: DataTable) {
+        val rows = dataTable.asLists()
+        for ((lineCount, columns) in rows.withIndex()) {
+
+            if (lineCount == 0) // skip header
+                continue
+
+            val buttonTitle = columns[0]!!
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle, likeSearch = false, ignoreCase = true))
+            waitForFixedText()
+            waitForElementWithTextToBeInvisible(addedText)
+        }
     }
 
     private fun waitForFixedAndAddedTexts() {
@@ -70,10 +80,10 @@ class AddChildrenScreenSteps : AbstractStep() {
     }
 
     private fun waitForFixedText() {
-        waitForElementWithTextToBeClickable(TEXT_FIXED, false, false)
+        waitForElementWithTextToBeClickable(fixedText)
     }
 
     private fun waitForAddedText() {
-        waitForElementWithTextToBeClickable(TEXT_ADDED, false, false)
+        waitForElementWithTextToBeClickable(addedText)
     }
 }

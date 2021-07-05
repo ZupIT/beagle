@@ -64,17 +64,14 @@ data class Text(
     )
 
     @Transient
-    private val viewFactory = ViewFactory()
-
-    @Transient
     private val styleManager: StyleManager = StyleManager()
 
 
     override fun buildView(rootView: RootView): View {
         val textStyle = styleManager.getTextStyle(styleId)
 
-        val textView = if (textStyle == 0) viewFactory.makeTextView(rootView.getContext())
-        else viewFactory.makeTextView(rootView.getContext(), textStyle)
+        val textView = if (textStyle == 0) ViewFactory.makeTextView(rootView.getContext())
+        else ViewFactory.makeTextView(rootView.getContext(), textStyle)
 
         textView.setTextWidget(this, rootView)
         return textView

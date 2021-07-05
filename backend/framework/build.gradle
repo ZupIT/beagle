@@ -28,6 +28,7 @@ dependencies {
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.kotlinTest
     testImplementation Dependencies.TestLibraries.junit5Api
+    testImplementation Dependencies.TestLibraries.junitParams
     testRuntimeOnly Dependencies.TestLibraries.junit5Engine
 }
 

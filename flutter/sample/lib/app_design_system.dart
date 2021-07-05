@@ -19,19 +19,17 @@ import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/rendering.dart';
 
 class AppDesignSystem extends BeagleDesignSystem {
+  Map<String, String> imageMap = {
+    'bus': 'images/bus.png',
+    'car': 'images/car.png',
+    'person': 'images/person.png',
+    'beagle': 'images/beagle.png',
+    'delete': 'images/delete.png',
+  };
+
   @override
   String image(String id) {
-    if (id == 'bus') {
-      return 'images/bus.png';
-    } else if (id == 'car') {
-      return 'images/car.png';
-    } else if (id == 'person') {
-      return 'images/person.png';
-    } else if (id == 'beagle') {
-      return 'images/beagle.png';
-    }
-
-    return null;
+    return imageMap[id];
   }
 
   @override

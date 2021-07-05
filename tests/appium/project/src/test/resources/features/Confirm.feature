@@ -17,46 +17,19 @@
 @confirm @android @ios
 Feature: Confirm Action Validation
 
-    As a Beagle developer/user
-    I'd like to make sure my alert actions work as expected
-    In order to guarantee that my application never fails
+  As a Beagle developer/user
+  I'd like to make sure my alert actions work as expected
 
-    Background:
-        Given the Beagle application did launch with the confirm screen url
+  Background:
+    Given the Beagle application did launch with the confirm screen url
 
-    Scenario Outline: Confirm 01 - Checks that a confirmation with just a message shows on the screen when
-    set HARDCODED and via EXPRESSION
-        When I press a confirm button with the <buttonTitle> title
-        Then a confirm with the <message> message should appear on the screen
-
-        Examples:
-            | buttonTitle               | message                     |
-            | JustAMessage              | ConfirmMessage              |
-            | JustAMessageViaExpression | ConfirmMessageViaExpression |
-
-
-    Scenario Outline: Confirm 02 - Checks that a confirmation with a TITLE and a MESSAGE shows on the screen when
-    set HARDCODED and via EXPRESSION
-        When I press a confirm button with the <buttonTitle> title
-        Then a confirm with the <title> and <message> should appear on the screen
-
-        Examples:
-            | buttonTitle                  | title                     | message                     |
-            | TitleAndMessage              | ConfirmTitle              | ConfirmMessage              |
-            | TitleAndMessageViaExpression | ConfirmTitleViaExpression | ConfirmMessageViaExpression |
-
-    Scenario: Confirm 03 - Checks that a the onPressOk method is triggered when the OK button is pressed to
-    confirm component.
-        When I press a confirm button with the TriggersAnActionWhenConfirmed title
-        Then I press the confirmation OK button on the confirm component
-        Then a confirm with the Confirm ok clicked message should appear on the screen
-
-    Scenario: Confirm 04 - Checks that a the onPressCancel method is triggered when the Cancel button is pressed to
-    confirm component.
-        When I press a confirm button with the TriggersAnActionWhenCanceled title
-        Then I press the confirmation CANCEL button on the confirm component
-        Then a confirm with the Confirm cancel clicked message should appear on the screen
-
-    Scenario: Confirm 05 - Shows a Confirm message with customized text on the LabelOk and LabelCancel button.
-        When I press a confirm button with the CustomConfirmLabel title
-        Then a confirm with the CustomLabelOk and CustomLabelCancel should appear on the screen
+  Scenario: Confirm01 - Validate confirm and alert properties
+    Then validate the invoked alerts and its confirm properties:
+      | BUTTON-TITLE                  | ALERT-CONTENT                                         | BUTTON-ACTION          |
+      | JustAMessage                  | ConfirmMessage                                        |                        |
+      | JustAMessageViaExpression     | ConfirmMessageViaExpression                           |                        |
+      | TitleAndMessage               | ConfirmTitle;ConfirmMessage                           |                        |
+      | TitleAndMessageViaExpression  | ConfirmTitleViaExpression;ConfirmMessageViaExpression |                        |
+      | TriggersAnActionWhenConfirmed | ConfirmMessage                                        | Confirm ok clicked     |
+      | TriggersAnActionWhenCanceled  | CancelMessage                                         | Confirm cancel clicked |
+      | CustomConfirmLabel            | ConfirmMessage;CustomLabelOk;CustomLabelCancel        |                        |

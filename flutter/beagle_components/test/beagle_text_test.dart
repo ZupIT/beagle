@@ -50,7 +50,6 @@ Widget createWidget({
 }
 
 void main() {
-
   setUpAll(() async {
     await testSetupServiceLocator();
   });
@@ -137,6 +136,25 @@ void main() {
       expect(textFinder, findsOneWidget);
       expect(textCreated.style.color, expectedTextColor);
       expect(textCreated.style.backgroundColor, textStyle.backgroundColor);
+    });
+  });
+
+  group('When set alignment to CENTER ', () {
+    testWidgets('Then it should be a Center Widget with text aligned to center',
+        (WidgetTester tester) async {
+      // WHEN
+      await tester.pumpWidget(createWidget(alignment: TextAlignment.CENTER));
+
+      //THEN
+      final textFinder = find.text(text);
+      final centerFinder = find.byType(Center);
+      final centerCreated = tester.widget<Center>(centerFinder);
+      final textCreated = centerCreated.child as Text;
+      const expectedTextAlign = TextAlign.center;
+
+      expect(centerFinder, findsOneWidget);
+      expect(textFinder, findsOneWidget);
+      expect(textCreated.textAlign, expectedTextAlign);
     });
   });
 }

@@ -24,6 +24,7 @@ test {
 }
 
 dependencies {
+    implementation Dependencies.GeneralLibraries.jacksonKotlin
     api project(Dependencies.Modules.schemaKotlinCore)
 
     testImplementation Dependencies.TestLibraries.mockk

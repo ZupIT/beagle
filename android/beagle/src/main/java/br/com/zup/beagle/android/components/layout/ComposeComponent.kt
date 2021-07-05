@@ -30,11 +30,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  */
 abstract class ComposeComponent : WidgetView() {
 
-    @Transient
-    private val viewFactory = ViewFactory()
-
     override fun buildView(rootView: RootView): View {
-        return viewFactory.makeBeagleFlexView(rootView).apply {
+        return ViewFactory.makeBeagleFlexView(rootView).apply {
             addView(build())
         }
     }

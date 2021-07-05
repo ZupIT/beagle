@@ -23,18 +23,18 @@ import io.cucumber.java.en.Then
 class ActionNotRegisteredScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/action-not-registered"
 
-    @Before("@unregisteredaction")
+    @Before("@unregisteredAction")
     fun setup() {
         loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the ActionNotRegistered Screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("ActionNotRegistered Screen", false, false)
+        waitForElementWithTextToBeClickable("ActionNotRegistered Screen")
     }
 
     @Then("^nothing happens and the (.*) should still be visible$")
     fun checkScreenExists(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false)
+        waitForElementWithTextToBeClickable(string)
     }
 }

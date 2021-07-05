@@ -18,7 +18,6 @@ package br.com.zup.beagle.cucumber.steps
 
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
-import io.cucumber.java.en.Then
 
 class LazyComponentScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/lazycomponent"
@@ -30,11 +29,7 @@ class LazyComponentScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the LazyComponent Screen$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("LazyComponent Screen", false, false)
+        waitForElementWithTextToBeClickable("LazyComponent Screen")
     }
 
-    @Then("^an screen with an element (.*) should be visible$")
-    fun check2ndScreenMessage(text: String) {
-        waitForElementWithTextToBeClickable(text, false, false)
-    }
 }

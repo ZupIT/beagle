@@ -20,15 +20,18 @@ import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/utils/enum.dart';
 import 'package:beagle_components/beagle_button.dart';
+import 'package:beagle_components/beagle_container.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:beagle_components/beagle_lazy_component.dart';
 import 'package:beagle_components/beagle_page_indicator.dart';
 import 'package:beagle_components/beagle_page_view.dart';
+import 'package:beagle_components/beagle_scroll_view.dart';
 import 'package:beagle_components/beagle_tab_bar.dart';
 import 'package:beagle_components/beagle_text.dart';
 import 'package:beagle_components/beagle_text_input.dart';
 import 'package:beagle_components/beagle_touchable.dart';
 import 'package:beagle_components/beagle_webview.dart';
+import 'package:beagle_components/text_input_type.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, ComponentBuilder> defaultComponents = {
@@ -45,6 +48,8 @@ final Map<String, ComponentBuilder> defaultComponents = {
   'beagle:pageIndicator': beaglePageIndicatorBuilder(),
   'beagle:touchable': beagleTouchableBuilder(),
   'beagle:webView': beagleWebViewBuilder(),
+  'beagle:screenComponent': beagleScreenComponentBuilder(),
+  'beagle:scrollView': beagleScrollViewBuilder(),
 };
 
 ComponentBuilder beagleLoadingBuilder() {
@@ -75,21 +80,43 @@ ComponentBuilder beagleTextBuilder() {
 }
 
 ComponentBuilder beagleContainerBuilder() {
-  return (element, children, _) => Container(
-        key: element.getKey(),
-        child: Column(children: children),
-      );
+  return (element, children, _) => BeagleContainer(
+    key: element.getKey(),
+    onInit: element.getAttributeValue('onInit'),
+    style: element.getStyle(),
+    children: children,
+  );
+}
+
+ComponentBuilder beagleScrollViewBuilder() {
+  return (element, children, _) => BeagleScrollView(
+    key: element.getKey(),
+    scrollDirection: EnumUtils.fromString(
+      ScrollAxis.values,
+      element.getAttributeValue('scrollDirection'),
+    ),
+    scrollBarEnabled: element.getAttributeValue('scrollBarEnabled'),
+    children: children,
+  );
 }
 
 ComponentBuilder beagleTextInputBuilder() {
   return (element, _, __) => BeagleTextInput(
-        key: element.getKey(),
-        onChange: element.getAttributeValue('onChange'),
-        onFocus: element.getAttributeValue('onFocus'),
-        onBlur: element.getAttributeValue('onBlur'),
-        placeholder: element.getAttributeValue('placeholder'),
-        value: element.getAttributeValue('value'),
-      );
+    key: element.getKey(),
+    onChange: element.getAttributeValue('onChange'),
+    onFocus: element.getAttributeValue('onFocus'),
+    onBlur: element.getAttributeValue('onBlur'),
+    placeholder: element.getAttributeValue('placeholder'),
+    value: element.getAttributeValue('value'),
+    readOnly: element.getAttributeValue('readOnly'),
+    enabled: element.getAttributeValue('enabled'),
+    error: element.getAttributeValue('error'),
+    showError: element.getAttributeValue('showError'),
+    type: EnumUtils.fromString(
+      BeagleTextInputType.values,
+      element.getAttributeValue('type'),
+    ),
+  );
 }
 
 ComponentBuilder beagleButtonBuilder() {
@@ -117,15 +144,15 @@ ComponentBuilder beagleLazyComponentBuilder() {
 }
 
 ComponentBuilder beagleTabBarBuilder() {
-  return (element, _, __) => BeagleTabBar(
-        key: element.getKey(),
-        items:
-            element.getAttributeValue('items').map<TabBarItem>((dynamic item) {
-          return TabBarItem.fromJson(item);
-        }).toList(),
-        currentTab: element.getAttributeValue('currentTab'),
-        onTabSelection: element.getAttributeValue('onTabSelection'),
-      );
+  return (element, _, __) {
+    final List<dynamic> jsonItems = element.getAttributeValue('items') ?? [];
+    return BeagleTabBar(
+      key: element.getKey(),
+      items: jsonItems.map((item) => TabBarItem.fromJson(item)).toList(),
+      currentTab: element.getAttributeValue('currentTab'),
+      onTabSelection: element.getAttributeValue('onTabSelection'),
+    );
+  };
 }
 
 ComponentBuilder beaglePageViewBuilder() {
@@ -138,14 +165,17 @@ ComponentBuilder beaglePageViewBuilder() {
 }
 
 ComponentBuilder beagleImageBuilder() {
-  return (element, _, __) => BeagleImage(
-        key: element.getKey(),
-        path: ImagePath.fromJson(element.getAttributeValue('path')),
-        mode: EnumUtils.fromString(
-          ImageContentMode.values,
-          element.getAttributeValue('mode') ?? '',
-        ),
-      );
+  return (element, _, __) {
+    return BeagleImage(
+      key: element.getKey(),
+      path: ImagePath.fromJson(element.getAttributeValue('path')),
+      mode: EnumUtils.fromString(
+        ImageContentMode.values,
+        element.getAttributeValue('mode') ?? '',
+      ),
+      style: element.getStyle(),
+    );
+  };
 }
 
 ComponentBuilder beaglePageIndicatorBuilder() {
@@ -172,3 +202,10 @@ ComponentBuilder beagleWebViewBuilder() {
         url: element.getAttributeValue('url'),
       );
 }
+ComponentBuilder beagleScreenComponentBuilder() {
+  return (element, children, __) => Container(
+    key: element.getKey(),
+    child: children[0],
+  );
+}
+

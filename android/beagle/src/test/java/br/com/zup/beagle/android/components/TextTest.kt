@@ -22,14 +22,11 @@ import br.com.zup.beagle.android.view.ViewFactory
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkConstructor
-import io.mockk.unmockkAll
 import io.mockk.verify
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
 private const val DEFAULT_TEXT = "Hello"
 private const val DEFAULT_STYLE = "DummyStyle"
@@ -50,7 +47,7 @@ class TextTest : BaseComponentTest() {
         @DisplayName("Then should create correct text")
         fun testBuildCorrectText() {
             // Given
-            every { anyConstructed<ViewFactory>().makeTextView(any()) } returns textView
+            every { ViewFactory.makeTextView(any()) } returns textView
 
             text = Text(DEFAULT_TEXT)
 
@@ -59,7 +56,7 @@ class TextTest : BaseComponentTest() {
 
             // Then
             assertTrue(view is TextView)
-            verify(exactly = 1) { anyConstructed<ViewFactory>().makeTextView(rootView.getContext()) }
+            verify(exactly = 1) { ViewFactory.makeTextView(rootView.getContext()) }
         }
 
     }
@@ -75,7 +72,7 @@ class TextTest : BaseComponentTest() {
             mockkConstructor(StyleManager::class)
 
             every { anyConstructed<StyleManager>().getTextStyle(DEFAULT_STYLE) } returns DEFAULT_STYLE_INTEGER
-            every { anyConstructed<ViewFactory>().makeTextView(any(), any()) } returns textView
+            every { ViewFactory.makeTextView(any(), any()) } returns textView
 
             text = Text(text = DEFAULT_TEXT, styleId = DEFAULT_STYLE)
 
@@ -86,7 +83,7 @@ class TextTest : BaseComponentTest() {
             assertTrue(view is TextView)
 
             verify(exactly = 1) {
-                anyConstructed<ViewFactory>().makeTextView(any(), any())
+                ViewFactory.makeTextView(any(), any())
             }
         }
 

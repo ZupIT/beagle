@@ -16,160 +16,183 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import br.com.zup.beagle.setup.SuiteSetup
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
-import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
 import org.junit.Assert
 
 class TextInputScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/textinput"
 
-    @Before("@textinput")
+    @Before("@textInput")
     fun setup() {
         loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the textInput on screen$")
     fun checkBaseScreen() {
-        waitForElementWithValueToBeClickable("Beagle Text Input", false, false)
+        waitForElementWithValueToBeClickable("Beagle Text Input")
     }
 
-    @Then("^I must check if the textInput value (.*) appears on the screen$")
-    fun checkTextInput(string: String) {
-        waitForElementWithValueToBeClickable(string, false, false)
+    @Then("^validate place holders and visibility:$")
+    fun validatePlaceHoldersAndVisibility(dataTable: DataTable) {
+        val rows = dataTable.asLists()
+        for ((lineCount, columns) in rows.withIndex()) {
+
+            if (lineCount == 0) // skip header
+                continue
+
+            val placeHolder = columns[0]!!
+            val isVisible = columns[1]!!.toString().toBoolean()
+            val isEnabled = columns[2]!!.toString().toBoolean()
+
+            if (!isVisible) {
+                waitForElementWithValueToBeInvisible(placeHolder, ignoreCase = true)
+            } else {
+                val element = waitForElementWithValueToBePresent(placeHolder, ignoreCase = true)
+                Assert.assertEquals(element.isEnabled, isEnabled)
+            }
+        }
     }
 
-    @Then("^I must check if the textInput placeholder (.*) appears on the screen$")
-    fun checkTextInputPlaceholder(string: String) {
-        waitForElementWithValueToBeClickable(string, false, false)
+    @Then("^validate clicks and input types:$")
+    fun validateClicksAndInputTypes(dataTable: DataTable) {
+        val rows = dataTable.asLists()
+        for ((lineCount, columns) in rows.withIndex()) {
+
+            if (lineCount == 0) // skip header
+                continue
+
+            val placeHolder = columns[0]!!
+
+            when (val validationAction = columns[1]!!) {
+                "place holder keeps showing after click" -> {
+
+                    val element = waitForElementWithValueToBeClickable(placeHolder, nativeLocator = false)
+                    element.sendKeys("randomValue")
+                    Assert.assertFalse(placeHolder == element.text)
+                    element.clear()
+                    Assert.assertTrue(placeHolder == element.text)
+
+                }
+                "validate typed text" -> {
+                    when {
+                        placeHolder.contains("writing date") -> {
+
+                            val mobileElement = waitForElementWithValueToBeClickable(placeHolder, nativeLocator = false)
+                            mobileElement.sendKeys("22/04/1500")
+                            waitForElementWithValueToBeClickable("22/04/1500")
+
+                        }
+                        placeHolder.contains("writing e-mail") -> {
+
+                            val element = scrollUpToElementWithValue(placeHolder)
+                            element.sendKeys("test@abc.com")
+                            waitForElementWithValueToBeClickable("test@abc.com")
+
+                        }
+                        placeHolder.contains("writing password") -> {
+
+                            val element = scrollDownToElementWithValue(placeHolder)
+                            element.sendKeys("1234")
+                            Assert.assertTrue("1234" != element.text) // validates text is in password format
+                            Assert.assertTrue(element.text.length == 4)
+                            Assert.assertTrue(placeHolder != element.text)
+
+                        }
+                        placeHolder.contains("writing number") -> {
+
+                            val element = scrollDownToElementWithValue(placeHolder)
+                            element.sendKeys("12345678")
+                            waitForElementWithValueToBeClickable("12345678")
+
+                        }
+                        placeHolder.contains("writing text") -> {
+
+                            val element = scrollDownToElementWithValue(placeHolder)
+                            element.sendKeys("This is a test!")
+                            waitForElementWithValueToBeClickable("This is a test!")
+
+                        }
+                        else -> {
+                            throw Exception("Wrong place holder: $placeHolder")
+                        }
+                    }
+                }
+                "validate is number only textInput" -> {
+
+                    scrollDownToElementWithValue(placeHolder)
+                    Assert.assertTrue(isTextFieldNumeric(placeHolder))
+
+                }
+                else -> {
+                    throw Exception("Wrong validation action: $validationAction")
+                }
+            }
+        }
     }
 
-    @When("^the disabled textInput (.*) is visible$")
-    fun checkIfTextInputIsDisabled(string: String) {
-        waitForElementWithValueToBeDisabled(string, false, false)
-    }
+    @Then("^validate textInput events:$")
+    fun validateEvents(dataTable: DataTable) {
 
-    @Then("^verify if (.*) is disabled$")
-    fun checkDisabledField(string: String) {
-        waitForElementWithValueToBeDisabled(string, false, false)
-    }
-
-    @When("^the value (.*) of the readOnly field is on the screen$")
-    fun checkIfTextInputIsReadOnly(string: String) {
-        waitForElementWithValueToBeDisabled(string, false, false)
-    }
-
-    @Then("^verify if the field with the value (.*) is read only$")
-    fun checkReadOnlyField(string: String) {
-        waitForElementWithValueToBeDisabled(string, false, false)
-    }
-
-    @When("^I click in the textInput with the placeholder (.*)$")
-    fun checkTextInputInSecondPlan(string: String) {
-        waitForElementWithValueToBeClickable(string, false, false).click()
-    }
-
-    @Then("^verify if the text (.*) is in the second plan$")
-    fun checkKeyboardFocus(string: String) {
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
-        Assert.assertTrue(string.equals(mobileElement.text))
-        mobileElement.sendKeys("a")
-        Assert.assertFalse(string.equals(mobileElement.text))
-        mobileElement.clear()
-        Assert.assertTrue(string.equals(mobileElement.text))
-    }
-
-    @Then("^validate that the value of the text input component (.*) of type \"date\" is shown correctly$")
-    fun checkDateWriting(string: String) {
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
-        mobileElement.sendKeys("22/04/1500")
-        waitForElementWithValueToBeClickable("22/04/1500", false, false)
-    }
-
-    @Then("^validate that the value of the text input component (.*) of type \"email\" is shown correctly$")
-    fun checkEmailWriting(string: String) {
-        scrollUpToElementWithValue(string, false, false)
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
-        mobileElement.sendKeys("test@abc.com")
-        waitForElementWithValueToBeClickable("test@abc.com", false, false)
-    }
-
-    @Then("^validate that the value of the text input component (.*) of type \"password\" is shown correctly$")
-    fun checkPasswordWriting(string: String) {
-        scrollDownToElementWithValue(string, false, false)
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
-        mobileElement.sendKeys("123")
-        Assert.assertTrue("123" != mobileElement.text) // validates text is in password format
-        Assert.assertTrue(mobileElement.text.length == 3)
-        Assert.assertTrue(string != mobileElement.text)
-    }
-
-    @Then("^validate that the value of the text input component (.*) of type \"number\" is shown correctly$")
-    fun checkNumberWriting(string: String) {
-        scrollDownToElementWithValue(string, false, false)
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
-        mobileElement.sendKeys("12345678")
-        waitForElementWithValueToBeClickable("12345678", false, false)
-    }
-
-    @Then("^validate that the value of the text input component (.*) of type \"text\" is shown correctly$")
-    fun checkTextWriting(string: String) {
-        scrollDownToElementWithValue(string, false, false)
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
-        mobileElement.sendKeys("This is a test!")
-        waitForElementWithValueToBeClickable("This is a test!", false, false)
-    }
-
-    @Then("^validate attribute of \"type number\" of textInput component (.*)$")
-    fun validateTextsInputNumberType(string: String) {
-        scrollDownToElementWithValue(string, false, false)
-        Assert.assertTrue(isTextFieldNumeric(string))
-    }
-
-    @And("^I click the textInput with the placeholder (.*)$")
-    fun textInputWithActionOfOnFocus(string: String) {
-        scrollDownToElementWithValue(string, false, false)
-        waitForElementWithValueToBeClickable(string, false, false).click()
-    }
-
-    @Then("^the textInput with the placeholder \"Ordered actions\" should have value (.*)$")
-    fun checkOrderedActions(string: String) {
-        waitForElementWithValueToBePresent(string, false, false)
-    }
-
-    @Then("^the textInput with the placeholder \"Unordered actions\" will change its value to (.*)$")
-    fun textInputWithActionOfOnBlur(string: String) {
-        waitForElementWithValueToBePresent(string, false, false)
-    }
-
-    @And("^I type anything on textInput with the placeholder (.*)$")
-    fun triggersOnChangeMethodAndCheckChanges(string: String) {
-        waitForElementWithValueToBeClickable(string, false, false).sendKeys("a")
-    }
-
-    @When("^I click to textInput (.*) then change to (.*) and to (.*)$")
-    fun textInoutWithActionOfOnFocusAndOnChange(string: String, string2: String, string3: String) {
-        scrollUpToElementWithValue(string, false, false)
-        val mobileElement = waitForElementWithValueToBeClickable(string, false, false)
-        waitForElementWithValueToBeClickable(string2, false, false)
-        mobileElement.sendKeys("a")
-        waitForElementWithValueToBeClickable(string3, false, false)
-    }
-
-    @Then("^the text (.*) should be appear in the correctly order$")
-    fun textInoutWithActionOfOnBlurCorrectlyOrder(string: String) {
-        val mobileElement = waitForElementWithValueToBeClickable("is textInput type number", false, false)
-        waitForElementWithValueToBeClickable(string, false, false)
-        Assert.assertFalse("DidOnFocus" == mobileElement.text)
-        Assert.assertFalse("DidOnFocusDidOnChange" == mobileElement.text)
-    }
-
-    @Then("^The hidden input fields (.*) should not be visible$")
-    fun checkInputTextIsHidden(string: String) {
         swipeUp()
-        swipeUp()
-        waitForElementWithValueToBeInvisible(string, false, false)
+
+        val actionValidationTextInputElement = waitForElementWithValueToBeClickable(
+            "action validation", nativeLocator = false
+        )
+
+        val unorderedActionsTextInputElement = waitForElementWithValueToBePresent(
+            "Unordered actions", nativeLocator = false
+        )
+
+        val rows = dataTable.asLists()
+        for ((lineCount, columns) in rows.withIndex()) {
+
+            if (lineCount == 0) // skip header
+                continue
+
+            when (val event = columns[0]!!) {
+                "DidOnFocus" -> {
+                    safeClickOnElement(actionValidationTextInputElement)
+                    Assert.assertEquals(event, unorderedActionsTextInputElement.text)
+                    hideKeyboard()
+                }
+                "DidOnChange" -> {
+                    safeClickOnElement(actionValidationTextInputElement)
+                    actionValidationTextInputElement.sendKeys("anyText")
+                    Assert.assertEquals(event, unorderedActionsTextInputElement.text)
+                    hideKeyboard()
+                }
+                "DidOnBlur" -> {
+                    safeClickOnElement(actionValidationTextInputElement)
+                    safeClickOnElement(waitForElementWithValueToBeClickable("is textInput type number"))
+                    Assert.assertEquals(event, unorderedActionsTextInputElement.text)
+                    if (SuiteSetup.isIos()) {
+                        safeClickOnElement(waitForElementWithTextToBeClickable("Done"))
+                    } else {
+                        hideKeyboard()
+                    }
+
+
+                }
+                "DidOnFocusDidOnChangeDidOnBlur" -> {
+
+                    // validate the actions of the textInput when they're executed in sequence
+                    val orderedActionsElement =
+                        waitForElementWithValueToBePresent("Ordered actions", nativeLocator = false)
+                    val actionOrderElement =
+                        waitForElementWithValueToBeClickable("action order")
+                    safeClickOnElement(actionOrderElement)
+                    actionOrderElement.sendKeys("anyText")
+                    safeClickOnElement(waitForElementWithValueToBeClickable("is textInput type number"))
+                    Assert.assertEquals(event, orderedActionsElement.text)
+                }
+                else -> {
+                    throw Exception("Wrong event: $event")
+                }
+            }
+        }
     }
 }

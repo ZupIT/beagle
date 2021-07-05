@@ -28,6 +28,7 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
+import io.mockk.mockkObject
 import org.junit.jupiter.api.BeforeEach
 
 abstract class BaseComponentTest : BaseTest() {
@@ -43,11 +44,11 @@ abstract class BaseComponentTest : BaseTest() {
         super.setUp()
 
         mockkConstructor(ViewRendererFactory::class)
-        mockkConstructor(ViewFactory::class)
+        mockkObject(ViewFactory)
 
         every { anyConstructed<ViewRendererFactory>().make(any()) } returns viewRender
-        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any()) } returns beagleFlexView
-        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), any()) } returns beagleFlexView
+        every { ViewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
+        every { ViewFactory.makeBeagleFlexView(any(), any()) } returns beagleFlexView
         every { viewRender.build(any()) } returns view
         every { view.setTag(any(), any()) } just Runs
     }

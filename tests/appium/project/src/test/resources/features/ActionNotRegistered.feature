@@ -14,16 +14,15 @@
 # limitations under the License.
 #
 
-@unregisteredaction @android @ios
+@unregisteredAction @android @ios
 Feature: Unregistered action Validation
 
     As a Beagle developer/user
     I'd like to make sure my application does not crash when an unregistered action is triggered
-    In order to guarantee that my application never fails
 
     Background:
         Given the Beagle application did launch with the ActionNotRegistered Screen url
 
     Scenario: Unregistered action 01 - The application mustn't crash when an unregistered action is triggered
         When I click on button ClickToCallActionNotRegistered
-        Then nothing happens and the ActionNotRegistered Screen should still be visible
+        Then the screen should show an element with the title ActionNotRegistered Screen

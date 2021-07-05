@@ -9,6 +9,7 @@
 
     <application
         android:label="sample"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
 
         <activity

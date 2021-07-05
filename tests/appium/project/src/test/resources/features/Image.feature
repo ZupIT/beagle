@@ -19,7 +19,6 @@ Feature: Image Component Validation
 
     As a Beagle developer/user
     I'd like to make sure my image component works as expected
-    In order to guarantee that my application never fails
 
     Background:
         Given that I'm on the image screen

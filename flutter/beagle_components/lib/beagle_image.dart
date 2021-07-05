@@ -18,18 +18,21 @@ import 'dart:typed_data';
 
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/logger/beagle_logger.dart';
+import 'package:beagle/model/beagle_style.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:beagle/style/style_builder.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 /// Defines an image widget that renders local or remote resource depending on
 /// the value passed to [path].
-class BeagleImage extends StatefulWidget {
+class BeagleImage extends StatefulWidget with YogaWidget {
   const BeagleImage({
     Key key,
     this.path,
     this.mode,
+    this.style,
   }) : super(key: key);
 
   /// Defines the location of the image resource.
@@ -38,6 +41,9 @@ class BeagleImage extends StatefulWidget {
   /// Defines how the declared image will fit the view.
   final ImageContentMode mode;
 
+  /// Defines the style of this image. Only width and height are supported for now.
+  final BeagleStyle style;
+
   @override
   _BeagleImageState createState() => _BeagleImageState();
 }
@@ -45,6 +51,7 @@ class BeagleImage extends StatefulWidget {
 class _BeagleImageState extends State<BeagleImage> {
   Future<Uint8List> imageBytes;
   BeagleLogger logger = beagleServiceLocator<BeagleLogger>();
+  BeagleYogaFactory beagleYogaFactory = beagleServiceLocator();
 
   @override
   void initState() {
@@ -57,9 +64,11 @@ class _BeagleImageState extends State<BeagleImage> {
 
   @override
   Widget build(BuildContext context) {
-    return isLocalImage()
+    final image = isLocalImage()
         ? createImageFromAsset(widget.path)
         : createImageFromNetwork(widget.path);
+    // TODO when implement yoga to all beagle components, this YogaLayout should be replaced by a single YogaNode
+    return beagleYogaFactory.createYogaLayout(style: widget.style, children: [image]);
   }
 
   Future<void> downloadImage() async {
@@ -81,6 +90,7 @@ class _BeagleImageState extends State<BeagleImage> {
         fit: getBoxFit(widget.mode),
       );
     } else {
+      logger.error('Invalid local image: ${path.mobileId}. Have you declared this id in your DesignSystem class?');
       return Container();
     }
   }
@@ -134,7 +144,7 @@ class _BeagleImageState extends State<BeagleImage> {
     } else if (mode == ImageContentMode.FIT_XY) {
       return BoxFit.fill;
     } else {
-      return BoxFit.none;
+      return BoxFit.contain;
     }
   }
 }

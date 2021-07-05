@@ -40,7 +40,7 @@ final class ListViewCell: UICollectionViewCell {
         let undefined = YGValue(value: .nan, unit: .undefined)
         contentView.configureLayout { layout in
             func maxValue(_ value: CGFloat) -> YGValue {
-                guard value != .nan, value != .greatestFiniteMagnitude else {
+                guard !value.isNaN, value != .greatestFiniteMagnitude else {
                     return undefined
                 }
                 return YGValue(value: Float(value), unit: .point)
@@ -174,8 +174,14 @@ final class ListViewCell: UICollectionViewCell {
             yoga.flexShrink = shrink
         }
         
+        let keyPath: WritableKeyPath<CGSize, CGFloat>
+        switch listView.model.direction {
+        case .vertical: keyPath = \.width
+        case .horizontal: keyPath = \.height
+        }
         var rect = listView.bounds
-        rect.size.width = (rect.width / CGFloat(listView.model.columns)).rounded(.down)
+        let spansSpace = rect.size[keyPath: keyPath]
+        rect.size[keyPath: keyPath] = (spansSpace / CGFloat(listView.model.spanCount)).rounded(.down)
         
         contentView.frame = rect
         listView.listController.dependencies.style(contentView).applyLayout()

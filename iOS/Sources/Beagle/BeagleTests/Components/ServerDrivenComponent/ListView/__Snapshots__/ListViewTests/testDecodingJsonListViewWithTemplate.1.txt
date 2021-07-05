@@ -3,8 +3,8 @@
   ▿ dataSource: Expression<Array<DynamicObject>>
     ▿ value: 1 element
       - [name: Kelsier]
-  ▿ direction: Optional<Direction>
-    - some: Direction.vertical
+  ▿ direction: Optional<ScrollAxis>
+    - some: ScrollAxis.vertical
   - isScrollIndicatorVisible: Optional<Bool>.none
   - iteratorName: Optional<String>.none
   - key: Optional<String>.none

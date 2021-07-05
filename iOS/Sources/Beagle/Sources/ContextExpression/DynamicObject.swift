@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import Foundation
+
 public enum DynamicObject: Equatable, Hashable {
     case empty
     case bool(Bool)
@@ -23,6 +25,17 @@ public enum DynamicObject: Equatable, Hashable {
     case array([DynamicObject])
     case dictionary(DynamicDictionary)
     case expression(ContextExpression)
+    
+    /// Initializes from an Encodable object
+    /// - Parameter object: Encodable object
+    public init<T: Encodable>(_ object: T) {
+        do {
+            let data = try JSONEncoder().encode(object)
+            self = try JSONDecoder().decode(DynamicObject.self, from: data)
+        } catch {
+            self = .empty
+        }
+    }
 }
 
 public typealias DynamicDictionary = [String: DynamicObject]

@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-import 'package:beagle/model/beagle_environment.dart';
+package br.com.zup.beagle.serialization.components
 
-/// Interface that provides initial beagle configuration attributes.
-abstract class BeagleConfig {
-  BeagleConfig({
-    this.environment,
-    this.baseUrl,
-  });
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 
-  /// Attribute responsible for informing Beagle about the current build status of the application.
-  final BeagleEnvironment environment;
+internal abstract class DefaultSerializerTest<T> : BaseSerializerTest<T>() {
+    abstract fun testArguments(): List<Arguments>
 
-  /// Informs the base URL used in Beagle in the application.
-  final String baseUrl;
+    @ParameterizedTest(name = "[{index}] When try to serialize component Then should return correct json {0}, {1}")
+    @MethodSource("testArguments")
+    open fun executeDefaultSerializationTests(expectedJson: String, component: T) {
+        testSerialization(component, expectedJson)
+    }
 }

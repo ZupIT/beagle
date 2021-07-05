@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import 'dart:ui';
-
 import 'package:beagle/model/beagle_button_style.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
 import 'package:flutter/material.dart';

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
+import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
 import 'package:beagle/logger/beagle_logger.dart';
-import 'package:beagle/model/beagle_config.dart';
 import 'package:beagle/networking/beagle_network_strategy.dart';
 import 'package:beagle/service_locator.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
@@ -28,7 +28,8 @@ import 'package:beagle/setup/beagle_design_system.dart';
 import '../objects_fake/fake_design_system.dart';
 
 Future<void> testSetupServiceLocator({
-  BeagleConfig beagleConfig,
+  String baseUrl,
+  BeagleEnvironment environment,
   HttpClient httpClient,
   Map<String, ComponentBuilder> components,
   Storage storage,
@@ -39,10 +40,13 @@ Future<void> testSetupServiceLocator({
   BeagleDesignSystem designSystem,
   BeagleImageDownloader imageDownloader,
   BeagleLogger logger,
+  BeagleYogaFactory beagleYogaFactory,
 }) async {
   await beagleServiceLocator.reset();
 
   beagleServiceLocator
+    ..registerSingleton<BeagleYogaFactory>(beagleYogaFactory)
     ..registerSingleton<BeagleDesignSystem>(designSystem ?? FakeDesignSystem())
-    ..registerSingleton<BeagleImageDownloader>(imageDownloader);
+    ..registerSingleton<BeagleImageDownloader>(imageDownloader)
+    ..registerSingleton<BeagleLogger>(logger);
 }

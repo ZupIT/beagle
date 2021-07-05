@@ -17,6 +17,8 @@
 /// ListView is a Layout component that will define a list of views natively. These views could be any ServerDrivenComponent.
 public struct ListView: Widget, HasContext, InitiableComponent, AutoInitiable {
     
+    public typealias Direction = ScrollAxis
+    
     /// Defines the context of the component.
     public var context: Context?
     
@@ -224,13 +226,6 @@ extension WidgetProperties {
         id = try container.decodeIfPresent(String.self, forKey: .id)
         style = try container.decodeIfPresent(Style.self, forKey: .style) ?? Style()
         accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
-    }
-}
-
-extension ListView {
-    public enum Direction: String, Decodable {
-        case vertical = "VERTICAL"
-        case horizontal = "HORIZONTAL"
     }
 }
 

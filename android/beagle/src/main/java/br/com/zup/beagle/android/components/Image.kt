@@ -52,9 +52,6 @@ data class Image constructor(
     @Transient
     private val viewMapper: ViewMapper = ViewMapper()
 
-    @Transient
-    private val viewFactory = ViewFactory()
-
     override fun buildView(rootView: RootView): View {
         val imageView: RoundedImageView = getImageView(rootView)
 
@@ -72,7 +69,7 @@ data class Image constructor(
         return imageView
     }
 
-    private fun getImageView(rootView: RootView) = viewFactory.makeImageView(
+    private fun getImageView(rootView: RootView) = ViewFactory.makeImageView(
         rootView.getContext(),
         getCornerRadius(),
     ).apply {

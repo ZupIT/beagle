@@ -16,19 +16,16 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
-import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
-
-private const val TOUCHABLE_SCREEN_HEADER = "Beagle Touchable"
-private const val TOUCHABLE_TEXT_1 = "Text with Touchable"
-private const val TOUCHABLE_TEXT_2 = "Click here!"
-private const val TOUCHABLE_TEXT_3 = "Image with Touchable"
-private const val TOUCHABLE_TEXT_4 = "NetworkImage with Touchable"
 
 class TouchScreenSteps : AbstractStep() {
+
+    private val touchableScreenHeader = "Beagle Touchable"
+    private val touchableRedirectText = "You clicked right"
+
     override var bffRelativeUrlPath = "/touchable"
 
     @Before("@touchable")
@@ -38,36 +35,33 @@ class TouchScreenSteps : AbstractStep() {
 
     @Given("^that I'm on the touchable screen$")
     fun checkImageScreen() {
-        waitForElementWithTextToBeClickable(TOUCHABLE_SCREEN_HEADER, false, false)
+        waitForElementWithTextToBeClickable(touchableScreenHeader)
     }
 
-    @And("^I have a text with touchable configured$")
-    fun checkTextWithTouchable() {
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_1, false, false)
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_2, false, false)
-    }
+    @Then("^validate touchable clicks:$")
+    fun checkTouchableClicks(dataTable: DataTable) {
+        val rows = dataTable.asLists()
+        for ((lineCount, columns) in rows.withIndex()) {
 
-    @And("^I have an image with touchable configured$")
-    fun checkImageWithTouchable() {
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_3, false, false)
-    }
+            if (lineCount == 0) // skip header
+                continue
 
-    @When("^I click on touchable text (.*)$")
-    fun clickOnTouchableText(string1: String) {
-        waitForElementWithTextToBeClickable(string1, false, false).click()
-    }
+            when (columns[0]!!) {
+                "Text 1" -> {
+                    waitForElementWithTextToBeClickable("Click here!").click()
+                }
+                "Image 1" -> {
+                    safeClickOnElement(waitForImageElements()[0])
+                }
+                "Image 2" -> {
+                    safeClickOnElement(waitForImageElements()[1])
+                }
+            }
 
-    @When("^I click on touchable image$")
-    fun clickOnTouchableImage() {
-        waitForImageElementToBeVisible(0).click()
+            waitForElementWithTextToBeClickable(touchableRedirectText)
+            goBack()
+            waitForElementWithTextToBeInvisible(touchableRedirectText)
 
-    }
-
-    @Then("^touchable screen should render all text attributes correctly$")
-    fun checkTouchableScreenTexts() {
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_1, false, false)
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_2, false, false)
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_3, false, false)
-        waitForElementWithTextToBeClickable(TOUCHABLE_TEXT_4, false, false)
+        }
     }
 }

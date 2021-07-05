@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
 
 class ConfirmScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/confirm"
@@ -31,32 +31,53 @@ class ConfirmScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the confirm screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("Confirm Screen", false, false)
+        waitForElementWithTextToBeClickable("Confirm Screen")
     }
 
-    @When("^I press a confirm button with the (.*) title$")
-    fun clickOnButton(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
-    }
+    @Then("^validate the invoked alerts and its confirm properties:$")
+    fun checkAlertProperties(dataTable: DataTable) {
+        val okButton = "OK"
+        val cancelButton = "CANCEL"
+        val rows = dataTable.asLists()
+        for ((lineCount, columns) in rows.withIndex()) {
 
-    @Then("^a confirm with the (.*) message should appear on the screen$")
-    fun checkConfirmMessage(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false)
-    }
+            if (lineCount == 0) // skip header
+                continue
 
-    @Then("^a confirm with the (.*) and (.*) should appear on the screen$")
-    fun checkConfirmMessageAndTitle(string: String, string2: String) {
-        waitForElementWithTextToBeClickable(string, false, true)
-        waitForElementWithTextToBeClickable(string2, false, true)
-    }
+            val buttonTitle = columns[0]!!
+            val alertContents = columns[1]!!.split(";")
+            val secondAlertTittle: String? = columns[2]
 
-    @Then("^I press the confirmation (.*) button on the confirm component$")
-    fun clickOnTheConfirmationActionButtonWithText(string: String) {
-        waitForElementWithTextToBeClickable(string, false, true).click()
-    }
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle))
 
-    @Then("^a confirm with a button with (.*) label should appear$")
-    fun checkConfirmationButtonLabelIsSetWithText(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false)
+            // checks if the alert appeared on screen with the correct properties
+            for (alertContent in alertContents) {
+                waitForElementWithTextToBeClickable(alertContent, ignoreCase = true)
+            }
+
+            when (buttonTitle) {
+                "TriggersAnActionWhenConfirmed" -> {
+                    waitForElementWithTextToBeClickable("ConfirmMessage", ignoreCase = true)
+                    safeClickOnElement(waitForElementWithTextToBeClickable(okButton, ignoreCase = true))
+                    waitForElementWithTextToBeClickable(secondAlertTittle!!)
+                    safeClickOnElement(waitForElementWithTextToBeClickable(okButton, ignoreCase = true))
+                    waitForElementWithTextToBeInvisible(secondAlertTittle)
+                }
+                "TriggersAnActionWhenCanceled" -> {
+                    waitForElementWithTextToBeClickable("CancelMessage", ignoreCase = true)
+                    safeClickOnElement(waitForElementWithTextToBeClickable(cancelButton, ignoreCase = true))
+                    waitForElementWithTextToBeClickable(secondAlertTittle!!)
+                    safeClickOnElement(waitForElementWithTextToBeClickable(okButton, ignoreCase = true))
+                    waitForElementWithTextToBeInvisible(secondAlertTittle)
+                }
+                "CustomConfirmLabel" -> {
+                    safeClickOnElement(waitForElementWithTextToBeClickable("CustomLabelOK", ignoreCase = true))
+                    waitForElementWithTextToBeInvisible("CustomLabelOK")
+                }
+                else -> {
+                    safeClickOnElement(waitForElementWithTextToBeClickable(cancelButton, ignoreCase = true))
+                }
+            }
+        }
     }
 }

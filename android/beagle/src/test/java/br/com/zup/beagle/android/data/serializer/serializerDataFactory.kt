@@ -31,6 +31,7 @@ import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.GridView
+import br.com.zup.beagle.android.components.GridViewDirection
 import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.LazyComponent
@@ -49,6 +50,7 @@ import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.ScrollView
 import br.com.zup.beagle.android.components.page.PageIndicator
+import br.com.zup.beagle.android.components.refresh.PullToRefresh
 import br.com.zup.beagle.android.components.utils.Template
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.expressionOf
@@ -183,7 +185,8 @@ fun makeJsonGridView() = """
       "isScrollIndicatorVisible": true,
       "iteratorName": "listItem",
       "key": "listKey",
-      "numColumns": 2
+      "spanCount": 2,
+      "direction": "HORIZONTAL"
     }
 """
 
@@ -289,7 +292,8 @@ fun makeObjectGridView() = GridView(
     isScrollIndicatorVisible = true,
     iteratorName = "listItem",
     key = "listKey",
-    numColumns = 2
+    spanCount = 2,
+    direction = GridViewDirection.HORIZONTAL
 )
 
 fun makeObjectImageWithLocalPath() = Image(
@@ -641,6 +645,44 @@ fun makeWebViewWithExpressionJson() = """
 
 fun makeObjectWebViewWithExpression() = WebView(
     url = expressionOf(TEST_EXPRESSION)
+)
+
+fun makePullToRefreshJson() = """
+    {
+        "_beagleComponent_": "beagle:pulltorefresh",
+        "context": ${makeContextWithPrimitiveValueJson()},
+        "onPull": [${makeActionAlertJson()}],
+        "isRefreshing": "$TEST_EXPRESSION",
+        "color": "$TEST_EXPRESSION",
+        "child": ${makeContainerJson()}
+    }
+"""
+
+fun makePullToRefreshObject() = PullToRefresh(
+    context = makeObjectContextWithPrimitiveValue(),
+    onPull = listOf(makeActionAlertObject()),
+    isRefreshing = expressionOf(TEST_EXPRESSION),
+    color = expressionOf(TEST_EXPRESSION),
+    child = makeObjectContainer()
+)
+
+fun makePullToRefreshWithoutExpressionJson() = """
+    {
+        "_beagleComponent_": "beagle:pulltorefresh",
+        "context": ${makeContextWithPrimitiveValueJson()},
+        "onPull": [${makeActionAlertJson()}],
+        "isRefreshing": "$TEST_EXPRESSION",
+        "color": "#FFFFFF",
+        "child": ${makeContainerJson()}
+    }
+"""
+
+fun makePullToRefreshWithoutExpressionObject() = PullToRefresh(
+    context = makeObjectContextWithPrimitiveValue(),
+    onPull = listOf(makeActionAlertObject()),
+    isRefreshing = expressionOf(TEST_EXPRESSION),
+    color = "#FFFFFF",
+    child = makeObjectContainer()
 )
 
 fun makeActionAddChildrenJson() = """

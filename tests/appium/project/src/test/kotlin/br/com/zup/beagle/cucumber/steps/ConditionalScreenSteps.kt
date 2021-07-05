@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
 
 class ConditionalScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/conditional"
@@ -31,17 +31,24 @@ class ConditionalScreenSteps : AbstractStep() {
 
     @Given("^the Beagle application did launch with the conditional screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("Conditional Screen", false, false)
+        waitForElementWithTextToBeClickable("Conditional Screen")
     }
 
-    @When("^I click in a conditional button with (.*) title$")
-    fun clickOnButton(string: String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
-    }
+    @Then("^validate the invoked alerts and its message:$")
+    fun checkAlertProperties(dataTable: DataTable) {
+        val rows = dataTable.asLists()
+        for ((lineCount, columns) in rows.withIndex()) {
 
-    @Then("^an Alert action should pop up with a (.*) message$")
-    fun checkGlobalTextScreen(string2: String) {
-        waitForElementWithTextToBeClickable(string2, false, false)
-    }
+            if (lineCount == 0) // skip header
+                continue
 
+            val buttonTitle = columns[0]!!
+            val alertMessage = columns[1]!!
+
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle))
+            waitForElementWithTextToBeClickable(alertMessage)
+            safeClickOnElement(waitForElementWithTextToBeClickable("OK", ignoreCase = true))
+            waitForElementWithTextToBeInvisible("OK", ignoreCase = true)
+        }
+    }
 }

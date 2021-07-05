@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-import 'package:beagle/beagle.dart';
-import 'package:flutter/foundation.dart';
+package br.com.zup.beagle.sample.micronaut.service
 
-class AppBeagleConfig implements BeagleConfig {
-  static const BASE_URL =
-      'https://gist.githubusercontent.com/paulomeurerzup/80e54caf96ba56ae96d07b4e671cae42/raw/ef803a5a3f32aff8c2b7b2d65e0633d485c658a2';
+import br.com.zup.beagle.sample.builder.SampleDataBuilder
+import javax.inject.Singleton
 
-  @override
-  String get baseUrl => BASE_URL;
-
-  @override
-  BeagleEnvironment get environment =>
-      kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production;
+@Singleton
+class SampleDataService {
+    fun getSampleStringList() = SampleDataBuilder.getStringArray()
 }

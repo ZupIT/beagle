@@ -76,8 +76,8 @@ internal class TextInputTest : BaseComponentTest() {
 
         styleManagerFactory = styleManager
 
-        every { anyConstructed<ViewFactory>().makeInputText(any(), any()) } returns editText
-        every { anyConstructed<ViewFactory>().makeInputText(any()) } returns editText
+        every { ViewFactory.makeInputText(any(), any()) } returns editText
+        every { ViewFactory.makeInputText(any()) } returns editText
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
 
         every { BeagleEnvironment.application } returns mockk(relaxed = true)
@@ -242,7 +242,7 @@ internal class TextInputTest : BaseComponentTest() {
             // Then
             assertTrue(view is EditText)
             verify(exactly = once()) {
-                anyConstructed<ViewFactory>().makeInputText(any())
+                ViewFactory.makeInputText(any())
                 editText.setText(VALUE_KEY)
                 editText.hint = PLACE_HOLDER
                 editText.isEnabled = READ_ONLY
@@ -262,7 +262,7 @@ internal class TextInputTest : BaseComponentTest() {
             // Then
             assertTrue(view is EditText)
             verify(exactly = once()) {
-                anyConstructed<ViewFactory>().makeInputText(any(), any())
+                ViewFactory.makeInputText(any(), any())
                 editText.setText(VALUE_KEY)
                 editText.hint = PLACE_HOLDER
                 editText.isEnabled = READ_ONLY

@@ -112,8 +112,6 @@ class AutoLayoutSample: UIView {
         
         view.backgroundColor = .cyan
         addSubview(view)
-        
-        translatesAutoresizingMaskIntoConstraints = false
     
         let label = UILabel()
         label.text = "AUTO"

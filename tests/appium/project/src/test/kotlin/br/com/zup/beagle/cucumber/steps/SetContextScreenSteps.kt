@@ -16,31 +16,37 @@
 
 package br.com.zup.beagle.cucumber.steps
 
+import io.cucumber.datatable.DataTable
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
 
-class SetContextScreenSteps: AbstractStep() {
+class SetContextScreenSteps : AbstractStep() {
     override var bffRelativeUrlPath = "/set-context"
 
-    @Before("@setcontext")
+    @Before("@setContext")
     fun setup() {
         loadBffScreen()
     }
 
     @Given("^the Beagle application did launch with the SetContext screen url$")
     fun checkBaseScreen() {
-        waitForElementWithTextToBeClickable("SetContext Screen", false,false)
+        waitForElementWithTextToBeClickable("SetContext Screen")
     }
 
-    @When("^I press a SetContext button with the (.*) title$")
-    fun clickOnButton(string:String) {
-        waitForElementWithTextToBeClickable(string, false, false).click()
-    }
+    @Then("^validate the invoked context buttons and its actions:$")
+    fun checkAlertProperties(dataTable: DataTable) {
+        val rows = dataTable.asLists()
+        for ((lineCount, columns) in rows.withIndex()) {
 
-    @Then("^a text with the (.*) message should appear on the screen$")
-    fun checkAlertMessage(string:String) {
-        waitForElementWithTextToBeClickable(string, false,false)
+            if (lineCount == 0) // skip header
+                continue
+
+            val buttonTitle = columns[0]!!
+            val actionMessage = columns[1]!!
+
+            safeClickOnElement(waitForElementWithTextToBeClickable(buttonTitle))
+            waitForElementWithTextToBeClickable(actionMessage)
+        }
     }
 }
