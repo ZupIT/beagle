@@ -17,7 +17,6 @@
 
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
-import 'package:beagle/interface/global_context.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/cupertino.dart';
@@ -73,8 +72,6 @@ class BeagleSampleApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GlobalContext.getInstance().then((value) => value.set("Value One", "key_one"));
-    GlobalContext.getInstance().then((value) => value.set("Value Two", "key_two"));
     return MaterialApp(
       title: 'Beagle Sample',
       theme: ThemeData(

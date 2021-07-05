@@ -34,7 +34,6 @@ class BeagleSampleScreen extends StatefulWidget {
 class _BeagleSampleScreenState extends State<BeagleSampleScreen> {
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: widget.title,
       theme: Theme.of(context).copyWith(
@@ -48,13 +47,9 @@ class _BeagleSampleScreenState extends State<BeagleSampleScreen> {
           title: Text(widget.title),
         ),
         body: BeagleWidget(
-          screenJson: """
-         {
-      "_beagleComponent_": "beagle:text",
-      "text": "asdasda @{global}",
-      "alignment": "CENTER"
-    }
-          """
+          screenRequest: BeagleScreenRequest(
+            widget.route,
+          ),
         ),
       ),
     );
