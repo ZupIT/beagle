@@ -1,6 +1,6 @@
 import 'package:beagle/service_locator.dart';
 
-/// A Global Context is a class that can assume as value of any type of variable, like a map defines a subset
+/// A Global Context is a class that can assume a value of any variable type. This is similar to a map that defines a subset
 /// of key/value or complex JSONs objects that defines object trees.
 ///
 /// It works exactly like the Context, however in a global scope, meaning that it will exists while the application is
