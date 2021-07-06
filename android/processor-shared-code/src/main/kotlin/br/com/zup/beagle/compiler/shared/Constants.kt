@@ -17,3 +17,6 @@
 package br.com.zup.beagle.compiler.shared
 
 const val REGISTRAR_COMPONENTS_PACKAGE = "br.com.zup.beagle.android.registrar"
+const val PROPERTIES_REGISTRAR_CLASS_NAME = "PropertiesRegistrar"
+const val PROPERTIES_REGISTRAR_METHOD_NAME = "registeredProperties"
+const val PROPERTIES_REGISTRAR_PROPERTY_NAME = "registeredProperties"

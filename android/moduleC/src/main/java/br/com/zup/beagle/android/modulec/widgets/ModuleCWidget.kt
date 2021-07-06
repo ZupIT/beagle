@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.modulec
+package br.com.zup.beagle.android.modulec.widgets
 
 import android.graphics.Color
 import android.widget.TextView

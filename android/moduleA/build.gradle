@@ -54,6 +54,7 @@ android {
 dependencies {
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
+    implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
     api project(':moduleB')
 
@@ -69,6 +70,6 @@ dependencies {
 kapt {
     arguments {
         arg("beagle.moduleName", "moduleA")
-//        arg("beagle.hasInstance", "false")
+        arg("beagle.generateSetup", "false")
     }
 }

@@ -34,14 +34,15 @@ import com.squareup.kotlinpoet.asTypeName
 import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
+import javax.lang.model.element.TypeElement
 import javax.lang.model.type.MirroredTypeException
 
 const val CONTROLLER_REFERENCE_GENERATED = "ControllerReferenceGenerated"
 
 internal class RegisterControllerProcessor(private val processingEnv: ProcessingEnvironment) {
 
-    companion object{
-            const val REGISTERED_CONTROLLERS = "registeredControllers"
+    companion object {
+        const val REGISTERED_CONTROLLERS = "registeredControllers"
     }
 
     var defaultActivityRegistered: String = ""
@@ -87,21 +88,26 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
 
         val defaultBeagleClass = ClassName(DEFAULT_BEAGLE_ACTIVITY.packageName,
             DEFAULT_BEAGLE_ACTIVITY.className).canonicalName
-        defaultActivityRegistered = if (validatorLines.second.isEmpty())
-            "$defaultBeagleClass::class.java as Class<BeagleActivity>" else validatorLines.second
+        // TODO: refactored. Verificar
+//        defaultActivityRegistered = if (validatorLines.second.isEmpty())
+//            "$defaultBeagleClass::class.java as Class<BeagleActivity>" else validatorLines.second
+        defaultActivityRegistered = if (defaultActivityRegistered.isEmpty())
+            "$defaultBeagleClass::class.java as Class<BeagleActivity>" else defaultActivityRegistered
 
         var code = ""
 
         when {
-            validatorLines.second.isEmpty() && !defaultActivity.startsWith("null::class") -> {
+            //validatorLines.second.isEmpty() && !defaultActivity.startsWith("null::class") -> {
+            defaultActivityRegistered.isEmpty() && !defaultActivity.startsWith("null::class") -> {
                 defaultActivityRegistered = defaultActivity
             }
-            validatorLines.first.isNotEmpty() -> {
+//            validatorLines.first.isNotEmpty() -> {
+            validatorLines.isNotEmpty() -> {
 
                 code = """
                     |return when(id) {
-                    |   ${validatorLines.first}
-                    |   else -> $defaultActivityRegistered
+                    |$validatorLines
+                    |    else -> $defaultActivityRegistered
                     |}
                 |""".trimMargin()
             }
@@ -117,13 +123,11 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             .build()
     }
 
-    private fun createValidatorLines(roundEnvironment: RoundEnvironment): Pair<String, String> {
-        val validators = StringBuilder()
+    private fun getDefaultActivityRegistered(roundEnvironment: RoundEnvironment, defaultActivity: String): String {
+        // TODO: refatorar código em comum com outras funções
         val registerValidatorAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(
             RegisterController::class.java
         )
-
-        var defaultControllerClass = ""
 
         registerValidatorAnnotatedClasses.forEachIndexed { index, element ->
             val registerValidatorAnnotation = element.getAnnotation(RegisterController::class.java)
@@ -134,22 +138,69 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             }
 
             if (name.isEmpty()) {
-                defaultControllerClass = "$element::class.java as Class<BeagleActivity>"
+//                defaultControllerClass = "$element::class.java as Class<BeagleActivity>"
+                return "$element::class.java as Class<BeagleActivity>"
+            }
+        }
+
+        processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
+            val fullClassName = it.toString()
+            val cls = Class.forName(fullClassName)
+            val kotlinClass = cls.kotlin
+            try {
+                (cls.getMethod(REGISTERED_CONTROLLERS).invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { registeredDependency ->
+
+                    if (registeredDependency.first.isEmpty()) {
+                        return "${registeredDependency.second}::class.java as Class<BeagleActivity>"
+                    }
+                }
+            } catch (e: NoSuchMethodException) {
+                // intentionally left blank
+            }
+        }
+
+        if(!defaultActivity.startsWith("null::class")){
+            return defaultActivity
+        }
+
+        return ""
+    }
+
+    private fun createValidatorLines(roundEnvironment: RoundEnvironment): String {
+        val validators = StringBuilder()
+        val registerValidatorAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(
+            RegisterController::class.java
+        )
+
+//        var defaultControllerClass = ""
+
+        registerValidatorAnnotatedClasses.forEachIndexed { index, element ->
+            val registerValidatorAnnotation = element.getAnnotation(RegisterController::class.java)
+            val name = try {
+                (registerValidatorAnnotation as RegisterController).id
+            } catch (mte: MirroredTypeException) {
+                mte.typeMirror.toString()
+            }
+
+            if (name.isEmpty()) {
+//                defaultControllerClass = "$element::class.java as Class<BeagleActivity>"
+                defaultActivityRegistered = "$element::class.java as Class<BeagleActivity>"
                 return@forEachIndexed
             }
 
-            validators.append("\"$name\" -> $element::class.java as Class<BeagleActivity>")
+            validators.append("    \"$name\" -> $element::class.java as Class<BeagleActivity>")
             if (index < registerValidatorAnnotatedClasses.size - 1) {
                 validators.append("\n")
             }
         }
 
-        validators.append(getRegisteredControllersInDependencies())
+        validators.append(getRegisteredControllersInDependencies(defaultActivityRegistered))
 
-        return validators.toString() to defaultControllerClass
+//        return validators.toString() to defaultControllerClass
+        return validators.toString()
     }
 
-    private fun getRegisteredControllersInDependencies(): java.lang.StringBuilder {
+    private fun getRegisteredControllersInDependencies(defaultControllerClass: String): java.lang.StringBuilder {
         val registeredWidgets = StringBuilder()
         processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
             val fullClassName = it.toString()
@@ -157,7 +208,19 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             val kotlinClass = cls.kotlin
             try {
                 (cls.getMethod(REGISTERED_CONTROLLERS).invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { registeredDependency ->
-                    registeredWidgets.append("\"${registeredDependency.first}\" -> ${registeredDependency.second}::class.java as Class<BeagleActivity>\n")
+                    //TODO: extrair para método
+                    if (defaultControllerClass.isNotEmpty() && registeredDependency.first.isEmpty()) {
+                        processingEnv.messager?.error("Default controller defined multiple times: " +
+                            "\n$defaultControllerClass" +
+                            "\n${registeredDependency.second}" +
+                            "\n\nYou must remove one implementation from the application.")
+                    }
+
+                    if (registeredDependency.first.isEmpty()) {
+                        defaultActivityRegistered = "${registeredDependency.second}::class.java as Class<BeagleActivity>"
+                    } else {
+                        registeredWidgets.append("\n    \"${registeredDependency.first}\" -> ${registeredDependency.second}::class.java as Class<BeagleActivity>")
+                    }
                 }
             } catch (e: NoSuchMethodException) {
                 // intentionally left blank

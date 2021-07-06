@@ -50,7 +50,7 @@ abstract class BeagleGeneratorFunction<T : Annotation>(
 
     private fun getRegisteredComponentsInDependencies(): java.lang.StringBuilder {
         // TODO: Otimizar
-        val test = 2
+        val test = 3
         val registeredWidgets = StringBuilder()
         processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
             val fullClassName = it.toString()

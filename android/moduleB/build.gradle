@@ -54,6 +54,7 @@ android {
 dependencies {
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)
+    implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
     api project(':moduleC')
 //    api "br.com.zup.beagle:modulec:1.0.0-automated"
@@ -70,6 +71,6 @@ dependencies {
 kapt {
     arguments {
         arg("beagle.moduleName", "ModuleB")
-//        arg("beagle.hasInstance", "false")
+        arg("beagle.generateSetup", "false")
     }
 }

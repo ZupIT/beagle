@@ -82,6 +82,6 @@ dependencies {
 kapt {
     arguments {
         arg("beagle.moduleName", "sample")
-//        arg("beagle.hasInstance", "false")
+//        arg("beagle.generateSetup", "false")
     }
 }

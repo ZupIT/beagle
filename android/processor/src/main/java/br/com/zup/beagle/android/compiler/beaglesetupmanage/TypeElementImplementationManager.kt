@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.compiler.beaglesetupmanage
 
+import br.com.zup.beagle.android.compiler.BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.PropertySpecifications
 import br.com.zup.beagle.android.compiler.FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.android.compiler.DEEP_LINK_HANDLER
@@ -42,6 +43,13 @@ internal object TypeElementImplementationManager {
         )
 
         when {
+            typeElement.implements(BEAGLE_CONFIG, processingEnv) -> {
+                val element = propertySpecifications?.config
+                propertySpecifications?.config = manage.manageTypeElement(
+                    element,
+                    BEAGLE_CONFIG.className
+                )
+            }
             typeElement.implements(FORM_LOCAL_ACTION_HANDLER, processingEnv) -> {
                 val element = propertySpecifications?.formLocalActionHandler
                 propertySpecifications?.formLocalActionHandler = manage.manageTypeElement(

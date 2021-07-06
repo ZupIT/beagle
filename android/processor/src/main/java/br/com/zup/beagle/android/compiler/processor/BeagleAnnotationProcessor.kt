@@ -43,7 +43,7 @@ import javax.lang.model.element.TypeElement
 @IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.ISOLATING)
 @SupportedOptions(
     KAPT_BEAGLE_MODULE_NAME_OPTION_NAME,
-    KAPT_BEAGLE_HAS_INSTANCE_OPTION_NAME,
+    KAPT_BEAGLE_GENERATE_SETUP_OPTION_NAME,
 )
 class BeagleAnnotationProcessor : AbstractProcessor() {
 
@@ -84,16 +84,21 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
                 processingEnv.messager.error("BeagleConfig already defined, " +
                     "remove one implementation from the application.")
             }
-            beagleConfigElements.isEmpty() && !beagleClassesGenerationDisabled(processingEnv) -> {
-                processingEnv.messager.error("Did you miss to annotate your " +
-                    "BeagleConfig class with @BeagleComponent?")
-            }
+            // TODO: Agora eu preciso dar um jeito de saber se o config não está registrado nem nesse nem em outro módulo
+//            beagleConfigElements.isEmpty() && !beagleClassesGenerationDisabled(processingEnv) -> {
+//                processingEnv.messager.error("Did you miss to annotate your " +
+//                    "BeagleConfig class with @BeagleComponent?")
+//            }
             else -> {
-                val fullClassName = beagleConfigElements[0].asType().toString()
-                val beagleConfigClassName = fullClassName.substring(
-                    fullClassName.lastIndexOf(".") + 1
-                )
-                val basePackageName = fullClassName.replace(".$beagleConfigClassName", "")
+//                val fullClassName = beagleConfigElements[0].asType().toString()
+//                val beagleConfigClassName = fullClassName.substring(
+//                    fullClassName.lastIndexOf(".") + 1
+//                )
+                // TODO: não vai mais ser necessário passar o beagleConfigClassName
+//                val basePackageName = fullClassName.replace(".$beagleConfigClassName", "")
+                val fullClassName = roundEnvironment.rootElements.elementAt(0).asType().toString()
+                val basePackageName = fullClassName.substringBeforeLast(".")
+                val beagleConfigClassName = "" // TODO: remover essa biroska
                 beagleSetupProcessor.process(basePackageName, beagleConfigClassName, roundEnvironment)
             }
         }

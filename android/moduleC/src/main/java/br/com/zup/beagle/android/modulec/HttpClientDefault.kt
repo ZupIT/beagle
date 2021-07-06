@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.config
+package br.com.zup.beagle.android.modulec
 
+import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.HttpMethod
@@ -33,7 +34,7 @@ import java.net.URI
 typealias OnSuccess = (responseData: ResponseData) -> Unit
 typealias OnError = (responseData: ResponseData) -> Unit
 
-//@BeagleComponent
+@BeagleComponent
 class HttpClientDefault : HttpClient, CoroutineScope {
     private val job = Job()
     override val coroutineContext = job + CoroutineDispatchers.IO

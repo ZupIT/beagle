@@ -17,4 +17,4 @@
 package br.com.zup.beagle.android.compiler.processor
 
 const val KAPT_BEAGLE_MODULE_NAME_OPTION_NAME = "beagle.moduleName"
-const val KAPT_BEAGLE_HAS_INSTANCE_OPTION_NAME = "beagle.hasInstance"
+const val KAPT_BEAGLE_GENERATE_SETUP_OPTION_NAME = "beagle.generateSetup"

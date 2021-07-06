@@ -19,6 +19,10 @@ package br.com.zup.beagle.android.compiler
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.PropertyImplementationManager
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.TypeElementImplementationManager
+import br.com.zup.beagle.android.compiler.processor.forEachRegisteredDependency
+import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_CLASS_NAME
+import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_METHOD_NAME
+import br.com.zup.beagle.compiler.shared.REGISTRAR_COMPONENTS_PACKAGE
 import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.implements
 import com.squareup.kotlinpoet.ClassName
@@ -36,6 +40,36 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
         roundEnvironment: RoundEnvironment,
     ): List<PropertySpec> {
         val propertySpecifications: PropertySpecifications? = PropertySpecifications()
+
+        // Get properties possibly registered in dependencies modules
+        // TODO: refatorar
+//            processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
+//                val fullClassName = it.toString()
+//                if (fullClassName.contains(PROPERTIES_REGISTRAR_CLASS_NAME)) {
+//                    val cls = Class.forName(fullClassName)
+//                    val kotlinClass = cls.kotlin
+//                    try {
+//                        (cls.getMethod(PROPERTIES_REGISTRAR_METHOD_NAME).invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { registeredDependency ->
+//                            // TODO: ver esse negócio de remover o () do final
+//                            // TODO: ver o que fazer com nosso amigo a querida propriedade serverDrivenActivity
+//                            val typeElement = processingEnv.elementUtils.getTypeElement(registeredDependency.second.removeSuffix("()"))
+//                            checkIfHandlersExists(typeElement, propertySpecifications)
+//                            checkIfOtherAttributesExists(typeElement, propertySpecifications)
+//                        }
+//                    } catch (e: NoSuchMethodException) {
+//                        // intentionally left blank
+//                    }
+//                }
+//            }
+        forEachRegisteredDependency(
+            processingEnv,
+            PROPERTIES_REGISTRAR_CLASS_NAME,
+            PROPERTIES_REGISTRAR_METHOD_NAME) { registeredDependency ->
+            //TODO: não verificar duplicidade nos registrar
+            val typeElement = processingEnv.elementUtils.getTypeElement(registeredDependency.second.removeSuffix("()"))
+            checkIfHandlersExists(typeElement, propertySpecifications)
+            checkIfOtherAttributesExists(typeElement, propertySpecifications)
+        }
 
         roundEnvironment.getElementsAnnotatedWith(BeagleComponent::class.java).forEach { element ->
             val typeElement = element as TypeElement
@@ -132,4 +166,5 @@ internal data class PropertySpecifications(
     var analyticsProvider: TypeElement? = null,
     var logger: TypeElement? = null,
     var imageDownloader: TypeElement? = null,
+    var config: TypeElement? = null,
 )
