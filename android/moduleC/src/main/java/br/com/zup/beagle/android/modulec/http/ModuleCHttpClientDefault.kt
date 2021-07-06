@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.modulec
+package br.com.zup.beagle.android.modulec.http
 
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.exception.BeagleApiException
@@ -35,7 +35,7 @@ typealias OnSuccess = (responseData: ResponseData) -> Unit
 typealias OnError = (responseData: ResponseData) -> Unit
 
 @BeagleComponent
-class HttpClientDefault : HttpClient, CoroutineScope {
+class ModuleCHttpClientDefault : HttpClient, CoroutineScope {
     private val job = Job()
     override val coroutineContext = job + CoroutineDispatchers.IO
     override fun execute(
@@ -146,7 +146,7 @@ class HttpClientDefault : HttpClient, CoroutineScope {
     }
     private fun createRequestCall() = object : RequestCall {
         override fun cancel() {
-            this@HttpClientDefault.cancel()
+            this@ModuleCHttpClientDefault.cancel()
         }
     }
 }

@@ -87,8 +87,4 @@ class GenerateFunctionCustomValidator(processingEnv: ProcessingEnvironment) :
         // TODO: aqui tem código duplicado
         return "\"${registeredDependency.first}\" -> ${registeredDependency.second}() as Validator<Any, Any>\n"
     }
-
-    override fun generate(roundEnvironment: RoundEnvironment): FunSpec {
-        return super.generate(roundEnvironment)
-    }
 }

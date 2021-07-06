@@ -14,24 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.modulec
+package br.com.zup.beagle.android.moduleb.design
 
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.setup.DesignSystem
 
-internal object CoroutineDispatchers {
-
-    init {
-        reset()
-    }
-
-    lateinit var IO: CoroutineDispatcher
-    lateinit var Main: CoroutineDispatcher
-    lateinit var Default: CoroutineDispatcher
-
-    fun reset() {
-        IO = Dispatchers.IO
-        Main = Dispatchers.Main
-        Default = Dispatchers.Default
-    }
-}
+@BeagleComponent
+class ModuleBDesignSystem: DesignSystem()

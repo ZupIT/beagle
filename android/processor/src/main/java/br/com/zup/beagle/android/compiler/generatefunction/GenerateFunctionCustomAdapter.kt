@@ -248,11 +248,6 @@ class GenerateFunctionCustomAdapter(processingEnv: ProcessingEnvironment) :
     override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
         return "${registeredDependency.first} -> ${registeredDependency.second}() as $BEAGLE_TYPE_ADAPTER_INTERFACE$BREAK_LINE"
     }
-
-    override fun generate(roundEnvironment: RoundEnvironment): FunSpec {
-        val test = 1
-        return super.generate(roundEnvironment)
-    }
 }
 
 private fun DeclaredType.toTypeArguments(): List<TypeMirror> {

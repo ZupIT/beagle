@@ -16,10 +16,9 @@
 
 package br.com.zup.beagle.sample
 
-import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.setup.DesignSystem
 
-@BeagleComponent
+//@BeagleComponent
 class AppDesignSystem : DesignSystem() {
 
     override fun toolbarStyle(id: String): Int? {

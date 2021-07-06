@@ -65,7 +65,9 @@ android {
 
 dependencies {
     implementation project(':moduleA')
-//    implementation project(':moduleB')
+    implementation project(':moduleB')
+//    implementation project(':moduleC')
+
     implementation Dependencies.AndroidxLibraries.appcompat
     implementation Dependencies.AndroidxLibraries.coreKtx
 

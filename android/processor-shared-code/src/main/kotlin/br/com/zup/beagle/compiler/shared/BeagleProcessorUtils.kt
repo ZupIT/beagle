@@ -14,23 +14,32 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.compiler.processor
+package br.com.zup.beagle.compiler.shared
 
-import br.com.zup.beagle.compiler.shared.REGISTRAR_COMPONENTS_PACKAGE
 import javax.annotation.processing.ProcessingEnvironment
 
 fun beagleClassesGenerationDisabled(processingEnv: ProcessingEnvironment): Boolean {
     return processingEnv.options.getOrDefault(KAPT_BEAGLE_GENERATE_SETUP_OPTION_NAME, "") == "false"
 }
 
-fun forEachRegisteredDependency(processingEnv: ProcessingEnvironment, className: String, methodName: String, function: (Pair<String, String>) -> Unit) {
+@Suppress("UNCHECKED_CAST")
+fun forEachRegisteredDependency(
+    processingEnv: ProcessingEnvironment,
+    className: String,
+    methodName: String,
+    function: (Pair<String, String>) -> Unit,
+) {
+    // TODO: Otimizar
     processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
-        val fullClassName = it.toString()
-        if (fullClassName.contains(className)) {
-            val cls = Class.forName(fullClassName)
+        val fullRegistrarClassName = it.toString()
+        val registrarClassName = fullRegistrarClassName.substringAfterLast(".")
+//        if (className != null && !fullClassName.contains(className)) {
+//            return@forEach
+//        }
+        if (registrarClassName.startsWith(className)) {
+            val cls = Class.forName(fullRegistrarClassName)
             val kotlinClass = cls.kotlin
             try {
-                // TODO: resolver unchecked cast
                 // TODO: resolver call uses reflection API
                 (cls.getMethod(methodName).invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { registeredDependency ->
                     function(registeredDependency)

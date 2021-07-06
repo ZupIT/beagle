@@ -22,10 +22,10 @@ import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 
 abstract class BeagleGeneratorFunction<T : Annotation>(
-//    private val beagleClass: BeagleClass,
     val processingEnv: ProcessingEnvironment,
     private val functionName: String,
-    private val annotation: Class<T>) {
+    private val annotation: Class<T>,
+) {
 
     abstract fun buildCodeByElement(element: Element, annotation: Annotation): String
 
@@ -39,8 +39,8 @@ abstract class BeagleGeneratorFunction<T : Annotation>(
 
     abstract fun createFuncSpec(name: String): FunSpec.Builder
 
-    open fun generate(roundEnvironment: RoundEnvironment): FunSpec {
-        val registeredComponentsInDependencies = getRegisteredComponentsInDependencies()
+    open fun generate(roundEnvironment: RoundEnvironment, className: String): FunSpec {
+        val registeredComponentsInDependencies = getRegisteredComponentsInDependencies(className)
         val classesWithAnnotation = getAllClassWithAnnotation(roundEnvironment) + registeredComponentsInDependencies
         return createFuncSpec(functionName)
             .addCode(getCodeFormatted(classesWithAnnotation))
@@ -48,33 +48,24 @@ abstract class BeagleGeneratorFunction<T : Annotation>(
             .build()
     }
 
-    private fun getRegisteredComponentsInDependencies(): java.lang.StringBuilder {
-        // TODO: Otimizar
-        val test = 3
+    private fun getRegisteredComponentsInDependencies(className: String): StringBuilder {
         val registeredWidgets = StringBuilder()
-        processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
-            val fullClassName = it.toString()
-            val cls = Class.forName(fullClassName)
-            val kotlinClass = cls.kotlin
-            try {
-                (cls.getMethod(functionName).invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { registeredDependency ->
-                    registeredWidgets.append(buildCodeByDependency(registeredDependency))
-//                    registeredWidgets.append("\n\t${component.second}::class.java as Class<WidgetView>,")
-                }
-            } catch (e: NoSuchMethodException) {
-                // intentionally left blank
-            }
+        forEachRegisteredDependency(
+            processingEnv,
+            className,
+            functionName
+        ){ registeredDependency ->
+            registeredWidgets.append(buildCodeByDependency(registeredDependency))
         }
+
         return registeredWidgets
     }
 
     fun getFunctionName(): String = functionName
 
-    fun getAllClassWithAnnotation(roundEnvironment: RoundEnvironment): String {
-        val test = 1
+    private fun getAllClassWithAnnotation(roundEnvironment: RoundEnvironment): String {
         val stringBuilder = StringBuilder()
         val elements = roundEnvironment.getElementsAnnotatedWith(annotation)
-
 
         elements.forEach { element ->
             val annotation = element.getAnnotation(annotation)

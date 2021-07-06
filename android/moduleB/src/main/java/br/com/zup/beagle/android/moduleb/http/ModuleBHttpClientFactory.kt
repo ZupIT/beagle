@@ -14,7 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.compiler.processor
+package br.com.zup.beagle.android.moduleb.http
 
-const val KAPT_BEAGLE_MODULE_NAME_OPTION_NAME = "beagle.moduleName"
-const val KAPT_BEAGLE_GENERATE_SETUP_OPTION_NAME = "beagle.generateSetup"
+import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.modulec.http.ModuleCHttpClientDefault
+import br.com.zup.beagle.android.networking.HttpClient
+import br.com.zup.beagle.android.networking.HttpClientFactory
+
+@BeagleComponent
+class ModuleBHttpClientFactory: HttpClientFactory {
+    override fun create(): HttpClient {
+        return ModuleCHttpClientDefault()
+    }
+}

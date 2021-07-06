@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.modulec
+package br.com.zup.beagle.android.modulec.http
 
 import java.lang.Exception
 import java.net.HttpURLConnection

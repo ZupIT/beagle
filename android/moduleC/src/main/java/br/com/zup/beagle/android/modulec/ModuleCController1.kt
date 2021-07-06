@@ -18,5 +18,5 @@ package br.com.zup.beagle.android.modulec
 
 import br.com.zup.beagle.android.annotation.RegisterController
 
-@RegisterController(id = "moduleCController1")
+@RegisterController(/*id = "moduleCController1"*/)
 class ModuleCController1

@@ -17,9 +17,6 @@ import br.com.zup.beagle.Dependencies
  */
 
 buildscript {
-    ext {
-        kotlin_version = '1.5.10'
-    }
     repositories {
         maven { url "https://plugins.gradle.org/m2/" }
         google()
@@ -51,7 +48,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-//        mavenLocal()
     }
 
     // temporary solution to all libraries updated to the last version of kotlin

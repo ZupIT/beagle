@@ -23,6 +23,8 @@ import br.com.zup.beagle.android.compiler.BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.compiler.shared.KAPT_BEAGLE_GENERATE_SETUP_OPTION_NAME
+import br.com.zup.beagle.compiler.shared.KAPT_BEAGLE_MODULE_NAME_OPTION_NAME
 import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.implements
 import com.google.auto.service.AutoService
