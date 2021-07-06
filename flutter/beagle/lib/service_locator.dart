@@ -22,6 +22,7 @@ import 'package:beagle/bridge_impl/js_runtime_wrapper.dart';
 import 'package:beagle/default/url_builder.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/interface/beagle_service.dart';
+import 'package:beagle/interface/global_context.dart';
 import 'package:beagle/interface/http_client.dart';
 import 'package:beagle/interface/navigation_controller.dart';
 import 'package:beagle/interface/storage.dart';
@@ -57,6 +58,7 @@ void setupServiceLocator({
     ..registerSingleton<BeagleJSEngine>(
       createBeagleJSEngineInstance(storage),
     )
+    ..registerSingleton<GlobalContext>(GlobalContextJS(beagleServiceLocator<BeagleJSEngine>()),)
     ..registerSingleton<BeagleDesignSystem>(designSystem)
     ..registerSingleton<BeagleImageDownloader>(imageDownloader)
     ..registerSingleton<BeagleLogger>(logger)
@@ -84,10 +86,7 @@ void setupServiceLocator({
         initialControllerId: initialControllerId,
       ),
     )
-    ..registerFactory<UrlBuilder>(() => UrlBuilder(baseUrl))
-    ..registerFactory(
-      () => GlobalContextJS(beagleServiceLocator<BeagleJSEngine>()),
-    );
+    ..registerFactory<UrlBuilder>(() => UrlBuilder(baseUrl));
 }
 
 JavascriptRuntimeWrapper createJavascriptRuntimeWrapperInstance() =>

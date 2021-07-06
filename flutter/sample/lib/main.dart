@@ -60,6 +60,7 @@ void main() {
 }
 
 class BeagleSampleApp extends StatelessWidget {
+
   const BeagleSampleApp({Key key}) : super(key: key);
 
   static final _appBarMenuOptions = [

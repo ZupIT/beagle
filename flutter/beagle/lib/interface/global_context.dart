@@ -1,4 +1,19 @@
+import 'package:beagle/service_locator.dart';
+
+/// A Global Context is a class that can assume a value of any variable type. This is similar to a map that defines a subset
+/// of key/value or complex JSONs objects that defines object trees.
+///
+/// It works exactly like the Context, however in a global scope, meaning that it will exists while the application is
+/// still running (even in the background), which allows it to be accessed from any application point, this point being a component
+/// or an action linked to a component conventionally or programmatically.
 abstract class GlobalContext {
+
+  /// Gets the current GlobalContext
+  static Future<GlobalContext> getInstance() async {
+    await beagleServiceLocator.allReady();
+    return Future.value(beagleServiceLocator<GlobalContext>());
+  }
+
   /// Gets a value in the global context according to the [path] passed as parameter. The [path] is
   /// optional, if not passed, the entire global context is returned. If no value is found for the
   /// provided [path], null is returned.

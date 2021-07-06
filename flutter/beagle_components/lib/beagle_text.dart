@@ -31,7 +31,7 @@ class BeagleText extends StatelessWidget {
   }) : super(key: key);
 
   /// The text to display.
-  final String text;
+  final dynamic text;
 
   /// This is a string value and it must be filled as HEX (Hexadecimal).
   final String textColor;
@@ -46,7 +46,7 @@ class BeagleText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final beagleText = Text(
-      text ?? '',
+      text.toString() ?? '',
       textAlign: getTextAlign(alignment),
       style: getTextStyle(),
     );
