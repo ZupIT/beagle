@@ -51,8 +51,8 @@ void main() {
 }
 ```
 
-### 3. Rendering a remote view
-To render a Beagle View, you must use the component `BeagleWidget` which is provided by the Beagle Library. This widget
+### 3. Rendering a remote widget
+To render a Beagle Widget, you must use the component `BeagleWidget` which is provided by the Beagle Library. This widget
 requires a single parameter, the `screenRequest`, which specifies the request to fetch the first server-driven view of
 the flow. See the example below:
 
@@ -90,9 +90,6 @@ class BeagleSampleApp extends StatelessWidget {
 Above, we used a simple Material App to render our first server-driven widget! The important part here is the component 
 `BeagleWidget`, because it includes a remote view in the layout.
 
-The `BeagleWidget` accepts other optional parameters, and so does the `BeagleScreenRequest`. To check them, please visit
-the [BeagleWidget documentation page](todo).
-
 ### 4. Implementing your own Beagle application
 
 This example showed how to render a simple example available in the web. For real use case scenarios, you'll have your
@@ -112,24 +109,30 @@ final baseUrl = 'http://$localhost:8080';
 ```
 
 ## Configuration options
-Beagle lets you configure a lot of its behavior. Please, check [this article](todo) for a list of every option
-available.
+Beagle lets you configure a lot of its behavior. Please, check 
+[this article](https://docs.usebeagle.io/v1.9/resources/customization/beagle-for-flutter/customization/overview/) 
+for a list of every option available.
 
 ## The Beagle Widget
 The entry point for a Beagle remote view is the `BeagleWidget`. As mentioned before, it only requires a single 
 parameter, the url of the view to render, but much more can be customized, e.g. observe requests and parsing errors 
-rendering updates, make parametrized requests, etc. [Check this doc](todo) for a list of every option accepted by the 
-`BeagleWidget`.
+rendering updates, make parametrized requests, etc. 
+[Check this doc](https://docs.usebeagle.io/v1.9/resources/customization/beagle-for-flutter/beagle-widget) for a list of 
+every option accepted by the `BeagleWidget`.
 
 ## Beagle services
 These are services that must be provided to Beagle for it to work properly. For now, we're embedding default
 implementations within the library. This is probably not going to be the case in the future, since it may represent
 potential security issues. The Beagle services are:
 
-- [BeagleLogger](todo): provides a logger for Beagle to use.
-- [HttpClient](todo): tells exactly how the network requests should be made, allowing custom headers and much more.
-- [BeagleImageDownloader](todo): allows a custom logic for downloading network images.
-- [BeagleStorage](todo): persists data across multiple executions by stating exactly how Beagle should store data.
+- [BeagleLogger](https://docs.usebeagle.io/v1.9/resources/customization/beagle-for-flutter/services/logger/): 
+provides a logger for Beagle to use.
+- [HttpClient](https://docs.usebeagle.io/v1.9/resources/customization/beagle-for-flutter/services/http-client/): 
+tells exactly how the network requests should be made, allowing custom headers and much more.
+- [BeagleImageDownloader](https://docs.usebeagle.io/v1.9/resources/customization/beagle-for-flutter/services/image-downloader/): 
+allows a custom logic for downloading network images.
+- [BeagleStorage](https://docs.usebeagle.io/v1.9/resources/customization/beagle-for-flutter/services/storage/): 
+persists data across multiple executions by stating exactly how Beagle should store data.
 
 You can set your own implementation of each of these services via `BeagleSdk.init`.
 
@@ -137,16 +140,22 @@ You can set your own implementation of each of these services via `BeagleSdk.ini
 Beagle is highly customizable because you can create your own components, actions and even operations. All of these 
 must be provided when calling `BeagleSdk.init`.
 
-- [Custom components](todo): create your own components.
-- [Custom actions](todo): make the events in your components do exactly what you need.
-- [Custom operations](todo): if the operations shipped with Beagle are not enough for your expressions, create your own.
-- [Design System](todo): here you define all styles and local images that can be used by Beagle.
+- [Custom components](https://docs.usebeagle.io/v1.9/resources/customization/beagle-for-flutter/customization/components/): 
+create your own components.
+- [Custom actions](https://docs.usebeagle.io/v1.9/resources/customization/beagle-for-flutter/customization/actions/): 
+make the events in your components do exactly what you need.
+- [Custom operations](https://docs.usebeagle.io/v1.9/resources/customization/beagle-for-flutter/customization/operations/): 
+if the operations shipped with Beagle are not enough for your expressions, create your own.
+- [Design System](https://docs.usebeagle.io/v1.9/resources/customization/beagle-for-flutter/design-system/): 
+here you define all styles and local images that can be used by Beagle.
 
 ## Other APIs
-- [Global context](todo): allows manipulation of the global context in Beagle Flutter.
-- [Analytics](todo): gives information of every action executed, such as navigation data.
-- [Renderer](todo): sometimes it might be necessary to interact with Beagle while rendering a component. This article
-  shows how to use the Renderer API to achieve complex behaviors.
+- [Global context](https://docs.usebeagle.io/v1.9/api/context/global-context/): allows manipulation of the global 
+context in Beagle Flutter.
+- [Analytics](https://docs.usebeagle.io/v1.9/api/analytics/): gives information of every action executed, such as 
+navigation data.
+- [Renderer](https://docs.usebeagle.io/v1.9/resources/customization/beagle-for-web/advanced-topics/renderer-api/): sometimes it might be necessary to interact with Beagle while rendering a component or executing an 
+action. This article shows how to use the Renderer API to achieve complex behaviors.
   
 ## Current state of development
 Currently in alpha. It'll be moved to beta as soon as we have every layout tool (Yoga) working as expected. Here's
