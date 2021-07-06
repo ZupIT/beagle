@@ -8,7 +8,7 @@ import 'package:beagle/service_locator.dart';
 /// or an action linked to a component or even programmatically.
 abstract class GlobalContext {
 
-  /// Gets a current GlobalContext
+  /// Gets the current GlobalContext
   static Future<GlobalContext> getInstance() async {
     await beagleServiceLocator.allReady();
     return Future.value(beagleServiceLocator<GlobalContext>());
