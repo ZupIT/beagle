@@ -4,7 +4,7 @@ import 'package:beagle/service_locator.dart';
 /// of key/value or complex JSONs objects that defines object trees.
 ///
 /// It works exactly like the Context, however in a global scope, meaning that it will exists while the application is
-/// still running (even on the background), which allows it to be accessed from any application point, being a component
+/// still running (even in the background), which allows it to be accessed from any application point, this point being a component
 /// or an action linked to a component or even programmatically.
 abstract class GlobalContext {
 
