@@ -85,7 +85,7 @@ class BeagleSdk {
     Map<String, ActionHandler> lowercaseActions = actions.map(
       (key, value) => MapEntry(key.toLowerCase(), value)
     );
-    
+
     setupServiceLocator(
       baseUrl: baseUrl,
       httpClient: httpClient,

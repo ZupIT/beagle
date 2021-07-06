@@ -1,9 +1,7 @@
 name: beagle
 description: Beagle is an open source framework for cross-platform development using the concept of Server-Driven UI.
-version: 1.0.0
-author: Zup
+version: 0.1.9
 homepage: https://usebeagle.io/
-publish_to: none
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -15,10 +13,7 @@ dependencies:
   flutter_js: ^0.5.0+0
   get_it: ^7.1.3
   url_launcher: ^6.0.6
-  yoga_engine:
-    git:
-      url: git://github.com/ZupIT/yoga.git
-      path: flutter
+  yoga_engine: ^0.0.1
 
 dev_dependencies:
   flutter_test:
