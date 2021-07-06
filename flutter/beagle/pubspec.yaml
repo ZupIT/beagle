@@ -1,6 +1,6 @@
 name: beagle
 description: Beagle is an open source framework for cross-platform development using the concept of Server-Driven UI.
-version: 1.0.0
+version: 0.1.9
 homepage: https://usebeagle.io/
 
 environment:

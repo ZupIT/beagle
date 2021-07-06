@@ -1,9 +1,9 @@
 name: beagle_components
 description: Beagle Components is a set of tools and components to be used with the Beagle package
   wich is an open source framework for cross-platform development using the concept of Server-Driven UI.
-version: 1.0.0
+version: 0.1.9
 homepage: https://usebeagle.io/
-publish_to: none
+publish_to: none # remove this when beagle is published
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -11,7 +11,7 @@ environment:
 
 dependencies:
   beagle:
-    path: '../beagle'
+    path: '../beagle' # change this to ^0.1.9 when beagle is published
   flutter:
     sdk: flutter
   webview_flutter: ^2.0.8
