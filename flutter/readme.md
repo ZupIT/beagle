@@ -17,8 +17,8 @@ should be available in future versions.
 
 ## Installation
 1. Open the file `pubspec.yaml` in the root of your project.
-2. Under `dependencies`, add `beagle: ^0.0.9`, or whatever the most recent version is.
-3. Also add `beagle_components: ^0.0.9`. You can omit this dependency if you're familiar with Beagle and won't use any
+2. Under `dependencies`, add `beagle: ^0.9.0`, or whatever the most recent version is.
+3. Also add `beagle_components: ^0.9.0`. You can omit this dependency if you're familiar with Beagle and won't use any
 of the default components.
 4. In your IDE (Android Studio or Visual Studio Code), click `pub get`. Or, from the terminal, type `flutter pub get`.
 
