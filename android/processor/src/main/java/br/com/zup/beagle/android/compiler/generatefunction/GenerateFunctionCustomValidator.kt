@@ -27,13 +27,11 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
-import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
 class GenerateFunctionCustomValidator(processingEnv: ProcessingEnvironment) :
     BeagleGeneratorFunction<RegisterValidator>(
-//        VALIDATOR_HANDLER,
         processingEnv,
         REGISTERED_CUSTOM_VALIDATOR,
         RegisterValidator::class.java
@@ -43,8 +41,7 @@ class GenerateFunctionCustomValidator(processingEnv: ProcessingEnvironment) :
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
         val name = (annotation as RegisterValidator).name
-        // TODO: aqui tem código duplicado
-        return "\"$name\" -> $element() as Validator<Any, Any>\n"
+        return buildCode(name, element.toString())
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
@@ -81,10 +78,14 @@ class GenerateFunctionCustomValidator(processingEnv: ProcessingEnvironment) :
 
     companion object {
         const val REGISTERED_CUSTOM_VALIDATOR = "getValidator"
+        const val REGISTERED_CUSTOM_VALIDATOR_SUFFIX = "() as Validator<Any, Any>"
     }
 
     override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
-        // TODO: aqui tem código duplicado
-        return "\"${registeredDependency.first}\" -> ${registeredDependency.second}() as Validator<Any, Any>\n"
+        return buildCode(registeredDependency.first, registeredDependency.second)
+    }
+
+    private fun buildCode(name: String, elementDescription: String): String {
+        return "\t\"$name\" -> $elementDescription$REGISTERED_CUSTOM_VALIDATOR_SUFFIX\n"
     }
 }

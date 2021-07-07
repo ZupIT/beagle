@@ -22,21 +22,18 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
-import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
 class GenerateFunctionWidget(processingEnv: ProcessingEnvironment)
     : BeagleGeneratorFunction<RegisterWidget>(
-//    WIDGET_VIEW,
     processingEnv,
     REGISTERED_WIDGETS,
     RegisterWidget::class.java
 ) {
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
-        // TODO: aqui tem código duplicado
-        return "\n\t${element}::class.java as Class<WidgetView>,"
+        return buildCode(element.toString())
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
@@ -76,10 +73,15 @@ class GenerateFunctionWidget(processingEnv: ProcessingEnvironment)
 
     companion object {
         const val REGISTERED_WIDGETS = "registeredWidgets"
+        const val REGISTERED_WIDGETS_SUFFIX = "::class.java as Class<WidgetView>"
     }
 
     override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
-        // TODO: aqui tem código duplicado
-        return "\n\t${registeredDependency.second}::class.java as Class<WidgetView>,"
+        return buildCode(registeredDependency.second)
     }
+
+    private fun buildCode(elementDescription: String): String {
+        return "\t$elementDescription$REGISTERED_WIDGETS_SUFFIX,\n"
+    }
+
 }

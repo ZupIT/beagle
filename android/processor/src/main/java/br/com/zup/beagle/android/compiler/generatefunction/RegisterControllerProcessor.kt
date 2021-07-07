@@ -20,7 +20,6 @@ import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.android.compiler.BEAGLE_ACTIVITY
 import br.com.zup.beagle.android.compiler.CONTROLLER_REFERENCE
 import br.com.zup.beagle.android.compiler.DEFAULT_BEAGLE_ACTIVITY
-import br.com.zup.beagle.compiler.shared.REGISTRAR_COMPONENTS_PACKAGE
 import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.forEachRegisteredDependency
 import com.squareup.kotlinpoet.AnnotationSpec
@@ -35,7 +34,6 @@ import com.squareup.kotlinpoet.asTypeName
 import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
-import javax.lang.model.element.TypeElement
 import javax.lang.model.type.MirroredTypeException
 
 const val REGISTERED_CONTROLLERS_GENERATED = "RegisteredControllers"
@@ -44,7 +42,7 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
 
     companion object {
         const val REGISTERED_CONTROLLERS = "classFor"
-        const val CONTROLLER_DEFINITION_SUFIX = "::class.java as Class<BeagleActivity>"
+        const val CONTROLLER_DEFINITION_SUFFIX = "::class.java as Class<BeagleActivity>"
     }
 
     var defaultActivityRegistered: String = ""
@@ -93,16 +91,23 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
         // TODO: refactored. Verificar
 //        defaultActivityRegistered = if (validatorLines.second.isEmpty())
 //            "$defaultBeagleClass::class.java as Class<BeagleActivity>" else validatorLines.second
-        defaultActivityRegistered = if (defaultActivityRegistered.isEmpty())
-            "$defaultBeagleClass$CONTROLLER_DEFINITION_SUFIX" else defaultActivityRegistered
+        defaultActivityRegistered =
+            if (defaultActivityRegistered.isEmpty() && !defaultActivity.startsWith("null::class")) {
+                defaultActivity
+            } else if (defaultActivityRegistered.isEmpty()) {
+                "$defaultBeagleClass$CONTROLLER_DEFINITION_SUFFIX"
+            } else {
+                defaultActivityRegistered
+            }
 
         var code = ""
 
         when {
             //validatorLines.second.isEmpty() && !defaultActivity.startsWith("null::class") -> {
-            defaultActivityRegistered.isEmpty() && !defaultActivity.startsWith("null::class") -> {
-                defaultActivityRegistered = defaultActivity
-            }
+            // TODO: essa linha abaixo refatora a de cima
+//            defaultActivityRegistered.isEmpty() && !defaultActivity.startsWith("null::class") -> {
+//                defaultActivityRegistered = defaultActivity
+//            }
 //            validatorLines.first.isNotEmpty() -> {
             validatorLines.isNotEmpty() -> {
 
@@ -143,11 +148,11 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
 
             if (name.isEmpty()) {
 //                defaultControllerClass = "$element::class.java as Class<BeagleActivity>"
-                defaultActivityRegistered = "$element$CONTROLLER_DEFINITION_SUFIX"
+                defaultActivityRegistered = "$element$CONTROLLER_DEFINITION_SUFFIX"
                 return@forEachIndexed
             }
 
-            validators.append("    \"$name\" -> $element$CONTROLLER_DEFINITION_SUFIX")
+            validators.append("    \"$name\" -> $element$CONTROLLER_DEFINITION_SUFFIX")
             if (index < registerValidatorAnnotatedClasses.size - 1) {
                 validators.append("\n")
             }
@@ -193,15 +198,15 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             //TODO: extrair para método
             if (defaultActivityRegistered.isNotEmpty() && registeredDependency.first.isEmpty()) {
                 processingEnv.messager?.error("Default controller defined multiple times: " +
-                    "\n${defaultActivityRegistered.substringBefore(CONTROLLER_DEFINITION_SUFIX)}" +
+                    "\n${defaultActivityRegistered.substringBefore(CONTROLLER_DEFINITION_SUFFIX)}" +
                     "\n${registeredDependency.second}" +
                     "\n\nYou must remove one implementation from the application.")
             }
 
             if (registeredDependency.first.isEmpty()) {
-                defaultActivityRegistered = "${registeredDependency.second}$CONTROLLER_DEFINITION_SUFIX"
+                defaultActivityRegistered = "${registeredDependency.second}$CONTROLLER_DEFINITION_SUFFIX"
             } else {
-                registeredWidgets.append("\n    \"${registeredDependency.first}\" -> ${registeredDependency.second}$CONTROLLER_DEFINITION_SUFIX")
+                registeredWidgets.append("\n    \"${registeredDependency.first}\" -> ${registeredDependency.second}$CONTROLLER_DEFINITION_SUFFIX")
             }
         }
         return registeredWidgets

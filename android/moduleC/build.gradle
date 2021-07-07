@@ -68,7 +68,7 @@ dependencies {
 kapt {
     arguments {
         arg("beagle.moduleName", "ModuleC")
-        arg("beagle.generateSetup", "false")
+//        arg("beagle.generateSetupClasses", "false")
     }
 }
 

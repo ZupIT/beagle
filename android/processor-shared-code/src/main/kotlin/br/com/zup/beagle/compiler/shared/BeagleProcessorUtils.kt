@@ -29,13 +29,9 @@ fun forEachRegisteredDependency(
     methodName: String,
     function: (Pair<String, String>) -> Unit,
 ) {
-    // TODO: Otimizar
     processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
         val fullRegistrarClassName = it.toString()
         val registrarClassName = fullRegistrarClassName.substringAfterLast(".")
-//        if (className != null && !fullClassName.contains(className)) {
-//            return@forEach
-//        }
         if (registrarClassName.startsWith(className)) {
             val cls = Class.forName(fullRegistrarClassName)
             val kotlinClass = cls.kotlin

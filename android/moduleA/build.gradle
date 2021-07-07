@@ -56,6 +56,7 @@ dependencies {
     kapt project(Dependencies.Modules.processor)
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
+    api project(':moduleB')
     api project(':moduleC')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.10"
@@ -70,6 +71,6 @@ dependencies {
 kapt {
     arguments {
         arg("beagle.moduleName", "moduleA")
-        arg("beagle.generateSetup", "false")
+//        arg("beagle.generateSetupClasses", "false")
     }
 }

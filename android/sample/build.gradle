@@ -65,8 +65,8 @@ android {
 
 dependencies {
     implementation project(':moduleA')
-    implementation project(':moduleB')
 //    implementation project(':moduleC')
+//    implementation project(':moduleB')
 
     implementation Dependencies.AndroidxLibraries.appcompat
     implementation Dependencies.AndroidxLibraries.coreKtx
@@ -84,6 +84,6 @@ dependencies {
 kapt {
     arguments {
         arg("beagle.moduleName", "sample")
-//        arg("beagle.generateSetup", "false")
+//        arg("beagle.generateSetupClasses", "false")
     }
 }

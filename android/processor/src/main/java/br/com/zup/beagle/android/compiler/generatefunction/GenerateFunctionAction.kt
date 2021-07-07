@@ -33,15 +33,12 @@ import javax.lang.model.element.TypeElement
 
 class GenerateFunctionAction(processingEnv: ProcessingEnvironment)
     : BeagleGeneratorFunction<RegisterAction>(
-//    ANDROID_ACTION,
     processingEnv,
     REGISTERED_ACTIONS,
     RegisterAction::class.java
 ) {
-
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
-        // TODO: aqui tem código duplicado
-        return "\t${element}::class.java as Class<Action>,"
+        return "\t${element}$REGISTERED_ACTIONS_SUFFIX,"
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
@@ -79,10 +76,10 @@ class GenerateFunctionAction(processingEnv: ProcessingEnvironment)
 
     companion object {
         const val REGISTERED_ACTIONS = "registeredActions"
+        const val REGISTERED_ACTIONS_SUFFIX = "::class.java as Class<Action>"
     }
 
     override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
-        // TODO: aqui tem código duplicado
-        return "\n\t${registeredDependency.second}::class.java as Class<Action>,"
+        return "\n\t${registeredDependency.second}$REGISTERED_ACTIONS_SUFFIX,"
     }
 }

@@ -14,26 +14,20 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.moduleb
+package br.com.zup.beagle.android.modulec
 
-import androidx.appcompat.widget.Toolbar
-import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.ServerDrivenState
+import br.com.zup.beagle.android.setup.BeagleConfig
+import br.com.zup.beagle.android.setup.Cache
+import br.com.zup.beagle.android.setup.Environment
 
-//@RegisterController(id = "moduleBController3")
 //@BeagleComponent
-class ModuleBController3: BeagleActivity(){
-    override fun getToolbar(): Toolbar {
-        TODO("Not yet implemented")
-    }
-
-    override fun getServerDrivenContainerId(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun onServerDrivenContainerStateChanged(state: ServerDrivenState) {
-        TODO("Not yet implemented")
-    }
-
+class ModuleCBeagleConfig2 : BeagleConfig {
+    override val environment: Environment get() = Environment.DEBUG
+    override val baseUrl: String get() = "BASE_URL"
+    override val isLoggingEnabled: Boolean = true
+    override val cache: Cache = Cache(
+        enabled = false,
+        maxAge = 300,
+        size = 15
+    )
 }

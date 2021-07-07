@@ -16,7 +16,24 @@
 
 package br.com.zup.beagle.android.modulec
 
-import br.com.zup.beagle.android.annotation.RegisterController
+import androidx.appcompat.widget.Toolbar
+import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.ServerDrivenState
 
-@RegisterController(id = "moduleCController2")
-class ModuleCController2
+//@RegisterController(id = "moduleCController2")
+@BeagleComponent
+class ModuleCController2: BeagleActivity() {
+    override fun getToolbar(): Toolbar {
+        TODO("Not yet implemented")
+    }
+
+    override fun getServerDrivenContainerId(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override fun onServerDrivenContainerStateChanged(state: ServerDrivenState) {
+        TODO("Not yet implemented")
+    }
+
+}
