@@ -1,7 +1,7 @@
 name: beagle_components
 description: Beagle Components is a set of tools and components to be used with the Beagle package
   wich is an open source framework for cross-platform development using the concept of Server-Driven UI.
-version: 0.9.0
+version: 0.9.0-alpha
 homepage: https://usebeagle.io/
 publish_to: none # remove this when beagle is published
 
