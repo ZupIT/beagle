@@ -29,7 +29,7 @@ It's quite simple to configure and use the Beagle Flutter library. Follow the st
 All the configuration necessary for Beagle to work is centered on the parameters of the `BeagleSdk.init` startup 
 method. This params tells everything Beagle needs to know to render your widgets. Here we show only the basic options 
 `baseUrl` and `components`. For a list of all the available options, please check the 
-[documentation for the Beagle Initialization](todo).
+[documentation for the Beagle Initialization](https://docs.usebeagle.io/v1.9/resources/customization/beagle-for-flutter/configuration/).
 
 ### 2. Starting Beagle
 You can start Beagle at any point of the application. For this guide, we're going to start Beagle as soon as the app 
