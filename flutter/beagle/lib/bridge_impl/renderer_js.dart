@@ -4,7 +4,6 @@ import 'package:beagle/bridge_impl/beagle_js_engine.dart';
 import 'package:beagle/interface/renderer.dart';
 import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/tree_update_mode.dart';
-import 'package:flutter/widgets.dart';
 
 class RendererJS implements Renderer {
   RendererJS(this._beagleJSEngine, this._viewId);
@@ -24,8 +23,6 @@ class RendererJS implements Renderer {
     final jsonTree = jsonEncode(tree.properties);
     final anchorArg = anchor == null ? '' : ", '$anchor'";
     final modeArg = mode == null ? '' : ", '${_getJsTreeUpdateModeName(mode)}'";
-    debugPrint(
-        "global.beagle.getViewById('$_viewId').getRenderer().$method($jsonTree$anchorArg$modeArg)");
     _beagleJSEngine.evaluateJavascriptCode(
         "global.beagle.getViewById('$_viewId').getRenderer().$method($jsonTree$anchorArg$modeArg)");
   }

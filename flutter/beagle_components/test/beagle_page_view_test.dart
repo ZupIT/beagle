@@ -32,20 +32,16 @@ void main() {
   Widget createWidget({
     Key key = pageViewKey,
     List<Widget> pages = pages,
-    Function onPageChange,
+    void Function(int) onPageChange,
     int currentPage = 0,
   }) {
     return MaterialApp(
       home: Scaffold(
-        body: Column(
-          children: [
-            BeaglePageView(
-              key: key,
-              onPageChange: onPageChange,
-              currentPage: currentPage,
-              children: pages,
-            ),
-          ],
+        body: BeaglePageView(
+          key: key,
+          onPageChange: onPageChange,
+          currentPage: currentPage,
+          children: pages,
         ),
       ),
     );
@@ -75,7 +71,7 @@ void main() {
       testWidgets('Then it should show pages correctly',
           (WidgetTester tester) async {
         await tester.pumpWidget(
-            createWidget(onPageChange: (Map<String, dynamic> map) {}));
+            createWidget(onPageChange: (int page) {}));
 
         // check first page
         var textFinder = find.text(pageOneText);
@@ -106,8 +102,8 @@ void main() {
           'Then it should call onPageChange callback with correct page number',
           (WidgetTester tester) async {
         var currentPage = 0;
-        void onPageChange(Map<String, dynamic> map) {
-          currentPage = map['value'];
+        void onPageChange(int page) {
+          currentPage = page;
         }
 
         await tester.pumpWidget(createWidget(onPageChange: onPageChange));

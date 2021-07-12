@@ -22,8 +22,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.GridView
-import br.com.zup.beagle.android.components.Image
-import br.com.zup.beagle.android.components.ImagePath
+import br.com.zup.beagle.android.components.GridViewDirection
+import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
@@ -34,13 +34,14 @@ import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.ImageContentMode
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.TextAlignment
+import br.com.zup.beagle.widget.core.UnitType
+import br.com.zup.beagle.widget.core.UnitValue
 
 class GridViewFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val declarative = Screen(
             navigationBar = NavigationBar(title = "Grid"),
             child = buildGridView()
@@ -49,7 +50,8 @@ class GridViewFragment : Fragment() {
     }
 
     private fun buildGridView() = GridView(
-        numColumns = 4,
+        spanCount = 3,
+        direction = GridViewDirection.HORIZONTAL,
         context = ContextData(
             id = "outsideContext",
             value = listOf("0", "1", "2", "3", "4", "5",
@@ -62,12 +64,16 @@ class GridViewFragment : Fragment() {
             Template(
                 view = Container(
                     children = listOf(
-                        Image(
-                            ImagePath.Local("imageBeagle"),
-                            mode = ImageContentMode.FIT_CENTER
+                        Text(
+                            text = "@{item}",
+                            alignment = TextAlignment.CENTER,
                         ).applyStyle(
                             Style(
-                                margin = EdgeValue(all = 5.unitReal())
+                                backgroundColor = "#98eb34",
+                                size = Size(
+                                    width = UnitValue(100.0, UnitType.REAL),
+                                    height = UnitValue(100.0, UnitType.REAL),
+                                )
                             )
                         )
                     )

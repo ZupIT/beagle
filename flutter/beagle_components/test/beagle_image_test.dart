@@ -20,6 +20,7 @@ import 'package:beagle/default/default_image_downloader.dart';
 import 'package:beagle/interface/beagle_image_downloader.dart';
 import 'package:beagle/logger/beagle_logger.dart';
 import 'package:beagle/setup/beagle_design_system.dart';
+import 'package:beagle/style/style_builder.dart';
 import 'package:beagle_components/beagle_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -35,16 +36,20 @@ class MockBeagleImageDownloader extends Mock implements BeagleImageDownloader {}
 
 class MockBeagleLogger extends Mock implements BeagleLogger {}
 
+class MockBeagleYogaFactory extends Mock implements BeagleYogaFactory {}
+
 void main() {
   final designSystemMock = MockDesignSystem();
   final imageDownloaderMock = MockBeagleImageDownloader();
   final beagleLoggerMock = MockBeagleLogger();
+  final beagleYogaFactoryMock = MockBeagleYogaFactory();
 
   setUpAll(() async {
     await testSetupServiceLocator(
       designSystem: designSystemMock,
       imageDownloader: imageDownloaderMock,
       logger: beagleLoggerMock,
+      beagleYogaFactory: beagleYogaFactoryMock,
     );
   });
 
@@ -54,6 +59,14 @@ void main() {
   const invalidPlaceholder = 'asset_does_not_exist';
   const errorStatusCode = 404;
   const imageKey = Key('BeagleImage');
+
+  when(beagleYogaFactoryMock.createYogaLayout(
+    style: anyNamed('style'),
+    children: anyNamed('children'),
+  )).thenAnswer((realInvocation) {
+    final List<Widget> children = realInvocation.namedArguments.values.last;
+    return children.first;
+  });
 
   when(designSystemMock.image(defaultPlaceholder))
       .thenReturn('images/beagle_dog.png');
@@ -206,11 +219,11 @@ void main() {
     });
 
     group('When I do not set ImageContentMode', () {
-      testWidgets('Then the widget should have BoxFit.none',
+      testWidgets('Then the widget should have BoxFit.contain',
           (WidgetTester tester) async {
         await tester.pumpWidget(createLocalWidget());
 
-        expect(tester.widget<Image>(find.byType(Image)).fit, BoxFit.none);
+        expect(tester.widget<Image>(find.byType(Image)).fit, BoxFit.contain);
       });
     });
   });
@@ -330,14 +343,14 @@ void main() {
     });
 
     group('When I do not set ImageContentMode', () {
-      testWidgets('Then the widget should have BoxFit.none',
+      testWidgets('Then the widget should have BoxFit.contain',
           (WidgetTester tester) async {
         await tester.runAsync(() async {
           await tester.pumpWidget(createRemoteWidget());
           await precacheImageForTest(tester);
         });
 
-        expect(tester.widget<Image>(find.byType(Image)).fit, BoxFit.none);
+        expect(tester.widget<Image>(find.byType(Image)).fit, BoxFit.contain);
       });
     });
   });

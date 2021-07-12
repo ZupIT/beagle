@@ -15,6 +15,8 @@
  *  limitations under the License.
  */
 
+import 'dart:io' show Platform;
+
 import 'package:beagle/beagle.dart';
 import 'package:beagle/interface/beagle_service.dart';
 import 'package:beagle/interface/navigation_controller.dart';
@@ -22,10 +24,8 @@ import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sample/app_beagle_config.dart';
 import 'package:sample/app_design_system.dart';
 import 'package:sample/beagle_sample_screen.dart';
-import 'package:sample/default_logger.dart';
 
 Map<String, ComponentBuilder> myCustomComponents = {
   'custom:loading': (element, _, __) {
@@ -42,30 +42,34 @@ Map<String, ActionHandler> myCustomActions = {
 };
 
 void main() {
+  final localhost = Platform.isAndroid ? '10.0.2.2' : 'localhost';
+
   BeagleSdk.init(
-    logger: AppLogger(),
-    beagleConfig: AppBeagleConfig(),
+    baseUrl: 'http://$localhost:8080',
+    environment: kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production,
     components: {...defaultComponents, ...myCustomComponents},
     actions: myCustomActions,
     navigationControllers: {
       'general': NavigationController(
-          isDefault: true, loadingComponent: 'custom:loading'),
+        isDefault: true,
+        loadingComponent: 'custom:loading',
+      ),
     },
     designSystem: AppDesignSystem(),
-    customOperations: {},
   );
 
   runApp(const MaterialApp(home: BeagleSampleApp()));
 }
 
 class BeagleSampleApp extends StatelessWidget {
+
   const BeagleSampleApp({Key key}) : super(key: key);
 
   static final _appBarMenuOptions = [
-    MenuOption(title: 'Tab Bar', route: '/beagle_tab_bar'),
-    MenuOption(title: 'Page View', route: '/beagle_pageview'),
-    MenuOption(title: 'Touchable', route: '/beagle_touchable'),
-    MenuOption(title: 'Web View', route: '/beagle_webview'),
+    MenuOption(title: 'Tab Bar', route: 'tab-bar'),
+    MenuOption(title: 'Page View', route: 'page-view-screen'),
+    MenuOption(title: 'Touchable', route: 'touchable'),
+    MenuOption(title: 'Web View', route: 'web-view'),
   ];
 
   @override
@@ -98,17 +102,13 @@ class BeagleSampleApp extends StatelessWidget {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            BeagleWidget(
-              screenRequest: BeagleScreenRequest('beagle_lazy'),
-              onCreateView: (view) => {
-                view.addErrorListener((errors) {
-                  //TODO
-                })
-              },
-            ),
-          ],
+        body: BeagleWidget(
+          screenRequest: BeagleScreenRequest('components'),
+          onCreateView: (view) => {
+            view.addErrorListener((errors) {
+              //TODO
+            })
+          },
         ),
       ),
     );
@@ -116,12 +116,14 @@ class BeagleSampleApp extends StatelessWidget {
 
   void _handleAppBarMenuOption(MenuOption menuOption, BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute<BeagleSampleScreen>(
-            builder: (buildContext) => BeagleSampleScreen(
-                  title: menuOption.title,
-                  route: menuOption.route,
-                )));
+      context,
+      MaterialPageRoute<BeagleSampleScreen>(
+        builder: (buildContext) => BeagleSampleScreen(
+          title: menuOption.title,
+          route: menuOption.route,
+        ),
+      ),
+    );
   }
 }
 

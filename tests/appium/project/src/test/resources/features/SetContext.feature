@@ -14,33 +14,21 @@
 # limitations under the License.
 #
 
-@setcontext @android @ios
+@setContext @android @ios
 Feature: SetContext Action Validation
 
-    As a Beagle developer/user
-    I'd like to make sure my SetContext actions work as expected
-    In order to guarantee that my application never fails
+  As a Beagle developer/user
+  I'd like to make sure my SetContext actions work as expected
 
-    Background:
-        Given the Beagle application did launch with the SetContext screen url
+  Background:
+    Given the Beagle application did launch with the SetContext screen url
 
-    Scenario Outline: Scenario Outline: SetContext 01 - A context value should change when a SetContext action
-    is triggered setting a hardcoded value on that context
-        When I press a SetContext button with the <buttonTitle> title
-        Then a text with the <message> message should appear on the screen
-
-        Examples:
-            | buttonTitle        | message            |
-            | HardcodedValue     | ValueHardcoded     |
-            | HardcodedPathValue | ValueHardcodedPath |
+  Scenario: Conditional 01 - Validate alert conditions
+    Then validate the invoked context buttons and its actions:
+      | BUTTON-TITLE        | ACTION-TEXT         |
+      | HardcodedValue      | ValueHardcoded      |
+      | HardcodedPathValue  | ValueHardcodedPath  |
+      | ExpressionValue     | ValueExpression     |
+      | ExpressionPathValue | ValueExpressionPath |
 
 
-    Scenario Outline: Scenario Outline: SetContext 02 - A context value should change when a SetContext action
-    is triggered setting value via expression on that context
-        When I press a SetContext button with the <buttonTitle> title
-        Then a text with the <message> message should appear on the screen
-
-        Examples:
-            | buttonTitle         | message             |
-            | ExpressionValue     | ValueExpression     |
-            | ExpressionPathValue | ValueExpressionPath |

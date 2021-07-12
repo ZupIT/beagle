@@ -142,25 +142,38 @@ final class ListViewUIComponent: UIView {
             cellSizeAvailable[keyPath: otherValue] = size[keyPath: otherValue]
         }
         
-        var item = 0
+        let groups = Int((Double(numberOfItems) / Double(model.spanCount)).rounded(.up))
         var listSize = CGSize.zero
-        while item < numberOfItems && listSize[keyPath: directionValue] < size[keyPath: directionValue] {
-            let indexPath = IndexPath(item: item, section: 0)
-            let cell = collection.cellForItem(at: indexPath) ?? collectionView(collection, cellForItemAt: indexPath)
-            if let listViewCell = cell as? ListViewCell {
-                let cellSize = listViewCell.templateSizeThatFits(cellSizeAvailable)
-                listSize[keyPath: directionValue] += cellSize[keyPath: directionValue]
-                let otherMeasure = cellSize[keyPath: otherValue]
-                if listSize[keyPath: otherValue] < otherMeasure {
-                    listSize[keyPath: otherValue] = otherMeasure
+        var group = 0
+        while group < groups && listSize[keyPath: directionValue] < size[keyPath: directionValue] {
+            var item = 0
+            var groupSize = CGSize.zero
+            let offset = group * model.spanCount
+            while item < model.spanCount && item + offset < numberOfItems {
+                let indexPath = IndexPath(item: item + offset, section: 0)
+                let cell = collection.cellForItem(at: indexPath) ?? collectionView(collection, cellForItemAt: indexPath)
+                if let listViewCell = cell as? ListViewCell {
+                    let cellSize = listViewCell.templateSizeThatFits(cellSizeAvailable)
+                    groupSize[keyPath: otherValue] += cellSize[keyPath: otherValue]
+                    let directionMeasure = cellSize[keyPath: directionValue]
+                    if groupSize[keyPath: directionValue] < directionMeasure {
+                        groupSize[keyPath: directionValue] = directionMeasure
+                    }
                 }
+                item += 1
             }
-            item += 1
+            
+            listSize[keyPath: directionValue] += groupSize[keyPath: directionValue]
+            let otherMeasure = groupSize[keyPath: otherValue]
+            if listSize[keyPath: otherValue] < otherMeasure {
+                listSize[keyPath: otherValue] = otherMeasure
+            }
+            group += 1
         }
         
-        if item > 0 && item < numberOfItems {
-            let average = listSize[keyPath: directionValue] / CGFloat(item)
-            listSize[keyPath: directionValue] += CGFloat(numberOfItems - item) * average
+        if group > 0 && group < groups {
+            let average = listSize[keyPath: directionValue] / CGFloat(group)
+            listSize[keyPath: directionValue] += CGFloat(groups - group) * average
         }
         return listSize
     }
@@ -216,12 +229,12 @@ extension ListViewUIComponent {
     struct Model {
         var key: Path?
         var direction: ListView.Direction
+        var spanCount: Int = 1
         var templates: [Template]
         var iteratorName: String
         var onScrollEnd: [Action]?
         var scrollEndThreshold: CGFloat
         var isScrollIndicatorVisible: Bool
-        var columns: Int = 1
     }
 }
 
@@ -325,8 +338,14 @@ extension ListViewUIComponent: UICollectionViewDataSource {
 extension ListViewUIComponent: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let spanKeyPath: WritableKeyPath<CGSize, CGFloat>
+        switch model.direction {
+        case .vertical: spanKeyPath = \.width
+        case .horizontal: spanKeyPath = \.height
+        }
+        
         var size = collectionView.frame.size
-        size.width = (size.width / CGFloat(model.columns)).rounded(.down)
+        size[keyPath: spanKeyPath] = (size[keyPath: spanKeyPath] / CGFloat(model.spanCount)).rounded(.down)
         guard let items = items, indexPath.item < items.count else {
             return size
         }

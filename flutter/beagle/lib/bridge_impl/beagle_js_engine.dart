@@ -31,7 +31,6 @@ import 'package:beagle/model/beagle_ui_element.dart';
 import 'package:beagle/model/response.dart';
 import 'package:beagle/networking/beagle_network_options.dart';
 import 'package:beagle/networking/beagle_request.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_js/flutter_js.dart';
 import 'package:beagle/service_locator.dart';
@@ -98,14 +97,13 @@ class BeagleJSEngine {
   dynamic _deserializeJsFunctions(dynamic value, [String viewId]) {
     if (value.runtimeType.toString() == 'String' &&
         value.toString().startsWith('__beagleFn:')) {
-      return ([Map<String, dynamic> argumentsMap]) {
-        final args = argumentsMap == null
+      return ([dynamic argument]) {
+        final args = argument == null
             ? "'$value'"
-            : "'$value', ${json.encode(argumentsMap)}";
+            : "'$value', ${json.encode(argument)}";
         final jsMethod =
             viewId == null ? 'call(' : "callViewFunction('$viewId', ";
-        final result = _jsRuntime.evaluate('global.beagle.$jsMethod$args)');
-        debugPrint('dynamic function result: $result');
+        _jsRuntime.evaluate('global.beagle.$jsMethod$args)');
       };
     }
 
@@ -330,8 +328,7 @@ class BeagleJSEngine {
       final beagleJS =
           await rootBundle.loadString('packages/beagle/assets/js/beagle.js');
       _jsRuntime.evaluate('var window = global = globalThis;');
-      final bundleResult = await _jsRuntime.evaluateAsync(beagleJS);
-      debugPrint('Initialization result: $bundleResult');
+      await _jsRuntime.evaluateAsync(beagleJS);
     }
   }
 
@@ -403,14 +400,12 @@ class BeagleJSEngine {
     final args = argumentsMap == null
         ? "'$functionId'"
         : "'$functionId', ${json.encode(argumentsMap)}";
-    final result = _jsRuntime.evaluate('global.beagle.call($args)');
-    debugPrint('dynamic function result: $result');
+    _jsRuntime.evaluate('global.beagle.call($args)');
   }
 
   void respondHttpRequest(String id, Response response) {
-    final result = _jsRuntime.evaluate(
+    _jsRuntime.evaluate(
         'global.beagle.httpClient.respond($id, ${response.toJson()})');
-    debugPrint('httpClient.respond result: $result');
   }
 }
 

@@ -14,12 +14,24 @@
  * limitations under the License.
  */
 
-import 'package:beagle/beagle.dart';
+import 'package:flutter/material.dart';
 
-class DefaultEmptyConfig extends BeagleConfig {
-  @override
-  BeagleEnvironment get environment => BeagleEnvironment.debug;
+enum BeagleTextInputType {
+  DATE,
+  EMAIL,
+  PASSWORD,
+  NUMBER,
+  TEXT,
+}
 
-  @override
-  String get baseUrl => '';
+const Map<BeagleTextInputType, TextInputType> inputTypeMap = {
+  BeagleTextInputType.DATE: TextInputType.datetime,
+  BeagleTextInputType.EMAIL: TextInputType.emailAddress,
+  BeagleTextInputType.PASSWORD: TextInputType.visiblePassword,
+  BeagleTextInputType.NUMBER: TextInputType.number,
+  BeagleTextInputType.TEXT: TextInputType.text,
+};
+
+TextInputType getMaterialInputType(BeagleTextInputType type) {
+  return inputTypeMap[type] ?? TextInputType.text;
 }

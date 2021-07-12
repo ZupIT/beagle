@@ -14,27 +14,20 @@
 # limitations under the License.
 #
 
+  # TODO: convert many of these steps to generic ones
+
 @simpleForm @android @ios
 Feature: SimpleForm Component Validation
 
   As a Beagle developer/user
   I'd like to make sure my SimpleForm component works as expected
-  In order to guarantee that my application never fails
 
   Background:
     Given that I'm on the simple form screen
 
-  Scenario: SimpleForm 01 - Validate if SimpleForm children components appear on the screen
-    Then the screen should show an element with the place holder Type in your email
-    Then the screen should show an element with the place holder Type in your name
-    Then the screen should show an element with the title Click to Submit
-
-  Scenario Outline: SimpleForm 02 - Validate the operation of the onSubmit attribute
-    When I click on textInput with place holder Type in your email and insert the value <email>
-    And I click on textInput with place holder Type in your name and insert the value <name>
+  Scenario: SimpleForm 01 - Validate the operation of the onSubmit attribute
+    When I click on the input with place holder "Type in your email" and insert "teste@simpleform.com"
+    And I click on the input with place holder "Type in your name" and insert "joao"
     And I click on button Click to Submit
-    Then a dialog should appear on the screen with text the email: <email> and the name: <name>
+    Then the screen should show an element with the title the email: teste@simpleform.com and the name: joao
 
-    Examples:
-      | email                | name |
-      | teste@simpleform.com | joao |
