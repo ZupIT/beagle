@@ -77,11 +77,6 @@ internal object PropertyImplementationManager {
                 BEAGLE_LOGGER,
                 "logger"
             ),
-//            propertySpec(
-//                CONTROLLER_REFERENCE_GENERATED,
-//                CONTROLLER_REFERENCE,
-//                "controllerReference"
-//            ),
             propertySpec(
                 propertySpecifications?.imageDownloader,
                 BEAGLE_IMAGE_DOWNLOADER,

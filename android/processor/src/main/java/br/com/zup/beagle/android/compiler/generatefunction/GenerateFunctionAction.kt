@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.compiler.generatefunction
 import br.com.zup.beagle.android.compiler.ANDROID_ACTION
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
-import br.com.zup.beagle.compiler.shared.REGISTRAR_COMPONENTS_PACKAGE
 import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.implements
 import com.squareup.kotlinpoet.ClassName
@@ -27,7 +26,6 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
-import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
@@ -38,7 +36,7 @@ class GenerateFunctionAction(processingEnv: ProcessingEnvironment)
     RegisterAction::class.java
 ) {
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
-        return "\t${element}$REGISTERED_ACTIONS_SUFFIX,"
+        return buildCode(element.toString())
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
@@ -80,6 +78,10 @@ class GenerateFunctionAction(processingEnv: ProcessingEnvironment)
     }
 
     override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
-        return "\n\t${registeredDependency.second}$REGISTERED_ACTIONS_SUFFIX,"
+        return buildCode(registeredDependency.second)
+    }
+
+    private fun buildCode(elementDescription: String): String {
+        return "\n\t$elementDescription$REGISTERED_ACTIONS_SUFFIX,"
     }
 }

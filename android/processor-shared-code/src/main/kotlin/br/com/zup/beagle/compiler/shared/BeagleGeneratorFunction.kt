@@ -22,7 +22,7 @@ import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 
 abstract class BeagleGeneratorFunction<T : Annotation>(
-    val processingEnv: ProcessingEnvironment,
+    protected val processingEnv: ProcessingEnvironment,
     private val functionName: String,
     private val annotation: Class<T>,
 ) {

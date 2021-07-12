@@ -46,7 +46,8 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import java.io.IOException
 import java.lang.StringBuilder
-import java.util.*
+import java.util.Locale
+import java.util.UUID
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.TypeElement

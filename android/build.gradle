@@ -48,7 +48,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        mavenLocal()
     }
 
     // temporary solution to all libraries updated to the last version of kotlin
