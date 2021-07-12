@@ -36,10 +36,10 @@ fun forEachRegisteredDependency(
             val cls = Class.forName(fullRegistrarClassName)
             val kotlinClass = cls.kotlin
             try {
-                // TODO: resolver call uses reflection API
-                (cls.getMethod(methodName).invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { registeredDependency ->
-                    function(registeredDependency)
-                }
+                (cls.getMethod(methodName).invoke(kotlinClass.objectInstance) as List<Pair<String, String>>)
+                    .forEach { registeredDependency ->
+                        function(registeredDependency)
+                    }
             } catch (e: NoSuchMethodException) {
                 // intentionally left blank
             }

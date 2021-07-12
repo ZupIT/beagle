@@ -18,10 +18,11 @@ package br.com.zup.beagle.android.moduleb
 
 import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 
-//@RegisterController(id = "moduleBController3")
+@RegisterController(id = "moduleBController3")
 //@BeagleComponent
 class ModuleBController3: BeagleActivity(){
     override fun getToolbar(): Toolbar {

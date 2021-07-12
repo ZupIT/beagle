@@ -114,6 +114,8 @@ class Dependencies : Plugin<Project> {
         const val kotlinCoroutines =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
 
+        const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
+
         const val soLoader = "com.facebook.soloader:soloader:${Versions.soLoader}"
 
         const val yoga = "br.com.zup.beagle:beagle-yoga-layout:${Versions.yoga}"

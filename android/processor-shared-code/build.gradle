@@ -25,6 +25,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 dependencies {
     implementation Dependencies.ProcessorLibraries.kotlinPoet
     implementation project(Dependencies.Modules.androidAnnotation)
+    implementation Dependencies.GeneralLibraries.kotlinReflect
 }
 
 apply from: new File('./../../maven-publish.gradle')

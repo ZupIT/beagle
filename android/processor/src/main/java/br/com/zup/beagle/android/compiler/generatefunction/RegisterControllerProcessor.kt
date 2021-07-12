@@ -88,9 +88,7 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
 
         val defaultBeagleClass = ClassName(DEFAULT_BEAGLE_ACTIVITY.packageName,
             DEFAULT_BEAGLE_ACTIVITY.className).canonicalName
-        // TODO: refactored. Verificar
-//        defaultActivityRegistered = if (validatorLines.second.isEmpty())
-//            "$defaultBeagleClass::class.java as Class<BeagleActivity>" else validatorLines.second
+
         defaultActivityRegistered =
             if (defaultActivityRegistered.isEmpty() && !defaultActivity.startsWith("null::class")) {
                 defaultActivity
@@ -102,22 +100,14 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
 
         var code = ""
 
-        when {
-            //validatorLines.second.isEmpty() && !defaultActivity.startsWith("null::class") -> {
-            // TODO: essa linha abaixo refatora a de cima
-//            defaultActivityRegistered.isEmpty() && !defaultActivity.startsWith("null::class") -> {
-//                defaultActivityRegistered = defaultActivity
-//            }
-//            validatorLines.first.isNotEmpty() -> {
-            validatorLines.isNotEmpty() -> {
+        if (validatorLines.isNotEmpty()) {
 
-                code = """
+            code = """
                     |return when(id) {
                     |$validatorLines
                     |    else -> $defaultActivityRegistered
                     |}
                 |""".trimMargin()
-            }
         }
 
         if (code.isEmpty()) {
@@ -136,8 +126,6 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             RegisterController::class.java
         )
 
-//        var defaultControllerClass = ""
-
         registerValidatorAnnotatedClasses.forEachIndexed { index, element ->
             val registerValidatorAnnotation = element.getAnnotation(RegisterController::class.java)
             val name = try {
@@ -147,7 +135,6 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             }
 
             if (name.isEmpty()) {
-//                defaultControllerClass = "$element::class.java as Class<BeagleActivity>"
                 defaultActivityRegistered = "$element$CONTROLLER_DEFINITION_SUFFIX"
                 return@forEachIndexed
             }
@@ -160,42 +147,16 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
 
         validators.append(getRegisteredControllersInDependencies(defaultActivityRegistered))
 
-//        return validators.toString() to defaultControllerClass
         return validators.toString()
     }
 
     private fun getRegisteredControllersInDependencies(defaultControllerClass: String): java.lang.StringBuilder {
         val registeredWidgets = StringBuilder()
-//        processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
-//            val fullClassName = it.toString()
-//            val cls = Class.forName(fullClassName)
-//            val kotlinClass = cls.kotlin
-//            try {
-//                (cls.getMethod(REGISTERED_CONTROLLERS).invoke(kotlinClass.objectInstance) as List<Pair<String, String>>).forEach { registeredDependency ->
-//                    //TODO: extrair para método
-//                    if (defaultControllerClass.isNotEmpty() && registeredDependency.first.isEmpty()) {
-//                        processingEnv.messager?.error("Default controller defined multiple times: " +
-//                            "\n$defaultControllerClass" +
-//                            "\n${registeredDependency.second}" +
-//                            "\n\nYou must remove one implementation from the application.")
-//                    }
-//
-//                    if (registeredDependency.first.isEmpty()) {
-//                        defaultActivityRegistered = "${registeredDependency.second}::class.java as Class<BeagleActivity>"
-//                    } else {
-//                        registeredWidgets.append("\n    \"${registeredDependency.first}\" -> ${registeredDependency.second}::class.java as Class<BeagleActivity>")
-//                    }
-//                }
-//            } catch (e: NoSuchMethodException) {
-//                // intentionally left blank
-//            }
-//        }
         forEachRegisteredDependency(
             processingEnv,
             REGISTERED_CONTROLLERS_GENERATED,
             REGISTERED_CONTROLLERS
         ) { registeredDependency ->
-            //TODO: extrair para método
             if (defaultActivityRegistered.isNotEmpty() && registeredDependency.first.isEmpty()) {
                 processingEnv.messager?.error("Default controller defined multiple times: " +
                     "\n${defaultActivityRegistered.substringBefore(CONTROLLER_DEFINITION_SUFFIX)}" +
