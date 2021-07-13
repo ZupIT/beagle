@@ -16,12 +16,13 @@
 
 package br.com.zup.beagle.sample
 
+import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.setup.BeagleConfig
 import br.com.zup.beagle.android.setup.Cache
 import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.sample.constants.BASE_URL
 
-//@BeagleComponent
+@BeagleComponent
 class AppBeagleConfig : BeagleConfig {
     override val environment: Environment get() = Environment.DEBUG
     override val baseUrl: String get() = BASE_URL
