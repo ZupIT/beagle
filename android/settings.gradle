@@ -25,6 +25,3 @@ include ':test'
 
 
 rootProject.name = "Beagle"
-//include ':moduleA'
-//include ':moduleB'
-//include ':moduleC'

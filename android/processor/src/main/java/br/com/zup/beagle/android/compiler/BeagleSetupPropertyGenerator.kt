@@ -19,10 +19,10 @@ package br.com.zup.beagle.android.compiler
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.PropertyImplementationManager
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.TypeElementImplementationManager
-import br.com.zup.beagle.compiler.shared.forEachRegisteredDependency
 import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_CLASS_NAME
 import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_METHOD_NAME
 import br.com.zup.beagle.compiler.shared.error
+import br.com.zup.beagle.compiler.shared.forEachRegisteredDependency
 import br.com.zup.beagle.compiler.shared.implements
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier

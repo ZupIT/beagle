@@ -16,9 +16,10 @@
 
 package br.com.zup.beagle.sample
 
+import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.setup.DesignSystem
 
-//@BeagleComponent
+@BeagleComponent
 class AppDesignSystem : DesignSystem() {
 
     override fun toolbarStyle(id: String): Int? {
@@ -54,7 +55,7 @@ class AppDesignSystem : DesignSystem() {
     }
 
     override fun inputTextStyle(id: String): Int? {
-        return when(id) {
+        return when (id) {
             "TextInput" -> R.style.TextInput
             "DesignSystem.TextInput.Style.Bff" -> R.style.DesignSystem_TextInput_Style_Bff
             else -> null

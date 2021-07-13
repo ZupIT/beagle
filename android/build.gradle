@@ -48,7 +48,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        mavenLocal() // TODO: remove after draft tests
     }
 
     // temporary solution to all libraries updated to the last version of kotlin

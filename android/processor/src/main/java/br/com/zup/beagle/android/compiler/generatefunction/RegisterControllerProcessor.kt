@@ -27,8 +27,8 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
 import java.io.IOException
@@ -145,12 +145,12 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             }
         }
 
-        validators.append(getRegisteredControllersInDependencies(defaultActivityRegistered))
+        validators.append(getRegisteredControllersInDependencies())
 
         return validators.toString()
     }
 
-    private fun getRegisteredControllersInDependencies(defaultControllerClass: String): java.lang.StringBuilder {
+    private fun getRegisteredControllersInDependencies(): java.lang.StringBuilder {
         val registeredWidgets = StringBuilder()
         forEachRegisteredDependency(
             processingEnv,

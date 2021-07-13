@@ -20,12 +20,11 @@ import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.android.annotation.RegisterValidator
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionAction
+import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionComponentRegistrar
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionCustomAdapter
 import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionCustomValidator
-import br.com.zup.beagle.android.compiler.generatefunction.RegisterControllerProcessor
-import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionComponentRegistrar
 import br.com.zup.beagle.android.compiler.generatefunction.REGISTERED_CONTROLLERS_GENERATED
-import br.com.zup.beagle.compiler.shared.beagleClassesGenerationDisabled
+import br.com.zup.beagle.android.compiler.generatefunction.RegisterControllerProcessor
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterOperation
 import br.com.zup.beagle.annotation.RegisterWidget
@@ -37,6 +36,7 @@ import br.com.zup.beagle.compiler.shared.KAPT_BEAGLE_MODULE_NAME_OPTION_NAME
 import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_CLASS_NAME
 import br.com.zup.beagle.compiler.shared.REGISTRAR_COMPONENTS_PACKAGE
 import br.com.zup.beagle.compiler.shared.WIDGET_VIEW
+import br.com.zup.beagle.compiler.shared.beagleClassesGenerationDisabled
 import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
@@ -45,7 +45,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import java.io.IOException
-import java.lang.StringBuilder
 import java.util.Locale
 import java.util.UUID
 import javax.annotation.processing.ProcessingEnvironment

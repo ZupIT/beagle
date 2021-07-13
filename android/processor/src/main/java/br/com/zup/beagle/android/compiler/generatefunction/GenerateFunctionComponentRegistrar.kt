@@ -17,18 +17,11 @@
 package br.com.zup.beagle.android.compiler.generatefunction
 
 import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
-import br.com.zup.beagle.compiler.shared.error
-import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
-import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
-import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.PackageElement

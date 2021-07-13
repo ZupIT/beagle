@@ -54,7 +54,7 @@ abstract class BeagleGeneratorFunction<T : Annotation>(
             processingEnv,
             className,
             functionName
-        ){ registeredDependency ->
+        ) { registeredDependency ->
             registeredWidgets.append(buildCodeByDependency(registeredDependency))
         }
 
