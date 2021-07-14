@@ -53,7 +53,8 @@ class GenerateFunctionComponentRegistrar<T : Annotation>(
     }
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
-        return "\n\tPair(\"\"\"${buildElementKey(element, annotation)}\"\"\",\"${getPackageName(element)}.${element.simpleName}\"),"
+        return "\n\tPair(\"\"\"${buildElementKey(element, annotation)}\"\"\"," +
+            "\"${getPackageName(element)}.${element.simpleName}\"),"
     }
 
     private fun getPackageName(element: Element): String {

@@ -171,7 +171,8 @@ class GenerateFunctionCustomAdapter(processingEnv: ProcessingEnvironment) :
     }
 
     override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
-        return "${registeredDependency.first} -> ${registeredDependency.second}() as $BEAGLE_TYPE_ADAPTER_INTERFACE$BREAK_LINE"
+        return "${registeredDependency.first} -> ${registeredDependency.second}() " +
+            "as $BEAGLE_TYPE_ADAPTER_INTERFACE$BREAK_LINE"
     }
 }
 

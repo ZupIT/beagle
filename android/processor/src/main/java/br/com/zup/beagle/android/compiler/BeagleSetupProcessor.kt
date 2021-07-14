@@ -251,7 +251,8 @@ internal data class BeagleSetupProcessor(
 
     private fun registrarModuleDefinedProperties(roundEnvironment: RoundEnvironment) {
         val properties = beagleSetupPropertyGenerator.generate(roundEnvironment, true)
-        PropertiesRegistrarProcessor().process(processingEnv, properties, "$PROPERTIES_REGISTRAR_CLASS_NAME${getModuleName()}")
+        PropertiesRegistrarProcessor()
+            .process(processingEnv, properties, "$PROPERTIES_REGISTRAR_CLASS_NAME${getModuleName()}")
     }
 
     private fun checkBeagleConfig(properties: List<PropertySpec>) {

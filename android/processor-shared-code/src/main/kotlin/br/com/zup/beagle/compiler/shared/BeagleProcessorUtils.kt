@@ -32,17 +32,19 @@ fun forEachRegisteredDependency(
     processingEnv.elementUtils.getPackageElement(REGISTRAR_COMPONENTS_PACKAGE)?.enclosedElements?.forEach {
         val fullRegistrarClassName = it.toString()
         val registrarClassName = fullRegistrarClassName.substringAfterLast(".")
-        if (registrarClassName.startsWith(className)) {
-            val cls = Class.forName(fullRegistrarClassName)
-            val kotlinClass = cls.kotlin
-            try {
-                (cls.getMethod(methodName).invoke(kotlinClass.objectInstance) as List<Pair<String, String>>)
-                    .forEach { registeredDependency ->
-                        function(registeredDependency)
-                    }
-            } catch (e: NoSuchMethodException) {
-                // intentionally left blank
-            }
+        if (!registrarClassName.startsWith(className)) {
+            return@forEach
+        }
+
+        val cls = Class.forName(fullRegistrarClassName)
+        val kotlinClass = cls.kotlin
+        try {
+            (cls.getMethod(methodName).invoke(kotlinClass.objectInstance) as List<Pair<String, String>>)
+                .forEach { registeredDependency ->
+                    function(registeredDependency)
+                }
+        } catch (e: NoSuchMethodException) {
+            // intentionally left blank
         }
     }
 }

@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.sample.widget.ModuleAWidget
 import br.com.zup.beagle.sample.widget.ModuleBWidget
 import br.com.zup.beagle.sample.widget.ModuleCWidget

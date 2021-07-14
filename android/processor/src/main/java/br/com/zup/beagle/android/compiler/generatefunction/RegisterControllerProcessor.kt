@@ -167,7 +167,11 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             if (registeredDependency.first.isEmpty()) {
                 defaultActivityRegistered = "${registeredDependency.second}$CONTROLLER_DEFINITION_SUFFIX"
             } else {
-                registeredWidgets.append("\n    \"${registeredDependency.first}\" -> ${registeredDependency.second}$CONTROLLER_DEFINITION_SUFFIX")
+                registeredWidgets
+                    .append(
+                        "\n    \"${registeredDependency.first}\" -> " +
+                            "${registeredDependency.second}$CONTROLLER_DEFINITION_SUFFIX"
+                    )
             }
         }
         return registeredWidgets

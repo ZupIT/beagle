@@ -48,10 +48,16 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
                 PROPERTIES_REGISTRAR_CLASS_NAME,
                 PROPERTIES_REGISTRAR_METHOD_NAME
             ) { registeredDependency ->
-                var typeElement = processingEnv.elementUtils.getTypeElement(registeredDependency.second.removeSuffix("()"))
+                var typeElement =
+                    processingEnv
+                        .elementUtils.getTypeElement(registeredDependency.second.removeSuffix("()"))
+
                 if (typeElement == null) {
-                    typeElement = processingEnv.elementUtils.getTypeElement(registeredDependency.second.substringBefore("::"))
+                    typeElement =
+                        processingEnv
+                            .elementUtils.getTypeElement(registeredDependency.second.substringBefore("::"))
                 }
+
                 checkIfHandlersExists(typeElement, propertySpecifications)
                 checkIfOtherAttributesExists(typeElement, propertySpecifications)
             }

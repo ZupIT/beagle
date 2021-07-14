@@ -88,7 +88,8 @@ class PropertiesRegistrarProcessor {
         val registeredProperties = StringBuilder()
         properties.forEach { propertySpec ->
             if (!propertySpec.initializer.toString().startsWith("null")) {
-                registeredProperties.append("\tPair(\"${propertySpec.name}\", \"\"\"${propertySpec.initializer.toString()}\"\"\"),\n")
+                registeredProperties
+                    .append("\tPair(\"${propertySpec.name}\", \"\"\"${propertySpec.initializer.toString()}\"\"\"),\n")
             }
         }
 
