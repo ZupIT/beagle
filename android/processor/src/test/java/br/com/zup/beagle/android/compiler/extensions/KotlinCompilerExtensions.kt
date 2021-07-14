@@ -18,8 +18,8 @@ package br.com.zup.beagle.android.compiler.extensions
 
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
-import javax.annotation.processing.Processor
 import java.nio.file.Path
+import javax.annotation.processing.Processor
 
 private fun prepareCompilation(
     sourceFile: SourceFile? = null,

@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.compiler.generator
 
-import br.com.zup.beagle.android.compiler.generatefunction.REGISTERED_CONTROLLERS_GENERATED
 import br.com.zup.beagle.android.compiler.extensions.compile
+import br.com.zup.beagle.android.compiler.generatefunction.REGISTERED_CONTROLLERS_GENERATED
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.DEFAULT_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.INTERNAL_DEFAULT_CONTROLLER_GENERATED_EXPECTED

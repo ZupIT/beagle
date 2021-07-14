@@ -18,13 +18,9 @@ package br.com.zup.beagle.android.compiler.beaglesdk
 
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_SETUP_GENERATED
 import br.com.zup.beagle.android.compiler.extensions.compile
-import br.com.zup.beagle.android.compiler.generator.RegisteredCustomValidatorGeneratorTest
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
-import br.com.zup.beagle.android.compiler.mocks.LIST_OF_IMAGE_DOWNLOAD
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_LOGGER
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
-import br.com.zup.beagle.android.compiler.mocks.VALID_IMAGE_DOWNLOAD
-import br.com.zup.beagle.android.compiler.mocks.VALID_IMAGE_DOWNLOADER_BEAGLE_SDK
 import br.com.zup.beagle.android.compiler.mocks.VALID_LOGGER
 import br.com.zup.beagle.android.compiler.mocks.VALID_LOGGER_BEAGLE_SDK
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor

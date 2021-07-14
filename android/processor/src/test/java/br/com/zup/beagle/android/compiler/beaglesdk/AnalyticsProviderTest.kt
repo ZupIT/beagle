@@ -21,7 +21,6 @@ import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_ANALYTICS_PROVIDER
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
-import br.com.zup.beagle.android.compiler.mocks.VALID_ANALYTICS
 import br.com.zup.beagle.android.compiler.mocks.VALID_ANALYTICS_PROVIDER
 import br.com.zup.beagle.android.compiler.mocks.VALID_ANALYTICS_PROVIDER_BEAGLE_SDK
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor

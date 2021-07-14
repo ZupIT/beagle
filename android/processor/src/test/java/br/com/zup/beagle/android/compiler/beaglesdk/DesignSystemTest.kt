@@ -20,12 +20,9 @@ import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_DESIGN_SYSTEM
-import br.com.zup.beagle.android.compiler.mocks.LIST_OF_URL_BUILDER
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_DESIGN_SYSTEM
 import br.com.zup.beagle.android.compiler.mocks.VALID_DESIGN_SYSTEM_BEAGLE_SDK
-import br.com.zup.beagle.android.compiler.mocks.VALID_URL_BUILDER
-import br.com.zup.beagle.android.compiler.mocks.VALID_URL_BUILDER_BEAGLE_SDK
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile

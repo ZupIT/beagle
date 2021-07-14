@@ -16,6 +16,6 @@
 
 package br.com.zup.beagle.android.components.form.core
 
-interface ValidatorHandler  {
+interface ValidatorHandler {
     fun getValidator(name: String): Validator<Any, Any>?
 }
