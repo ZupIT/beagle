@@ -58,7 +58,7 @@ const val INTERNAL_SINGLE_CONTROLLER_GENERATED_EXPECTED: String =
         import kotlin.String
         import kotlin.Suppress
         
-        public final class ControllerReferenceGenerated : BeagleControllerReference {
+        public final class RegisteredControllers : BeagleControllerReference {
             public override fun classFor(id: String?): Class<BeagleActivity> = when (id) {
                 "otherController" -> br.com.test.beagle.AppBeagleActivity::class.java as
                     Class<BeagleActivity>
@@ -82,7 +82,7 @@ const val INTERNAL_UNDEFINED_DEFAULT_CONTROLLER_GENERATED_EXPECTED: String =
         import kotlin.String
         import kotlin.Suppress
         
-        public final class ControllerReferenceGenerated : BeagleControllerReference {
+        public final class RegisteredControllers : BeagleControllerReference {
             public override fun classFor(id: String?): Class<BeagleActivity> =  
                 br.com.zup.beagle.android.view.ServerDrivenActivity::class.java as Class<BeagleActivity>
         
@@ -102,7 +102,7 @@ const val INTERNAL_DEFAULT_CONTROLLER_GENERATED_EXPECTED: String =
         import kotlin.String
         import kotlin.Suppress
         
-        public final class ControllerReferenceGenerated : BeagleControllerReference {
+        public final class RegisteredControllers : BeagleControllerReference {
         
             public override fun classFor(id: String?): Class<BeagleActivity> =
                 br.com.test.beagle.AppDefaultBeagleActivity::class.java as Class<BeagleActivity>
@@ -122,7 +122,7 @@ const val INTERNAL_LIST_CONTROLLER_GENERATED_EXPECTED: String =
         import kotlin.String
         import kotlin.Suppress
         
-        public final class ControllerReferenceGenerated : BeagleControllerReference {
+        public final class RegisteredControllers : BeagleControllerReference {
             public override fun classFor(id: String?): Class<BeagleActivity> = when (id) {
                 "otherControllerTwo" -> br.com.test.beagle.AppBeagleActivityTwo::class.java as
                     Class<BeagleActivity>

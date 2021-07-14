@@ -99,8 +99,13 @@ internal class BeagleLoggerTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_LOGGER = "BeagleLogger already defined," +
-            " remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_LOGGER = "BeagleLogger defined multiple times: \n" +
+            "public final class LoggerTest implements br.com.zup.beagle.android.logger.BeagleLogger {\n" +
+            "             ^\n" +
+            "  br.com.test.beagle.LoggerTest\n" +
+            "  br.com.test.beagle.LoggerTestTwo\n" +
+            "  \n" +
+            "  You must remove one implementation from the application."
     }
 
 }

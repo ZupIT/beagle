@@ -118,7 +118,6 @@ const val BEAGLE_SETUP_COMPLETE =
 
         package br.com.test.beagle
         
-        import br.com.test.beagle.BeagleConfigImpl
         import br.com.zup.beagle.analytics.Analytics
         import br.com.zup.beagle.android.`data`.serializer.adapter.generic.TypeAdapterResolver
         import br.com.zup.beagle.android.action.Action
@@ -167,16 +166,16 @@ const val BEAGLE_SETUP_COMPLETE =
 
           public override val logger: BeagleLogger = br.com.test.beagle.LoggerTest()
         
-          public override val controllerReference: BeagleControllerReference =
-              ControllerReferenceGenerated()
-        
           public override val imageDownloader: BeagleImageDownloader =
               br.com.test.beagle.ImageDownloaderTest()
+              
+          public override val config: BeagleConfig = br.com.test.beagle.BeagleConfigImpl()
         
           public override val serverDrivenActivity: Class<BeagleActivity> =
               br.com.zup.beagle.android.view.ServerDrivenActivity::class.java as Class<BeagleActivity>
-        
-          public override val config: BeagleConfig = BeagleConfigImpl()
+              
+          public override val controllerReference: BeagleControllerReference =
+              RegisteredControllers()
         
           public override val typeAdapterResolver: TypeAdapterResolver = RegisteredCustomTypeAdapter
         

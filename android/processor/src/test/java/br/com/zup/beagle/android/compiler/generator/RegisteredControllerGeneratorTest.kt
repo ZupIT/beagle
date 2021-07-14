@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.compiler.generator
 
-import br.com.zup.beagle.android.compiler.generatefunction.CONTROLLER_REFERENCE_GENERATED
+import br.com.zup.beagle.android.compiler.generatefunction.REGISTERED_CONTROLLERS_GENERATED
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.DEFAULT_IMPORTS
@@ -60,7 +60,7 @@ internal class RegisteredControllerGeneratorTest {
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith(CONTROLLER_REFERENCE_GENERATED)
+                file.name.startsWith(REGISTERED_CONTROLLERS_GENERATED)
             }!!
 
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
@@ -83,7 +83,7 @@ internal class RegisteredControllerGeneratorTest {
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith(CONTROLLER_REFERENCE_GENERATED)
+                file.name.startsWith(REGISTERED_CONTROLLERS_GENERATED)
             }!!
 
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
@@ -106,7 +106,7 @@ internal class RegisteredControllerGeneratorTest {
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith(CONTROLLER_REFERENCE_GENERATED)
+                file.name.startsWith(REGISTERED_CONTROLLERS_GENERATED)
             }!!
 
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
@@ -129,7 +129,7 @@ internal class RegisteredControllerGeneratorTest {
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith(CONTROLLER_REFERENCE_GENERATED)
+                file.name.startsWith(REGISTERED_CONTROLLERS_GENERATED)
             }!!
 
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")

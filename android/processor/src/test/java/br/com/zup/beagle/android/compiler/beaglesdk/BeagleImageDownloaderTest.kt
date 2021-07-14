@@ -96,8 +96,14 @@ internal class BeagleImageDownloaderTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_IMAGE_DOWNLOADER = "BeagleImageDownloader already defined," +
-            " remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_IMAGE_DOWNLOADER = "BeagleImageDownloader defined multiple times: \n" +
+            "public final class ImageDownloaderTestTwo implements " +
+            "br.com.zup.beagle.android.imagedownloader.BeagleImageDownloader {\n" +
+            "             ^\n" +
+            "  br.com.test.beagle.ImageDownloaderTestTwo\n" +
+            "  br.com.test.beagle.ImageDownloaderTest\n" +
+            "  \n" +
+            "  You must remove one implementation from the application."
     }
 
 }

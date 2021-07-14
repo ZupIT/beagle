@@ -98,8 +98,14 @@ internal class DeepLinkHandlerTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_DEEP_LINK_HANDLER = "DeepLinkHandler already defined," +
-            " remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_DEEP_LINK_HANDLER = "DeepLinkHandler defined multiple times: \n" +
+            "public final class DeepLinkHandlerTest implements " +
+            "br.com.zup.beagle.android.navigation.DeepLinkHandler {\n" +
+            "             ^\n" +
+            "  br.com.test.beagle.DeepLinkHandlerTest\n" +
+            "  br.com.test.beagle.DeepLinkHandlerTestTwo\n" +
+            "  \n" +
+            "  You must remove one implementation from the application."
     }
 
 }

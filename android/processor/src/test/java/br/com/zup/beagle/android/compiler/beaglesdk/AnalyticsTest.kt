@@ -95,8 +95,13 @@ internal class AnalyticsTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_ANALYTICS = "Analytics already defined," +
-            " remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_ANALYTICS = "Analytics defined multiple times: \n" +
+            "public final class AnalyticsTestTwo implements br.com.zup.beagle.analytics.Analytics {\n" +
+            "             ^\n" +
+            "  br.com.test.beagle.AnalyticsTestTwo\n" +
+            "  br.com.test.beagle.AnalyticsTest\n" +
+            "  \n" +
+            "  You must remove one implementation from the application."
     }
 
 }

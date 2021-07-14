@@ -98,8 +98,13 @@ internal class DesignSystemTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_DESIGN_SYSTEM = "DesignSystem already defined," +
-            " remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_DESIGN_SYSTEM = "DesignSystem defined multiple times: \n" +
+            "public final class DesignSystemTestTwo implements br.com.zup.beagle.android.setup.DesignSystem {\n" +
+            "             ^\n" +
+            "  br.com.test.beagle.DesignSystemTestTwo\n" +
+            "  br.com.test.beagle.DesignSystemTest\n" +
+            "  \n" +
+            "  You must remove one implementation from the application."
     }
 
 }
