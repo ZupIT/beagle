@@ -14,33 +14,48 @@
  * limitations under the License.
  */
 
+import 'dart:io';
+
+import 'package:beagle/beagle.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-// ignore: use_key_in_widget_constructors
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
+final Map<String, ComponentBuilder> myComponents = {
+  'custom:loading': (element, _, __) {
+    return Center(
+      key: element.getKey(),
+      child: const Text('My custom loading.'),
+    );
   }
+};
+
+void main() {
+  final localhost = Platform.isAndroid ? '10.0.2.2' : 'localhost';
+
+  BeagleSdk.init(
+    baseUrl: 'http://$localhost:8080',
+    components: myComponents,
+    navigationControllers: {
+      'general': NavigationController(
+        isDefault: true,
+        loadingComponent: 'custom:loading',
+      ),
+    },
+  );
+  runApp(BeagleExample());
+}
+
+class BeagleExample extends StatelessWidget {
+  const BeagleExample({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Beagle example'),
         ),
-        body: const Center(
-          child: Text('Running'),
+        body: BeagleWidget(
+          screenRequest: BeagleScreenRequest('components'),
         ),
       ),
     );
