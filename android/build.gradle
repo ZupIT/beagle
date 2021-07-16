@@ -27,6 +27,7 @@ buildscript {
         classpath "com.vanniktech:gradle-maven-publish-plugin:0.15.1"
         classpath "de.mannodermaus.gradle.plugins:android-junit5:1.6.2.0"
         classpath "com.hiya:jacoco-android:0.2"
+        classpath "org.nosphere.apache:creadur-rat-gradle:0.7.0"
     }
 }
 
@@ -40,6 +41,7 @@ plugins {
 }
 
 allprojects {
+    apply from: "$rootDir/licensing.gradle"
     apply from: "$rootDir/../detekt.gradle"
 
     apply plugin: "br.com.zup.beagle.dependencies"

@@ -1,0 +1,41 @@
+/*
+ * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: "org.nosphere.apache.rat"
+
+rat {
+
+    // Input directory, defaults to '.'
+//    inputDir.set(file("some/path"))
+
+    // List of Gradle exclude directives, defaults to ['**/.gradle/**']
+    excludes.addAll(["**/build/**", "**/.gradle/**"])
+
+    // Rat excludes file, one directive per line
+//    excludeFile.set(layout.projectDirectory.file(".rat-excludes.txt"))
+
+    // XML, TXT and HTML reports directory, defaults to 'build/reports/rat'
+//    reportDir.set(file("some/other/path"))
+
+    // Custom XSL stylesheet for the HTML report
+//    stylesheet.set(file("custom/rat-html-stylesheet.xsl"))
+
+    // Fail the build on rat errors, defaults to true
+    failOnError.set(false)
+
+    // Prints the list of files with unapproved licences to the console, defaults to false
+    verbose.set(true)
+}
