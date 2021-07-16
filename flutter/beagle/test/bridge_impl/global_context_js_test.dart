@@ -16,8 +16,8 @@
 
 import 'dart:convert';
 
-import 'package:beagle/bridge_impl/beagle_js_engine.dart';
-import 'package:beagle/bridge_impl/global_context_js.dart';
+import 'package:beagle/src/bridge_impl/beagle_js_engine.dart';
+import 'package:beagle/src/bridge_impl/global_context_js.dart';
 import 'package:flutter_js/flutter_js.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

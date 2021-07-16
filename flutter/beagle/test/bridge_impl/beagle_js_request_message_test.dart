@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import 'package:beagle/bridge_impl/beagle_js_request_message.dart';
-import 'package:beagle/networking/beagle_http_method.dart';
-import 'package:beagle/utils/enum.dart';
+import 'package:beagle/beagle.dart';
+import 'package:beagle/src/bridge_impl/beagle_js_request_message.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

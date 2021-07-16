@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-import 'package:beagle/logger/beagle_logger.dart';
-import 'package:beagle/setup/beagle_design_system.dart';
-import 'package:beagle/style/style_builder.dart';
-import 'package:beagle_components/beagle_image.dart';
-import 'package:beagle_components/beagle_tab_bar.dart';
+import 'package:beagle/beagle.dart';
+import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

@@ -16,7 +16,7 @@
 
 import 'dart:typed_data';
 
-import 'package:beagle/model/response.dart';
+import 'package:beagle/beagle.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import 'package:beagle/networking/beagle_http_method.dart';
-import 'package:beagle/networking/beagle_network_options.dart';
-import 'package:beagle/networking/beagle_network_strategy.dart';
+import 'package:beagle/beagle.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

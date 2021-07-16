@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import 'package:beagle/utils/color.dart';
-import 'package:beagle_components/beagle_page_indicator.dart';
+import 'package:beagle/beagle.dart';
+import 'package:beagle_components/src/beagle_page_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
