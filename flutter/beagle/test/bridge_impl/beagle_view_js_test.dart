@@ -15,10 +15,8 @@
  */
 
 import 'package:beagle/beagle.dart';
-import 'package:beagle/bridge_impl/beagle_js_engine.dart';
-import 'package:beagle/bridge_impl/beagle_view_js.dart';
-import 'package:beagle/interface/beagle_view.dart';
-import 'package:beagle/model/beagle_action.dart';
+import 'package:beagle/src/bridge_impl/beagle_js_engine.dart';
+import 'package:beagle/src/bridge_impl/beagle_view_js.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_js/flutter_js.dart';
 import 'package:flutter_test/flutter_test.dart';

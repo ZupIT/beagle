@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import 'package:beagle/default/default_storage.dart';
+import 'package:beagle/beagle.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

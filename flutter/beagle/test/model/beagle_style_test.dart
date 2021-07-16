@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import 'package:beagle/model/beagle_style.dart';
+import 'package:beagle/beagle.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

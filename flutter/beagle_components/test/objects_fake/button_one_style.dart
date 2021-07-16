@@ -16,7 +16,7 @@
 
 import 'dart:ui';
 
-import 'package:beagle/model/beagle_button_style.dart';
+import 'package:beagle/beagle.dart';
 import 'package:flutter/material.dart';
 
 class ButtonOneStyle extends BeagleButtonStyle {

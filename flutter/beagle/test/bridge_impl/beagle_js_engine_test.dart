@@ -17,11 +17,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:beagle/bridge_impl/beagle_js_engine.dart';
-import 'package:beagle/bridge_impl/js_runtime_wrapper.dart';
-import 'package:beagle/interface/storage.dart';
-import 'package:beagle/model/response.dart';
-import 'package:beagle/networking/beagle_http_method.dart';
+import 'package:beagle/beagle.dart';
+import 'package:beagle/src/bridge_impl/beagle_js_engine.dart';
+import 'package:beagle/src/bridge_impl/js_runtime_wrapper.dart';
 import 'package:flutter_js/flutter_js.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

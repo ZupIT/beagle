@@ -1,1 +1,0 @@
-typedef RemoveListener = void Function();

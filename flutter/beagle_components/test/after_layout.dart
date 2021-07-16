@@ -17,7 +17,7 @@
 
 // code taken from the lib flutter_after_layout
 
-import 'package:beagle_components/after_layout.dart';
+import 'package:beagle_components/src/after_layout.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 

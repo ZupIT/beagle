@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import 'package:beagle_components/beagle_button.dart';
+import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import 'package:beagle/bridge_impl/js_runtime_wrapper.dart';
+import 'package:beagle/src/bridge_impl/js_runtime_wrapper.dart';
 import 'package:flutter_js/flutter_js.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

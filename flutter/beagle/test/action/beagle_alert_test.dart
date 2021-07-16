@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import 'package:beagle/action/beagle_alert.dart';
+import 'package:beagle/beagle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

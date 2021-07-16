@@ -16,11 +16,10 @@
 
 import 'dart:convert';
 
-import 'package:beagle/bridge_impl/beagle_js_engine.dart';
-import 'package:beagle/bridge_impl/beagle_service_js.dart';
-import 'package:beagle/interface/navigation_controller.dart';
-import 'package:beagle/networking/beagle_network_strategy.dart';
-import 'package:beagle/utils/network_strategy.dart';
+import 'package:beagle/beagle.dart';
+import 'package:beagle/src/bridge_impl/beagle_js_engine.dart';
+import 'package:beagle/src/bridge_impl/beagle_service_js.dart';
+import 'package:beagle/src/utils/network_strategy.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

@@ -16,12 +16,8 @@
 
 import 'dart:typed_data';
 
-import 'package:beagle/default/default_image_downloader.dart';
-import 'package:beagle/interface/beagle_image_downloader.dart';
-import 'package:beagle/logger/beagle_logger.dart';
-import 'package:beagle/setup/beagle_design_system.dart';
-import 'package:beagle/style/style_builder.dart';
-import 'package:beagle_components/beagle_image.dart';
+import 'package:beagle/beagle.dart';
+import 'package:beagle_components/beagle_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';

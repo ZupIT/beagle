@@ -17,4 +17,17 @@
 
 library beagle_components;
 
-export 'package:beagle_components/default_components.dart';
+export 'package:beagle_components/src/default_components.dart';
+export 'package:beagle_components/src/beagle_button.dart';
+export 'package:beagle_components/src/beagle_container.dart';
+export 'package:beagle_components/src/beagle_image.dart';
+export 'package:beagle_components/src/beagle_lazy_component.dart';
+export 'package:beagle_components/src/beagle_page_indicator.dart';
+export 'package:beagle_components/src/beagle_page_view.dart';
+export 'package:beagle_components/src/beagle_scroll_view.dart';
+export 'package:beagle_components/src/beagle_tab_bar.dart';
+export 'package:beagle_components/src/beagle_text.dart';
+export 'package:beagle_components/src/beagle_text_input.dart';
+export 'package:beagle_components/src/beagle_touchable.dart';
+export 'package:beagle_components/src/beagle_webview.dart';
+export 'package:beagle_components/src/text_input_type.dart';

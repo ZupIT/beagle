@@ -15,7 +15,7 @@
  */
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:beagle/utils/string_utils.dart';
+import 'package:beagle/src/utils/string_utils.dart';
 
 void main() {
   group('Given an all capitalized String', () {
