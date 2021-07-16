@@ -14,18 +14,6 @@
  * limitations under the License.
  */
 
-include ":sample:core"
-include ":sample:spring"
-include ":sample:micronaut"
-include ":processor"
-include ":framework"
-include ":widgets-dsl"
-include ":starters:spring"
-include ":starters:micronaut"
-include ":widgets"
-include ":kotlin-core"
-include ":processor-utils"
-include ":annotation"
+include ":bff"
 
-
-rootProject.name = "Beagle"
+rootProject.name = "Beagle BFF Server"

@@ -13,15 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+buildscript {
 
-import br.com.zup.beagle.Dependencies
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+        google()
+    }
 
-plugins {
-    id 'org.springframework.boot' version '2.3.5.RELEASE'
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10'
+    }
 }
 
-dependencies {
-    implementation Dependencies.GeneralLibraries.kotlinReflect
-    implementation project(Dependencies.Modules.springStarter)
-    implementation Dependencies.SpringLibraries.actuatorStarter
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.5.10"
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+        google()
+        mavenCentral()
+    }
 }
