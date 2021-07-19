@@ -136,28 +136,91 @@ const val INTERNAL_LIST_CONTROLLER_GENERATED_EXPECTED: String =
 
     """
 
+const val INTERNAL_CONTROLLER_REGISTRAR_SINGLE_CONTROLLER_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+    
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredControllersRegistrarTest {
+          public fun classFor(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}otherController""${'"'},"br.com.test.beagle.AppBeagleActivity"),
+            )
+            return registeredComponents
+          }
+        }
+    """
 
-//
-//const val INVALID_OPERATION =
-//    """
-//        import br.com.zup.beagle.annotation.RegisterOperation
-//
-//        @RegisterOperation("test")
-//        class InvalidOperation { }
-//    """
-//
-//const val INVALID_OPERATION_TWO =
-//    """
-//        import br.com.zup.beagle.annotation.RegisterOperation
-//
-//        @RegisterOperation("test")
-//        class InvalidOperationTwo { }
-//    """
-//
-//const val INVALID_OPERATION_WITH_INHERITANCE =
-//    """
-//        import br.com.zup.beagle.annotation.RegisterOperation
-//
-//        @RegisterOperation("testTwo")
-//        class InvalidOperation : WidgetView { }
-//    """
+const val INTERNAL_CONTROLLER_REGISTRAR_DEFAULT_CONTROLLER_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+    
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredControllersRegistrarTest {
+          public fun classFor(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}${'"'}${'"'}${'"'},"br.com.test.beagle.AppDefaultBeagleActivity"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_CONTROLLER_REGISTRAR_UNDEFINED_DEFAULT_CONTROLLER_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredControllersRegistrarTest {
+          public fun classFor(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_CONTROLLER_REGISTRAR_LIST_CONTROLLER_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredControllersRegistrarTest {
+          public fun classFor(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}otherControllerTwo""${'"'},"br.com.test.beagle.AppBeagleActivityTwo"),
+                Pair(""${'"'}otherController""${'"'},"br.com.test.beagle.AppBeagleActivity"),
+                Pair(""${'"'}${'"'}${'"'}${'"'},"br.com.test.beagle.AppDefaultBeagleActivity"),
+            )
+            return registeredComponents
+          }
+        }
+    """

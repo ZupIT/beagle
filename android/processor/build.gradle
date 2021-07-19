@@ -47,6 +47,7 @@ dependencies {
     testImplementation Dependencies.TestLibraries.kotlinCompileTesting
     testImplementation Dependencies.TestLibraries.junitApi
     testImplementation Dependencies.TestLibraries.junitEngine
+    testImplementation Dependencies.TestLibraries.mockk
 }
 
 apply from: new File('./../../maven-publish.gradle')

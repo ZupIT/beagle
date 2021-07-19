@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.compiler.mocks.VALID_WIDGET_WITH_INHERITANCE_WI
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
@@ -58,7 +59,9 @@ internal class RegisteredWidgetGeneratorTest {
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
 
             // THEN
-            val file = compilationResult.generatedFiles.find { file -> file.name.startsWith(REGISTERED_WIDGETS_GENERATED) }!!
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_WIDGETS_GENERATED.kt")
+            }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
             val fileExpectedInString = INTERNAL_LIST_WIDGET_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
 
@@ -77,7 +80,9 @@ internal class RegisteredWidgetGeneratorTest {
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
 
             // THEN
-            val file = compilationResult.generatedFiles.find { file -> file.name.startsWith(REGISTERED_WIDGETS_GENERATED) }!!
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_WIDGETS_GENERATED.kt")
+            }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
             val fileExpectedInString = INTERNAL_SINGLE_WIDGET_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
 
@@ -122,10 +127,58 @@ internal class RegisteredWidgetGeneratorTest {
         }
     }
 
+    @DisplayName("When build application with beagle.generateSetupClasses kapt argument")
+    @Nested
+    inner class KaptArgument {
+
+        @Test
+        @DisplayName("Then should not generate RegisteredWidgets class")
+        fun testGenerateRegisteredWidgetsClassFalse() {
+            //GIVEN
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_LIST_WIDGETS + SIMPLE_BEAGLE_CONFIG)
+
+            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to "false")
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath, kaptArguments)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_WIDGETS_GENERATED.kt")
+            }
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertNull(file)
+        }
+
+        @Test
+        @DisplayName("Then should generate RegisteredWidgets class")
+        fun testGenerateRegisteredWidgetsClassTrue() {
+            //GIVEN
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_LIST_WIDGETS + SIMPLE_BEAGLE_CONFIG)
+
+            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to "true")
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath, kaptArguments)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_WIDGETS_GENERATED.kt")
+            }
+
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertNotNull(file)
+        }
+
+    }
+
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
         private const val MESSAGE_INVALID_WIDGET_ERROR = "The class br.com.test.beagle.InvalidWidget need to inherit" +
             " from the class WidgetView when annotate class with @RegisterWidget."
+        private const val KAPT_OPTION_NAME = "beagle.generateSetupClasses"
     }
 }

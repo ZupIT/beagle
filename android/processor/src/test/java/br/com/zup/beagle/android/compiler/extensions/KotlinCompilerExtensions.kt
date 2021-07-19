@@ -17,35 +17,50 @@
 package br.com.zup.beagle.android.compiler.extensions
 
 import com.tschuchort.compiletesting.KotlinCompilation
+import com.tschuchort.compiletesting.OptionName
+import com.tschuchort.compiletesting.OptionValue
 import com.tschuchort.compiletesting.SourceFile
 import java.nio.file.Path
 import javax.annotation.processing.Processor
 
 private fun prepareCompilation(
-    sourceFile: SourceFile? = null,
+    sourceFiles: List<SourceFile>? = null,
     processor: Processor,
     path: Path,
+    kaptArguments: MutableMap<OptionName, OptionValue>? = null
 ): KotlinCompilation =
     KotlinCompilation()
         .apply {
             annotationProcessors = listOf(processor)
             inheritClassPath = true
-            sources = if (sourceFile != null) listOf(sourceFile) else emptyList()
+            sources = sourceFiles ?: emptyList()
             verbose = false
             workingDir = path.toFile()
+            kaptArgs = kaptArguments ?: mutableMapOf()
         }
 
 fun compile(
     sourceFile: SourceFile,
     processor: Processor,
     path: Path,
+    kaptArguments: MutableMap<OptionName, OptionValue>? = null
 ): KotlinCompilation.Result {
-    return prepareCompilation(sourceFile, processor, path).compile()
+    return prepareCompilation(listOf(sourceFile), processor, path, kaptArguments).compile()
+}
+
+fun compile(
+    sourceFiles: List<SourceFile>,
+    processor: Processor,
+    path: Path,
+    kaptArguments: MutableMap<OptionName, OptionValue>? = null
+): KotlinCompilation.Result {
+    return prepareCompilation(sourceFiles, processor, path, kaptArguments).compile()
 }
 
 fun compile(
     processor: Processor,
     path: Path,
+    kaptArguments: MutableMap<OptionName, OptionValue>? = null
 ): KotlinCompilation.Result {
-    return prepareCompilation(processor = processor, path = path).compile()
+    return prepareCompilation(processor = processor, path = path, kaptArguments = kaptArguments).compile()
 }

@@ -21,9 +21,9 @@ import br.com.zup.beagle.android.compiler.beaglesetupmanage.PropertyImplementati
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.TypeElementImplementationManager
 import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_CLASS_NAME
 import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_METHOD_NAME
-import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.forEachRegisteredDependency
 import br.com.zup.beagle.compiler.shared.implements
+import br.com.zup.beagle.compiler.shared.multipleDefinitionErrorMessage
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -141,10 +141,11 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
         propertySpecificationsElement: TypeElement,
         element: String
     ) {
-        processingEnv.messager?.error(typeElement, "$element defined multiple times: " +
-            "\n$typeElement" +
-            "\n$propertySpecificationsElement" +
-            "\n\nYou must remove one implementation from the application.")
+        processingEnv.messager?.multipleDefinitionErrorMessage(
+            typeElement,
+            propertySpecificationsElement,
+            element
+        )
     }
 
     private fun createListOfPropertySpec(

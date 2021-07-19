@@ -29,6 +29,7 @@ import br.com.zup.beagle.android.compiler.mocks.VALID_LIST_CUSTOM_VALIDATOR
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
@@ -59,7 +60,7 @@ internal class RegisteredCustomValidatorGeneratorTest {
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith(REGISTERED_CUSTOM_VALIDATOR_GENERATED)
+                file.name.startsWith("$REGISTERED_CUSTOM_VALIDATOR_GENERATED.kt")
             }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
             val fileExpectedInString = INTERNAL_SINGLE_CUSTOM_VALIDATOR_GENERATED_EXPECTED
@@ -81,7 +82,7 @@ internal class RegisteredCustomValidatorGeneratorTest {
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith(REGISTERED_CUSTOM_VALIDATOR_GENERATED)
+                file.name.startsWith("$REGISTERED_CUSTOM_VALIDATOR_GENERATED.kt")
             }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
             val fileExpectedInString = INTERNAL_LIST_CUSTOM_VALIDATOR_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
@@ -127,10 +128,58 @@ internal class RegisteredCustomValidatorGeneratorTest {
         }
     }
 
+    @DisplayName("When build application with beagle.generateSetupClasses kapt argument")
+    @Nested
+    inner class KaptArgument {
+
+        @Test
+        @DisplayName("Then should not generate RegisteredCustomValidator class")
+        fun testGenerateRegisteredCustomValidatorClassFalse() {
+            //GIVEN
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_CUSTOM_VALIDATOR + SIMPLE_BEAGLE_CONFIG)
+
+            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to "false")
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath, kaptArguments)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_CUSTOM_VALIDATOR_GENERATED.kt")
+            }
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertNull(file)
+        }
+
+        @Test
+        @DisplayName("Then should generate RegisteredCustomValidator class")
+        fun testGenerateRegisteredCustomValidatorClassTrue() {
+            //GIVEN
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_CUSTOM_VALIDATOR + SIMPLE_BEAGLE_CONFIG)
+
+            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to "true")
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath, kaptArguments)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_CUSTOM_VALIDATOR_GENERATED.kt")
+            }
+
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertNotNull(file)
+        }
+
+    }
+
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
         private const val MESSAGE_INVALID_CUSTOM_ADAPTER_ERROR = "The class br.com.test.beagle.InvalidCustomValidator" +
             " need to inherit from the class Validator when annotate class with @RegisterValidator."
+        private const val KAPT_OPTION_NAME = "beagle.generateSetupClasses"
     }
 }

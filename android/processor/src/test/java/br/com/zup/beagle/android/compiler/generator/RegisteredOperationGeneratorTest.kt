@@ -30,6 +30,7 @@ import br.com.zup.beagle.android.compiler.mocks.VALID_OPERATION
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
@@ -59,7 +60,9 @@ internal class RegisteredOperationGeneratorTest {
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
 
             // THEN
-            val file = compilationResult.generatedFiles.find { file -> file.name.startsWith(REGISTERED_OPERATIONS_GENERATED) }!!
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_OPERATIONS_GENERATED.kt")
+            }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
             val fileExpectedInString = INTERNAL_SINGLE_OPERATION_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
 
@@ -78,7 +81,9 @@ internal class RegisteredOperationGeneratorTest {
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
 
             // THEN
-            val file = compilationResult.generatedFiles.find { file -> file.name.startsWith(REGISTERED_OPERATIONS_GENERATED) }!!
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_OPERATIONS_GENERATED.kt")
+            }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
             val fileExpectedInString = INTERNAL_LIST_OPERATION_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
 
@@ -139,6 +144,53 @@ internal class RegisteredOperationGeneratorTest {
 
     }
 
+    @DisplayName("When build application with beagle.generateSetupClasses kapt argument")
+    @Nested
+    inner class KaptArgument {
+
+        @Test
+        @DisplayName("Then should not generate RegisteredOperations class")
+        fun testGenerateRegisteredOperationsClassFalse() {
+            //GIVEN
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_OPERATION + SIMPLE_BEAGLE_CONFIG)
+
+            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to "false")
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath, kaptArguments)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_OPERATIONS_GENERATED.kt")
+            }
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertNull(file)
+        }
+
+        @Test
+        @DisplayName("Then should generate RegisteredOperations class")
+        fun testGenerateRegisteredOperationsClassTrue() {
+            //GIVEN
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_OPERATION + SIMPLE_BEAGLE_CONFIG)
+
+            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to "true")
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath, kaptArguments)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_OPERATIONS_GENERATED.kt")
+            }
+
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertNotNull(file)
+        }
+
+    }
+
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
@@ -147,6 +199,7 @@ internal class RegisteredOperationGeneratorTest {
         private const val MESSAGE_INVALID_OPERATION_ERROR_THE_SAME_NAME = "The class " +
             "br.com.test.beagle.InvalidOperationTwo need to inherit from " +
             "the class Operation when annotate class with @RegisterOperation."
+        private const val KAPT_OPTION_NAME = "beagle.generateSetupClasses"
     }
 
 }

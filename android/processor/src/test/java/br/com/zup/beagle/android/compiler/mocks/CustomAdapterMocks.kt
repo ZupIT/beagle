@@ -120,3 +120,76 @@ const val INVALID_CUSTOM_ADAPTER_WITH_INHERITANCE =
         class InvalidCustomAdapter : WidgetView { }
     """
 
+const val INTERNAL_SINGLE_CUSTOM_ADAPTER_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredCustomTypeAdapterRegistrarTest {
+          public fun getAdapter(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}br.com.test.beagle.Person::class.java""${'"'},"br.com.test.beagle.PersonAdapter"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_LIST_CUSTOM_ADAPTER_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredCustomTypeAdapterRegistrarTest {
+          public fun getAdapter(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}ParameterizedTypeFactory.new(
+            java.util.List::class.java,
+            ParameterizedTypeFactory.new(
+            java.util.List::class.java,
+            ParameterizedTypeFactory.new(
+            java.util.List::class.java,
+            ParameterizedTypeFactory.new(
+            java.util.List::class.java,
+            br.com.test.beagle.Person::class.java))))""${'"'},"br.com.test.beagle.PersonTwoAdapter"),
+                Pair(""${'"'}br.com.test.beagle.Person::class.java""${'"'},"br.com.test.beagle.PersonAdapter"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_EMPTY_LIST_CUSTOM_ADAPTER_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredCustomTypeAdapterRegistrarTest {
+          public fun getAdapter(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+            )
+            return registeredComponents
+          }
+        }
+    """

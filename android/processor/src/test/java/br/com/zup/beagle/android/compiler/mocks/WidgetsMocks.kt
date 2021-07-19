@@ -103,3 +103,70 @@ const val INTERNAL_SINGLE_WIDGET_GENERATED_EXPECTED: String =
         }
 
     """
+
+const val INTERNAL_LIST_WIDGET_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredWidgetsRegistrarTest {
+          public fun registeredWidgets(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}${'"'}${'"'}${'"'},"br.com.test.beagle.PageIndicatorTest"),
+                Pair(""${'"'}${'"'}${'"'}${'"'},"br.com.test.beagle.TextTest"),
+                Pair(""${'"'}${'"'}${'"'}${'"'},"br.com.test.beagle.InputWidgetTest"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_SINGLE_WIDGET_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredWidgetsRegistrarTest {
+          public fun registeredWidgets(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}${'"'}${'"'}${'"'},"br.com.test.beagle.TextTest"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_EMPTY_WIDGET_LIST_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredWidgetsRegistrarTest {
+          public fun registeredWidgets(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+            )
+            return registeredComponents
+          }
+        }
+    """

@@ -111,3 +111,68 @@ const val INVALID_CUSTOM_VALIDATOR_WITH_INHERITANCE =
         class InvalidCustomValidator : WidgetView { }
     """
 
+const val INTERNAL_SINGLE_CUSTOM_VALIDATOR_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredCustomValidatorRegistrarTest {
+          public fun getValidator(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}text-is-not-blank""${'"'},"br.com.test.beagle.TextNotBlankValidator"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_LIST_CUSTOM_VALIDATOR_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredCustomValidatorRegistrarTest {
+          public fun getValidator(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}text-is-not-blank-two""${'"'},"br.com.test.beagle.TextNotBlankValidatorTwo"),
+                Pair(""${'"'}text-is-not-blank""${'"'},"br.com.test.beagle.TextNotBlankValidator"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_EMPTY_LIST_CUSTOM_VALIDATOR_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredCustomValidatorRegistrarTest {
+          public fun getValidator(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+            )
+            return registeredComponents
+          }
+        }
+    """

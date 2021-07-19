@@ -95,14 +95,10 @@ internal class FormLocalActionHandlerTest {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
         private const val MESSAGE_DUPLICATE_FORM_LOCAL_ACTION_HANDLER =
-            "FormLocalActionHandler defined multiple times: \n" +
-                "public final class FormLocalActionHandlerTest implements " +
-                "br.com.zup.beagle.android.action.FormLocalActionHandler {\n" +
-                "             ^\n" +
-                "  br.com.test.beagle.FormLocalActionHandlerTest\n" +
-                "  br.com.test.beagle.FormLocalActionHandlerTestTwo\n" +
-                "  \n" +
-                "  You must remove one implementation from the application."
+            "error: FormLocalActionHandler defined multiple times: " +
+                "1 - br.com.test.beagle.FormLocalActionHandlerTest " +
+                "2 - br.com.test.beagle.FormLocalActionHandlerTestTwo. " +
+                "You must remove one implementation from the application."
     }
 
 }

@@ -97,3 +97,69 @@ const val INVALID_OPERATION_WITH_INHERITANCE =
         @RegisterOperation("testTwo")
         class InvalidOperation : WidgetView { }
     """
+
+const val INTERNAL_SINGLE_OPERATION_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredOperationsRegistrarTest {
+          public fun registeredOperations(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}OperationTestName""${'"'},"br.com.test.beagle.OperationTest"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_LIST_OPERATION_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredOperationsRegistrarTest {
+          public fun registeredOperations(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}OperationTwoTestName""${'"'},"br.com.test.beagle.OperationTwoTest"),
+                Pair(""${'"'}OperationTestName""${'"'},"br.com.test.beagle.OperationTest"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_EMPTY_LIST_OPERATION_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredOperationsRegistrarTest {
+          public fun registeredOperations(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+            )
+            return registeredComponents
+          }
+        }
+    """

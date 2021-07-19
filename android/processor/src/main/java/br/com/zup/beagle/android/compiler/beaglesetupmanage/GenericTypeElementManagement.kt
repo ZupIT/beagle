@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.compiler.beaglesetupmanage
 
-import br.com.zup.beagle.compiler.shared.error
+import br.com.zup.beagle.compiler.shared.multipleDefinitionErrorMessage
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.TypeElement
 
@@ -24,7 +24,7 @@ internal class GenericTypeElementManagement(
     private val processingEnv: ProcessingEnvironment,
     private val typeElement: TypeElement) {
 
-    internal fun manageTypeElement(propertySpecificationsElement: TypeElement?, element: String): TypeElement? {
+    internal fun manageTypeElement(propertySpecificationsElement: TypeElement?, element: String): TypeElement {
         if (propertySpecificationsElement == null) {
             return typeElement
         } else {
@@ -39,9 +39,10 @@ internal class GenericTypeElementManagement(
         propertySpecificationsElement: TypeElement,
         element: String
     ) {
-        processingEnv.messager?.error(typeElement, "$element defined multiple times: " +
-            "\n$typeElement" +
-            "\n$propertySpecificationsElement" +
-            "\n\nYou must remove one implementation from the application.")
+        processingEnv.messager?.multipleDefinitionErrorMessage(
+            typeElement,
+            propertySpecificationsElement,
+            element
+        )
     }
 }

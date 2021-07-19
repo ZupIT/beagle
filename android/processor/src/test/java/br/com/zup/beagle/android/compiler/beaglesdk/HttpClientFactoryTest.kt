@@ -19,10 +19,11 @@ package br.com.zup.beagle.android.compiler.beaglesdk
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_SETUP_GENERATED
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
-import br.com.zup.beagle.android.compiler.mocks.LIST_OF_IMAGE_DOWNLOAD
+import br.com.zup.beagle.android.compiler.mocks.LIST_OF_HTTP_CLIENT_FACTORY
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
-import br.com.zup.beagle.android.compiler.mocks.VALID_IMAGE_DOWNLOAD
-import br.com.zup.beagle.android.compiler.mocks.VALID_IMAGE_DOWNLOADER_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_HTTP_CLIENT_FACTORY
+import br.com.zup.beagle.android.compiler.mocks.VALID_HTTP_CLIENT_FACTORY_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_SECOND_HTTP_CLIENT
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
@@ -35,21 +36,22 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class BeagleImageDownloaderTest {
+internal class HttpClientFactoryTest {
 
     @TempDir
     lateinit var tempPath: Path
 
-    @DisplayName("When register image downloader")
+    @DisplayName("When register http client factory")
     @Nested
-    inner class Image {
+    inner class RegisterHttpClientFactory {
 
         @Test
-        @DisplayName("Then should add the image downloader in beagle sdk")
-        fun testGenerateImageDownloaderCorrect() {
+        @DisplayName("Then should add the http client factory in beagle sdk")
+        fun testGenerateHttpClientFactoryCorrect() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_IMAGE_DOWNLOAD + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_HTTP_CLIENT_FACTORY + VALID_SECOND_HTTP_CLIENT +
+                SIMPLE_BEAGLE_CONFIG)
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -60,7 +62,7 @@ internal class BeagleImageDownloaderTest {
             }!!
 
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = VALID_IMAGE_DOWNLOADER_BEAGLE_SDK
+            val fileExpectedInString = VALID_HTTP_CLIENT_FACTORY_BEAGLE_SDK
                 .replace(REGEX_REMOVE_SPACE, "")
 
             assertEquals(fileExpectedInString, fileGeneratedInString)
@@ -70,16 +72,18 @@ internal class BeagleImageDownloaderTest {
     }
 
 
-    @DisplayName("When register image downloader")
+    @DisplayName("When register http client factory")
     @Nested
-    inner class InvalidImageDownloader {
+    inner class InvalidHttpClientFactory {
 
         @Test
-        @DisplayName("Then should show error with duplicate image downloader")
+        @DisplayName("Then should show error with duplicate http client factory")
         fun testDuplicate() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + LIST_OF_IMAGE_DOWNLOAD + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME, BEAGLE_CONFIG_IMPORTS + LIST_OF_HTTP_CLIENT_FACTORY + VALID_SECOND_HTTP_CLIENT
+                + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -87,7 +91,7 @@ internal class BeagleImageDownloaderTest {
 
             // THEN
             assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
-            Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_IMAGE_DOWNLOADER))
+            Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_HTTP_CLIENT_FACTORY))
         }
 
     }
@@ -95,11 +99,10 @@ internal class BeagleImageDownloaderTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_IMAGE_DOWNLOADER =
-            "error: BeagleImageDownloader defined multiple times: " +
-                "1 - br.com.test.beagle.ImageDownloaderTestTwo " +
-                "2 - br.com.test.beagle.ImageDownloaderTest. " +
-                "You must remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_HTTP_CLIENT_FACTORY = "error: HttpClientFactory defined multiple times: " +
+            "1 - br.com.test.beagle.HttpClientFactoryTestTwo " +
+            "2 - br.com.test.beagle.HttpClientFactoryTest. " +
+            "You must remove one implementation from the application."
     }
 
 }

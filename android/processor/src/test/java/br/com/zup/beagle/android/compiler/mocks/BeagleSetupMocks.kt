@@ -91,7 +91,11 @@ const val COMPLETE_BEAGLE_CUSTOM_CLASS =
         class HttpClientTest: HttpClient { }
         
         @BeagleComponent
-        class HttpClientFactoryTest: HttpClientFactory { }
+        class HttpClientFactoryTest: HttpClientFactory {
+         override fun create(): HttpClient {
+                return HttpClientTest()
+            }
+        }
         
         @BeagleComponent
         class ImageDownloaderTest: BeagleImageDownloader { }

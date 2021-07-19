@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.compiler.generator
+package br.com.zup.beagle.android.compiler.registrar
 
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.generatefunction.REGISTERED_CONTROLLERS_GENERATED
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.DEFAULT_IMPORTS
-import br.com.zup.beagle.android.compiler.mocks.INTERNAL_DEFAULT_CONTROLLER_GENERATED_EXPECTED
-import br.com.zup.beagle.android.compiler.mocks.INTERNAL_LIST_CONTROLLER_GENERATED_EXPECTED
-import br.com.zup.beagle.android.compiler.mocks.INTERNAL_SINGLE_CONTROLLER_GENERATED_EXPECTED
-import br.com.zup.beagle.android.compiler.mocks.INTERNAL_UNDEFINED_DEFAULT_CONTROLLER_GENERATED_EXPECTED
+import br.com.zup.beagle.android.compiler.mocks.INTERNAL_CONTROLLER_REGISTRAR_DEFAULT_CONTROLLER_EXPECTED
+import br.com.zup.beagle.android.compiler.mocks.INTERNAL_CONTROLLER_REGISTRAR_LIST_CONTROLLER_EXPECTED
+import br.com.zup.beagle.android.compiler.mocks.INTERNAL_CONTROLLER_REGISTRAR_SINGLE_CONTROLLER_EXPECTED
+import br.com.zup.beagle.android.compiler.mocks.INTERNAL_CONTROLLER_REGISTRAR_UNDEFINED_DEFAULT_CONTROLLER_EXPECTED
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_CONTROLLER
 import br.com.zup.beagle.android.compiler.mocks.VALID_DEFAULT_CONTROLLER
@@ -32,18 +32,16 @@ import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.io.TempDir
-import java.nio.file.Path
+import org.junit.jupiter.api.TestInstance
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class RegisteredControllerGeneratorTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+internal class ControllerRegistrarGeneratorTest : RegistrarGeneratorBaseTest() {
 
-    @TempDir
-    lateinit var tempPath: Path
+    private val registrarClassName = "$REGISTERED_CONTROLLERS_GENERATED$REGISTRAR_SUFFIX"
 
     @DisplayName("When register controllers")
     @Nested
@@ -61,15 +59,15 @@ internal class RegisteredControllerGeneratorTest {
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith("$REGISTERED_CONTROLLERS_GENERATED.kt")
+                file.name.startsWith(registrarClassName)
             }!!
 
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_SINGLE_CONTROLLER_GENERATED_EXPECTED
+            val fileExpectedInString = INTERNAL_CONTROLLER_REGISTRAR_SINGLE_CONTROLLER_EXPECTED
                 .replace(REGEX_REMOVE_SPACE, "")
 
-            assertEquals(fileExpectedInString, fileGeneratedInString)
-            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertEquals(fileExpectedInString, fileGeneratedInString)
+            Assertions.assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
         }
 
         @Test
@@ -84,15 +82,15 @@ internal class RegisteredControllerGeneratorTest {
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith("$REGISTERED_CONTROLLERS_GENERATED.kt")
+                file.name.startsWith(registrarClassName)
             }!!
 
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_DEFAULT_CONTROLLER_GENERATED_EXPECTED
+            val fileExpectedInString = INTERNAL_CONTROLLER_REGISTRAR_DEFAULT_CONTROLLER_EXPECTED
                 .replace(REGEX_REMOVE_SPACE, "")
 
-            assertEquals(fileExpectedInString, fileGeneratedInString)
-            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertEquals(fileExpectedInString, fileGeneratedInString)
+            Assertions.assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
         }
 
         @Test
@@ -107,15 +105,15 @@ internal class RegisteredControllerGeneratorTest {
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith("$REGISTERED_CONTROLLERS_GENERATED.kt")
+                file.name.startsWith(registrarClassName)
             }!!
 
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_UNDEFINED_DEFAULT_CONTROLLER_GENERATED_EXPECTED
+            val fileExpectedInString = INTERNAL_CONTROLLER_REGISTRAR_UNDEFINED_DEFAULT_CONTROLLER_EXPECTED
                 .replace(REGEX_REMOVE_SPACE, "")
 
-            assertEquals(fileExpectedInString, fileGeneratedInString)
-            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertEquals(fileExpectedInString, fileGeneratedInString)
+            Assertions.assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
         }
 
         @Test
@@ -130,70 +128,45 @@ internal class RegisteredControllerGeneratorTest {
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith("$REGISTERED_CONTROLLERS_GENERATED.kt")
+                file.name.startsWith(registrarClassName)
             }!!
 
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_LIST_CONTROLLER_GENERATED_EXPECTED
+            val fileExpectedInString = INTERNAL_CONTROLLER_REGISTRAR_LIST_CONTROLLER_EXPECTED
                 .replace(REGEX_REMOVE_SPACE, "")
 
-            assertEquals(fileExpectedInString, fileGeneratedInString)
-            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertEquals(fileExpectedInString, fileGeneratedInString)
+            Assertions.assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
         }
-
     }
 
-    @DisplayName("When build application with beagle.generateSetupClasses kapt argument")
+    @DisplayName("When build application with beagle.moduleName kapt argument")
     @Nested
     inner class KaptArgument {
 
         @Test
-        @DisplayName("Then should not generate RegisteredControllers class")
-        fun testGenerateRegisteredCustomTypeAdapterClassFalse() {
+        @DisplayName("Then should generate RegisteredControllersRegistrar class name with correct suffix")
+        fun testGenerateClassNameWithCorrectSuffix() {
             //GIVEN
             val kotlinSource = SourceFile.kotlin(
                 FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_DEFAULT_CONTROLLER + SIMPLE_BEAGLE_CONFIG)
 
-            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to "false")
+            val testModuleName = "MyTestModule"
+
+            val expectedRegistrarClassName = "${REGISTERED_CONTROLLERS_GENERATED}Registrar$testModuleName.kt"
+
+            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to testModuleName)
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath, kaptArguments)
 
             // THEN
             val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith("$REGISTERED_CONTROLLERS_GENERATED.kt")
+                file.name.startsWith(expectedRegistrarClassName)
             }
-            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
-            Assertions.assertNull(file)
-        }
-
-        @Test
-        @DisplayName("Then should generate RegisteredControllers class")
-        fun testGenerateRegisteredCustomTypeAdapterClassTrue() {
-            //GIVEN
-            val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_DEFAULT_CONTROLLER + SIMPLE_BEAGLE_CONFIG)
-
-            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to "true")
-
-            // WHEN
-            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath, kaptArguments)
-
-            // THEN
-            val file = compilationResult.generatedFiles.find { file ->
-                file.name.startsWith("$REGISTERED_CONTROLLERS_GENERATED.kt")
-            }
-
-            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
             Assertions.assertNotNull(file)
         }
-
-    }
-
-    companion object {
-        private const val FILE_NAME = "File1.kt"
-        private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val KAPT_OPTION_NAME = "beagle.generateSetupClasses"
     }
 
 }

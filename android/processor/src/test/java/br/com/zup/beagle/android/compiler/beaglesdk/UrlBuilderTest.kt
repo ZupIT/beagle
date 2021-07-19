@@ -95,14 +95,10 @@ internal class UrlBuilderTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_URL_BUILDER = "UrlBuilder defined multiple times: \n" +
-            "public final class UrlBuilderTestTwo implements " +
-            "br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder {\n" +
-            "             ^\n" +
-            "  br.com.test.beagle.UrlBuilderTestTwo\n" +
-            "  br.com.test.beagle.UrlBuilderTest\n" +
-            "  \n" +
-            "  You must remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_URL_BUILDER = "error: UrlBuilder defined multiple times: " +
+            "1 - br.com.test.beagle.UrlBuilderTestTwo " +
+            "2 - br.com.test.beagle.UrlBuilderTest. " +
+            "You must remove one implementation from the application."
     }
 
 }
