@@ -56,8 +56,8 @@ jobs:
           restore-keys: ${{ runner.os }}-build-${{ env.gradle-cache-key }}
 
       - name: Build test BFF image
-        working-directory: backend
-        run: ./gradlew --build-cache automatedTests:bootBuildImage --imageName="$BFF_NAME"
+        working-directory: tests/bff-server
+        run: ./gradlew --build-cache bff:bootBuildImage --imageName="$BFF_NAME"
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v1
