@@ -14,17 +14,11 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
+package br.com.zup.beagle.android.compiler
 
-apply plugin: 'kotlin'
-apply from: "$rootDir/../jacoco.gradle"
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-dependencies {
-    implementation Dependencies.ProcessorLibraries.kotlinPoet
-    implementation project(Dependencies.Modules.androidAnnotation)
-}
-
-apply from: new File('./../../maven-publish.gradle')
+const val REGISTRAR_COMPONENTS_PACKAGE = "br.com.zup.beagle.android.registrar"
+const val PROPERTIES_REGISTRAR_CLASS_NAME = "PropertiesRegistrar"
+const val PROPERTIES_REGISTRAR_METHOD_NAME = "registeredProperties"
+const val PROPERTIES_REGISTRAR_PROPERTY_NAME = "registeredProperties"
+const val KAPT_BEAGLE_MODULE_NAME_OPTION_NAME = "beagle.moduleName"
+const val KAPT_BEAGLE_GENERATE_SETUP_OPTION_NAME = "beagle.generateSetupClasses"

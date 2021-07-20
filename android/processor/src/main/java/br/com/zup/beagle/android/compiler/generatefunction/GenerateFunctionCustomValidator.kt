@@ -19,6 +19,9 @@ package br.com.zup.beagle.android.compiler.generatefunction
 import br.com.zup.beagle.android.annotation.RegisterValidator
 import br.com.zup.beagle.android.compiler.VALIDATOR
 import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
+import br.com.zup.beagle.compiler.shared.RegisteredComponentFullName
+import br.com.zup.beagle.compiler.shared.RegisteredComponentId
+import br.com.zup.beagle.compiler.shared.RegistrarComponentsProvider
 import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.implementsInterface
 import com.squareup.kotlinpoet.ClassName
@@ -30,12 +33,15 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionCustomValidator(processingEnv: ProcessingEnvironment) :
-    BeagleGeneratorFunction<RegisterValidator>(
-        processingEnv,
-        REGISTERED_CUSTOM_VALIDATOR,
-        RegisterValidator::class.java
-    ) {
+class GenerateFunctionCustomValidator(
+    processingEnv: ProcessingEnvironment,
+    registrarComponentsProvider: RegistrarComponentsProvider? = null
+) : BeagleGeneratorFunction<RegisterValidator>(
+    processingEnv,
+    REGISTERED_CUSTOM_VALIDATOR,
+    RegisterValidator::class.java,
+    registrarComponentsProvider
+) {
 
     private var allCodeMappedWithAnnotation = ""
 
@@ -81,7 +87,9 @@ class GenerateFunctionCustomValidator(processingEnv: ProcessingEnvironment) :
         const val REGISTERED_CUSTOM_VALIDATOR_SUFFIX = "() as Validator<Any, Any>"
     }
 
-    override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
+    override fun buildCodeByDependency(
+        registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    ): String {
         return buildCode(registeredDependency.first, registeredDependency.second)
     }
 

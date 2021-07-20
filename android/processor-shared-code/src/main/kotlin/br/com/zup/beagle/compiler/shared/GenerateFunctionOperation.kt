@@ -25,11 +25,14 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionOperation(processingEnv: ProcessingEnvironment)
-    : BeagleGeneratorFunction<RegisterOperation>(
+class GenerateFunctionOperation(
+    processingEnv: ProcessingEnvironment,
+    registrarComponentsProvider: RegistrarComponentsProvider? = null
+) : BeagleGeneratorFunction<RegisterOperation>(
     processingEnv,
     REGISTERED_OPERATIONS,
-    RegisterOperation::class.java
+    RegisterOperation::class.java,
+    registrarComponentsProvider
 ) {
 
     private val temporaryListOfNames = mutableListOf<String>()
@@ -84,7 +87,9 @@ class GenerateFunctionOperation(processingEnv: ProcessingEnvironment)
         const val REGISTERED_OPERATIONS = "registeredOperations"
     }
 
-    override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
+    override fun buildCodeByDependency(
+        registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    ): String {
         return buildCode(registeredDependency.first, registeredDependency.second)
     }
 

@@ -25,11 +25,14 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionWidget(processingEnv: ProcessingEnvironment)
-    : BeagleGeneratorFunction<RegisterWidget>(
+class GenerateFunctionWidget(
+    processingEnv: ProcessingEnvironment,
+    registrarComponentsProvider: RegistrarComponentsProvider? = null
+) : BeagleGeneratorFunction<RegisterWidget>(
     processingEnv,
     REGISTERED_WIDGETS,
-    RegisterWidget::class.java
+    RegisterWidget::class.java,
+    registrarComponentsProvider
 ) {
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
@@ -76,7 +79,9 @@ class GenerateFunctionWidget(processingEnv: ProcessingEnvironment)
         const val REGISTERED_WIDGETS_SUFFIX = "::class.java as Class<WidgetView>"
     }
 
-    override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
+    override fun buildCodeByDependency(
+        registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    ): String {
         return buildCode(registeredDependency.second)
     }
 

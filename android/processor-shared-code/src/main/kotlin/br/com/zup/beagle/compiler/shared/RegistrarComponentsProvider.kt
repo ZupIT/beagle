@@ -16,9 +16,15 @@
 
 package br.com.zup.beagle.compiler.shared
 
-const val REGISTRAR_COMPONENTS_PACKAGE = "br.com.zup.beagle.android.registrar"
-const val PROPERTIES_REGISTRAR_CLASS_NAME = "PropertiesRegistrar"
-const val PROPERTIES_REGISTRAR_METHOD_NAME = "registeredProperties"
-const val PROPERTIES_REGISTRAR_PROPERTY_NAME = "registeredProperties"
-const val KAPT_BEAGLE_MODULE_NAME_OPTION_NAME = "beagle.moduleName"
-const val KAPT_BEAGLE_GENERATE_SETUP_OPTION_NAME = "beagle.generateSetupClasses"
+import javax.annotation.processing.ProcessingEnvironment
+
+typealias RegisteredComponentId = String
+typealias RegisteredComponentFullName = String
+
+abstract class RegistrarComponentsProvider {
+    abstract fun getRegisteredComponentsInDependencies(
+        processingEnv: ProcessingEnvironment,
+        className: String,
+        methodName: String
+    ): List<Pair<RegisteredComponentId, RegisteredComponentFullName>>
+}

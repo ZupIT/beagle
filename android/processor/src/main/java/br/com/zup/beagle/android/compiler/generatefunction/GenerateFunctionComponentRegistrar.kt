@@ -17,6 +17,8 @@
 package br.com.zup.beagle.android.compiler.generatefunction
 
 import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
+import br.com.zup.beagle.compiler.shared.RegisteredComponentFullName
+import br.com.zup.beagle.compiler.shared.RegisteredComponentId
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -78,5 +80,7 @@ class GenerateFunctionComponentRegistrar<T : Annotation>(
     override fun validationElement(element: Element, annotation: Annotation) {
     }
 
-    override fun buildCodeByDependency(registeredDependency: Pair<String, String>) = ""
+    override fun buildCodeByDependency(
+        registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    ) = ""
 }

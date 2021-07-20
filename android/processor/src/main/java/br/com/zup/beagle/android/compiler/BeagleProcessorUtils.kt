@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
+package br.com.zup.beagle.android.compiler
 
-apply plugin: 'kotlin'
-apply from: "$rootDir/../jacoco.gradle"
+import javax.annotation.processing.ProcessingEnvironment
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-dependencies {
-    implementation Dependencies.ProcessorLibraries.kotlinPoet
-    implementation project(Dependencies.Modules.androidAnnotation)
+fun beagleClassesGenerationDisabled(processingEnv: ProcessingEnvironment): Boolean {
+    return processingEnv.options.getOrDefault(KAPT_BEAGLE_GENERATE_SETUP_OPTION_NAME, "") == "false"
 }
-
-apply from: new File('./../../maven-publish.gradle')

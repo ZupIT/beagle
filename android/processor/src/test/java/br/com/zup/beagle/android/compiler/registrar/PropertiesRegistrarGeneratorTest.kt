@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.android.compiler.registrar
 
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_CLASS_NAME
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_PROPERTIES_SOURCE
 import br.com.zup.beagle.android.compiler.mocks.INTERNAL_PROPERTIES_REGISTRAR_EXPECTED
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
-import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_CLASS_NAME
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import org.junit.jupiter.api.Assertions

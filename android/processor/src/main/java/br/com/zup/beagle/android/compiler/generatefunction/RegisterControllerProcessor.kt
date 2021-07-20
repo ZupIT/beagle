@@ -20,8 +20,8 @@ import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.android.compiler.BEAGLE_ACTIVITY
 import br.com.zup.beagle.android.compiler.CONTROLLER_REFERENCE
 import br.com.zup.beagle.android.compiler.DEFAULT_BEAGLE_ACTIVITY
+import br.com.zup.beagle.android.compiler.DependenciesRegistrarComponentsProvider
 import br.com.zup.beagle.compiler.shared.error
-import br.com.zup.beagle.compiler.shared.forEachRegisteredDependency
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
@@ -152,28 +152,32 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
 
     private fun getRegisteredControllersInDependencies(): java.lang.StringBuilder {
         val registeredWidgets = StringBuilder()
-        forEachRegisteredDependency(
-            processingEnv,
-            REGISTERED_CONTROLLERS_GENERATED,
-            REGISTERED_CONTROLLERS
-        ) { registeredDependency ->
-            if (defaultActivityRegistered.isNotEmpty() && registeredDependency.first.isEmpty()) {
-                processingEnv.messager?.error("Default controller defined multiple times: " +
-                    "\n${defaultActivityRegistered.substringBefore(CONTROLLER_DEFINITION_SUFFIX)}" +
-                    "\n${registeredDependency.second}" +
-                    "\n\nYou must remove one implementation from the application.")
-            }
 
-            if (registeredDependency.first.isEmpty()) {
-                defaultActivityRegistered = "${registeredDependency.second}$CONTROLLER_DEFINITION_SUFFIX"
-            } else {
-                registeredWidgets
-                    .append(
-                        "\n    \"${registeredDependency.first}\" -> " +
-                            "${registeredDependency.second}$CONTROLLER_DEFINITION_SUFFIX"
-                    )
+        DependenciesRegistrarComponentsProvider()
+            .getRegisteredComponentsInDependencies(
+                processingEnv,
+                REGISTERED_CONTROLLERS_GENERATED,
+                REGISTERED_CONTROLLERS
+            )
+            .forEach { registeredDependency ->
+                if (defaultActivityRegistered.isNotEmpty() && registeredDependency.first.isEmpty()) {
+                    processingEnv.messager?.error("Default controller defined multiple times: " +
+                        "\n${defaultActivityRegistered.substringBefore(CONTROLLER_DEFINITION_SUFFIX)}" +
+                        "\n${registeredDependency.second}" +
+                        "\n\nYou must remove one implementation from the application.")
+                }
+
+                if (registeredDependency.first.isEmpty()) {
+                    defaultActivityRegistered = "${registeredDependency.second}$CONTROLLER_DEFINITION_SUFFIX"
+                } else {
+                    registeredWidgets
+                        .append(
+                            "\n    \"${registeredDependency.first}\" -> " +
+                                "${registeredDependency.second}$CONTROLLER_DEFINITION_SUFFIX"
+                        )
+                }
+
             }
-        }
         return registeredWidgets
     }
 }

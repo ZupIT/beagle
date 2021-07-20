@@ -19,6 +19,9 @@ package br.com.zup.beagle.android.compiler.generatefunction
 import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.android.compiler.BEAGLE_CUSTOM_ADAPTER
 import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
+import br.com.zup.beagle.compiler.shared.RegisteredComponentFullName
+import br.com.zup.beagle.compiler.shared.RegisteredComponentId
+import br.com.zup.beagle.compiler.shared.RegistrarComponentsProvider
 import br.com.zup.beagle.compiler.shared.elementType
 import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.ClassName
@@ -36,12 +39,15 @@ import javax.lang.model.type.DeclaredType
 import javax.lang.model.type.TypeMirror
 import javax.lang.model.type.WildcardType
 
-class GenerateFunctionCustomAdapter(processingEnv: ProcessingEnvironment) :
-    BeagleGeneratorFunction<RegisterBeagleAdapter>(
-        processingEnv,
-        REGISTERED_CUSTOM_ADAPTER,
-        RegisterBeagleAdapter::class.java
-    ) {
+class GenerateFunctionCustomAdapter(
+    processingEnv: ProcessingEnvironment,
+    registrarComponentsProvider: RegistrarComponentsProvider? = null
+) : BeagleGeneratorFunction<RegisterBeagleAdapter>(
+    processingEnv,
+    REGISTERED_CUSTOM_ADAPTER,
+    RegisterBeagleAdapter::class.java,
+    registrarComponentsProvider
+) {
 
     private var allCodeMappedWithAnnotation = ""
 
@@ -170,7 +176,9 @@ class GenerateFunctionCustomAdapter(processingEnv: ProcessingEnvironment) :
         }
     }
 
-    override fun buildCodeByDependency(registeredDependency: Pair<String, String>): String {
+    override fun buildCodeByDependency(
+        registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    ): String {
         return "${registeredDependency.first} -> ${registeredDependency.second}() " +
             "as $BEAGLE_TYPE_ADAPTER_INTERFACE$BREAK_LINE"
     }

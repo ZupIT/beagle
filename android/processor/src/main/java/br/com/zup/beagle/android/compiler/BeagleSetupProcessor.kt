@@ -32,11 +32,7 @@ import br.com.zup.beagle.compiler.shared.ANDROID_OPERATION
 import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation
 import br.com.zup.beagle.compiler.shared.GenerateFunctionWidget
 import br.com.zup.beagle.compiler.shared.GenericFactoryProcessor
-import br.com.zup.beagle.compiler.shared.KAPT_BEAGLE_MODULE_NAME_OPTION_NAME
-import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_CLASS_NAME
-import br.com.zup.beagle.compiler.shared.REGISTRAR_COMPONENTS_PACKAGE
 import br.com.zup.beagle.compiler.shared.WIDGET_VIEW
-import br.com.zup.beagle.compiler.shared.beagleClassesGenerationDisabled
 import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
@@ -73,7 +69,10 @@ internal data class BeagleSetupProcessor(
     private val widgetFactoryProcessor = GenericFactoryProcessor(
         processingEnv,
         REGISTERED_WIDGETS_GENERATED,
-        GenerateFunctionWidget(processingEnv)
+        GenerateFunctionWidget(
+            processingEnv,
+            DependenciesRegistrarComponentsProvider()
+        )
     )
 
     private val operationRegistrarFactoryProcessor = GenericFactoryProcessor(
@@ -91,7 +90,10 @@ internal data class BeagleSetupProcessor(
     private val operationFactoryProcessor = GenericFactoryProcessor(
         processingEnv,
         REGISTERED_OPERATIONS_GENERATED,
-        GenerateFunctionOperation(processingEnv)
+        GenerateFunctionOperation(
+            processingEnv,
+            DependenciesRegistrarComponentsProvider()
+        )
     )
 
     private val actionRegistrarFactoryProcessor = GenericFactoryProcessor(
@@ -107,7 +109,10 @@ internal data class BeagleSetupProcessor(
     private val actionFactoryProcessor = GenericFactoryProcessor(
         processingEnv,
         REGISTERED_ACTIONS_GENERATED,
-        GenerateFunctionAction(processingEnv)
+        GenerateFunctionAction(
+            processingEnv,
+            DependenciesRegistrarComponentsProvider()
+        )
     )
 
     private val controllerRegistrarFactoryProcessor = GenericFactoryProcessor(
@@ -141,7 +146,10 @@ internal data class BeagleSetupProcessor(
     private val customAdapterFactoryProcessor = GenericFactoryProcessor(
         processingEnv,
         REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED,
-        GenerateFunctionCustomAdapter(processingEnv)
+        GenerateFunctionCustomAdapter(
+            processingEnv,
+            DependenciesRegistrarComponentsProvider()
+        )
     )
 
     private val customValidatorRegistrarFactoryProcessor = GenericFactoryProcessor(
@@ -159,7 +167,10 @@ internal data class BeagleSetupProcessor(
     private val customValidatorFactoryProcessor = GenericFactoryProcessor(
         processingEnv,
         REGISTERED_CUSTOM_VALIDATOR_GENERATED,
-        GenerateFunctionCustomValidator(processingEnv)
+        GenerateFunctionCustomValidator(
+            processingEnv,
+            DependenciesRegistrarComponentsProvider()
+        )
     )
 
     private fun getModuleName(): String {

@@ -38,6 +38,8 @@ dependencies {
     implementation project(Dependencies.Modules.commonProcessorSharedCode)
     implementation project(Dependencies.Modules.androidAnnotation)
 
+    implementation Dependencies.GeneralLibraries.kotlinReflect
+
     implementation Dependencies.ProcessorLibraries.incap
     kapt Dependencies.ProcessorLibraries.incapPrcessor
 

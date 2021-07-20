@@ -25,11 +25,14 @@ abstract class BeagleGeneratorFunction<T : Annotation>(
     protected val processingEnv: ProcessingEnvironment,
     private val functionName: String,
     private val annotation: Class<T>,
+    private val registrarComponentsProvider: RegistrarComponentsProvider? = null
 ) {
 
     abstract fun buildCodeByElement(element: Element, annotation: Annotation): String
 
-    abstract fun buildCodeByDependency(registeredDependency: Pair<String, String>): String
+    abstract fun buildCodeByDependency(
+        registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    ): String
 
     abstract fun validationElement(element: Element, annotation: Annotation)
 
@@ -50,13 +53,15 @@ abstract class BeagleGeneratorFunction<T : Annotation>(
 
     private fun getRegisteredComponentsInDependencies(className: String): StringBuilder {
         val registeredWidgets = StringBuilder()
-        forEachRegisteredDependency(
-            processingEnv,
-            className,
-            functionName
-        ) { registeredDependency ->
-            registeredWidgets.append(buildCodeByDependency(registeredDependency))
-        }
+        registrarComponentsProvider
+            ?.getRegisteredComponentsInDependencies(
+                processingEnv,
+                className,
+                functionName
+            )
+            ?.forEach { registeredDependency ->
+                registeredWidgets.append(buildCodeByDependency(registeredDependency))
+            }
 
         return registeredWidgets
     }

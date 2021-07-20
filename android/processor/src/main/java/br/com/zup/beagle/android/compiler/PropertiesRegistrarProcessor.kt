@@ -16,9 +16,6 @@
 
 package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_METHOD_NAME
-import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_PROPERTY_NAME
-import br.com.zup.beagle.compiler.shared.REGISTRAR_COMPONENTS_PACKAGE
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
@@ -42,7 +39,7 @@ class PropertiesRegistrarProcessor {
             className
         )
 
-        val funSpec = createFuncSpec(PROPERTIES_REGISTRAR_METHOD_NAME)
+        val funSpec = createFuncSpec()
             .addCode(getCodeFormatted(registeredProperties(properties)))
             .addStatement(createReturnStatement())
             .build()
@@ -63,7 +60,7 @@ class PropertiesRegistrarProcessor {
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
     }
 
-    private fun createFuncSpec(name: String): FunSpec.Builder {
+    private fun createFuncSpec(): FunSpec.Builder {
         val listReturnType = List::class.asClassName().parameterizedBy(
             Pair::class.asClassName().parameterizedBy(
                 ClassName("kotlin", "String"),
@@ -71,7 +68,7 @@ class PropertiesRegistrarProcessor {
             )
         )
 
-        return FunSpec.builder(name)
+        return FunSpec.builder(PROPERTIES_REGISTRAR_METHOD_NAME)
             .returns(listReturnType)
     }
 

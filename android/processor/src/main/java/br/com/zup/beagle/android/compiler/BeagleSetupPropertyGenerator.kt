@@ -19,9 +19,6 @@ package br.com.zup.beagle.android.compiler
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.PropertyImplementationManager
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.TypeElementImplementationManager
-import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_CLASS_NAME
-import br.com.zup.beagle.compiler.shared.PROPERTIES_REGISTRAR_METHOD_NAME
-import br.com.zup.beagle.compiler.shared.forEachRegisteredDependency
 import br.com.zup.beagle.compiler.shared.implements
 import br.com.zup.beagle.compiler.shared.multipleDefinitionErrorMessage
 import com.squareup.kotlinpoet.ClassName
@@ -43,24 +40,27 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
 
         // Get properties possibly registered in dependency modules
         if (!onlyPropertiesRegisteredInsideModule) {
-            forEachRegisteredDependency(
-                processingEnv,
-                PROPERTIES_REGISTRAR_CLASS_NAME,
-                PROPERTIES_REGISTRAR_METHOD_NAME
-            ) { registeredDependency ->
-                var typeElement =
-                    processingEnv
-                        .elementUtils.getTypeElement(registeredDependency.second.removeSuffix("()"))
 
-                if (typeElement == null) {
-                    typeElement =
+            DependenciesRegistrarComponentsProvider()
+                .getRegisteredComponentsInDependencies(
+                    processingEnv,
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME
+                )
+                .forEach { registeredDependency ->
+                    var typeElement =
                         processingEnv
-                            .elementUtils.getTypeElement(registeredDependency.second.substringBefore("::"))
-                }
+                            .elementUtils.getTypeElement(registeredDependency.second.removeSuffix("()"))
 
-                checkIfHandlersExists(typeElement, propertySpecifications)
-                checkIfOtherAttributesExists(typeElement, propertySpecifications)
-            }
+                    if (typeElement == null) {
+                        typeElement =
+                            processingEnv
+                                .elementUtils.getTypeElement(registeredDependency.second.substringBefore("::"))
+                    }
+
+                    checkIfHandlersExists(typeElement, propertySpecifications)
+                    checkIfOtherAttributesExists(typeElement, propertySpecifications)
+                }
         }
 
         // Get properties registered in current module
