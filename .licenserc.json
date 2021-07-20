@@ -1,5 +1,7 @@
 {
-    "**/*.{yml,yaml,java,kotlin,swift,dart,cpp,c,js,ts,properties,gradle,sh,podspec}": ["ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA",
+    "**/*.{yml,yaml,java,kotlin,swift,dart,cpp,c,js,ts,properties,gradle,sh,podspec}": [
+      "Copyright",
+      "ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA",
       "Licensed under the Apache License, Version 2.0"
       ]
 }
