@@ -12,7 +12,7 @@
 
 | Backend        | Android                      | iOS                                | License                            | PRs                                |
 |-----------     | -----------------------------| ---------------------------------- | ---------------------------------- | ---------------------------------- |
-| [![Coverage Backend](https://sonarcloud.io/api/project_badges/measure?project=ZupIT_beagle_backend&metric=coverage)](https://sonarcloud.io/dashboard?id=ZupIT_beagle_backend) | [![Coverage Android](https://sonarcloud.io/api/project_badges/measure?project=ZupIT_beagle_android&metric=coverage)](https://sonarcloud.io/dashboard?id=ZupIT_beagle_android) | [![Coverage iOS](https://sonarcloud.io/api/project_badges/measure?project=ZupIT_beagle_ios&metric=coverage)](https://sonarcloud.io/dashboard?id=ZupIT_beagle_ios) | [![Beagle is released under the Apache 2.0 license.](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/ZupIT/beagle/blob/master/LICENSE.md) | [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md) |
+| [![Coverage Backend](https://sonarcloud.io/api/project_badges/measure?project=ZupIT_beagle_backend&metric=coverage)](https://sonarcloud.io/dashboard?id=ZupIT_beagle_backend) | [![Coverage Android](https://sonarcloud.io/api/project_badges/measure?project=ZupIT_beagle_android&metric=coverage)](https://sonarcloud.io/dashboard?id=ZupIT_beagle_android) | [![Coverage iOS](https://sonarcloud.io/api/project_badges/measure?project=ZupIT_beagle_ios&metric=coverage)](https://sonarcloud.io/dashboard?id=ZupIT_beagle_ios) | [![Beagle is released under the Apache 2.0 license.](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/ZupIT/beagle/blob/main/LICENSE.md) | [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ZupIT/beagle/blob/main/CONTRIBUTING.md) |
 </div>
 
 <h3 align="center">
@@ -20,7 +20,7 @@
   <span> · </span>
   <a href="https://docs.usebeagle.io/get-started/using-beagle">Learn the Basics</a>
   <span> · </span>
-  <a href="https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md">Contribute</a>
+  <a href="https://github.com/ZupIT/beagle/blob/main/CONTRIBUTING.md">Contribute</a>
 </h3>
 
 Beagle is an **open source framework** for **cross-platform** development using the concept of Server-Driven UI.
@@ -70,14 +70,14 @@ The main purpose of this repository is to continue evolving Beagle core. We want
 
 Read our [**Contributing Guide**][contribute] to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Beagle.
 
-[contribute]: https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md
+[contribute]: https://github.com/ZupIT/beagle/blob/main/CONTRIBUTING.md
 
 ### [Code of Conduct][code]
 
 Beagle has adopted a Code of Conduct that we expect project participants to adhere to.
 Please read the [code] so that you can understand what actions will and will not be tolerated.
 
-[code]: https://github.com/ZupIT/beagle/blob/master/CODE_OF_CONDUCT.md
+[code]: https://github.com/ZupIT/beagle/blob/main/CODE_OF_CONDUCT.md
 
 ### [Open Source Roadmap][roadmap]
 
@@ -95,4 +95,4 @@ We have a list of [good first issues][gfi] that contain bugs which have a relati
 
 Beagle is Apache 2.0 licensed, as found in the [LICENSE][l] file.
 
-[l]: https://github.com/ZupIT/beagle/blob/master/LICENSE.txt
+[l]: https://github.com/ZupIT/beagle/blob/main/LICENSE.txt
