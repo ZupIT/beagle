@@ -1,4 +1,3 @@
 {
-  "**/*.{yml,yaml,java,kotlin,swift,dart,cpp,c,js,ts,properties,gradle,sh,podspec}": "Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA",
-  "**/*.{yml,yaml,java,kotlin,swift,dart,cpp,c,js,ts,properties,gradle,sh,podspec}": "Copyright 2021 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA"
+  "**/*.{yml,yaml,java,kotlin,swift,dart,cpp,c,js,ts,properties,gradle,sh,podspec}": ["Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA","Copyright 2021 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA"]
 }
