@@ -21,7 +21,7 @@ import br.com.zup.beagle.compiler.shared.RegisteredComponentId
 import br.com.zup.beagle.compiler.shared.RegistrarComponentsProvider
 import javax.annotation.processing.ProcessingEnvironment
 
-class DependenciesRegistrarComponentsProvider : RegistrarComponentsProvider() {
+class DependenciesRegistrarComponentsProvider : RegistrarComponentsProvider {
     @Suppress("UNCHECKED_CAST")
     override fun getRegisteredComponentsInDependencies(
         processingEnv: ProcessingEnvironment,

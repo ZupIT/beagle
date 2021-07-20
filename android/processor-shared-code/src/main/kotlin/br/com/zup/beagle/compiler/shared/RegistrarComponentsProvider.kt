@@ -21,8 +21,8 @@ import javax.annotation.processing.ProcessingEnvironment
 typealias RegisteredComponentId = String
 typealias RegisteredComponentFullName = String
 
-abstract class RegistrarComponentsProvider {
-    abstract fun getRegisteredComponentsInDependencies(
+interface RegistrarComponentsProvider {
+    fun getRegisteredComponentsInDependencies(
         processingEnv: ProcessingEnvironment,
         className: String,
         methodName: String
