@@ -8,10 +8,10 @@ Here are a few resources to guide you through contributing to Beagle.
 1. Be sure that an issue describes the problem you're fixing, or documents the design for the feature you'd like to add. Discussing the design up front helps to ensure that we're ready to accept your work.
 1. Fork the ZupIT/beagle repo.
 1. Make your changes in a new git branch.
-1. Follow our [Coding Rules](https://github.com/ZupIT/beagle/blob/master/doc/contributing/coding_rules.md).
+1. Follow our [Coding Rules](https://github.com/ZupIT/beagle/blob/main/doc/contributing/coding_rules.md).
 1. Commit your changes using a descriptive commit message, and make sure to **include appropriate test cases**.
 1. Push your branch to GitHub.
-1. In GitHub, send a pull request to `beagle:master`.
+1. In GitHub, send a pull request to `beagle:main`.
 
 ## After Submitting Pull Request
 
@@ -60,7 +60,7 @@ After we analyse your contibution, we may comment some questions and suggestions
 - Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
 
   ```shell
-  git rebase master -i
+  git rebase main -i
   git push -f
   ```
 
@@ -73,4 +73,4 @@ Questions? Head to our [FAQ](https://docs.usebeagle.io/faq) where you might find
 
 ## Beagle contribution guidelines
 
-Please refer to [beagle's CONTRIBUTING.md](https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md) for details on our guidelines.
+Please refer to [beagle's CONTRIBUTING.md](https://github.com/ZupIT/beagle/blob/main/CONTRIBUTING.md) for details on our guidelines.

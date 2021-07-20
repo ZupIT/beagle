@@ -3,7 +3,7 @@ name: Beagle iOS Pull Request
 on:
     push:
         branches:
-            - master
+            - main
         paths:
             - 'iOS/**'
     pull_request:

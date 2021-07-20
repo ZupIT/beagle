@@ -3,7 +3,7 @@ name: Beagle Flutter Pull Request
 on:
     push:
         branches:
-            - master
+            - main
         paths:
             - 'flutter/**'
     pull_request:

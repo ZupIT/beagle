@@ -3,7 +3,7 @@ name: Beagle Backend Pull Request
 on:
     push:
         branches:
-            - master
+            - main
         paths:
             - 'backend/**'
             - 'common/**'
