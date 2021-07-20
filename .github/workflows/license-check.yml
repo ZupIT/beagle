@@ -1,0 +1,9 @@
+name: Check License Lines
+on: [push, pull_request]
+jobs:
+  check-license-lines:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check License Lines
+        uses: kt3k/license_checker@v1.0.
