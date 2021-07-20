@@ -35,7 +35,7 @@ task buildAndPublishBeagleBackendLocally {
         def executableVar = ''
 
         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-            executableVar = 'gradlew.bat'
+            executableVar = './gradlew.bat'
         } else {
             executableVar = './gradlew'
         }
