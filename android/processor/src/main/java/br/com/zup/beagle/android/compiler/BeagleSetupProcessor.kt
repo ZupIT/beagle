@@ -71,7 +71,7 @@ internal data class BeagleSetupProcessor(
         REGISTERED_WIDGETS_GENERATED,
         GenerateFunctionWidget(
             processingEnv,
-            DependenciesRegistrarComponentsProvider()
+            DependenciesRegistrarComponentsProvider
         )
     )
 
@@ -92,7 +92,7 @@ internal data class BeagleSetupProcessor(
         REGISTERED_OPERATIONS_GENERATED,
         GenerateFunctionOperation(
             processingEnv,
-            DependenciesRegistrarComponentsProvider()
+            DependenciesRegistrarComponentsProvider
         )
     )
 
@@ -111,7 +111,7 @@ internal data class BeagleSetupProcessor(
         REGISTERED_ACTIONS_GENERATED,
         GenerateFunctionAction(
             processingEnv,
-            DependenciesRegistrarComponentsProvider()
+            DependenciesRegistrarComponentsProvider
         )
     )
 
@@ -148,7 +148,7 @@ internal data class BeagleSetupProcessor(
         REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED,
         GenerateFunctionCustomAdapter(
             processingEnv,
-            DependenciesRegistrarComponentsProvider()
+            DependenciesRegistrarComponentsProvider
         )
     )
 
@@ -169,7 +169,7 @@ internal data class BeagleSetupProcessor(
         REGISTERED_CUSTOM_VALIDATOR_GENERATED,
         GenerateFunctionCustomValidator(
             processingEnv,
-            DependenciesRegistrarComponentsProvider()
+            DependenciesRegistrarComponentsProvider
         )
     )
 

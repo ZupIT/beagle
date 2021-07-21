@@ -41,7 +41,7 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
         // Get properties possibly registered in dependency modules
         if (!onlyPropertiesRegisteredInsideModule) {
 
-            DependenciesRegistrarComponentsProvider()
+            DependenciesRegistrarComponentsProvider
                 .getRegisteredComponentsInDependencies(
                     processingEnv,
                     PROPERTIES_REGISTRAR_CLASS_NAME,

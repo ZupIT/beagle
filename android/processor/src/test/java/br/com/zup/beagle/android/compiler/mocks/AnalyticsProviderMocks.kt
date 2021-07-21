@@ -31,6 +31,11 @@ const val VALID_SECOND_ANALYTICS_PROVIDER =
         class AnalyticsProviderTestTwo: AnalyticsProvider { }
     """
 
+const val VALID_THIRD_ANALYTICS_PROVIDER =
+    """
+        class AnalyticsProviderTestThree: AnalyticsProvider { }
+    """
+
 const val LIST_OF_ANALYTICS_PROVIDER = VALID_ANALYTICS_PROVIDER + VALID_SECOND_ANALYTICS_PROVIDER
 
 const val VALID_ANALYTICS_PROVIDER_BEAGLE_SDK =

@@ -153,7 +153,7 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
     private fun getRegisteredControllersInDependencies(): java.lang.StringBuilder {
         val registeredWidgets = StringBuilder()
 
-        DependenciesRegistrarComponentsProvider()
+        DependenciesRegistrarComponentsProvider
             .getRegisteredComponentsInDependencies(
                 processingEnv,
                 REGISTERED_CONTROLLERS_GENERATED,
@@ -162,9 +162,9 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             .forEach { registeredDependency ->
                 if (defaultActivityRegistered.isNotEmpty() && registeredDependency.first.isEmpty()) {
                     processingEnv.messager?.error("Default controller defined multiple times: " +
-                        "\n${defaultActivityRegistered.substringBefore(CONTROLLER_DEFINITION_SUFFIX)}" +
-                        "\n${registeredDependency.second}" +
-                        "\n\nYou must remove one implementation from the application.")
+                        "1 - ${defaultActivityRegistered.substringBefore(CONTROLLER_DEFINITION_SUFFIX)} " +
+                        "2 - ${registeredDependency.second}. " +
+                        "You must remove one implementation from the application.")
                 }
 
                 if (registeredDependency.first.isEmpty()) {
