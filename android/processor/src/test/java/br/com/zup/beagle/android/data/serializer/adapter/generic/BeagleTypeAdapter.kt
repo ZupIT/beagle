@@ -17,6 +17,6 @@
 package br.com.zup.beagle.android.data.serializer.adapter.generic
 
 interface BeagleTypeAdapter<T> {
-    fun fromJson(json: String) : T
-    fun toJson(type: T) : String
+    fun fromJson(json: String): T
+    fun toJson(type: T): String
 }

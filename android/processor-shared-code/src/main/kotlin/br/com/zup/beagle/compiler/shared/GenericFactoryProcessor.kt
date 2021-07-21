@@ -90,7 +90,7 @@ class GenericFactoryProcessor<T : Annotation>(
         superInterface: BeagleClass?,
     ): TypeSpec {
         val typeSpecBuilder = TypeSpec.objectBuilder(className)
-            .addFunction(beagleGeneratorFunction.generate(roundEnvironment))
+            .addFunction(beagleGeneratorFunction.generate(roundEnvironment, className))
 
         if (isInternalClass) {
             typeSpecBuilder.addModifiers(KModifier.INTERNAL)

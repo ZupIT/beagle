@@ -18,6 +18,7 @@ package br.com.zup.beagle.compiler.shared
 
 import javax.annotation.processing.Messager
 import javax.lang.model.element.Element
+import javax.lang.model.element.TypeElement
 import javax.tools.Diagnostic
 
 fun Messager.error(message: String, vararg args: Any) {
@@ -47,4 +48,15 @@ private fun Messager.printMessage(kind: Diagnostic.Kind, element: Element?, mess
     } else {
         this.printMessage(kind, msg, element)
     }
+}
+
+fun Messager.multipleDefinitionErrorMessage(
+    typeElement: TypeElement,
+    propertySpecificationsElement: TypeElement,
+    element: String
+) {
+    this.error(typeElement, "$element defined multiple times: " +
+        "1 - $typeElement " +
+        "2 - $propertySpecificationsElement. " +
+        "You must remove one implementation from the application.")
 }

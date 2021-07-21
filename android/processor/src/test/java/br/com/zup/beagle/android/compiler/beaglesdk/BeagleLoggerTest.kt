@@ -18,13 +18,9 @@ package br.com.zup.beagle.android.compiler.beaglesdk
 
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_SETUP_GENERATED
 import br.com.zup.beagle.android.compiler.extensions.compile
-import br.com.zup.beagle.android.compiler.generator.RegisteredCustomValidatorGeneratorTest
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
-import br.com.zup.beagle.android.compiler.mocks.LIST_OF_IMAGE_DOWNLOAD
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_LOGGER
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
-import br.com.zup.beagle.android.compiler.mocks.VALID_IMAGE_DOWNLOAD
-import br.com.zup.beagle.android.compiler.mocks.VALID_IMAGE_DOWNLOADER_BEAGLE_SDK
 import br.com.zup.beagle.android.compiler.mocks.VALID_LOGGER
 import br.com.zup.beagle.android.compiler.mocks.VALID_LOGGER_BEAGLE_SDK
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
@@ -99,8 +95,10 @@ internal class BeagleLoggerTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_LOGGER = "BeagleLogger already defined," +
-            " remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_LOGGER = "error: BeagleLogger defined multiple times: " +
+            "1 - br.com.test.beagle.LoggerTest " +
+            "2 - br.com.test.beagle.LoggerTestTwo. " +
+            "You must remove one implementation from the application."
     }
 
 }

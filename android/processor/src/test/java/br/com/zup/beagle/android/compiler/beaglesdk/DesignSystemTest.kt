@@ -20,12 +20,9 @@ import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_DESIGN_SYSTEM
-import br.com.zup.beagle.android.compiler.mocks.LIST_OF_URL_BUILDER
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_DESIGN_SYSTEM
 import br.com.zup.beagle.android.compiler.mocks.VALID_DESIGN_SYSTEM_BEAGLE_SDK
-import br.com.zup.beagle.android.compiler.mocks.VALID_URL_BUILDER
-import br.com.zup.beagle.android.compiler.mocks.VALID_URL_BUILDER_BEAGLE_SDK
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
@@ -98,8 +95,10 @@ internal class DesignSystemTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_DESIGN_SYSTEM = "DesignSystem already defined," +
-            " remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_DESIGN_SYSTEM = "error: DesignSystem defined multiple times: " +
+            "1 - br.com.test.beagle.DesignSystemTestTwo " +
+            "2 - br.com.test.beagle.DesignSystemTest. " +
+            "You must remove one implementation from the application."
     }
 
 }

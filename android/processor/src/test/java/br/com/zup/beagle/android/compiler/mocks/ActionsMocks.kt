@@ -93,3 +93,44 @@ const val INTERNAL_SINGLE_ACTION_GENERATED_EXPECTED: String =
         }
 
     """
+
+const val INTERNAL_ACTION_REGISTRAR_EXPECTED = """
+    @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+    
+    package br.com.zup.beagle.android.registrar
+    
+    import kotlin.Pair
+    import kotlin.String
+    import kotlin.Suppress
+    import kotlin.collections.List
+    
+    public final object RegisteredActionsRegistrarTest {
+      public fun registeredActions(): List<Pair<String, String>> {
+        val registeredComponents = listOf<Pair<String, String>>(
+    
+            Pair(""${'"'}${'"'}${'"'}${'"'},"br.com.test.beagle.AsyncActionTest"),
+            Pair(""${'"'}${'"'}${'"'}${'"'},"br.com.test.beagle.ActionTest"),
+        )
+        return registeredComponents
+      }
+    }
+"""
+
+const val INTERNAL_ACTION_REGISTRAR_NO_ACTION_EXPECTED = """
+    @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+    
+    package br.com.zup.beagle.android.registrar
+    
+    import kotlin.Pair
+    import kotlin.String
+    import kotlin.Suppress
+    import kotlin.collections.List
+    
+    public final object RegisteredActionsRegistrarTest {
+      public fun registeredActions(): List<Pair<String, String>> {
+        val registeredComponents = listOf<Pair<String, String>>(
+        )
+        return registeredComponents
+      }
+    }
+"""

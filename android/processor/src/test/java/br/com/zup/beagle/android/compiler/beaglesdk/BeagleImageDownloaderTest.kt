@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.compiler.beaglesdk
 
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_SETUP_GENERATED
 import br.com.zup.beagle.android.compiler.extensions.compile
-import br.com.zup.beagle.android.compiler.generator.RegisteredCustomValidatorGeneratorTest
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_IMAGE_DOWNLOAD
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
@@ -96,8 +95,11 @@ internal class BeagleImageDownloaderTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_IMAGE_DOWNLOADER = "BeagleImageDownloader already defined," +
-            " remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_IMAGE_DOWNLOADER =
+            "error: BeagleImageDownloader defined multiple times: " +
+                "1 - br.com.test.beagle.ImageDownloaderTestTwo " +
+                "2 - br.com.test.beagle.ImageDownloaderTest. " +
+                "You must remove one implementation from the application."
     }
 
 }

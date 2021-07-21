@@ -16,10 +16,9 @@
 
 package br.com.zup.beagle.android.setup
 
+import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormLocalActionHandler
-import br.com.zup.beagle.analytics.Analytics
-import br.com.zup.beagle.newanalytics.AnalyticsProvider
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
 import br.com.zup.beagle.android.data.serializer.adapter.generic.TypeAdapterResolver
 import br.com.zup.beagle.android.imagedownloader.BeagleImageDownloader
@@ -33,6 +32,7 @@ import br.com.zup.beagle.android.operation.Operation
 import br.com.zup.beagle.android.store.StoreHandler
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.newanalytics.AnalyticsProvider
 
 interface BeagleSdk {
 

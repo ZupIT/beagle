@@ -44,7 +44,7 @@ internal class BeagleConfigTest {
     inner class RegisterBeagleConfig {
 
         @Test
-        @DisplayName("Then should add the http client in beagle sdk")
+        @DisplayName("Then should add the beagle config in beagle sdk")
         fun testGenerateBeagleConfigCorrect() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(
@@ -108,8 +108,10 @@ internal class BeagleConfigTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_BEAGLE_CONFIG = "BeagleConfig already defined," +
-            " remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_BEAGLE_CONFIG = "error: BeagleConfig defined multiple times: " +
+            "1 - br.com.test.beagle.BeagleConfigImpl " +
+            "2 - br.com.test.beagle.BeagleConfigTwo. " +
+            "You must remove one implementation from the application."
         private const val MESSAGE_MISSING_BEAGLE_CONFIG =
             "Did you miss to annotate your BeagleConfig class with @BeagleComponent?"
     }
