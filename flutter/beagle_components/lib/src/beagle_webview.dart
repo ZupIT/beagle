@@ -52,7 +52,8 @@ class _BeagleWebView extends State<BeagleWebView> {
       onWebResourceError: _handleError,
       onPageStarted: _handleLoading,
       onPageFinished: _handleSuccess,
-      onWebViewCreated: (WebViewController webViewController) => _controller = webViewController,
+      onWebViewCreated: (WebViewController webViewController) =>
+          _controller = webViewController,
     );
   }
 

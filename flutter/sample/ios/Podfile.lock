@@ -1,4 +1,6 @@
 PODS:
+  - beagle (0.0.1):
+    - Flutter
   - BeagleYoga (1.19.0)
   - Flutter (1.0.0)
   - flutter_js (0.1.0):
@@ -12,6 +14,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - beagle (from `.symlinks/plugins/beagle/ios`)
   - Flutter (from `Flutter`)
   - flutter_js (from `.symlinks/plugins/flutter_js/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
@@ -23,6 +26,8 @@ SPEC REPOS:
     - BeagleYoga
 
 EXTERNAL SOURCES:
+  beagle:
+    :path: ".symlinks/plugins/beagle/ios"
   Flutter:
     :path: Flutter
   flutter_js:
@@ -35,11 +40,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/yoga_engine/ios"
 
 SPEC CHECKSUMS:
+  beagle: 1c977eb4e25659377ec47cf78e62dd305767a5a0
   BeagleYoga: 09c09f226e5bbabaea81e9b0c113676ad1c67fa3
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_js: 95929d4e146e8ceb1c8e1889d8c2065c5d840076
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
-  webview_flutter: 3603125dfd3bcbc9d8d418c3f80aeecf331c068b
+  webview_flutter: 9f491a9b5a66f2573946a389b2677987b0ff8c0b
   yoga_engine: 1ce78f562aea40afd366771690b1a1d267182be7
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c

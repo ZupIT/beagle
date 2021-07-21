@@ -49,7 +49,9 @@ void setupServiceLocator({
     ..registerSingleton<BeagleJSEngine>(
       createBeagleJSEngineInstance(storage),
     )
-    ..registerSingleton<GlobalContext>(GlobalContextJS(beagleServiceLocator<BeagleJSEngine>()),)
+    ..registerSingleton<GlobalContext>(
+      GlobalContextJS(beagleServiceLocator<BeagleJSEngine>()),
+    )
     ..registerSingleton<BeagleDesignSystem>(designSystem)
     ..registerSingleton<BeagleImageDownloader>(imageDownloader)
     ..registerSingleton<BeagleLogger>(logger)

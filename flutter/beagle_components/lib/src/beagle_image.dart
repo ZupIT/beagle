@@ -63,7 +63,8 @@ class _BeagleImageState extends State<BeagleImage> {
         ? createImageFromAsset(widget.path)
         : createImageFromNetwork(widget.path);
     // TODO when implement yoga to all beagle components, this YogaLayout should be replaced by a single YogaNode
-    return beagleYogaFactory.createYogaLayout(style: widget.style, children: [image]);
+    return beagleYogaFactory
+        .createYogaLayout(style: widget.style, children: [image]);
   }
 
   Future<void> downloadImage() async {
@@ -85,7 +86,8 @@ class _BeagleImageState extends State<BeagleImage> {
         fit: getBoxFit(widget.mode),
       );
     } else {
-      logger.error('Invalid local image: ${path.mobileId}. Have you declared this id in your DesignSystem class?');
+      logger.error(
+          'Invalid local image: ${path.mobileId}. Have you declared this id in your DesignSystem class?');
       return Container();
     }
   }

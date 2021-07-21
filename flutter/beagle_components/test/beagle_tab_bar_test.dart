@@ -25,7 +25,9 @@ import 'package:mockito/mockito.dart';
 import 'service_locator/service_locator.dart';
 
 class MockDesignSystem extends Mock implements BeagleDesignSystem {}
+
 class MockBeagleLogger extends Mock implements BeagleLogger {}
+
 class MockBeagleYogaFactory extends Mock implements BeagleYogaFactory {}
 
 void main() {
@@ -96,8 +98,7 @@ void main() {
         expect(tabFinder, findsNWidgets(tabBarItems.length));
       });
 
-      testWidgets('Then it should have icons',
-          (WidgetTester tester) async {
+      testWidgets('Then it should have icons', (WidgetTester tester) async {
         await tester.pumpWidget(await createWidget(items: tabBarItems));
 
         final imageFinder = find.byType(BeagleImage);

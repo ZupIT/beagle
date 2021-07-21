@@ -38,7 +38,6 @@ class BeagleButtonStyle {
 }
 
 class BeagleIosButtonStyle {
-
   BeagleIosButtonStyle(
       {this.padding,
       this.color,

@@ -71,8 +71,7 @@ void main() {
     group('When it is swiped', () {
       testWidgets('Then it should show pages correctly',
           (WidgetTester tester) async {
-        await tester.pumpWidget(
-            createWidget(onPageChange: (int page) {}));
+        await tester.pumpWidget(createWidget(onPageChange: (int page) {}));
 
         // check first page
         var textFinder = find.text(pageOneText);
