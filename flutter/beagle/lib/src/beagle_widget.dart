@@ -84,7 +84,8 @@ class _BeagleWidget extends State<BeagleWidget> {
       ..onAction(({action, element, view}) {
         final handler = service.actions[action.getType().toLowerCase()];
         if (handler == null) {
-          return logger.error("Couldn't find action with name ${action.getType()}. It will be ignored.");
+          return logger.error(
+              "Couldn't find action with name ${action.getType()}. It will be ignored.");
         }
         handler(
           action: action,
@@ -112,8 +113,9 @@ class _BeagleWidget extends State<BeagleWidget> {
     }
     try {
       return builder(tree, widgetChildren, _view);
-    } catch(error) {
-      logger.error('Could not build component ${tree.getType()} with id ${tree.getId()} due to the following error:');
+    } catch (error) {
+      logger.error(
+          'Could not build component ${tree.getType()} with id ${tree.getId()} due to the following error:');
       logger.error(error.toString());
       return BeagleUndefinedWidget(environment: environment);
     }

@@ -128,7 +128,8 @@ const Map<FlexDirection, YGFlexDirection> _flexDirectionMap = {
 };
 
 YGFlexDirection _mapFlexDirection(FlexDirection flexDirection) {
-  return _flexDirectionMap[flexDirection] ?? YGFlexDirection.YGFlexDirectionColumn;
+  return _flexDirectionMap[flexDirection] ??
+      YGFlexDirection.YGFlexDirectionColumn;
 }
 
 const Map<FlexWrap, YGWrap> _flexWrapMap = {

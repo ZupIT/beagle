@@ -83,7 +83,8 @@ class _BeagleLazyComponent extends State<BeagleLazyComponent>
             'BeagleLazyComponent: connection error: ${result.status} ${result.body}');
       }
     } catch (err) {
-      beagleServiceLocator<BeagleLogger>().error('BeagleLazyComponent: error: $err');
+      beagleServiceLocator<BeagleLogger>()
+          .error('BeagleLazyComponent: error: $err');
     }
   }
 

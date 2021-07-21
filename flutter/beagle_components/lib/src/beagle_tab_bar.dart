@@ -140,7 +140,8 @@ class TabBarItem {
 
   TabBarItem.fromJson(Map<String, dynamic> json)
       : title = json['title'] ?? '',
-        icon = json['icon'] == null ? null : LocalImagePath.fromJson(json['icon']);
+        icon =
+            json['icon'] == null ? null : LocalImagePath.fromJson(json['icon']);
 
   final String title;
   final LocalImagePath icon;

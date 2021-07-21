@@ -127,7 +127,9 @@ class _BeagleTextInput extends State<BeagleTextInput> {
   }
 
   Widget _buildCupertinoWidget() {
-    final hasError = widget.showError == true && widget.error != null && widget.error.isNotEmpty;
+    final hasError = widget.showError == true &&
+        widget.error != null &&
+        widget.error.isNotEmpty;
     final textField = CupertinoTextField(
       controller: _controller,
       focusNode: _focus,
@@ -136,7 +138,8 @@ class _BeagleTextInput extends State<BeagleTextInput> {
       obscureText: widget.type == BeagleTextInputType.PASSWORD,
       readOnly: widget.readOnly == true,
       placeholder: widget.placeholder,
-      decoration: BoxDecoration(border: hasError ? Border.all(color: Colors.red) : null),
+      decoration: BoxDecoration(
+          border: hasError ? Border.all(color: Colors.red) : null),
     );
     return hasError
         ? Column(
@@ -150,10 +153,14 @@ class _BeagleTextInput extends State<BeagleTextInput> {
 
   @override
   Widget build(BuildContext context) {
-    if (_controller != null && widget.value != null && widget.value != _controller.text) {
+    if (_controller != null &&
+        widget.value != null &&
+        widget.value != _controller.text) {
       _controller.text = widget.value;
     }
     final platform = Theme.of(context).platform;
-    return platform == TargetPlatform.iOS ? _buildCupertinoWidget() : _buildMaterialWidget();
+    return platform == TargetPlatform.iOS
+        ? _buildCupertinoWidget()
+        : _buildMaterialWidget();
   }
 }

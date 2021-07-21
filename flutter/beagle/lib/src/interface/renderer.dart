@@ -34,7 +34,8 @@ abstract class Renderer {
   /// element to the start of the list of children. Append ads the children at the end. Replace
   /// remove all current children and adds [tree] as the only child. ReplaceComponent will replace
   /// the element identified by [anchor] entirely by [tree]. Default is replaceComponent.
-  void doPartialRender(BeagleUIElement tree, [String anchor, TreeUpdateMode mode]);
+  void doPartialRender(BeagleUIElement tree,
+      [String anchor, TreeUpdateMode mode]);
 
   /// Does a full render to the BeagleView. A full render means that every renderization step will
   /// be executed for the [tree] passed as parameter. If the components in [tree] have been rendered
