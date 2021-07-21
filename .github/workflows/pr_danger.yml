@@ -4,7 +4,7 @@ on:
    pull_request:
        types: [edited, synchronize, reopened, opened]
        branches:
-       - master
+       - main
 jobs:
     danger-pr:
         name: Danger PR

@@ -19,8 +19,8 @@ platform :workflow do
     create_pull_request(
       api_token:ENV["REPO_TOKEN"],
       repo:ENV["REPO"],
-      title:"fix: Merge #{branchName} patch with master",
-      body: "Auto generated PR to merge fixes from #{branchName} into master."
+      title:"fix: Merge #{branchName} patch with main",
+      body: "Auto generated PR to merge fixes from #{branchName} into main."
       )
   end
 end

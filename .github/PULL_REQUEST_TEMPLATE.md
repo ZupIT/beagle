@@ -23,4 +23,4 @@ Please, check if these important points are met using `[x]`:
 - [ ] I have made the documentation changes or I created an issue explaining how to document this change on [Docs issues](https://github.com/ZupIT/beagle-docs/issues). Please link the issue here:
 
 <!-- Links -->
-[PR Guide]: https://github.com/ZupIT/beagle/blob/master/doc/contributing/pull_requests.md
+[PR Guide]: https://github.com/ZupIT/beagle/blob/main/doc/contributing/pull_requests.md

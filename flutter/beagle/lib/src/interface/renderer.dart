@@ -23,7 +23,7 @@ abstract class Renderer {
   /// component in [tree] haven't been rendered before, you should use `doFullRender` instead.
   ///
   /// To see the full documentation of the renderization process, please follow this link:
-  /// https://github.com/ZupIT/beagle-web-core/blob/master/docs/renderization.md
+  /// https://github.com/ZupIT/beagle-web-core/blob/main/docs/renderization.md
   ///
   /// The parameter [tree] is the new tree to render, it can be just a new branch to add to the
   /// current tree or the entire tree. If it's the entire tree, the second and third parameter can
@@ -42,7 +42,7 @@ abstract class Renderer {
   /// at least once, you can help performance by calling `doPartialRender` instead.
   ///
   /// To see the full documentation of the renderization process, please follow this link:
-  /// https://github.com/ZupIT/beagle-web-core/blob/master/docs/renderization.md
+  /// https://github.com/ZupIT/beagle-web-core/blob/main/docs/renderization.md
   ///
   /// The parameter [tree] is the new tree to render, it can be just a new branch to add to the
   /// current tree or the entire tree. If it's the entire tree, the second and third parameter can

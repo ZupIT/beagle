@@ -3,7 +3,7 @@ name: Sync to Micronaut BFF sample
 on:
     push:
         branches-ignore:
-            - master
+            - main
         paths:
             - 'backend/sample/spring/**'
 
