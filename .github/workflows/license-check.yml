@@ -2,6 +2,7 @@ name: Check License Lines
 on: [pull_request]
 jobs:
   check-license-lines:
+    - name: License Header Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

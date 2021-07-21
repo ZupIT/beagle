@@ -1,4 +1,4 @@
-{
+﻿{
     "**/*.{yml,yaml,xml,java,kt,kts,pro,swift,dart,cpp,c,js,ts,properties,gradle,sh,podspec,tsx,jsx,html,less}": [
       "Copyright",
       "ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA",
@@ -11,5 +11,11 @@
       "WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.",
       "See the License for the specific language governing permissions and",
       "limitations under the License."
-      ]
+      ],
+  "ignore": [
+    "\\.gradle",
+    "\\.idea",
+    ".idea",
+    "local.properties"
+  ]
 }
