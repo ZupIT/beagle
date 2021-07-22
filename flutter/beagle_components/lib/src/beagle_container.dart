@@ -41,7 +41,8 @@ class BeagleContainer extends StatefulWidget with YogaWidget {
   _BeagleContainer createState() => _BeagleContainer();
 }
 
-class _BeagleContainer extends State<BeagleContainer> with AfterLayoutMixin<BeagleContainer> {
+class _BeagleContainer extends State<BeagleContainer>
+    with AfterLayoutMixin<BeagleContainer> {
   BeagleYogaFactory beagleYogaFactory = beagleServiceLocator();
 
   @override

@@ -38,5 +38,4 @@ class DefaultStorage implements Storage {
   Future<void> setItem(String key, String value) async {
     storage[key] = value;
   }
-
 }

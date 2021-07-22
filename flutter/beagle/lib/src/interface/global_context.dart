@@ -23,7 +23,6 @@ import '../service_locator.dart';
 /// still running (even in the background), which allows it to be accessed from any application point, this point being a component
 /// or an action linked to a component conventionally or programmatically.
 abstract class GlobalContext {
-
   /// Gets the current GlobalContext
   static Future<GlobalContext> getInstance() async {
     await beagleServiceLocator.allReady();

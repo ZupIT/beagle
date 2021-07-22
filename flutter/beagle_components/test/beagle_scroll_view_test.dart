@@ -66,8 +66,10 @@ void main() {
     });
 
     group('When the widget is created with a horizontal scroll', () {
-      testWidgets('Then the list view orientation should be horizontal', (WidgetTester tester) async {
-        await tester.pumpWidget(createWidget(scrollDirection: ScrollAxis.HORIZONTAL));
+      testWidgets('Then the list view orientation should be horizontal',
+          (WidgetTester tester) async {
+        await tester
+            .pumpWidget(createWidget(scrollDirection: ScrollAxis.HORIZONTAL));
         final listViewFinder = find.byType(ListView);
         final ListView listView = tester.widget<ListView>(listViewFinder);
         expect(listView.scrollDirection == Axis.horizontal, isTrue);
@@ -75,7 +77,8 @@ void main() {
     });
 
     group('When the widget is created with a hidden scroll bar', () {
-      testWidgets('Then there should be a ListView, but no ScrollBar', (WidgetTester tester) async {
+      testWidgets('Then there should be a ListView, but no ScrollBar',
+          (WidgetTester tester) async {
         await tester.pumpWidget(createWidget(scrollBarEnabled: false));
         final listViewFinder = find.byType(ListView);
         final scrollbarFinder = find.byType(Scrollbar);

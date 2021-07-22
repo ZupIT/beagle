@@ -28,6 +28,7 @@ class BeagleSdk {
 
     /// Informs the base URL used in Beagle in the application.
     String baseUrl,
+
     /// Interface that provides client to beagle make the requests.
     HttpClient httpClient,
     Map<String, ComponentBuilder> components,
@@ -45,7 +46,6 @@ class BeagleSdk {
 
     /// [BeagleLogger] interface that provides logger to beagle use in application.
     BeagleLogger logger,
-
     Map<String, Operation> operations,
   }) {
     Yoga.init();
@@ -56,20 +56,20 @@ class BeagleSdk {
     useBeagleHeaders = useBeagleHeaders ?? true;
     storage = storage ?? DefaultStorage();
     designSystem = designSystem ?? DefaultEmptyDesignSystem();
-    imageDownloader = imageDownloader ?? DefaultBeagleImageDownloader(httpClient: httpClient);
+    imageDownloader =
+        imageDownloader ?? DefaultBeagleImageDownloader(httpClient: httpClient);
     strategy = strategy ?? BeagleNetworkStrategy.beagleWithFallbackToCache;
     logger = logger ?? DefaultEmptyLogger();
     operations = operations ?? {};
 
-    actions = actions == null ? defaultActions : { ...defaultActions, ...actions };
+    actions =
+        actions == null ? defaultActions : {...defaultActions, ...actions};
 
-    Map<String, ComponentBuilder> lowercaseComponents = components.map(
-      (key, value) => MapEntry(key.toLowerCase(), value)
-    );
+    Map<String, ComponentBuilder> lowercaseComponents =
+        components.map((key, value) => MapEntry(key.toLowerCase(), value));
 
-    Map<String, ActionHandler> lowercaseActions = actions.map(
-      (key, value) => MapEntry(key.toLowerCase(), value)
-    );
+    Map<String, ActionHandler> lowercaseActions =
+        actions.map((key, value) => MapEntry(key.toLowerCase(), value));
 
     setupServiceLocator(
       baseUrl: baseUrl,
@@ -81,7 +81,7 @@ class BeagleSdk {
       actions: lowercaseActions,
       navigationControllers: navigationControllers,
       designSystem: designSystem,
-      imageDownloader: imageDownloader ,
+      imageDownloader: imageDownloader,
       strategy: strategy,
       logger: logger,
       operations: operations,
