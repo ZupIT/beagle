@@ -22,10 +22,12 @@ import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_CLASS_NAME
 import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_METHOD_NAME
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
+import br.com.zup.beagle.android.compiler.mocks.IMAGE_DOWNLOAD_IMPORT
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_IMAGE_DOWNLOAD
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_IMAGE_DOWNLOAD
 import br.com.zup.beagle.android.compiler.mocks.VALID_IMAGE_DOWNLOADER_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_IMAGE_DOWNLOADER_BEAGLE_SDK_FROM_REGISTRAR
 import br.com.zup.beagle.android.compiler.mocks.VALID_THIRD_IMAGE_DOWNLOAD
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
@@ -74,6 +76,43 @@ internal class BeagleImageDownloaderTest : BeagleSdkBaseTest() {
 
     }
 
+    @DisplayName("When already registered in other module PropertiesRegistrar")
+    @Nested
+    inner class RegisterFromOtherModule {
+
+        @Test
+        @DisplayName("Then should add the image downloader in beagle sdk")
+        fun testGenerateImageDownloaderFromRegistrarCorrect() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME)
+            } returns listOf(
+                Pair("""imageDownloader""", "br.com.test.beagle.ImageDownloaderTestThree()"),
+            )
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + IMAGE_DOWNLOAD_IMPORT +
+                    VALID_THIRD_IMAGE_DOWNLOAD + SIMPLE_BEAGLE_CONFIG)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith(BEAGLE_SETUP_GENERATED)
+            }!!
+
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = VALID_IMAGE_DOWNLOADER_BEAGLE_SDK_FROM_REGISTRAR
+                .replace(REGEX_REMOVE_SPACE, "")
+
+            assertEquals(fileExpectedInString, fileGeneratedInString)
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
+    }
+
 
     @DisplayName("When register image downloader")
     @Nested
@@ -105,7 +144,7 @@ internal class BeagleImageDownloaderTest : BeagleSdkBaseTest() {
                     PROPERTIES_REGISTRAR_CLASS_NAME,
                     PROPERTIES_REGISTRAR_METHOD_NAME)
             } returns listOf(
-                Pair("""config""", "br.com.test.beagle.ImageDownloaderTestThree"),
+                Pair("""imageDownloader""", "br.com.test.beagle.ImageDownloaderTestThree()"),
             )
             val kotlinSource = SourceFile.kotlin(
                 FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_IMAGE_DOWNLOAD + VALID_THIRD_IMAGE_DOWNLOAD + SIMPLE_BEAGLE_CONFIG)

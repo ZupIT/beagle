@@ -22,10 +22,12 @@ import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_CLASS_NAME
 import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_METHOD_NAME
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
+import br.com.zup.beagle.android.compiler.mocks.DESIGN_SYSTEM_IMPORT
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_DESIGN_SYSTEM
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_DESIGN_SYSTEM
 import br.com.zup.beagle.android.compiler.mocks.VALID_DESIGN_SYSTEM_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_DESIGN_SYSTEM_BEAGLE_SDK_FROM_REGISTRAR
 import br.com.zup.beagle.android.compiler.mocks.VALID_THIRD_DESIGN_SYSTEM
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
@@ -74,6 +76,42 @@ internal class DesignSystemTest : BeagleSdkBaseTest() {
 
     }
 
+    @DisplayName("When already registered in other module PropertiesRegistrar")
+    @Nested
+    inner class RegisterFromOtherModule {
+        @Test
+        @DisplayName("Then should add the design system in beagle sdk")
+        fun testGenerateDesignSystemFromRegistrarCorrect() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME)
+            } returns listOf(
+                Pair("""designSystem""", "br.com.test.beagle.DesignSystemTestThree()"),
+            )
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + DESIGN_SYSTEM_IMPORT +
+                    VALID_THIRD_DESIGN_SYSTEM + SIMPLE_BEAGLE_CONFIG)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith(BEAGLE_SETUP_GENERATED)
+            }!!
+
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = VALID_DESIGN_SYSTEM_BEAGLE_SDK_FROM_REGISTRAR
+                .replace(REGEX_REMOVE_SPACE, "")
+
+            assertEquals(fileExpectedInString, fileGeneratedInString)
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
+    }
+
 
     @DisplayName("When register design system")
     @Nested
@@ -105,7 +143,7 @@ internal class DesignSystemTest : BeagleSdkBaseTest() {
                     PROPERTIES_REGISTRAR_CLASS_NAME,
                     PROPERTIES_REGISTRAR_METHOD_NAME)
             } returns listOf(
-                Pair("""designSystem""", "br.com.test.beagle.DesignSystemTestThree"),
+                Pair("""designSystem""", "br.com.test.beagle.DesignSystemTestThree()"),
             )
             val kotlinSource = SourceFile.kotlin(
                 FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_DESIGN_SYSTEM + VALID_THIRD_DESIGN_SYSTEM + SIMPLE_BEAGLE_CONFIG)

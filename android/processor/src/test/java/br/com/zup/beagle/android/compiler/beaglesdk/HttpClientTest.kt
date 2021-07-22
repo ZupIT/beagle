@@ -22,10 +22,12 @@ import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_CLASS_NAME
 import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_METHOD_NAME
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
+import br.com.zup.beagle.android.compiler.mocks.HTTP_CLIENT_IMPORT
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_HTTP_CLIENT
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_HTTP_CLIENT
 import br.com.zup.beagle.android.compiler.mocks.VALID_HTTP_CLIENT_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_HTTP_CLIENT_BEAGLE_SDK_FROM_REGISTRAR
 import br.com.zup.beagle.android.compiler.mocks.VALID_THIRD_HTTP_CLIENT
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
@@ -74,6 +76,42 @@ internal class HttpClientTest : BeagleSdkBaseTest() {
 
     }
 
+    @DisplayName("When already registered in other module PropertiesRegistrar")
+    @Nested
+    inner class RegisterFromOtherModule {
+        @Test
+        @DisplayName("Then should add the http client in beagle sdk")
+        fun testGenerateHttpClientFromRegistrarCorrect() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME)
+            } returns listOf(
+                Pair("""httpClient""", "br.com.test.beagle.HttpClientTestThree()"),
+            )
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + HTTP_CLIENT_IMPORT +
+                    VALID_THIRD_HTTP_CLIENT + SIMPLE_BEAGLE_CONFIG)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith(BEAGLE_SETUP_GENERATED)
+            }!!
+
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = VALID_HTTP_CLIENT_BEAGLE_SDK_FROM_REGISTRAR
+                .replace(REGEX_REMOVE_SPACE, "")
+
+            assertEquals(fileExpectedInString, fileGeneratedInString)
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
+    }
+
 
     @DisplayName("When register http client")
     @Nested
@@ -105,7 +143,7 @@ internal class HttpClientTest : BeagleSdkBaseTest() {
                     PROPERTIES_REGISTRAR_CLASS_NAME,
                     PROPERTIES_REGISTRAR_METHOD_NAME)
             } returns listOf(
-                Pair("""httpClient""", "br.com.test.beagle.HttpClientTestThree"),
+                Pair("""httpClient""", "br.com.test.beagle.HttpClientTestThree()"),
             )
             val kotlinSource = SourceFile.kotlin(FILE_NAME,
                 BEAGLE_CONFIG_IMPORTS + VALID_HTTP_CLIENT + VALID_THIRD_HTTP_CLIENT + SIMPLE_BEAGLE_CONFIG

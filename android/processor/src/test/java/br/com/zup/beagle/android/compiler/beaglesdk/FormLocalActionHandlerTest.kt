@@ -22,10 +22,12 @@ import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_CLASS_NAME
 import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_METHOD_NAME
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
+import br.com.zup.beagle.android.compiler.mocks.FORM_LOCAL_ACTION_HANDLER_IMPORT
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.android.compiler.mocks.VALID_FORM_LOCAL_ACTION_HANDLER_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_FORM_LOCAL_ACTION_HANDLER_BEAGLE_SDK_FROM_REGISTRAR
 import br.com.zup.beagle.android.compiler.mocks.VALID_THIRD_FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
@@ -74,6 +76,42 @@ internal class FormLocalActionHandlerTest : BeagleSdkBaseTest() {
 
     }
 
+    @DisplayName("When already registered in other module PropertiesRegistrar")
+    @Nested
+    inner class RegisterFromOtherModule {
+        @Test
+        @DisplayName("Then should add the form local action handler in beagle sdk")
+        fun testGenerateFormLocalActionHandlerFromRegistrarCorrect() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME)
+            } returns listOf(
+                Pair("""formLocalActionHandler""", "br.com.test.beagle.FormLocalActionHandlerTestThree()"),
+            )
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, BEAGLE_CONFIG_IMPORTS + FORM_LOCAL_ACTION_HANDLER_IMPORT +
+                VALID_THIRD_FORM_LOCAL_ACTION_HANDLER + SIMPLE_BEAGLE_CONFIG)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith(BEAGLE_SETUP_GENERATED)
+            }!!
+
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = VALID_FORM_LOCAL_ACTION_HANDLER_BEAGLE_SDK_FROM_REGISTRAR
+                .replace(REGEX_REMOVE_SPACE, "")
+
+            assertEquals(fileExpectedInString, fileGeneratedInString)
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
+    }
+
     @DisplayName("When register form local action handler")
     @Nested
     inner class InvalidFormLocalActionHandler {
@@ -104,7 +142,7 @@ internal class FormLocalActionHandlerTest : BeagleSdkBaseTest() {
                     PROPERTIES_REGISTRAR_CLASS_NAME,
                     PROPERTIES_REGISTRAR_METHOD_NAME)
             } returns listOf(
-                Pair("""formLocalActionHandler""", "br.com.test.beagle.FormLocalActionHandlerTestThree"),
+                Pair("""formLocalActionHandler""", "br.com.test.beagle.FormLocalActionHandlerTestThree()"),
             )
             val kotlinSource = SourceFile.kotlin(FILE_NAME,
                 BEAGLE_CONFIG_IMPORTS + VALID_FORM_LOCAL_ACTION_HANDLER +

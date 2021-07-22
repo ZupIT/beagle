@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.compiler.mocks.LIST_OF_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_ANALYTICS
 import br.com.zup.beagle.android.compiler.mocks.VALID_BEAGLE_CONFIG_IN_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_BEAGLE_CONFIG_IN_BEAGLE_SDK_FROM_REGISTRAR
 import br.com.zup.beagle.android.compiler.mocks.VALID_THIRD_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
@@ -73,6 +74,42 @@ internal class BeagleConfigTest : BeagleSdkBaseTest() {
 
     }
 
+    @DisplayName("When already registered in other module PropertiesRegistrar")
+    @Nested
+    inner class RegisterFromOtherModule {
+        @Test
+        @DisplayName("Then should add the beagle config in beagle sdk")
+        fun testGenerateBeagleConfigFromRegistrarCorrect() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME)
+            } returns listOf(
+                Pair("""config""", "br.com.test.beagle.BeagleConfigThree()"),
+            )
+
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_ANALYTICS + VALID_THIRD_BEAGLE_CONFIG)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith(BeagleSetupProcessor.BEAGLE_SETUP_GENERATED)
+            }!!
+
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = VALID_BEAGLE_CONFIG_IN_BEAGLE_SDK_FROM_REGISTRAR
+                .replace(REGEX_REMOVE_SPACE, "")
+
+            Assertions.assertEquals(fileExpectedInString, fileGeneratedInString)
+            Assertions.assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
+    }
+
     @DisplayName("When register beagle config")
     @Nested
     inner class InvalidBeagleConfig {
@@ -118,7 +155,7 @@ internal class BeagleConfigTest : BeagleSdkBaseTest() {
                     PROPERTIES_REGISTRAR_CLASS_NAME,
                     PROPERTIES_REGISTRAR_METHOD_NAME)
             } returns listOf(
-                Pair("""config""", "br.com.test.beagle.BeagleConfigThree"),
+                Pair("""config""", "br.com.test.beagle.BeagleConfigThree()"),
             )
             val kotlinSource = SourceFile.kotlin(
                 FILE_NAME, BEAGLE_CONFIG_IMPORTS + SIMPLE_BEAGLE_CONFIG + VALID_THIRD_BEAGLE_CONFIG)
