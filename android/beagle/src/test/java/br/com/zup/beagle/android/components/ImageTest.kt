@@ -250,7 +250,7 @@ internal class ImageTest : BaseComponentTest() {
 
             // Then
             verify {
-                ViewFactory.makeImageView(rootView.getContext(), 20.0)
+                ViewFactory.makeImageView(rootView.getContext(), CornerRadius(radius = 10.0))
             }
         }
     }

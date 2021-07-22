@@ -65,13 +65,21 @@ data class Style(
 )
 
 /**
- * The corner radius change the appearance of view
+ * The corner radius apply rounded borders to the widget
  *
- * @param radius define size of radius
+ * @param radius defines the default size of the all corner radius
+ * @param topLeft defines the size of the top left radius
+ * @param topRight defines the size of the top right radius
+ * @param bottomLeft defines the size of the bottom left radius
+ * @param bottomRight defines the size of the bottom right radius
  */
 @BeagleJson
 data class CornerRadius(
     val radius: Double? = null,
+    val topLeft: Double? = null,
+    val topRight: Double? = null,
+    val bottomLeft: Double? = null,
+    val bottomRight: Double? = null,
 )
 
 /**

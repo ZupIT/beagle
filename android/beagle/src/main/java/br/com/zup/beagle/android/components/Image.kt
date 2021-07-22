@@ -33,6 +33,7 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.BeagleJson
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.widget.core.ImageContentMode
 
 /**
@@ -70,8 +71,8 @@ data class Image constructor(
     }
 
     private fun getImageView(rootView: RootView) = ViewFactory.makeImageView(
-        rootView.getContext(),
-        getCornerRadius(),
+        context = rootView.getContext(),
+        cornerRadius = style?.cornerRadius ?: CornerRadius(),
     ).apply {
         style?.size?.let { size ->
             if (size.width == null || size.height == null) {
@@ -79,10 +80,6 @@ data class Image constructor(
             }
         }
         scaleType = viewMapper.toScaleType(mode ?: ImageContentMode.FIT_CENTER)
-    }
-
-    private fun getCornerRadius(): Double {
-        return style?.cornerRadius?.radius?.dp() ?: 0.0
     }
 
     private fun loadLocalImage(rootView: RootView, imageView: ImageView, pathType: ImagePath.Local) {
