@@ -6,17 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        # Gems for Fastlane
-      - name: Cache ruby gems dependencies
-        uses: actions/cache@v2
-        env:
-          keyPath: ${{ runner.os }}-gems
-        with:
-          path: ~/.gem
-          key: ${{ env.keyPath }}-${{ hashFiles('Gemfile.lock') }}
-          restore-keys: ${{ env.keyPath }}
-      - name: Install gem dependencies
-        run: bundle config set path '~/.gem' && bundle install
       - uses: denoland/setup-deno@v1
         with:
           deno-version: "1.12.1"
