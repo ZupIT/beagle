@@ -18,6 +18,10 @@
     "/.gradle",
     "\\.idea",
     ".idea",
-    "local.properties"
+    "\\build",
+    "/build",
+    "local.properties",
+    "flutter\\beagle\\assets\\js\\beagle.js",
+    "flutter/beagle/assets/js/beagle.js"
   ]
 }

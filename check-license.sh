@@ -1,3 +1,4 @@
+#!/bin/bash
 
 #
 # Copyright 2021 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
@@ -15,18 +16,16 @@
 # limitations under the License.
 #
 
-include: package:lints/recommended.yaml
+# https://github.com/kt3k/deno_license_checker
+# Please install deno at https://github.com/denoland/deno to run the command below
 
-analyzer:
-  exclude: [build/**]
-  errors:
-    missing_required_param: error
-    missing_return: error
-    todo: ignore
-  language:
-    strict-inference: true
-    strict-raw-types: true
+deno run --unstable --allow-read https://deno.land/x/license_checker@v3.1.3/main.ts
 
-linter:
-  rules:
-    constant_identifier_names: false
+if [ $? -eq 0 ]
+then
+  echo "Check licenses OK"
+  exit 0
+else
+  echo "Check licenses FAILED" >&2
+  exit 1
+fi
