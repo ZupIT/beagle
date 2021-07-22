@@ -81,7 +81,7 @@ internal fun View.applyStroke(styleWidget: StyleComponent) {
 
 internal fun View.applyCornerRadius(styleWidget: StyleComponent) {
     styleWidget.style?.cornerRadius?.let { radius ->
-        background.mutate()
+        background?.mutate()
         (this.background as? GradientDrawable)?.cornerRadii = radius.getFloatArray()
     }
 }
