@@ -22,11 +22,4 @@
 echo "Running check licenses for folder: $1"
 deno run --unstable --allow-read https://deno.land/x/license_checker@v3.1.3/main.ts "$1"
 
-if [ $? -eq 0 ]
-then
-  echo "Check licenses OK"
-else
-  echo "Check licenses FAILED" >&2
-fi
-
 exit $?
