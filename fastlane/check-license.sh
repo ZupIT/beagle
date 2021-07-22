@@ -18,7 +18,7 @@
 
 # https://github.com/kt3k/deno_license_checker
 # Please install deno at https://github.com/denoland/deno to run the command below
-
+cd ..
 deno run --unstable --allow-read https://deno.land/x/license_checker@v3.1.3/main.ts
 
 if [ $? -eq 0 ]
