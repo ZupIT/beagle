@@ -21,4 +21,4 @@ jobs:
         with:
           deno-version: "1.12.1"
       - name: Check License Lines
-        run: bundle exec fastlane check_license_header
+        run: bash fastlane/check-license.sh $(pwd)

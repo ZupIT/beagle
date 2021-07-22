@@ -321,8 +321,3 @@ private_lane :publish_sonarcloud_gradle do |params|
    # Rollback to java 8
    ENV["JAVA_HOME"] = ENV["JAVA_HOME_8_X64"]
 end
-
-desc "Checking license for header files"
-lane :check_license_header do
-   sh "bash ./check-license.sh"
-end
