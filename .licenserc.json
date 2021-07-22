@@ -1,5 +1,5 @@
 ﻿{
-    "**/*.{yml,yaml,xml,java,kt,kts,pro,swift,dart,cpp,c,js,ts,properties,gradle,sh,podspec,tsx,jsx,html,less}": [
+    "**/*.{yml,yaml,xml,java,kt,kts,pro,swift,dart,cpp,c,h,m,js,ts,properties,gradle,sh,podspec,tsx,jsx,html,less}": [
       "Copyright",
       "ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA",
       "Licensed under the Apache License, Version 2.0 (the \"License\");",
