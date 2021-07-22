@@ -30,6 +30,11 @@ const val VALID_SECOND_DEEP_LINK_HANDLER =
         class DeepLinkHandlerTestTwo: DeepLinkHandler { }
     """
 
+const val VALID_THIRD_DEEP_LINK_HANDLER =
+    """
+        class DeepLinkHandlerTestThree: DeepLinkHandler { }
+    """
+
 const val LIST_OF_DEEP_LINK_HANDLER = VALID_DEEP_LINK_HANDLER + VALID_SECOND_DEEP_LINK_HANDLER
 
 const val VALID_DEEP_LINK_HANDLER_BEAGLE_SDK =

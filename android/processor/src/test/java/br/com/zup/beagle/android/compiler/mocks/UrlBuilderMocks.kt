@@ -31,6 +31,11 @@ const val VALID_SECOND_URL_BUILDER =
         class UrlBuilderTestTwo: UrlBuilder { }
     """
 
+const val VALID_THIRD_URL_BUILDER =
+    """
+        class UrlBuilderTestThree: UrlBuilder { }
+    """
+
 const val LIST_OF_URL_BUILDER = VALID_URL_BUILDER + VALID_SECOND_URL_BUILDER
 
 const val VALID_URL_BUILDER_BEAGLE_SDK =

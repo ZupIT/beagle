@@ -17,6 +17,9 @@
 package br.com.zup.beagle.android.compiler.beaglesdk
 
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_SETUP_GENERATED
+import br.com.zup.beagle.android.compiler.DependenciesRegistrarComponentsProvider
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_CLASS_NAME
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_METHOD_NAME
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_HTTP_CLIENT_FACTORY
@@ -24,9 +27,11 @@ import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_HTTP_CLIENT_FACTORY
 import br.com.zup.beagle.android.compiler.mocks.VALID_HTTP_CLIENT_FACTORY_BEAGLE_SDK
 import br.com.zup.beagle.android.compiler.mocks.VALID_SECOND_HTTP_CLIENT
+import br.com.zup.beagle.android.compiler.mocks.VALID_THIRD_HTTP_CLIENT_FACTORY
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import io.mockk.every
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -36,7 +41,7 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class HttpClientFactoryTest {
+internal class HttpClientFactoryTest : BeagleSdkBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
@@ -94,6 +99,32 @@ internal class HttpClientFactoryTest {
             Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_HTTP_CLIENT_FACTORY))
         }
 
+        @Test
+        @DisplayName("Then should show error with duplicate http client factory in PropertiesRegistrar")
+        fun testDuplicateInRegistrar() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME)
+            } returns listOf(
+                Pair("""httpClientFactory""", "br.com.test.beagle.HttpClientFactoryTestThree"),
+            )
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_HTTP_CLIENT_FACTORY + VALID_THIRD_HTTP_CLIENT_FACTORY +
+                    VALID_SECOND_HTTP_CLIENT +
+                    SIMPLE_BEAGLE_CONFIG
+            )
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_HTTP_CLIENT_FACTORY_REGISTRAR))
+            assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
+        }
+
     }
 
     companion object {
@@ -103,6 +134,12 @@ internal class HttpClientFactoryTest {
             "1 - br.com.test.beagle.HttpClientFactoryTestTwo " +
             "2 - br.com.test.beagle.HttpClientFactoryTest. " +
             "You must remove one implementation from the application."
+
+        private const val MESSAGE_DUPLICATE_HTTP_CLIENT_FACTORY_REGISTRAR =
+            "error: HttpClientFactory defined multiple times: " +
+                "1 - br.com.test.beagle.HttpClientFactoryTest " +
+                "2 - br.com.test.beagle.HttpClientFactoryTestThree. " +
+                "You must remove one implementation from the application."
     }
 
 }

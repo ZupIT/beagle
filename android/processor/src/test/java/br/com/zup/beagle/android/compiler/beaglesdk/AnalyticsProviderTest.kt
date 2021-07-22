@@ -31,10 +31,8 @@ import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import io.mockk.every
-import io.mockk.mockkObject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -42,15 +40,10 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class AnalyticsProviderTest {
+internal class AnalyticsProviderTest : BeagleSdkBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
-
-    @BeforeEach
-    fun setUp() {
-        mockkObject(DependenciesRegistrarComponentsProvider)
-    }
 
     @DisplayName("When register analytics")
     @Nested

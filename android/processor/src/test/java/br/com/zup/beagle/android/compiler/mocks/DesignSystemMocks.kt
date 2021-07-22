@@ -31,6 +31,11 @@ const val VALID_SECOND_DESIGN_SYSTEM =
         class DesignSystemTestTwo: DesignSystem { }
     """
 
+const val VALID_THIRD_DESIGN_SYSTEM =
+    """
+        class DesignSystemTestThree: DesignSystem { }
+    """
+
 const val LIST_OF_DESIGN_SYSTEM = VALID_DESIGN_SYSTEM + VALID_SECOND_DESIGN_SYSTEM
 
 const val VALID_DESIGN_SYSTEM_BEAGLE_SDK =

@@ -77,8 +77,7 @@ class GenerateFunctionComponentRegistrar<T : Annotation>(
             |)
         |""".trimMargin()
 
-    override fun validationElement(element: Element, annotation: Annotation) {
-    }
+    override fun validationElement(element: Element, annotation: Annotation) {}
 
     override fun buildCodeByDependency(
         registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>

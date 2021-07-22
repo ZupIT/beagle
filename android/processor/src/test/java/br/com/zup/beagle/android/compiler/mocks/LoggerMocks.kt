@@ -31,6 +31,11 @@ const val VALID_SECOND_LOGGER =
         class LoggerTestTwo: BeagleLogger { }
     """
 
+const val VALID_THIRD_LOGGER =
+    """
+        class LoggerTestThree: BeagleLogger { }
+    """
+
 const val LIST_OF_LOGGER = VALID_LOGGER + VALID_SECOND_LOGGER
 
 const val VALID_LOGGER_BEAGLE_SDK =

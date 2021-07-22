@@ -30,6 +30,11 @@ const val VALID_SECOND_HTTP_CLIENT =
         class HttpClientTestTwo: HttpClient { }
     """
 
+const val VALID_THIRD_HTTP_CLIENT =
+    """
+        class HttpClientTestThree: HttpClient { }
+    """
+
 const val LIST_OF_HTTP_CLIENT = VALID_HTTP_CLIENT + VALID_SECOND_HTTP_CLIENT
 
 const val VALID_HTTP_CLIENT_BEAGLE_SDK =

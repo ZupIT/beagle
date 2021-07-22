@@ -17,15 +17,20 @@
 package br.com.zup.beagle.android.compiler.beaglesdk
 
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_SETUP_GENERATED
+import br.com.zup.beagle.android.compiler.DependenciesRegistrarComponentsProvider
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_CLASS_NAME
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_METHOD_NAME
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_LOGGER
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_LOGGER
 import br.com.zup.beagle.android.compiler.mocks.VALID_LOGGER_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_THIRD_LOGGER
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import io.mockk.every
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -35,7 +40,7 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class BeagleLoggerTest {
+internal class BeagleLoggerTest : BeagleSdkBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
@@ -90,6 +95,29 @@ internal class BeagleLoggerTest {
             Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_LOGGER))
         }
 
+        @Test
+        @DisplayName("Then should show error with duplicate logger in PropertiesRegistrar")
+        fun testDuplicateInRegistrar() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME)
+            } returns listOf(
+                Pair("""logger""", "br.com.test.beagle.LoggerTestThree"),
+            )
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_LOGGER + VALID_THIRD_LOGGER + SIMPLE_BEAGLE_CONFIG)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_LOGGER_REGISTRAR))
+            assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
+        }
+
     }
 
     companion object {
@@ -98,6 +126,11 @@ internal class BeagleLoggerTest {
         private const val MESSAGE_DUPLICATE_LOGGER = "error: BeagleLogger defined multiple times: " +
             "1 - br.com.test.beagle.LoggerTest " +
             "2 - br.com.test.beagle.LoggerTestTwo. " +
+            "You must remove one implementation from the application."
+
+        private const val MESSAGE_DUPLICATE_LOGGER_REGISTRAR = "error: BeagleLogger defined multiple times: " +
+            "1 - br.com.test.beagle.LoggerTest " +
+            "2 - br.com.test.beagle.LoggerTestThree. " +
             "You must remove one implementation from the application."
     }
 

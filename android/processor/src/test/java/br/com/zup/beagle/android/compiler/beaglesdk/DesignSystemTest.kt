@@ -17,15 +17,20 @@
 package br.com.zup.beagle.android.compiler.beaglesdk
 
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_SETUP_GENERATED
+import br.com.zup.beagle.android.compiler.DependenciesRegistrarComponentsProvider
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_CLASS_NAME
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_METHOD_NAME
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_DESIGN_SYSTEM
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_DESIGN_SYSTEM
 import br.com.zup.beagle.android.compiler.mocks.VALID_DESIGN_SYSTEM_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_THIRD_DESIGN_SYSTEM
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import io.mockk.every
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -35,7 +40,7 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class DesignSystemTest {
+internal class DesignSystemTest : BeagleSdkBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
@@ -90,6 +95,29 @@ internal class DesignSystemTest {
             Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_DESIGN_SYSTEM))
         }
 
+        @Test
+        @DisplayName("Then should show error with duplicate design system in PropertiesRegistrar")
+        fun testDuplicateInRegistrar() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME)
+            } returns listOf(
+                Pair("""designSystem""", "br.com.test.beagle.DesignSystemTestThree"),
+            )
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_DESIGN_SYSTEM + VALID_THIRD_DESIGN_SYSTEM + SIMPLE_BEAGLE_CONFIG)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_DESIGN_SYSTEM_REGISTRAR))
+            assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
+        }
+
     }
 
     companion object {
@@ -98,6 +126,11 @@ internal class DesignSystemTest {
         private const val MESSAGE_DUPLICATE_DESIGN_SYSTEM = "error: DesignSystem defined multiple times: " +
             "1 - br.com.test.beagle.DesignSystemTestTwo " +
             "2 - br.com.test.beagle.DesignSystemTest. " +
+            "You must remove one implementation from the application."
+
+        private const val MESSAGE_DUPLICATE_DESIGN_SYSTEM_REGISTRAR = "error: DesignSystem defined multiple times: " +
+            "1 - br.com.test.beagle.DesignSystemTest " +
+            "2 - br.com.test.beagle.DesignSystemTestThree. " +
             "You must remove one implementation from the application."
     }
 

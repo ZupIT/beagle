@@ -36,6 +36,11 @@ const val VALID_SECOND_BEAGLE_CONFIG =
         class BeagleConfigTwo: BeagleConfig { }
     """
 
+const val VALID_THIRD_BEAGLE_CONFIG =
+    """
+        class BeagleConfigThree: BeagleConfig { }
+    """
+
 const val LIST_OF_BEAGLE_CONFIG = SIMPLE_BEAGLE_CONFIG + VALID_SECOND_BEAGLE_CONFIG
 
 const val VALID_BEAGLE_CONFIG_IN_BEAGLE_SDK =

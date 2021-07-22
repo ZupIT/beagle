@@ -30,6 +30,11 @@ const val VALID_SECOND_FORM_LOCAL_ACTION_HANDLER =
         class FormLocalActionHandlerTestTwo: FormLocalActionHandler { }
     """
 
+const val VALID_THIRD_FORM_LOCAL_ACTION_HANDLER =
+    """
+        class FormLocalActionHandlerTestThree: FormLocalActionHandler { }
+    """
+
 const val LIST_OF_FORM_LOCAL_ACTION_HANDLER = VALID_FORM_LOCAL_ACTION_HANDLER + VALID_SECOND_FORM_LOCAL_ACTION_HANDLER
 
 const val VALID_FORM_LOCAL_ACTION_HANDLER_BEAGLE_SDK =

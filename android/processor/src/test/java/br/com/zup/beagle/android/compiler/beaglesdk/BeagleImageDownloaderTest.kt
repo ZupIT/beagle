@@ -17,15 +17,20 @@
 package br.com.zup.beagle.android.compiler.beaglesdk
 
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_SETUP_GENERATED
+import br.com.zup.beagle.android.compiler.DependenciesRegistrarComponentsProvider
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_CLASS_NAME
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_METHOD_NAME
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_IMAGE_DOWNLOAD
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_IMAGE_DOWNLOAD
 import br.com.zup.beagle.android.compiler.mocks.VALID_IMAGE_DOWNLOADER_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_THIRD_IMAGE_DOWNLOAD
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import io.mockk.every
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -35,7 +40,7 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class BeagleImageDownloaderTest {
+internal class BeagleImageDownloaderTest : BeagleSdkBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
@@ -90,6 +95,29 @@ internal class BeagleImageDownloaderTest {
             Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_IMAGE_DOWNLOADER))
         }
 
+        @Test
+        @DisplayName("Then should show error with duplicate image downloader in PropertiesRegistrar")
+        fun testDuplicateInRegistrar() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME)
+            } returns listOf(
+                Pair("""config""", "br.com.test.beagle.ImageDownloaderTestThree"),
+            )
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_IMAGE_DOWNLOAD + VALID_THIRD_IMAGE_DOWNLOAD + SIMPLE_BEAGLE_CONFIG)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_IMAGE_DOWNLOADER_REGISTRAR))
+            assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
+        }
+
     }
 
     companion object {
@@ -99,6 +127,12 @@ internal class BeagleImageDownloaderTest {
             "error: BeagleImageDownloader defined multiple times: " +
                 "1 - br.com.test.beagle.ImageDownloaderTestTwo " +
                 "2 - br.com.test.beagle.ImageDownloaderTest. " +
+                "You must remove one implementation from the application."
+
+        private const val MESSAGE_DUPLICATE_IMAGE_DOWNLOADER_REGISTRAR =
+            "error: BeagleImageDownloader defined multiple times: " +
+                "1 - br.com.test.beagle.ImageDownloaderTest " +
+                "2 - br.com.test.beagle.ImageDownloaderTestThree. " +
                 "You must remove one implementation from the application."
     }
 

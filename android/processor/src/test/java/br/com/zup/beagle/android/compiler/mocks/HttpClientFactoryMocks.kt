@@ -39,6 +39,15 @@ const val VALID_SECOND_HTTP_CLIENT_FACTORY =
         }
     """
 
+const val VALID_THIRD_HTTP_CLIENT_FACTORY =
+    """
+        class HttpClientFactoryTestThree: HttpClientFactory {
+            override fun create(): HttpClient {
+                return HttpClientTestTwo()
+            }
+        }
+    """
+
 const val LIST_OF_HTTP_CLIENT_FACTORY = VALID_HTTP_CLIENT_FACTORY + VALID_SECOND_HTTP_CLIENT_FACTORY
 
 const val VALID_HTTP_CLIENT_FACTORY_BEAGLE_SDK =

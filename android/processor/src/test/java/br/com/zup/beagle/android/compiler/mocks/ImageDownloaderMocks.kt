@@ -31,6 +31,11 @@ const val VALID_SECOND_IMAGE_DOWNLOAD =
         class ImageDownloaderTestTwo: BeagleImageDownloader { }
     """
 
+const val VALID_THIRD_IMAGE_DOWNLOAD =
+    """
+        class ImageDownloaderTestThree: BeagleImageDownloader { }
+    """
+
 const val LIST_OF_IMAGE_DOWNLOAD = VALID_IMAGE_DOWNLOAD + VALID_SECOND_IMAGE_DOWNLOAD
 
 const val VALID_IMAGE_DOWNLOADER_BEAGLE_SDK =

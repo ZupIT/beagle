@@ -31,6 +31,11 @@ const val VALID_SECOND_STORE_HANDLER =
         class StoreHandlerTestTwo: StoreHandler { }
     """
 
+const val VALID_THIRD_STORE_HANDLER =
+    """
+        class StoreHandlerTestThree: StoreHandler { }
+    """
+
 const val LIST_OF_STORE_HANDLER = VALID_STORE_HANDLER + VALID_SECOND_STORE_HANDLER
 
 const val VALID_STORE_HANDLER_BEAGLE_SDK =

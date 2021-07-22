@@ -31,6 +31,11 @@ const val VALID_SECOND_ANALYTICS =
         class AnalyticsTestTwo: Analytics { }
     """
 
+const val VALID_THIRD_ANALYTICS =
+    """
+        class AnalyticsTestThree: Analytics { }
+    """
+
 const val LIST_OF_ANALYTICS = VALID_ANALYTICS + VALID_SECOND_ANALYTICS
 
 const val VALID_ANALYTICS_BEAGLE_SDK =

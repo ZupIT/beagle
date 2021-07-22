@@ -193,7 +193,7 @@ internal data class BeagleSetupProcessor(
 
         registrarModuleDefinedProperties(roundEnvironment)
 
-        if (beagleClassesGenerationDisabled(processingEnv)) {
+        if (isBeagleClassesGenerationDisabled(processingEnv)) {
             handleRegistrarProcess(roundEnvironment)
             return
         }
@@ -267,7 +267,7 @@ internal data class BeagleSetupProcessor(
     }
 
     private fun checkBeagleConfig(properties: List<PropertySpec>) {
-        if (!beagleClassesGenerationDisabled(processingEnv)) {
+        if (!isBeagleClassesGenerationDisabled(processingEnv)) {
             properties
                 .find { it.name == "config" }
                 ?.let { propertySpec ->
