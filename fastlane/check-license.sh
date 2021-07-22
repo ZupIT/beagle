@@ -25,8 +25,8 @@ deno run --unstable --allow-read https://deno.land/x/license_checker@v3.1.3/main
 if [ $? -eq 0 ]
 then
   echo "Check licenses OK"
-  exit $?
 else
   echo "Check licenses FAILED" >&2
-  exit $?
 fi
+
+exit $?
