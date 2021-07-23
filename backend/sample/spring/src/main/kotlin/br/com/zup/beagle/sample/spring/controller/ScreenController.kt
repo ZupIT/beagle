@@ -60,7 +60,6 @@ import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.spring.service.AccessibilityService
 import br.com.zup.beagle.sample.spring.service.AddChildrenService
-import br.com.zup.beagle.sample.spring.service.AnnotationTestService
 import br.com.zup.beagle.sample.spring.service.SampleActionClickService
 import br.com.zup.beagle.sample.spring.service.SampleActionService
 import br.com.zup.beagle.sample.spring.service.SampleAnalyticsService
@@ -122,7 +121,6 @@ class ScreenController(
     private val sampleSimpleFormService: SampleSimpleFormService,
     private val sampleAddChildrenService: AddChildrenService,
     private val samplePullToRefreshService: SamplePullToRefreshService,
-    private val annotationTestService: AnnotationTestService,
 ) {
     @GetMapping(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -243,7 +241,4 @@ class ScreenController(
 
     @GetMapping(SCREEN_PULL_TO_REFRESH)
     fun getSamplePullToRefreshService() = this.samplePullToRefreshService.createPullToRefreshView()
-
-    @GetMapping("/annotation-test")
-    fun getAnnotationTestService() = this.annotationTestService.createAnnotationTestScreen()
 }
