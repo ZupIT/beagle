@@ -17,9 +17,12 @@
 package br.com.zup.beagle.android.compiler.generator
 
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.REGISTERED_ACTIONS_GENERATED
+import br.com.zup.beagle.android.compiler.DependenciesRegistrarComponentsProvider
 import br.com.zup.beagle.android.compiler.extensions.compile
+import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionAction
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.INTERNAL_LIST_ACTION_GENERATED_EXPECTED
+import br.com.zup.beagle.android.compiler.mocks.INTERNAL_LIST_ACTION_WITH_REGISTRAR_GENERATED_EXPECTED
 import br.com.zup.beagle.android.compiler.mocks.INTERNAL_SINGLE_ACTION_GENERATED_EXPECTED
 import br.com.zup.beagle.android.compiler.mocks.INVALID_ACTION
 import br.com.zup.beagle.android.compiler.mocks.INVALID_ACTION_WITH_INHERITANCE
@@ -29,10 +32,13 @@ import br.com.zup.beagle.android.compiler.mocks.VALID_LIST_ACTION
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import io.mockk.every
+import io.mockk.mockkObject
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -44,6 +50,11 @@ internal class RegisteredActionGeneratorTest {
 
     @TempDir
     lateinit var tempPath: Path
+
+    @BeforeEach
+    fun setUp() {
+        mockkObject(DependenciesRegistrarComponentsProvider)
+    }
 
     @DisplayName("When register action")
     @Nested
@@ -64,10 +75,40 @@ internal class RegisteredActionGeneratorTest {
                 file.name.startsWith("$REGISTERED_ACTIONS_GENERATED.kt")
             }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_LIST_ACTION_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString =
+                INTERNAL_LIST_ACTION_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
 
             assertEquals(fileExpectedInString, fileGeneratedInString)
             assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
+
+        @Test
+        @DisplayName("Then should create class with list of action with registrar actions")
+        fun testGenerateListOfActionsWithRegistrarCorrect() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    REGISTERED_ACTIONS_GENERATED,
+                    GenerateFunctionAction.REGISTERED_ACTIONS)
+            } returns listOf(
+                Pair("", "br.com.test.beagle.otherModule.ModuleAction"),
+            )
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_LIST_ACTION + SIMPLE_BEAGLE_CONFIG)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_ACTIONS_GENERATED.kt")
+            }!!
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString =
+                INTERNAL_LIST_ACTION_WITH_REGISTRAR_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+
+            assertEquals(fileExpectedInString, fileGeneratedInString)
         }
 
         @Test
@@ -85,7 +126,8 @@ internal class RegisteredActionGeneratorTest {
                 file.name.startsWith("$REGISTERED_ACTIONS_GENERATED.kt")
             }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_SINGLE_ACTION_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString =
+                INTERNAL_SINGLE_ACTION_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
 
             assertEquals(fileExpectedInString, fileGeneratedInString)
             assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)

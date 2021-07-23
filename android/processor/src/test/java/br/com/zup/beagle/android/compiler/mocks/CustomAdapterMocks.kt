@@ -103,6 +103,40 @@ const val INTERNAL_LIST_CUSTOM_ADAPTER_GENERATED_EXPECTED: String =
         
     """
 
+const val INTERNAL_LIST_CUSTOM_ADAPTER_WITH_REGISTRAR_GENERATED_EXPECTED: String =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.test.beagle
+        
+        import br.com.zup.beagle.android.`data`.serializer.adapter.generic.BeagleTypeAdapter
+        import br.com.zup.beagle.android.`data`.serializer.adapter.generic.ParameterizedTypeFactory
+        import br.com.zup.beagle.android.`data`.serializer.adapter.generic.TypeAdapterResolver
+        import java.lang.reflect.Type
+        import kotlin.Suppress
+        
+        public final object RegisteredCustomTypeAdapter : TypeAdapterResolver {
+          public override fun <T> getAdapter(type: Type): BeagleTypeAdapter<T>? = when(type) {
+             ParameterizedTypeFactory.new(
+          java.util.List::class.java,
+          ParameterizedTypeFactory.new(
+          java.util.List::class.java,
+          ParameterizedTypeFactory.new(
+          java.util.List::class.java,
+          br.com.test.beagle.Person::class.java))) -> br.com.test.beagle.PersonTwoAdapter() as
+              BeagleTypeAdapter<T>
+          br.com.test.beagle.Person::class.java -> br.com.test.beagle.PersonAdapter() as
+              BeagleTypeAdapter<T>
+          java.lang.Integer::class.java -> br.com.test.beagle.otherModule.ModuleTypeAdapter() as
+              BeagleTypeAdapter<T>
+        
+             else -> null
+          }
+        
+        }
+
+    """
+
 const val INVALID_CUSTOM_ADAPTER =
     """
         package br.com.test.beagle

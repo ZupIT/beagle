@@ -83,6 +83,32 @@ const val INTERNAL_LIST_WIDGET_GENERATED_EXPECTED: String =
 
     """
 
+const val INTERNAL_LIST_WIDGET_WITH_REGISTRAR_GENERATED_EXPECTED: String =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.test.beagle
+        
+        import br.com.zup.beagle.android.widget.WidgetView
+        import java.lang.Class
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredWidgets {
+          public fun registeredWidgets(): List<Class<WidgetView>> {
+            val registeredWidgets = listOf<Class<WidgetView>>(
+                br.com.test.beagle.PageIndicatorTest::class.java as Class<WidgetView>,
+                br.com.test.beagle.TextTest::class.java as Class<WidgetView>,
+                br.com.test.beagle.InputWidgetTest::class.java as Class<WidgetView>,
+                br.com.test.beagle.otherModule.ModuleWidget::class.java as Class<WidgetView>,
+        
+            )
+            return registeredWidgets
+          }
+        }
+
+    """
+
 const val INTERNAL_SINGLE_WIDGET_GENERATED_EXPECTED: String =
     """
         @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")

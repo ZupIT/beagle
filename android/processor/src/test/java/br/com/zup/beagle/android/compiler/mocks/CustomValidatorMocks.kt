@@ -93,6 +93,33 @@ const val INTERNAL_LIST_CUSTOM_VALIDATOR_GENERATED_EXPECTED: String =
         
     """
 
+const val INTERNAL_LIST_CUSTOM_VALIDATOR_WITH_REGISTRAR_GENERATED_EXPECTED: String =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.test.beagle
+        
+        import br.com.zup.beagle.android.components.form.core.Validator
+        import br.com.zup.beagle.android.components.form.core.ValidatorHandler
+        import kotlin.Any
+        import kotlin.String
+        import kotlin.Suppress
+        
+        public final object RegisteredCustomValidator : ValidatorHandler {
+          public override fun getValidator(name: String): Validator<Any, Any>? = when(name) {
+                "text-is-not-blank-two" -> br.com.test.beagle.TextNotBlankValidatorTwo() as Validator<Any,
+              Any>
+            "text-is-not-blank" -> br.com.test.beagle.TextNotBlankValidator() as Validator<Any, Any>
+            "moduleCustomValidator" -> br.com.test.beagle.otherModule.ModuleCustomValidator() as
+              Validator<Any, Any>
+        
+             else -> null
+          }
+        
+        }
+
+    """
+
 const val INVALID_CUSTOM_VALIDATOR =
     """
         import br.com.zup.beagle.android.annotation.RegisterValidator

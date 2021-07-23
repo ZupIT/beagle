@@ -17,9 +17,12 @@
 package br.com.zup.beagle.android.compiler.generator
 
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED
+import br.com.zup.beagle.android.compiler.DependenciesRegistrarComponentsProvider
 import br.com.zup.beagle.android.compiler.extensions.compile
+import br.com.zup.beagle.android.compiler.generatefunction.GenerateFunctionCustomAdapter
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.INTERNAL_LIST_CUSTOM_ADAPTER_GENERATED_EXPECTED
+import br.com.zup.beagle.android.compiler.mocks.INTERNAL_LIST_CUSTOM_ADAPTER_WITH_REGISTRAR_GENERATED_EXPECTED
 import br.com.zup.beagle.android.compiler.mocks.INTERNAL_SINGLE_CUSTOM_ADAPTER_GENERATED_EXPECTED
 import br.com.zup.beagle.android.compiler.mocks.INVALID_CUSTOM_ADAPTER
 import br.com.zup.beagle.android.compiler.mocks.INVALID_CUSTOM_ADAPTER_WITH_INHERITANCE
@@ -29,9 +32,12 @@ import br.com.zup.beagle.android.compiler.mocks.VALID_LIST_CUSTOM_ADAPTER
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import io.mockk.every
+import io.mockk.mockkObject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -43,6 +49,11 @@ internal class RegisteredCustomAdapterGeneratorTest {
 
     @TempDir
     lateinit var tempPath: Path
+
+    @BeforeEach
+    fun setUp() {
+        mockkObject(DependenciesRegistrarComponentsProvider)
+    }
 
     @DisplayName("When register custom adapter")
     @Nested
@@ -63,7 +74,8 @@ internal class RegisteredCustomAdapterGeneratorTest {
                 file.name.startsWith("$REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED.kt")
             }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_SINGLE_CUSTOM_ADAPTER_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString =
+                INTERNAL_SINGLE_CUSTOM_ADAPTER_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
 
             assertEquals(fileExpectedInString, fileGeneratedInString)
             assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
@@ -84,10 +96,41 @@ internal class RegisteredCustomAdapterGeneratorTest {
                 file.name.startsWith("$REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED.kt")
             }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_LIST_CUSTOM_ADAPTER_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString =
+                INTERNAL_LIST_CUSTOM_ADAPTER_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
 
             assertEquals(fileExpectedInString, fileGeneratedInString)
             assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
+
+        @Test
+        @DisplayName("Then should create class with valid getAdapter with registrar adapters")
+        fun testGenerateListOfCustomAdaptersWithRegistrarCorrect() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED,
+                    GenerateFunctionCustomAdapter.REGISTERED_CUSTOM_ADAPTER)
+            } returns listOf(
+                Pair("""java.lang.Integer::class.java""", "br.com.test.beagle.otherModule.ModuleTypeAdapter"),
+            )
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_LIST_CUSTOM_ADAPTER + SIMPLE_BEAGLE_CONFIG)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED.kt")
+            }!!
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString =
+                INTERNAL_LIST_CUSTOM_ADAPTER_WITH_REGISTRAR_GENERATED_EXPECTED
+                    .replace(REGEX_REMOVE_SPACE, "")
+
+            assertEquals(fileExpectedInString, fileGeneratedInString)
         }
 
     }
@@ -177,8 +220,9 @@ internal class RegisteredCustomAdapterGeneratorTest {
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_INVALID_CUSTOM_ADAPTER_ERROR = "The class br.com.test.beagle.InvalidCustomAdapter need to" +
-            " inherit only from the class BeagleTypeAdapter<T>"
+        private const val MESSAGE_INVALID_CUSTOM_ADAPTER_ERROR =
+            "The class br.com.test.beagle.InvalidCustomAdapter need to" +
+                " inherit only from the class BeagleTypeAdapter<T>"
         private const val KAPT_OPTION_NAME = "beagle.generateSetupClasses"
     }
 }
