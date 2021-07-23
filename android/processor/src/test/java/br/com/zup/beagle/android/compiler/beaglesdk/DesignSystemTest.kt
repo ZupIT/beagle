@@ -87,13 +87,16 @@ internal class DesignSystemTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""designSystem""", "br.com.test.beagle.DesignSystemTestThree()"),
             )
-            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME,
                 BEAGLE_CONFIG_IMPORTS + DESIGN_SYSTEM_IMPORT +
-                    VALID_THIRD_DESIGN_SYSTEM + SIMPLE_BEAGLE_CONFIG)
+                    VALID_THIRD_DESIGN_SYSTEM + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -141,12 +144,16 @@ internal class DesignSystemTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""designSystem""", "br.com.test.beagle.DesignSystemTestThree()"),
             )
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_DESIGN_SYSTEM + VALID_THIRD_DESIGN_SYSTEM + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_DESIGN_SYSTEM +
+                    VALID_THIRD_DESIGN_SYSTEM + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)

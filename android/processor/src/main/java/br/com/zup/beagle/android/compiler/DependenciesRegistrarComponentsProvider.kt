@@ -26,7 +26,7 @@ object DependenciesRegistrarComponentsProvider : RegistrarComponentsProvider {
     override fun getRegisteredComponentsInDependencies(
         processingEnv: ProcessingEnvironment,
         className: String,
-        methodName: String
+        methodName: String,
     ): List<Pair<RegisteredComponentId, RegisteredComponentFullName>> {
 
         val registeredComponentsInDependencies =

@@ -87,13 +87,16 @@ internal class HttpClientTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""httpClient""", "br.com.test.beagle.HttpClientTestThree()"),
             )
-            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME,
                 BEAGLE_CONFIG_IMPORTS + HTTP_CLIENT_IMPORT +
-                    VALID_THIRD_HTTP_CLIENT + SIMPLE_BEAGLE_CONFIG)
+                    VALID_THIRD_HTTP_CLIENT + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -141,7 +144,8 @@ internal class HttpClientTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""httpClient""", "br.com.test.beagle.HttpClientTestThree()"),
             )

@@ -55,8 +55,9 @@ internal class AnalyticsProviderTest : BeagleSdkBaseTest() {
         @DisplayName("Then should add the analytics in beagle sdk")
         fun testGenerateAnalyticsCorrect() {
             // GIVEN
-            val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_ANALYTICS_PROVIDER + SIMPLE_BEAGLE_CONFIG)
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_ANALYTICS_PROVIDER + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -88,13 +89,16 @@ internal class AnalyticsProviderTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""analyticsProvider""", "br.com.test.beagle.AnalyticsProviderTestThree()"),
             )
 
-            val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + ANALYTICS_PROVIDER_IMPORT + VALID_THIRD_ANALYTICS_PROVIDER + SIMPLE_BEAGLE_CONFIG)
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + ANALYTICS_PROVIDER_IMPORT +
+                    VALID_THIRD_ANALYTICS_PROVIDER + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -124,7 +128,9 @@ internal class AnalyticsProviderTest : BeagleSdkBaseTest() {
         fun testDuplicate() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + LIST_OF_ANALYTICS_PROVIDER + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + LIST_OF_ANALYTICS_PROVIDER + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -143,12 +149,16 @@ internal class AnalyticsProviderTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""analyticsProvider""", "br.com.test.beagle.AnalyticsProviderTestThree()"),
             )
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_ANALYTICS_PROVIDER + VALID_THIRD_ANALYTICS_PROVIDER + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_ANALYTICS_PROVIDER +
+                    VALID_THIRD_ANALYTICS_PROVIDER + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)

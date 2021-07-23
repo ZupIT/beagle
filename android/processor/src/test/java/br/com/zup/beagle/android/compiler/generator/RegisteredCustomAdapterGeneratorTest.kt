@@ -33,11 +33,9 @@ import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import io.mockk.every
-import io.mockk.mockkObject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -45,15 +43,10 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class RegisteredCustomAdapterGeneratorTest {
+internal class RegisteredCustomAdapterGeneratorTest : RegisteredComponentGeneratorBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
-
-    @BeforeEach
-    fun setUp() {
-        mockkObject(DependenciesRegistrarComponentsProvider)
-    }
 
     @DisplayName("When register custom adapter")
     @Nested
@@ -111,7 +104,8 @@ internal class RegisteredCustomAdapterGeneratorTest {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED,
-                    GenerateFunctionCustomAdapter.REGISTERED_CUSTOM_ADAPTER)
+                    GenerateFunctionCustomAdapter.REGISTERED_CUSTOM_ADAPTER,
+                )
             } returns listOf(
                 Pair("""java.lang.Integer::class.java""", "br.com.test.beagle.otherModule.ModuleTypeAdapter"),
             )

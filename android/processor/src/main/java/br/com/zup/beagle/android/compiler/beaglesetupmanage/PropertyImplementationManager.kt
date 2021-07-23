@@ -38,54 +38,54 @@ internal object PropertyImplementationManager {
         listOf(
             propertySpec(
                 propertySpecifications?.formLocalActionHandler,
-                FORM_LOCAL_ACTION_HANDLER
+                FORM_LOCAL_ACTION_HANDLER,
             ),
             propertySpec(
                 propertySpecifications?.deepLinkHandler,
-                DEEP_LINK_HANDLER
+                DEEP_LINK_HANDLER,
             ),
             propertySpec(
                 propertySpecifications?.httpClient,
-                HTTP_CLIENT_HANDLER
+                HTTP_CLIENT_HANDLER,
             ),
             propertySpec(
                 propertySpecifications?.httpClientFactory,
-                HTTP_CLIENT_FACTORY_HANDLER
+                HTTP_CLIENT_FACTORY_HANDLER,
             ),
             propertySpec(
                 propertySpecifications?.designSystem,
-                DESIGN_SYSTEM
+                DESIGN_SYSTEM,
             ),
             propertySpec(
                 propertySpecifications?.storeHandler,
-                STORE_HANDLER
+                STORE_HANDLER,
             ),
             propertySpec(
                 propertySpecifications?.urlBuilder,
-                URL_BUILDER_HANDLER
+                URL_BUILDER_HANDLER,
             ),
             propertySpec(
                 propertySpecifications?.analytics,
-                ANALYTICS
+                ANALYTICS,
             ),
             propertySpec(
                 propertySpecifications?.analyticsProvider,
-                ANALYTICS_PROVIDER
+                ANALYTICS_PROVIDER,
             ),
             propertySpec(
                 propertySpecifications?.logger,
                 BEAGLE_LOGGER,
-                "logger"
+                "logger",
             ),
             propertySpec(
                 propertySpecifications?.imageDownloader,
                 BEAGLE_IMAGE_DOWNLOADER,
-                "imageDownloader"
+                "imageDownloader",
             ),
             propertySpec(
                 propertySpecifications?.config,
                 BEAGLE_CONFIG,
-                "config"
+                "config",
             ),
         )
 
@@ -96,7 +96,7 @@ internal object PropertyImplementationManager {
     ) = propertySpec(
         propertySpecificationsElement.toString(),
         beagleClass,
-        customPropertyName
+        customPropertyName,
     )
 
     private fun propertySpec(
@@ -105,6 +105,6 @@ internal object PropertyImplementationManager {
         customPropertyName: String? = null,
     ) = GenericPropertyManagement(
         property,
-        beagleClass
+        beagleClass,
     ).getPropertySpec(customPropertyName)
 }

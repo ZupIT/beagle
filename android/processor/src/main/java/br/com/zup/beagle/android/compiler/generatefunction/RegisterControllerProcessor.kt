@@ -52,7 +52,7 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
             .addSuperinterface(ClassName(
                 CONTROLLER_REFERENCE.packageName,
-                CONTROLLER_REFERENCE.className
+                CONTROLLER_REFERENCE.className,
             ))
             .addFunction(createClassForMethod(roundEnvironment, defaultActivity))
             .build()
@@ -157,7 +157,7 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             .getRegisteredComponentsInDependencies(
                 processingEnv,
                 REGISTERED_CONTROLLERS_GENERATED,
-                REGISTERED_CONTROLLERS
+                REGISTERED_CONTROLLERS,
             )
             .forEach { registeredDependency ->
                 if (defaultActivityRegistered.isNotEmpty() && registeredDependency.first.isEmpty()) {

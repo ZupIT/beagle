@@ -34,7 +34,7 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
 
     fun generate(
         roundEnvironment: RoundEnvironment,
-        onlyPropertiesRegisteredInsideModule: Boolean = false
+        onlyPropertiesRegisteredInsideModule: Boolean = false,
     ): List<PropertySpec> {
         val propertySpecifications = PropertySpecifications()
 
@@ -45,7 +45,7 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
                 .getRegisteredComponentsInDependencies(
                     processingEnv,
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
                 )
                 .forEach { registeredDependency ->
                     var typeElement =
@@ -139,12 +139,12 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
     private fun logImplementationErrorMessage(
         typeElement: TypeElement,
         propertySpecificationsElement: TypeElement,
-        element: String
+        element: String,
     ) {
         processingEnv.messager?.multipleDefinitionErrorMessage(
             typeElement,
             propertySpecificationsElement,
-            element
+            element,
         )
     }
 
@@ -167,7 +167,7 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
             Class::class.asClassName().parameterizedBy(
                 ClassName(BEAGLE_ACTIVITY.packageName, BEAGLE_ACTIVITY.className)
             ),
-            KModifier.OVERRIDE
+            KModifier.OVERRIDE,
         ).initializer(initializer).build()
     }
 }

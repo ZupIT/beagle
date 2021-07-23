@@ -85,7 +85,8 @@ internal class BeagleConfigTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""config""", "br.com.test.beagle.BeagleConfigThree()"),
             )
@@ -153,7 +154,8 @@ internal class BeagleConfigTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""config""", "br.com.test.beagle.BeagleConfigThree()"),
             )

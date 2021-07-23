@@ -62,8 +62,8 @@ internal data class BeagleSetupProcessor(
         GenerateFunctionComponentRegistrar(
             processingEnv,
             GenerateFunctionWidget.REGISTERED_WIDGETS,
-            RegisterWidget::class.java
-        ) { _, _ -> "" }
+            RegisterWidget::class.java,
+        ) { _, _ -> "" },
     )
 
     private val widgetFactoryProcessor = GenericFactoryProcessor(
@@ -71,8 +71,8 @@ internal data class BeagleSetupProcessor(
         REGISTERED_WIDGETS_GENERATED,
         GenerateFunctionWidget(
             processingEnv,
-            DependenciesRegistrarComponentsProvider
-        )
+            DependenciesRegistrarComponentsProvider,
+        ),
     )
 
     private val operationRegistrarFactoryProcessor = GenericFactoryProcessor(
@@ -81,10 +81,10 @@ internal data class BeagleSetupProcessor(
         GenerateFunctionComponentRegistrar(
             processingEnv,
             GenerateFunctionOperation.REGISTERED_OPERATIONS,
-            RegisterOperation::class.java
+            RegisterOperation::class.java,
         ) { _, annotation ->
             (annotation as RegisterOperation).name
-        }
+        },
     )
 
     private val operationFactoryProcessor = GenericFactoryProcessor(
@@ -92,8 +92,8 @@ internal data class BeagleSetupProcessor(
         REGISTERED_OPERATIONS_GENERATED,
         GenerateFunctionOperation(
             processingEnv,
-            DependenciesRegistrarComponentsProvider
-        )
+            DependenciesRegistrarComponentsProvider,
+        ),
     )
 
     private val actionRegistrarFactoryProcessor = GenericFactoryProcessor(
@@ -102,8 +102,8 @@ internal data class BeagleSetupProcessor(
         GenerateFunctionComponentRegistrar(
             processingEnv,
             GenerateFunctionAction.REGISTERED_ACTIONS,
-            RegisterAction::class.java
-        ) { _, _ -> "" }
+            RegisterAction::class.java,
+        ) { _, _ -> "" },
     )
 
     private val actionFactoryProcessor = GenericFactoryProcessor(
@@ -111,8 +111,8 @@ internal data class BeagleSetupProcessor(
         REGISTERED_ACTIONS_GENERATED,
         GenerateFunctionAction(
             processingEnv,
-            DependenciesRegistrarComponentsProvider
-        )
+            DependenciesRegistrarComponentsProvider,
+        ),
     )
 
     private val controllerRegistrarFactoryProcessor = GenericFactoryProcessor(
@@ -121,10 +121,10 @@ internal data class BeagleSetupProcessor(
         GenerateFunctionComponentRegistrar(
             processingEnv,
             RegisterControllerProcessor.REGISTERED_CONTROLLERS,
-            RegisterController::class.java
+            RegisterController::class.java,
         ) { _, annotation ->
             (annotation as RegisterController).id
-        }
+        },
     )
 
     private val customAdapterRegistrarFactoryProcessor = GenericFactoryProcessor(
@@ -133,14 +133,14 @@ internal data class BeagleSetupProcessor(
         GenerateFunctionComponentRegistrar(
             processingEnv,
             GenerateFunctionCustomAdapter.REGISTERED_CUSTOM_ADAPTER,
-            RegisterBeagleAdapter::class.java
+            RegisterBeagleAdapter::class.java,
         ) { element, _ ->
             val typeElement = element as TypeElement
             val declaredType = typeElement.interfaces[0] as DeclaredType
             val stringBuilder = StringBuilder()
             GenerateFunctionCustomAdapter.createParameterizedType(stringBuilder, declaredType, element)
             stringBuilder.toString()
-        }
+        },
     )
 
     private val customAdapterFactoryProcessor = GenericFactoryProcessor(
@@ -148,8 +148,8 @@ internal data class BeagleSetupProcessor(
         REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED,
         GenerateFunctionCustomAdapter(
             processingEnv,
-            DependenciesRegistrarComponentsProvider
-        )
+            DependenciesRegistrarComponentsProvider,
+        ),
     )
 
     private val customValidatorRegistrarFactoryProcessor = GenericFactoryProcessor(
@@ -158,10 +158,10 @@ internal data class BeagleSetupProcessor(
         GenerateFunctionComponentRegistrar(
             processingEnv,
             GenerateFunctionCustomValidator.REGISTERED_CUSTOM_VALIDATOR,
-            RegisterValidator::class.java
+            RegisterValidator::class.java,
         ) { _, annotation ->
             (annotation as RegisterValidator).name
-        }
+        },
     )
 
     private val customValidatorFactoryProcessor = GenericFactoryProcessor(
@@ -169,22 +169,25 @@ internal data class BeagleSetupProcessor(
         REGISTERED_CUSTOM_VALIDATOR_GENERATED,
         GenerateFunctionCustomValidator(
             processingEnv,
-            DependenciesRegistrarComponentsProvider
-        )
+            DependenciesRegistrarComponentsProvider,
+        ),
     )
 
-    private fun getModuleName(): String {
+    private fun generateModuleName(): String {
         return processingEnv.options[KAPT_BEAGLE_MODULE_NAME_OPTION_NAME]
             ?.replaceFirstChar {
                 if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
             }
-            ?: UUID.randomUUID().toString().replace("-", "")
+            ?: generateRandomUUID()
+    }
+
+    private fun generateRandomUUID(): String {
+        return UUID.randomUUID().toString().replace("-", "")
     }
 
     private fun generateRegistrarClassName(baseClassName: String): String {
-        return "$baseClassName$REGISTRAR_INFIX${getModuleName()}"
+        return "$baseClassName$REGISTRAR_INFIX${generateModuleName()}"
     }
-
 
     fun process(
         basePackageName: String,
@@ -263,20 +266,22 @@ internal data class BeagleSetupProcessor(
     private fun registrarModuleDefinedProperties(roundEnvironment: RoundEnvironment) {
         val properties = beagleSetupPropertyGenerator.generate(roundEnvironment, true)
         PropertiesRegistrarProcessor()
-            .process(processingEnv, properties, "$PROPERTIES_REGISTRAR_CLASS_NAME${getModuleName()}")
+            .process(processingEnv, properties, "$PROPERTIES_REGISTRAR_CLASS_NAME${generateModuleName()}")
+    }
+
+    private fun isBeagleClassesGenerationDisabled(processingEnv: ProcessingEnvironment): Boolean {
+        return processingEnv.options.getOrDefault(KAPT_BEAGLE_GENERATE_SETUP_OPTION_NAME, "") == "false"
     }
 
     private fun checkBeagleConfig(properties: List<PropertySpec>) {
-        if (!isBeagleClassesGenerationDisabled(processingEnv)) {
-            properties
-                .find { it.name == "config" }
-                ?.let { propertySpec ->
-                    if (propertySpec.initializer.toString() == "null") {
-                        processingEnv.messager.error("Did you miss to annotate your " +
-                            "BeagleConfig class with @BeagleComponent?")
-                    }
+        properties
+            .find { it.name == "config" }
+            ?.let { propertySpec ->
+                if (propertySpec.initializer.toString() == "null") {
+                    processingEnv.messager.error("Did you miss to annotate your " +
+                        "BeagleConfig class with @BeagleComponent?")
                 }
-        }
+            }
     }
 
     private fun handleAllProcess(basePackageName: String, roundEnvironment: RoundEnvironment, property: PropertySpec) {

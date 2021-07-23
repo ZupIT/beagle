@@ -41,12 +41,12 @@ import javax.lang.model.type.WildcardType
 
 class GenerateFunctionCustomAdapter(
     processingEnv: ProcessingEnvironment,
-    registrarComponentsProvider: RegistrarComponentsProvider? = null
+    registrarComponentsProvider: RegistrarComponentsProvider? = null,
 ) : BeagleGeneratorFunction<RegisterBeagleAdapter>(
     processingEnv,
     REGISTERED_CUSTOM_ADAPTER,
     RegisterBeagleAdapter::class.java,
-    registrarComponentsProvider
+    registrarComponentsProvider,
 ) {
 
     private var allCodeMappedWithAnnotation = ""

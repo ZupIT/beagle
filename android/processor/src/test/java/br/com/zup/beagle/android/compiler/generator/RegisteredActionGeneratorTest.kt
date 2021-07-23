@@ -33,12 +33,10 @@ import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import io.mockk.every
-import io.mockk.mockkObject
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -46,15 +44,10 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class RegisteredActionGeneratorTest {
+internal class RegisteredActionGeneratorTest : RegisteredComponentGeneratorBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
-
-    @BeforeEach
-    fun setUp() {
-        mockkObject(DependenciesRegistrarComponentsProvider)
-    }
 
     @DisplayName("When register action")
     @Nested
@@ -90,7 +83,8 @@ internal class RegisteredActionGeneratorTest {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     REGISTERED_ACTIONS_GENERATED,
-                    GenerateFunctionAction.REGISTERED_ACTIONS)
+                    GenerateFunctionAction.REGISTERED_ACTIONS,
+                )
             } returns listOf(
                 Pair("", "br.com.test.beagle.otherModule.ModuleAction"),
             )

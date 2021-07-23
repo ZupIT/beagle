@@ -27,12 +27,12 @@ import javax.lang.model.element.TypeElement
 
 class GenerateFunctionWidget(
     processingEnv: ProcessingEnvironment,
-    registrarComponentsProvider: RegistrarComponentsProvider? = null
+    registrarComponentsProvider: RegistrarComponentsProvider? = null,
 ) : BeagleGeneratorFunction<RegisterWidget>(
     processingEnv,
     REGISTERED_WIDGETS,
     RegisterWidget::class.java,
-    registrarComponentsProvider
+    registrarComponentsProvider,
 ) {
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {

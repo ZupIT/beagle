@@ -87,7 +87,8 @@ internal class AnalyticsTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""analytics""", "br.com.test.beagle.AnalyticsTestThree()"),
             )
@@ -141,12 +142,15 @@ internal class AnalyticsTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""analytics""", "br.com.test.beagle.AnalyticsTestThree()"),
             )
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_ANALYTICS + VALID_THIRD_ANALYTICS + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_ANALYTICS + VALID_THIRD_ANALYTICS + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)

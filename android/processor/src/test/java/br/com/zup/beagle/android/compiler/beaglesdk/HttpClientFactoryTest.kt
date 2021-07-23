@@ -57,8 +57,10 @@ internal class HttpClientFactoryTest : BeagleSdkBaseTest() {
         fun testGenerateHttpClientFactoryCorrect() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_HTTP_CLIENT_FACTORY + VALID_SECOND_HTTP_CLIENT +
-                SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_HTTP_CLIENT_FACTORY +
+                    VALID_SECOND_HTTP_CLIENT + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -89,14 +91,17 @@ internal class HttpClientFactoryTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""httpClientFactory""", "br.com.test.beagle.HttpClientFactoryTestThree()"),
             )
 
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + HTTP_CLIENT_FACTORY_IMPORTS +
-                VALID_THIRD_HTTP_CLIENT_FACTORY + VALID_SECOND_HTTP_CLIENT + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + HTTP_CLIENT_FACTORY_IMPORTS +
+                    VALID_THIRD_HTTP_CLIENT_FACTORY + VALID_SECOND_HTTP_CLIENT + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -124,8 +129,9 @@ internal class HttpClientFactoryTest : BeagleSdkBaseTest() {
         fun testDuplicate() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + LIST_OF_HTTP_CLIENT_FACTORY + VALID_SECOND_HTTP_CLIENT
-                + SIMPLE_BEAGLE_CONFIG
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + LIST_OF_HTTP_CLIENT_FACTORY +
+                    VALID_SECOND_HTTP_CLIENT + SIMPLE_BEAGLE_CONFIG
             )
 
             // WHEN
@@ -145,14 +151,14 @@ internal class HttpClientFactoryTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""httpClientFactory""", "br.com.test.beagle.HttpClientFactoryTestThree()"),
             )
             val kotlinSource = SourceFile.kotlin(FILE_NAME,
                 BEAGLE_CONFIG_IMPORTS + VALID_HTTP_CLIENT_FACTORY + VALID_THIRD_HTTP_CLIENT_FACTORY +
-                    VALID_SECOND_HTTP_CLIENT +
-                    SIMPLE_BEAGLE_CONFIG
+                    VALID_SECOND_HTTP_CLIENT + SIMPLE_BEAGLE_CONFIG
             )
 
             // WHEN

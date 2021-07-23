@@ -88,13 +88,16 @@ internal class BeagleImageDownloaderTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""imageDownloader""", "br.com.test.beagle.ImageDownloaderTestThree()"),
             )
-            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME,
                 BEAGLE_CONFIG_IMPORTS + IMAGE_DOWNLOAD_IMPORT +
-                    VALID_THIRD_IMAGE_DOWNLOAD + SIMPLE_BEAGLE_CONFIG)
+                    VALID_THIRD_IMAGE_DOWNLOAD + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -142,12 +145,16 @@ internal class BeagleImageDownloaderTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""imageDownloader""", "br.com.test.beagle.ImageDownloaderTestThree()"),
             )
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_IMAGE_DOWNLOAD + VALID_THIRD_IMAGE_DOWNLOAD + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_IMAGE_DOWNLOAD +
+                    VALID_THIRD_IMAGE_DOWNLOAD + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)

@@ -39,7 +39,7 @@ internal object TypeElementImplementationManager {
     ) {
         val manage = GenericTypeElementManagement(
             processingEnv,
-            typeElement
+            typeElement,
         )
 
         when {
@@ -47,14 +47,14 @@ internal object TypeElementImplementationManager {
                 val element = propertySpecifications?.config
                 propertySpecifications?.config = manage.manageTypeElement(
                     element,
-                    BEAGLE_CONFIG.className
+                    BEAGLE_CONFIG.className,
                 )
             }
             typeElement.implements(FORM_LOCAL_ACTION_HANDLER, processingEnv) -> {
                 val element = propertySpecifications?.formLocalActionHandler
                 propertySpecifications?.formLocalActionHandler = manage.manageTypeElement(
                     element,
-                    FORM_LOCAL_ACTION_HANDLER.className
+                    FORM_LOCAL_ACTION_HANDLER.className,
                 )
             }
             typeElement.implements(DEEP_LINK_HANDLER, processingEnv) -> {
@@ -86,7 +86,7 @@ internal object TypeElementImplementationManager {
                 val element = propertySpecifications?.imageDownloader
                 propertySpecifications?.imageDownloader = manage.manageTypeElement(
                     element,
-                    BEAGLE_IMAGE_DOWNLOADER.className
+                    BEAGLE_IMAGE_DOWNLOADER.className,
                 )
             }
         }

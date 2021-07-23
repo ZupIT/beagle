@@ -27,12 +27,12 @@ import javax.lang.model.element.TypeElement
 
 class GenerateFunctionOperation(
     processingEnv: ProcessingEnvironment,
-    registrarComponentsProvider: RegistrarComponentsProvider? = null
+    registrarComponentsProvider: RegistrarComponentsProvider? = null,
 ) : BeagleGeneratorFunction<RegisterOperation>(
     processingEnv,
     REGISTERED_OPERATIONS,
     RegisterOperation::class.java,
-    registrarComponentsProvider
+    registrarComponentsProvider,
 ) {
 
     private val temporaryListOfNames = mutableListOf<String>()
@@ -87,8 +87,7 @@ class GenerateFunctionOperation(
         const val REGISTERED_OPERATIONS = "registeredOperations"
     }
 
-    override fun buildCodeByDependency(
-        registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    override fun buildCodeByDependency(registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
     ): String {
         return buildCode(registeredDependency.first, registeredDependency.second)
     }

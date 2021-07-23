@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.compiler
+package br.com.zup.beagle.android.compiler.generator
 
-import javax.annotation.processing.ProcessingEnvironment
+import br.com.zup.beagle.android.compiler.DependenciesRegistrarComponentsProvider
+import io.mockk.mockkObject
+import org.junit.jupiter.api.BeforeEach
 
-fun isBeagleClassesGenerationDisabled(processingEnv: ProcessingEnvironment): Boolean {
-    return processingEnv.options.getOrDefault(KAPT_BEAGLE_GENERATE_SETUP_OPTION_NAME, "") == "false"
+internal open class RegisteredComponentGeneratorBaseTest {
+    @BeforeEach
+    fun setUp() {
+        mockkObject(DependenciesRegistrarComponentsProvider)
+    }
 }

@@ -34,12 +34,12 @@ import javax.lang.model.element.TypeElement
 
 class GenerateFunctionAction(
     processingEnv: ProcessingEnvironment,
-    registrarComponentsProvider: RegistrarComponentsProvider? = null
+    registrarComponentsProvider: RegistrarComponentsProvider? = null,
 ) : BeagleGeneratorFunction<RegisterAction>(
     processingEnv,
     REGISTERED_ACTIONS,
     RegisterAction::class.java,
-    registrarComponentsProvider
+    registrarComponentsProvider,
 ) {
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
         return buildCode(element.toString())

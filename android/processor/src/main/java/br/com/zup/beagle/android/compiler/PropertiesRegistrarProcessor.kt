@@ -31,12 +31,12 @@ class PropertiesRegistrarProcessor {
     fun process(
         processingEnv: ProcessingEnvironment,
         properties: List<PropertySpec>,
-        className: String
+        className: String,
     ) {
 
         val fileSpecBuilder = FileSpec.builder(
             REGISTRAR_COMPONENTS_PACKAGE,
-            className
+            className,
         )
 
         val funSpec = createFuncSpec()
@@ -92,6 +92,4 @@ class PropertiesRegistrarProcessor {
 
         return registeredProperties.toString()
     }
-
-
 }

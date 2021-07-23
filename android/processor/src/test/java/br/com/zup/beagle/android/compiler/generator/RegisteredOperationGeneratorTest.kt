@@ -34,11 +34,9 @@ import br.com.zup.beagle.compiler.shared.GenerateFunctionOperation
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import io.mockk.every
-import io.mockk.mockkObject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -46,15 +44,10 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class RegisteredOperationGeneratorTest {
+internal class RegisteredOperationGeneratorTest : RegisteredComponentGeneratorBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
-
-    @BeforeEach
-    fun setUp() {
-        mockkObject(DependenciesRegistrarComponentsProvider)
-    }
 
     @DisplayName("When register operations")
     @Nested
@@ -112,7 +105,8 @@ internal class RegisteredOperationGeneratorTest {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     REGISTERED_OPERATIONS_GENERATED,
-                    GenerateFunctionOperation.REGISTERED_OPERATIONS)
+                    GenerateFunctionOperation.REGISTERED_OPERATIONS,
+                )
             } returns listOf(
                 Pair("moduleOperation", "br.com.test.beagle.otherModule.ModuleOperation"),
             )

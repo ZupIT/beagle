@@ -40,10 +40,8 @@ import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import io.mockk.every
-import io.mockk.mockkObject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -51,15 +49,10 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class RegisteredControllerGeneratorTest {
+internal class RegisteredControllerGeneratorTest : RegisteredComponentGeneratorBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
-
-    @BeforeEach
-    fun setUp() {
-        mockkObject(DependenciesRegistrarComponentsProvider)
-    }
 
     @DisplayName("When register controllers")
     @Nested
@@ -165,7 +158,8 @@ internal class RegisteredControllerGeneratorTest {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     REGISTERED_CONTROLLERS_GENERATED,
-                    RegisterControllerProcessor.REGISTERED_CONTROLLERS)
+                    RegisterControllerProcessor.REGISTERED_CONTROLLERS,
+                )
             } returns listOf(
                 Pair("""controllerFromOtherModule""", "br.com.test.beagle.otherModule.ModuleBeagleActivity"),
             )
@@ -173,13 +167,17 @@ internal class RegisteredControllerGeneratorTest {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("serverDrivenActivity",
                     "br.com.test.beagle.AppDefaultBeagleActivityBeagleComponent::class.java as Class<BeagleActivity>"),
             )
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_LIST_CONTROLLERS + VALID_DEFAULT_CONTROLLER_BEAGLE_COMPONENT + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_LIST_CONTROLLERS +
+                    VALID_DEFAULT_CONTROLLER_BEAGLE_COMPONENT + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -201,7 +199,10 @@ internal class RegisteredControllerGeneratorTest {
         fun testGenerateListOfControllersRegisteredWithBeagleComponentCorrect() {
             // GIVEN
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + DEFAULT_IMPORTS + VALID_DEFAULT_CONTROLLER_BEAGLE_COMPONENT + VALID_CONTROLLER + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + DEFAULT_IMPORTS + VALID_DEFAULT_CONTROLLER_BEAGLE_COMPONENT +
+                    VALID_CONTROLLER + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -226,13 +227,17 @@ internal class RegisteredControllerGeneratorTest {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     REGISTERED_CONTROLLERS_GENERATED,
-                    RegisterControllerProcessor.REGISTERED_CONTROLLERS)
+                    RegisterControllerProcessor.REGISTERED_CONTROLLERS,
+                )
             } returns listOf(
                 Pair("""""", "br.com.test.beagle.otherModule.ModuleDefaultBeagleActivity"),
             )
 
             val kotlinSource = SourceFile.kotlin(
-                FILE_NAME, BEAGLE_CONFIG_IMPORTS + VALID_DEFAULT_CONTROLLER + VALID_SECOND_DEFAULT_CONTROLLER + SIMPLE_BEAGLE_CONFIG)
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_DEFAULT_CONTROLLER +
+                    VALID_SECOND_DEFAULT_CONTROLLER + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)

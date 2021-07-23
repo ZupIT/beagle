@@ -37,12 +37,12 @@ internal class GenericTypeElementManagement(
     private fun logImplementationErrorMessage(
         typeElement: TypeElement,
         propertySpecificationsElement: TypeElement,
-        element: String
+        element: String,
     ) {
         processingEnv.messager?.multipleDefinitionErrorMessage(
             typeElement,
             propertySpecificationsElement,
-            element
+            element,
         )
     }
 }

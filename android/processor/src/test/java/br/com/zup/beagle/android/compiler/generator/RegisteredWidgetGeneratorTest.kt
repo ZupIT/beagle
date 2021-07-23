@@ -33,11 +33,9 @@ import br.com.zup.beagle.compiler.shared.GenerateFunctionWidget
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import io.mockk.every
-import io.mockk.mockkObject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -45,15 +43,10 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class RegisteredWidgetGeneratorTest {
+internal class RegisteredWidgetGeneratorTest : RegisteredComponentGeneratorBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
-
-    @BeforeEach
-    fun setUp() {
-        mockkObject(DependenciesRegistrarComponentsProvider)
-    }
 
     @DisplayName("When register widget")
     @Nested
@@ -89,7 +82,8 @@ internal class RegisteredWidgetGeneratorTest {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     REGISTERED_WIDGETS_GENERATED,
-                    GenerateFunctionWidget.REGISTERED_WIDGETS)
+                    GenerateFunctionWidget.REGISTERED_WIDGETS,
+                )
             } returns listOf(
                 Pair("", "br.com.test.beagle.otherModule.ModuleWidget"),
             )

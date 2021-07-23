@@ -32,11 +32,11 @@ class GenerateFunctionComponentRegistrar<T : Annotation>(
     processingEnv: ProcessingEnvironment,
     functionName: String,
     annotation: Class<T>,
-    private val buildElementKey: (Element, Annotation) -> String
+    private val buildElementKey: (Element, Annotation) -> String,
 ) : BeagleGeneratorFunction<T>(
     processingEnv,
     functionName,
-    annotation
+    annotation,
 ) {
     companion object {
         const val PROPERTY_NAME = "registeredComponents"

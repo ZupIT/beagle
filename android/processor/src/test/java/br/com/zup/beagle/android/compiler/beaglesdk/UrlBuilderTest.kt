@@ -87,13 +87,16 @@ internal class UrlBuilderTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""urlBuilder""", "br.com.test.beagle.UrlBuilderTestThree()"),
             )
-            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME,
                 BEAGLE_CONFIG_IMPORTS + URL_BUILDER_IMPORT +
-                    VALID_THIRD_URL_BUILDER + SIMPLE_BEAGLE_CONFIG)
+                    VALID_THIRD_URL_BUILDER + SIMPLE_BEAGLE_CONFIG
+            )
 
             // WHEN
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
@@ -141,7 +144,8 @@ internal class UrlBuilderTest : BeagleSdkBaseTest() {
                 DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
                     any(),
                     PROPERTIES_REGISTRAR_CLASS_NAME,
-                    PROPERTIES_REGISTRAR_METHOD_NAME)
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
             } returns listOf(
                 Pair("""urlBuilder""", "br.com.test.beagle.UrlBuilderTestThree()"),
             )

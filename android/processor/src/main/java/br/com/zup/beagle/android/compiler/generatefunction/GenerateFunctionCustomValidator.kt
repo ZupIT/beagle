@@ -35,12 +35,12 @@ import javax.lang.model.element.TypeElement
 
 class GenerateFunctionCustomValidator(
     processingEnv: ProcessingEnvironment,
-    registrarComponentsProvider: RegistrarComponentsProvider? = null
+    registrarComponentsProvider: RegistrarComponentsProvider? = null,
 ) : BeagleGeneratorFunction<RegisterValidator>(
     processingEnv,
     REGISTERED_CUSTOM_VALIDATOR,
     RegisterValidator::class.java,
-    registrarComponentsProvider
+    registrarComponentsProvider,
 ) {
 
     private var allCodeMappedWithAnnotation = ""
