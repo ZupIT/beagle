@@ -45,7 +45,7 @@ SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_js: 95929d4e146e8ceb1c8e1889d8c2065c5d840076
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
-  webview_flutter: 9f491a9b5a66f2573946a389b2677987b0ff8c0b
+  webview_flutter: 3603125dfd3bcbc9d8d418c3f80aeecf331c068b
   yoga_engine: 1ce78f562aea40afd366771690b1a1d267182be7
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
