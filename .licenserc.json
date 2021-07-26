@@ -28,6 +28,7 @@
     ".json",
     ".jpg",
     ".png",
+    ".pdf",
     ".resolved",
     ".jar",
     ".md",
