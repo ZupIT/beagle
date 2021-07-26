@@ -1,3 +1,7 @@
+## 0.9.2-alpha
+
+* Updates yoga_engine dependency
+
 ## 0.9.1-alpha
 
 * Adds support to iOS platform and updates yoga_engine dependency
