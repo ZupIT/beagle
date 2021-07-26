@@ -1,7 +1,2 @@
 CODEOWNERS
-*         @dantes-git @pedropnaves @tarcisiogc @tuliopereirazup @hernandazevedozup @matheusribeirozup @hthemir @danilorochazup @ze12augusto @LG95 @theffc @victormr @yandiaszup @gmarson @uziasferreirazup @lucasaraujo @jefersonlopeszup @paulomeurerzup @adautopaulazup @gabrielleonardozup @victorrabelozup @lucasfonsecazup @carlossteinzup @viniciusguardieirozup @luisgustavozup @luisoliveirazup @joaoabreuzup @jenifersantoszup @tiagoperes
-
-android/  @tuliopereirazup @hernandazevedozup @matheusribeirozup @uziasferreirazup @hthemir @danilorochazup @jefersonlopeszup @tarcisiogc @paulomeurerzup @gabrielleonardozup @carlossteinzup @viniciusguardieirozup @luisoliveirazup @jenifersantoszup
-iOS/ @theffc @dantes-git @victormr @yandiaszup @gmarson @lucasaraujo @tarcisiogc @lucasfonsecazup @luisgustavozup @joaoabreuzup @victorrabelozup
-backend/  @tarcisiogc @LG95 @ze12augusto @adautopaulazup @tuliopereirazup @hernandazevedozup @matheusribeirozup @uziasferreirazup @hthemir @danilorochazup @jefersonlopeszup @Tiagoperes @paulomeurerzup
-flutter/  @tarcisiogc @tuliopereirazup @matheusribeirozup @uziasferreirazup @dantes-git @gmarson @paulomeurerzup @gabrielleonardozup @theffc @dantes-git @Tiagoperes @igorgiumellizup
+*         @dantes-git @tarcisiogc @tuliopereirazup @hernandazevedozup @matheusribeirozup @uziasferreirazup @paulomeurerzup @carlossteinzup @tiagoperes
