@@ -73,6 +73,31 @@ const val INTERNAL_LIST_ACTION_GENERATED_EXPECTED: String =
 
     """
 
+const val INTERNAL_LIST_ACTION_WITH_REGISTRAR_GENERATED_EXPECTED: String =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.test.beagle
+        
+        import br.com.zup.beagle.android.action.Action
+        import java.lang.Class
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredActions {
+          public fun registeredActions(): List<Class<Action>> {
+            val registeredActions = listOf<Class<Action>>(
+               
+                br.com.test.beagle.AsyncActionTest::class.java as Class<Action>,
+                br.com.test.beagle.ActionTest::class.java as Class<Action>,
+                br.com.test.beagle.otherModule.ModuleAction::class.java as Class<Action>,
+            )
+            return registeredActions
+          }
+        }
+
+    """
+
 const val INTERNAL_SINGLE_ACTION_GENERATED_EXPECTED: String =
     """
         @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
@@ -93,3 +118,44 @@ const val INTERNAL_SINGLE_ACTION_GENERATED_EXPECTED: String =
         }
 
     """
+
+const val INTERNAL_ACTION_REGISTRAR_EXPECTED = """
+    @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+    
+    package br.com.zup.beagle.android.registrar
+    
+    import kotlin.Pair
+    import kotlin.String
+    import kotlin.Suppress
+    import kotlin.collections.List
+    
+    public final object RegisteredActionsRegistrarTest {
+      public fun registeredActions(): List<Pair<String, String>> {
+        val registeredComponents = listOf<Pair<String, String>>(
+    
+            Pair(""${'"'}${'"'}${'"'}${'"'},"br.com.test.beagle.AsyncActionTest"),
+            Pair(""${'"'}${'"'}${'"'}${'"'},"br.com.test.beagle.ActionTest"),
+        )
+        return registeredComponents
+      }
+    }
+"""
+
+const val INTERNAL_ACTION_REGISTRAR_NO_ACTION_EXPECTED = """
+    @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+    
+    package br.com.zup.beagle.android.registrar
+    
+    import kotlin.Pair
+    import kotlin.String
+    import kotlin.Suppress
+    import kotlin.collections.List
+    
+    public final object RegisteredActionsRegistrarTest {
+      public fun registeredActions(): List<Pair<String, String>> {
+        val registeredComponents = listOf<Pair<String, String>>(
+        )
+        return registeredComponents
+      }
+    }
+"""

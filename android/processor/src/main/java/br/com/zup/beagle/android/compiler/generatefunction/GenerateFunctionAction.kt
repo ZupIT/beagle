@@ -19,6 +19,9 @@ package br.com.zup.beagle.android.compiler.generatefunction
 import br.com.zup.beagle.android.compiler.ANDROID_ACTION
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
+import br.com.zup.beagle.compiler.shared.RegisteredComponentFullName
+import br.com.zup.beagle.compiler.shared.RegisteredComponentId
+import br.com.zup.beagle.compiler.shared.RegistrarComponentsProvider
 import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.implements
 import com.squareup.kotlinpoet.ClassName
@@ -29,15 +32,17 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionAction(private val processingEnv: ProcessingEnvironment) :
-    BeagleGeneratorFunction<RegisterAction>(
-        ANDROID_ACTION,
-        REGISTERED_ACTIONS,
-        RegisterAction::class.java
-    ) {
-
+class GenerateFunctionAction(
+    processingEnv: ProcessingEnvironment,
+    registrarComponentsProvider: RegistrarComponentsProvider? = null,
+) : BeagleGeneratorFunction<RegisterAction>(
+    processingEnv,
+    REGISTERED_ACTIONS,
+    RegisterAction::class.java,
+    registrarComponentsProvider,
+) {
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
-        return "\t${element}::class.java as Class<Action>,"
+        return buildCode(element.toString())
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
@@ -75,5 +80,16 @@ class GenerateFunctionAction(private val processingEnv: ProcessingEnvironment) :
 
     companion object {
         const val REGISTERED_ACTIONS = "registeredActions"
+        const val REGISTERED_ACTIONS_SUFFIX = "::class.java as Class<Action>"
+    }
+
+    override fun buildCodeByDependency(
+        registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    ): String {
+        return buildCode(registeredDependency.second)
+    }
+
+    private fun buildCode(elementDescription: String): String {
+        return "\n\t$elementDescription$REGISTERED_ACTIONS_SUFFIX,"
     }
 }

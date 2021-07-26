@@ -17,9 +17,11 @@
 package br.com.zup.beagle.android.compiler.generator
 
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.REGISTERED_WIDGETS_GENERATED
+import br.com.zup.beagle.android.compiler.DependenciesRegistrarComponentsProvider
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.INTERNAL_LIST_WIDGET_GENERATED_EXPECTED
+import br.com.zup.beagle.android.compiler.mocks.INTERNAL_LIST_WIDGET_WITH_REGISTRAR_GENERATED_EXPECTED
 import br.com.zup.beagle.android.compiler.mocks.INTERNAL_SINGLE_WIDGET_GENERATED_EXPECTED
 import br.com.zup.beagle.android.compiler.mocks.INVALID_WIDGET
 import br.com.zup.beagle.android.compiler.mocks.INVALID_WIDGET_WITH_INHERITANCE
@@ -27,8 +29,11 @@ import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_LIST_WIDGETS
 import br.com.zup.beagle.android.compiler.mocks.VALID_WIDGET_WITH_INHERITANCE_WIDGET_VIEW
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
+import br.com.zup.beagle.compiler.shared.GenerateFunctionWidget
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import io.mockk.every
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
@@ -38,7 +43,7 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class RegisteredWidgetGeneratorTest {
+internal class RegisteredWidgetGeneratorTest : RegisteredComponentGeneratorBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
@@ -58,12 +63,45 @@ internal class RegisteredWidgetGeneratorTest {
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
 
             // THEN
-            val file = compilationResult.generatedFiles.find { file -> file.name.startsWith(REGISTERED_WIDGETS_GENERATED) }!!
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_WIDGETS_GENERATED.kt")
+            }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_LIST_WIDGET_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString =
+                INTERNAL_LIST_WIDGET_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
 
             assertEquals(fileExpectedInString, fileGeneratedInString)
             assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
+
+        @Test
+        @DisplayName("Then should create class with list of widgets with registrar widgets")
+        fun testGenerateListOfWidgetsWithRegistrarCorrect() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    REGISTERED_WIDGETS_GENERATED,
+                    GenerateFunctionWidget.REGISTERED_WIDGETS,
+                )
+            } returns listOf(
+                Pair("", "br.com.test.beagle.otherModule.ModuleWidget"),
+            )
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_LIST_WIDGETS + SIMPLE_BEAGLE_CONFIG)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_WIDGETS_GENERATED.kt")
+            }!!
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString =
+                INTERNAL_LIST_WIDGET_WITH_REGISTRAR_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+
+            assertEquals(fileExpectedInString, fileGeneratedInString)
         }
 
         @Test
@@ -77,9 +115,12 @@ internal class RegisteredWidgetGeneratorTest {
             val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
 
             // THEN
-            val file = compilationResult.generatedFiles.find { file -> file.name.startsWith(REGISTERED_WIDGETS_GENERATED) }!!
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_WIDGETS_GENERATED.kt")
+            }!!
             val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
-            val fileExpectedInString = INTERNAL_SINGLE_WIDGET_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString =
+                INTERNAL_SINGLE_WIDGET_GENERATED_EXPECTED.replace(REGEX_REMOVE_SPACE, "")
 
             assertEquals(fileExpectedInString, fileGeneratedInString)
             assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
@@ -122,10 +163,58 @@ internal class RegisteredWidgetGeneratorTest {
         }
     }
 
+    @DisplayName("When build application with beagle.generateSetupClasses kapt argument")
+    @Nested
+    inner class KaptArgument {
+
+        @Test
+        @DisplayName("Then should not generate RegisteredWidgets class")
+        fun testGenerateRegisteredWidgetsClassFalse() {
+            //GIVEN
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_LIST_WIDGETS + SIMPLE_BEAGLE_CONFIG)
+
+            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to "false")
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath, kaptArguments)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_WIDGETS_GENERATED.kt")
+            }
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertNull(file)
+        }
+
+        @Test
+        @DisplayName("Then should generate RegisteredWidgets class")
+        fun testGenerateRegisteredWidgetsClassTrue() {
+            //GIVEN
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_LIST_WIDGETS + SIMPLE_BEAGLE_CONFIG)
+
+            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to "true")
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath, kaptArguments)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith("$REGISTERED_WIDGETS_GENERATED.kt")
+            }
+
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertNotNull(file)
+        }
+
+    }
+
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
         private const val MESSAGE_INVALID_WIDGET_ERROR = "The class br.com.test.beagle.InvalidWidget need to inherit" +
             " from the class WidgetView when annotate class with @RegisterWidget."
+        private const val KAPT_OPTION_NAME = "beagle.generateSetupClasses"
     }
 }

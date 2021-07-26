@@ -17,18 +17,22 @@
 package br.com.zup.beagle.android.compiler.beaglesdk
 
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_SETUP_GENERATED
+import br.com.zup.beagle.android.compiler.DependenciesRegistrarComponentsProvider
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_CLASS_NAME
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_METHOD_NAME
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
+import br.com.zup.beagle.android.compiler.mocks.DEEP_LINK_HANDLER_IMPORT
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_DEEP_LINK_HANDLER
-import br.com.zup.beagle.android.compiler.mocks.LIST_OF_HTTP_CLIENT
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
 import br.com.zup.beagle.android.compiler.mocks.VALID_DEEP_LINK_HANDLER
 import br.com.zup.beagle.android.compiler.mocks.VALID_DEEP_LINK_HANDLER_BEAGLE_SDK
-import br.com.zup.beagle.android.compiler.mocks.VALID_HTTP_CLIENT
-import br.com.zup.beagle.android.compiler.mocks.VALID_HTTP_CLIENT_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_DEEP_LINK_HANDLER_BEAGLE_SDK_FROM_REGISTRAR
+import br.com.zup.beagle.android.compiler.mocks.VALID_THIRD_DEEP_LINK_HANDLER
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import io.mockk.every
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -38,7 +42,7 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class DeepLinkHandlerTest {
+internal class DeepLinkHandlerTest : BeagleSdkBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
@@ -72,6 +76,43 @@ internal class DeepLinkHandlerTest {
 
     }
 
+    @DisplayName("When already registered in other module PropertiesRegistrar")
+    @Nested
+    inner class RegisterFromOtherModule {
+        @Test
+        @DisplayName("Then should add the deep link handler in beagle sdk")
+        fun testGenerateDeepLinkHandlerFromRegistrarCorrect() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
+            } returns listOf(
+                Pair("""deepLinkHandler""", "br.com.test.beagle.DeepLinkHandlerTestThree()"),
+            )
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + DEEP_LINK_HANDLER_IMPORT +
+                    VALID_THIRD_DEEP_LINK_HANDLER + SIMPLE_BEAGLE_CONFIG)
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith(BEAGLE_SETUP_GENERATED)
+            }!!
+
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = VALID_DEEP_LINK_HANDLER_BEAGLE_SDK_FROM_REGISTRAR
+                .replace(REGEX_REMOVE_SPACE, "")
+
+            assertEquals(fileExpectedInString, fileGeneratedInString)
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
+    }
+
 
     @DisplayName("When register deep link handler")
     @Nested
@@ -93,13 +134,48 @@ internal class DeepLinkHandlerTest {
             Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_DEEP_LINK_HANDLER))
         }
 
+        @Test
+        @DisplayName("Then should show error with duplicate deep link handler in PropertiesRegistrar")
+        fun testDuplicateInRegistrar() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
+            } returns listOf(
+                Pair("""deepLinkHandler""", "br.com.test.beagle.DeepLinkHandlerTestThree()"),
+            )
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_DEEP_LINK_HANDLER +
+                    VALID_THIRD_DEEP_LINK_HANDLER + SIMPLE_BEAGLE_CONFIG
+            )
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_DEEP_LINK_HANDLER_REGISTRAR))
+            assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
+        }
+
     }
 
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_DEEP_LINK_HANDLER = "DeepLinkHandler already defined," +
-            " remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_DEEP_LINK_HANDLER = "error: DeepLinkHandler defined multiple times: " +
+            "1 - br.com.test.beagle.DeepLinkHandlerTest " +
+            "2 - br.com.test.beagle.DeepLinkHandlerTestTwo. " +
+            "You must remove one implementation from the application."
+
+        private const val MESSAGE_DUPLICATE_DEEP_LINK_HANDLER_REGISTRAR =
+            "error: DeepLinkHandler defined multiple times: " +
+                "1 - br.com.test.beagle.DeepLinkHandlerTest " +
+                "2 - br.com.test.beagle.DeepLinkHandlerTestThree. " +
+                "You must remove one implementation from the application."
     }
 
 }

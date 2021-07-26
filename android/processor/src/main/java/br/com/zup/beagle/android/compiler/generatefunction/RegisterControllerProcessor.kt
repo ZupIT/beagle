@@ -20,14 +20,15 @@ import br.com.zup.beagle.android.annotation.RegisterController
 import br.com.zup.beagle.android.compiler.BEAGLE_ACTIVITY
 import br.com.zup.beagle.android.compiler.CONTROLLER_REFERENCE
 import br.com.zup.beagle.android.compiler.DEFAULT_BEAGLE_ACTIVITY
+import br.com.zup.beagle.android.compiler.DependenciesRegistrarComponentsProvider
 import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
 import java.io.IOException
@@ -35,24 +36,29 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.type.MirroredTypeException
 
-const val CONTROLLER_REFERENCE_GENERATED = "ControllerReferenceGenerated"
+const val REGISTERED_CONTROLLERS_GENERATED = "RegisteredControllers"
 
 internal class RegisterControllerProcessor(private val processingEnv: ProcessingEnvironment) {
+
+    companion object {
+        const val REGISTERED_CONTROLLERS = "classFor"
+        const val CONTROLLER_DEFINITION_SUFFIX = "::class.java as Class<BeagleActivity>"
+    }
 
     var defaultActivityRegistered: String = ""
 
     fun process(packageName: String, roundEnvironment: RoundEnvironment, defaultActivity: String) {
-        val typeSpec = TypeSpec.classBuilder(CONTROLLER_REFERENCE_GENERATED)
+        val typeSpec = TypeSpec.classBuilder(REGISTERED_CONTROLLERS_GENERATED)
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
             .addSuperinterface(ClassName(
                 CONTROLLER_REFERENCE.packageName,
-                CONTROLLER_REFERENCE.className
+                CONTROLLER_REFERENCE.className,
             ))
             .addFunction(createClassForMethod(roundEnvironment, defaultActivity))
             .build()
 
         try {
-            FileSpec.builder(packageName, CONTROLLER_REFERENCE_GENERATED)
+            FileSpec.builder(packageName, REGISTERED_CONTROLLERS_GENERATED)
                 .addImport(CONTROLLER_REFERENCE.packageName, CONTROLLER_REFERENCE.className)
                 .addImport(BEAGLE_ACTIVITY.packageName, BEAGLE_ACTIVITY.className)
                 .addAnnotation(
@@ -75,31 +81,33 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             ClassName(BEAGLE_ACTIVITY.packageName, BEAGLE_ACTIVITY.className)
         )
 
-        val spec = FunSpec.builder("classFor")
+        val spec = FunSpec.builder(REGISTERED_CONTROLLERS)
             .addModifiers(KModifier.OVERRIDE)
             .addParameter("id", String::class.asTypeName().copy(true))
 
 
         val defaultBeagleClass = ClassName(DEFAULT_BEAGLE_ACTIVITY.packageName,
             DEFAULT_BEAGLE_ACTIVITY.className).canonicalName
-        defaultActivityRegistered = if (validatorLines.second.isEmpty())
-            "$defaultBeagleClass::class.java as Class<BeagleActivity>" else validatorLines.second
+
+        defaultActivityRegistered =
+            if (defaultActivityRegistered.isEmpty() && !defaultActivity.startsWith("null::class")) {
+                defaultActivity
+            } else if (defaultActivityRegistered.isEmpty()) {
+                "$defaultBeagleClass$CONTROLLER_DEFINITION_SUFFIX"
+            } else {
+                defaultActivityRegistered
+            }
 
         var code = ""
 
-        when {
-            validatorLines.second.isEmpty() && !defaultActivity.startsWith("null::class") -> {
-                defaultActivityRegistered = defaultActivity
-            }
-            validatorLines.first.isNotEmpty() -> {
+        if (validatorLines.isNotEmpty()) {
 
-                code = """
+            code = """
                     |return when(id) {
-                    |   ${validatorLines.first}
-                    |   else -> $defaultActivityRegistered
+                    |$validatorLines
+                    |    else -> $defaultActivityRegistered
                     |}
                 |""".trimMargin()
-            }
         }
 
         if (code.isEmpty()) {
@@ -112,13 +120,11 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             .build()
     }
 
-    private fun createValidatorLines(roundEnvironment: RoundEnvironment): Pair<String, String> {
+    private fun createValidatorLines(roundEnvironment: RoundEnvironment): String {
         val validators = StringBuilder()
         val registerValidatorAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(
             RegisterController::class.java
         )
-
-        var defaultControllerClass = ""
 
         registerValidatorAnnotatedClasses.forEachIndexed { index, element ->
             val registerValidatorAnnotation = element.getAnnotation(RegisterController::class.java)
@@ -129,16 +135,49 @@ internal class RegisterControllerProcessor(private val processingEnv: Processing
             }
 
             if (name.isEmpty()) {
-                defaultControllerClass = "$element::class.java as Class<BeagleActivity>"
+                defaultActivityRegistered = "$element$CONTROLLER_DEFINITION_SUFFIX"
                 return@forEachIndexed
             }
 
-            validators.append("\"$name\" -> $element::class.java as Class<BeagleActivity>")
+            validators.append("    \"$name\" -> $element$CONTROLLER_DEFINITION_SUFFIX")
             if (index < registerValidatorAnnotatedClasses.size - 1) {
                 validators.append("\n")
             }
         }
 
-        return validators.toString() to defaultControllerClass
+        validators.append(getRegisteredControllersInDependencies())
+
+        return validators.toString()
+    }
+
+    private fun getRegisteredControllersInDependencies(): java.lang.StringBuilder {
+        val registeredWidgets = StringBuilder()
+
+        DependenciesRegistrarComponentsProvider
+            .getRegisteredComponentsInDependencies(
+                processingEnv,
+                REGISTERED_CONTROLLERS_GENERATED,
+                REGISTERED_CONTROLLERS,
+            )
+            .forEach { registeredDependency ->
+                if (defaultActivityRegistered.isNotEmpty() && registeredDependency.first.isEmpty()) {
+                    processingEnv.messager?.error("Default controller defined multiple times: " +
+                        "1 - ${defaultActivityRegistered.substringBefore(CONTROLLER_DEFINITION_SUFFIX)} " +
+                        "2 - ${registeredDependency.second}. " +
+                        "You must remove one implementation from the application.")
+                }
+
+                if (registeredDependency.first.isEmpty()) {
+                    defaultActivityRegistered = "${registeredDependency.second}$CONTROLLER_DEFINITION_SUFFIX"
+                } else {
+                    registeredWidgets
+                        .append(
+                            "\n    \"${registeredDependency.first}\" -> " +
+                                "${registeredDependency.second}$CONTROLLER_DEFINITION_SUFFIX"
+                        )
+                }
+
+            }
+        return registeredWidgets
     }
 }

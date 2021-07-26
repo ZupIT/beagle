@@ -25,11 +25,14 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionOperation(private val processingEnv: ProcessingEnvironment)
-    : BeagleGeneratorFunction<RegisterOperation>(
-    ANDROID_OPERATION,
+class GenerateFunctionOperation(
+    processingEnv: ProcessingEnvironment,
+    registrarComponentsProvider: RegistrarComponentsProvider? = null,
+) : BeagleGeneratorFunction<RegisterOperation>(
+    processingEnv,
     REGISTERED_OPERATIONS,
-    RegisterOperation::class.java
+    RegisterOperation::class.java,
+    registrarComponentsProvider,
 ) {
 
     private val temporaryListOfNames = mutableListOf<String>()
@@ -39,7 +42,7 @@ class GenerateFunctionOperation(private val processingEnv: ProcessingEnvironment
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
         val name = (annotation as RegisterOperation).name
         temporaryListOfNames.add(name)
-        return "\"$name\" to $element(), \n"
+        return buildCode(name, element.toString())
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
@@ -82,5 +85,14 @@ class GenerateFunctionOperation(private val processingEnv: ProcessingEnvironment
 
     companion object {
         const val REGISTERED_OPERATIONS = "registeredOperations"
+    }
+
+    override fun buildCodeByDependency(registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    ): String {
+        return buildCode(registeredDependency.first, registeredDependency.second)
+    }
+
+    private fun buildCode(name: String, elementDescription: String): String {
+        return "\t\"$name\" to $elementDescription(), \n"
     }
 }

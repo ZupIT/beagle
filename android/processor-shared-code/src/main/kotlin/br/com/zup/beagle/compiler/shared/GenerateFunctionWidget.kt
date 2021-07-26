@@ -25,15 +25,18 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
-    BeagleGeneratorFunction<RegisterWidget>(
-        WIDGET_VIEW,
-        REGISTERED_WIDGETS,
-        RegisterWidget::class.java
-    ) {
+class GenerateFunctionWidget(
+    processingEnv: ProcessingEnvironment,
+    registrarComponentsProvider: RegistrarComponentsProvider? = null,
+) : BeagleGeneratorFunction<RegisterWidget>(
+    processingEnv,
+    REGISTERED_WIDGETS,
+    RegisterWidget::class.java,
+    registrarComponentsProvider,
+) {
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
-        return "\t${element}::class.java as Class<WidgetView>,"
+        return buildCode(element.toString())
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
@@ -73,5 +76,17 @@ class GenerateFunctionWidget(private val processingEnv: ProcessingEnvironment) :
 
     companion object {
         const val REGISTERED_WIDGETS = "registeredWidgets"
+        const val REGISTERED_WIDGETS_SUFFIX = "::class.java as Class<WidgetView>"
     }
+
+    override fun buildCodeByDependency(
+        registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    ): String {
+        return buildCode(registeredDependency.second)
+    }
+
+    private fun buildCode(elementDescription: String): String {
+        return "\t$elementDescription$REGISTERED_WIDGETS_SUFFIX,\n"
+    }
+
 }

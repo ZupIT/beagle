@@ -93,6 +93,33 @@ const val INTERNAL_LIST_CUSTOM_VALIDATOR_GENERATED_EXPECTED: String =
         
     """
 
+const val INTERNAL_LIST_CUSTOM_VALIDATOR_WITH_REGISTRAR_GENERATED_EXPECTED: String =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.test.beagle
+        
+        import br.com.zup.beagle.android.components.form.core.Validator
+        import br.com.zup.beagle.android.components.form.core.ValidatorHandler
+        import kotlin.Any
+        import kotlin.String
+        import kotlin.Suppress
+        
+        public final object RegisteredCustomValidator : ValidatorHandler {
+          public override fun getValidator(name: String): Validator<Any, Any>? = when(name) {
+                "text-is-not-blank-two" -> br.com.test.beagle.TextNotBlankValidatorTwo() as Validator<Any,
+              Any>
+            "text-is-not-blank" -> br.com.test.beagle.TextNotBlankValidator() as Validator<Any, Any>
+            "moduleCustomValidator" -> br.com.test.beagle.otherModule.ModuleCustomValidator() as
+              Validator<Any, Any>
+        
+             else -> null
+          }
+        
+        }
+
+    """
+
 const val INVALID_CUSTOM_VALIDATOR =
     """
         import br.com.zup.beagle.android.annotation.RegisterValidator
@@ -111,3 +138,68 @@ const val INVALID_CUSTOM_VALIDATOR_WITH_INHERITANCE =
         class InvalidCustomValidator : WidgetView { }
     """
 
+const val INTERNAL_SINGLE_CUSTOM_VALIDATOR_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredCustomValidatorRegistrarTest {
+          public fun getValidator(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}text-is-not-blank""${'"'},"br.com.test.beagle.TextNotBlankValidator"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_LIST_CUSTOM_VALIDATOR_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredCustomValidatorRegistrarTest {
+          public fun getValidator(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}text-is-not-blank-two""${'"'},"br.com.test.beagle.TextNotBlankValidatorTwo"),
+                Pair(""${'"'}text-is-not-blank""${'"'},"br.com.test.beagle.TextNotBlankValidator"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_EMPTY_LIST_CUSTOM_VALIDATOR_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredCustomValidatorRegistrarTest {
+          public fun getValidator(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+            )
+            return registeredComponents
+          }
+        }
+    """

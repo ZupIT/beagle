@@ -17,15 +17,22 @@
 package br.com.zup.beagle.android.compiler.beaglesdk
 
 import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.BEAGLE_SETUP_GENERATED
+import br.com.zup.beagle.android.compiler.DependenciesRegistrarComponentsProvider
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_CLASS_NAME
+import br.com.zup.beagle.android.compiler.PROPERTIES_REGISTRAR_METHOD_NAME
 import br.com.zup.beagle.android.compiler.extensions.compile
 import br.com.zup.beagle.android.compiler.mocks.BEAGLE_CONFIG_IMPORTS
 import br.com.zup.beagle.android.compiler.mocks.LIST_OF_URL_BUILDER
 import br.com.zup.beagle.android.compiler.mocks.SIMPLE_BEAGLE_CONFIG
+import br.com.zup.beagle.android.compiler.mocks.URL_BUILDER_IMPORT
+import br.com.zup.beagle.android.compiler.mocks.VALID_THIRD_URL_BUILDER
 import br.com.zup.beagle.android.compiler.mocks.VALID_URL_BUILDER
 import br.com.zup.beagle.android.compiler.mocks.VALID_URL_BUILDER_BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.mocks.VALID_URL_BUILDER_BEAGLE_SDK_FROM_REGISTRAR
 import br.com.zup.beagle.android.compiler.processor.BeagleAnnotationProcessor
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import io.mockk.every
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -35,7 +42,7 @@ import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Path
 
 @DisplayName("Given Beagle Annotation Processor")
-internal class UrlBuilderTest {
+internal class UrlBuilderTest : BeagleSdkBaseTest() {
 
     @TempDir
     lateinit var tempPath: Path
@@ -69,6 +76,45 @@ internal class UrlBuilderTest {
 
     }
 
+    @DisplayName("When already registered in other module PropertiesRegistrar")
+    @Nested
+    inner class RegisterFromOtherModule {
+        @Test
+        @DisplayName("Then should add the url builder in beagle sdk")
+        fun testGenerateUrlBuilderFromRegistrarCorrect() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
+            } returns listOf(
+                Pair("""urlBuilder""", "br.com.test.beagle.UrlBuilderTestThree()"),
+            )
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + URL_BUILDER_IMPORT +
+                    VALID_THIRD_URL_BUILDER + SIMPLE_BEAGLE_CONFIG
+            )
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith(BEAGLE_SETUP_GENERATED)
+            }!!
+
+            val fileGeneratedInString = file.readText().replace(REGEX_REMOVE_SPACE, "")
+            val fileExpectedInString = VALID_URL_BUILDER_BEAGLE_SDK_FROM_REGISTRAR
+                .replace(REGEX_REMOVE_SPACE, "")
+
+            assertEquals(fileExpectedInString, fileGeneratedInString)
+            assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+        }
+    }
+
 
     @DisplayName("When register url builder")
     @Nested
@@ -90,13 +136,45 @@ internal class UrlBuilderTest {
             Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_URL_BUILDER))
         }
 
+        @Test
+        @DisplayName("Then should show error with duplicate url builder in PropertiesRegistrar")
+        fun testDuplicateInRegistrar() {
+            // GIVEN
+            every {
+                DependenciesRegistrarComponentsProvider.getRegisteredComponentsInDependencies(
+                    any(),
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
+            } returns listOf(
+                Pair("""urlBuilder""", "br.com.test.beagle.UrlBuilderTestThree()"),
+            )
+            val kotlinSource = SourceFile.kotlin(FILE_NAME,
+                BEAGLE_CONFIG_IMPORTS + VALID_URL_BUILDER + VALID_THIRD_URL_BUILDER + SIMPLE_BEAGLE_CONFIG
+            )
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath)
+
+            // THEN
+            Assertions.assertTrue(compilationResult.messages.contains(MESSAGE_DUPLICATE_URL_BUILDER_REGISTRAR))
+            assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, compilationResult.exitCode)
+        }
+
     }
 
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
-        private const val MESSAGE_DUPLICATE_URL_BUILDER = "UrlBuilder already defined," +
-            " remove one implementation from the application."
+        private const val MESSAGE_DUPLICATE_URL_BUILDER = "error: UrlBuilder defined multiple times: " +
+            "1 - br.com.test.beagle.UrlBuilderTestTwo " +
+            "2 - br.com.test.beagle.UrlBuilderTest. " +
+            "You must remove one implementation from the application."
+
+        private const val MESSAGE_DUPLICATE_URL_BUILDER_REGISTRAR = "error: UrlBuilder defined multiple times: " +
+            "1 - br.com.test.beagle.UrlBuilderTest " +
+            "2 - br.com.test.beagle.UrlBuilderTestThree. " +
+            "You must remove one implementation from the application."
     }
 
 }

@@ -17,15 +17,22 @@
 package br.com.zup.beagle.compiler.shared
 
 import com.squareup.kotlinpoet.FunSpec
+import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 
 abstract class BeagleGeneratorFunction<T : Annotation>(
-    private val beagleClass: BeagleClass,
+    protected val processingEnv: ProcessingEnvironment,
     private val functionName: String,
-    private val annotation: Class<T>) {
+    private val annotation: Class<T>,
+    private val registrarComponentsProvider: RegistrarComponentsProvider? = null,
+) {
 
     abstract fun buildCodeByElement(element: Element, annotation: Annotation): String
+
+    abstract fun buildCodeByDependency(
+        registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    ): String
 
     abstract fun validationElement(element: Element, annotation: Annotation)
 
@@ -35,12 +42,28 @@ abstract class BeagleGeneratorFunction<T : Annotation>(
 
     abstract fun createFuncSpec(name: String): FunSpec.Builder
 
-    fun generate(roundEnvironment: RoundEnvironment): FunSpec {
-        val classesWithAnnotation = getAllClassWithAnnotation(roundEnvironment)
+    open fun generate(roundEnvironment: RoundEnvironment, className: String): FunSpec {
+        val registeredComponentsInDependencies = getRegisteredComponentsInDependencies(className)
+        val classesWithAnnotation = getAllClassWithAnnotation(roundEnvironment) + registeredComponentsInDependencies
         return createFuncSpec(functionName)
             .addCode(getCodeFormatted(classesWithAnnotation))
             .addStatement(returnStatementInGenerate())
             .build()
+    }
+
+    private fun getRegisteredComponentsInDependencies(className: String): StringBuilder {
+        val registeredWidgets = StringBuilder()
+        registrarComponentsProvider
+            ?.getRegisteredComponentsInDependencies(
+                processingEnv,
+                className,
+                functionName,
+            )
+            ?.forEach { registeredDependency ->
+                registeredWidgets.append(buildCodeByDependency(registeredDependency))
+            }
+
+        return registeredWidgets
     }
 
     fun getFunctionName(): String = functionName
@@ -48,7 +71,6 @@ abstract class BeagleGeneratorFunction<T : Annotation>(
     private fun getAllClassWithAnnotation(roundEnvironment: RoundEnvironment): String {
         val stringBuilder = StringBuilder()
         val elements = roundEnvironment.getElementsAnnotatedWith(annotation)
-
 
         elements.forEach { element ->
             val annotation = element.getAnnotation(annotation)

@@ -83,9 +83,56 @@ internal class BeagleSetupTest {
 
     }
 
+    @DisplayName("When build application with beagle.generateSetupClasses kapt argument")
+    @Nested
+    inner class KaptArgument {
+
+        @Test
+        @DisplayName("Then should not generate BeagleSetup class")
+        fun testGenerateSetupClassesFalse() {
+            //GIVEN
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, COMPLETE_BEAGLE_CUSTOM_CLASS)
+
+            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to "false")
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath, kaptArguments)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith(BeagleSetupProcessor.BEAGLE_SETUP_GENERATED)
+            }
+            Assertions.assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertNull(file)
+        }
+
+        @Test
+        @DisplayName("Then should generate BeagleSetup class")
+        fun testGenerateSetupClassesTrue() {
+            //GIVEN
+            val kotlinSource = SourceFile.kotlin(
+                FILE_NAME, COMPLETE_BEAGLE_CUSTOM_CLASS)
+
+            val kaptArguments = mutableMapOf(KAPT_OPTION_NAME to "true")
+
+            // WHEN
+            val compilationResult = compile(kotlinSource, BeagleAnnotationProcessor(), tempPath, kaptArguments)
+
+            // THEN
+            val file = compilationResult.generatedFiles.find { file ->
+                file.name.startsWith(BeagleSetupProcessor.BEAGLE_SETUP_GENERATED)
+            }
+            Assertions.assertEquals(KotlinCompilation.ExitCode.OK, compilationResult.exitCode)
+            Assertions.assertNotNull(file)
+        }
+
+    }
+
     companion object {
         private const val FILE_NAME = "File1.kt"
         private val REGEX_REMOVE_SPACE = "\\s".toRegex()
+        private const val KAPT_OPTION_NAME = "beagle.generateSetupClasses"
     }
 
 }

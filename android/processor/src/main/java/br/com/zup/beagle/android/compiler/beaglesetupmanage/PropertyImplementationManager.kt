@@ -16,20 +16,19 @@
 
 package br.com.zup.beagle.android.compiler.beaglesetupmanage
 
-import br.com.zup.beagle.android.compiler.generatefunction.CONTROLLER_REFERENCE_GENERATED
-import br.com.zup.beagle.android.compiler.PropertySpecifications
-import br.com.zup.beagle.android.compiler.FORM_LOCAL_ACTION_HANDLER
-import br.com.zup.beagle.android.compiler.DEEP_LINK_HANDLER
-import br.com.zup.beagle.android.compiler.HTTP_CLIENT_HANDLER
-import br.com.zup.beagle.android.compiler.STORE_HANDLER
-import br.com.zup.beagle.android.compiler.URL_BUILDER_HANDLER
-import br.com.zup.beagle.android.compiler.BEAGLE_LOGGER
-import br.com.zup.beagle.android.compiler.BEAGLE_IMAGE_DOWNLOADER
-import br.com.zup.beagle.android.compiler.DESIGN_SYSTEM
 import br.com.zup.beagle.android.compiler.ANALYTICS
 import br.com.zup.beagle.android.compiler.ANALYTICS_PROVIDER
-import br.com.zup.beagle.android.compiler.CONTROLLER_REFERENCE
+import br.com.zup.beagle.android.compiler.BEAGLE_CONFIG
+import br.com.zup.beagle.android.compiler.BEAGLE_IMAGE_DOWNLOADER
+import br.com.zup.beagle.android.compiler.BEAGLE_LOGGER
+import br.com.zup.beagle.android.compiler.DEEP_LINK_HANDLER
+import br.com.zup.beagle.android.compiler.DESIGN_SYSTEM
+import br.com.zup.beagle.android.compiler.FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.android.compiler.HTTP_CLIENT_FACTORY_HANDLER
+import br.com.zup.beagle.android.compiler.HTTP_CLIENT_HANDLER
+import br.com.zup.beagle.android.compiler.PropertySpecifications
+import br.com.zup.beagle.android.compiler.STORE_HANDLER
+import br.com.zup.beagle.android.compiler.URL_BUILDER_HANDLER
 import br.com.zup.beagle.compiler.shared.BeagleClass
 import javax.lang.model.element.TypeElement
 
@@ -39,55 +38,55 @@ internal object PropertyImplementationManager {
         listOf(
             propertySpec(
                 propertySpecifications?.formLocalActionHandler,
-                FORM_LOCAL_ACTION_HANDLER
+                FORM_LOCAL_ACTION_HANDLER,
             ),
             propertySpec(
                 propertySpecifications?.deepLinkHandler,
-                DEEP_LINK_HANDLER
+                DEEP_LINK_HANDLER,
             ),
             propertySpec(
                 propertySpecifications?.httpClient,
-                HTTP_CLIENT_HANDLER
+                HTTP_CLIENT_HANDLER,
             ),
             propertySpec(
                 propertySpecifications?.httpClientFactory,
-                HTTP_CLIENT_FACTORY_HANDLER
+                HTTP_CLIENT_FACTORY_HANDLER,
             ),
             propertySpec(
                 propertySpecifications?.designSystem,
-                DESIGN_SYSTEM
+                DESIGN_SYSTEM,
             ),
             propertySpec(
                 propertySpecifications?.storeHandler,
-                STORE_HANDLER
+                STORE_HANDLER,
             ),
             propertySpec(
                 propertySpecifications?.urlBuilder,
-                URL_BUILDER_HANDLER
+                URL_BUILDER_HANDLER,
             ),
             propertySpec(
                 propertySpecifications?.analytics,
-                ANALYTICS
+                ANALYTICS,
             ),
             propertySpec(
                 propertySpecifications?.analyticsProvider,
-                ANALYTICS_PROVIDER
+                ANALYTICS_PROVIDER,
             ),
             propertySpec(
                 propertySpecifications?.logger,
                 BEAGLE_LOGGER,
-                "logger"
-            ),
-            propertySpec(
-                CONTROLLER_REFERENCE_GENERATED,
-                CONTROLLER_REFERENCE,
-                "controllerReference"
+                "logger",
             ),
             propertySpec(
                 propertySpecifications?.imageDownloader,
                 BEAGLE_IMAGE_DOWNLOADER,
-                "imageDownloader"
-            )
+                "imageDownloader",
+            ),
+            propertySpec(
+                propertySpecifications?.config,
+                BEAGLE_CONFIG,
+                "config",
+            ),
         )
 
     private fun propertySpec(
@@ -97,7 +96,7 @@ internal object PropertyImplementationManager {
     ) = propertySpec(
         propertySpecificationsElement.toString(),
         beagleClass,
-        customPropertyName
+        customPropertyName,
     )
 
     private fun propertySpec(
@@ -106,6 +105,6 @@ internal object PropertyImplementationManager {
         customPropertyName: String? = null,
     ) = GenericPropertyManagement(
         property,
-        beagleClass
+        beagleClass,
     ).getPropertySpec(customPropertyName)
 }

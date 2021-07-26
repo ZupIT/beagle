@@ -17,10 +17,11 @@
 package br.com.zup.beagle.android.compiler.generatefunction
 
 import br.com.zup.beagle.android.annotation.RegisterValidator
-import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.REGISTERED_CUSTOM_VALIDATOR_GENERATED
 import br.com.zup.beagle.android.compiler.VALIDATOR
-import br.com.zup.beagle.android.compiler.VALIDATOR_HANDLER
 import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
+import br.com.zup.beagle.compiler.shared.RegisteredComponentFullName
+import br.com.zup.beagle.compiler.shared.RegisteredComponentId
+import br.com.zup.beagle.compiler.shared.RegistrarComponentsProvider
 import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.implementsInterface
 import com.squareup.kotlinpoet.ClassName
@@ -32,18 +33,21 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
-class GenerateFunctionCustomValidator(private val processingEnv: ProcessingEnvironment) :
-    BeagleGeneratorFunction<RegisterValidator>(
-        VALIDATOR_HANDLER,
-        REGISTERED_CUSTOM_VALIDATOR_GENERATED,
-        RegisterValidator::class.java
-    ) {
+class GenerateFunctionCustomValidator(
+    processingEnv: ProcessingEnvironment,
+    registrarComponentsProvider: RegistrarComponentsProvider? = null,
+) : BeagleGeneratorFunction<RegisterValidator>(
+    processingEnv,
+    REGISTERED_CUSTOM_VALIDATOR,
+    RegisterValidator::class.java,
+    registrarComponentsProvider,
+) {
 
     private var allCodeMappedWithAnnotation = ""
 
     override fun buildCodeByElement(element: Element, annotation: Annotation): String {
         val name = (annotation as RegisterValidator).name
-        return "\"$name\" -> $element() as Validator<Any, Any>\n"
+        return buildCode(name, element.toString())
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
@@ -72,7 +76,7 @@ class GenerateFunctionCustomValidator(private val processingEnv: ProcessingEnvir
             .parameterizedBy(Any::class.asClassName(), Any::class.asClassName())
             .copy(nullable = true)
 
-        return FunSpec.builder(REGISTERED_CUSTOM_VALIDATOR)
+        return FunSpec.builder(name)
             .addModifiers(KModifier.OVERRIDE)
             .addParameter("name", String::class)
             .returns(returnType)
@@ -80,5 +84,16 @@ class GenerateFunctionCustomValidator(private val processingEnv: ProcessingEnvir
 
     companion object {
         const val REGISTERED_CUSTOM_VALIDATOR = "getValidator"
+        const val REGISTERED_CUSTOM_VALIDATOR_SUFFIX = "() as Validator<Any, Any>"
+    }
+
+    override fun buildCodeByDependency(
+        registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    ): String {
+        return buildCode(registeredDependency.first, registeredDependency.second)
+    }
+
+    private fun buildCode(name: String, elementDescription: String): String {
+        return "\t\"$name\" -> $elementDescription$REGISTERED_CUSTOM_VALIDATOR_SUFFIX\n"
     }
 }

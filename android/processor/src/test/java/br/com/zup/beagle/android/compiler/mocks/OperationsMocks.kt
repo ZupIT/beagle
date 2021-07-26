@@ -74,6 +74,31 @@ const val INTERNAL_LIST_OPERATION_GENERATED_EXPECTED: String =
 
     """
 
+const val INTERNAL_LIST_OPERATION_WITH_REGISTRAR_GENERATED_EXPECTED: String =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.test.beagle
+        
+        import br.com.zup.beagle.android.operation.Operation
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.Map
+        
+        public final object RegisteredOperations {
+          public fun registeredOperations(): Map<String, Operation> {
+            val operations = mapOf<String, Operation>(
+                "OperationTwoTestName" to br.com.test.beagle.OperationTwoTest(), 
+                "OperationTestName" to br.com.test.beagle.OperationTest(), 
+                "moduleOperation" to br.com.test.beagle.otherModule.ModuleOperation(), 
+        
+            )
+            return operations
+          }
+        }
+
+    """
+
 const val INVALID_OPERATION =
     """
         import br.com.zup.beagle.annotation.RegisterOperation
@@ -96,4 +121,70 @@ const val INVALID_OPERATION_WITH_INHERITANCE =
 
         @RegisterOperation("testTwo")
         class InvalidOperation : WidgetView { }
+    """
+
+const val INTERNAL_SINGLE_OPERATION_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredOperationsRegistrarTest {
+          public fun registeredOperations(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}OperationTestName""${'"'},"br.com.test.beagle.OperationTest"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_LIST_OPERATION_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredOperationsRegistrarTest {
+          public fun registeredOperations(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+                Pair(""${'"'}OperationTwoTestName""${'"'},"br.com.test.beagle.OperationTwoTest"),
+                Pair(""${'"'}OperationTestName""${'"'},"br.com.test.beagle.OperationTest"),
+            )
+            return registeredComponents
+          }
+        }
+    """
+
+const val INTERNAL_EMPTY_LIST_OPERATION_REGISTRAR_EXPECTED =
+    """
+        @file:Suppress("OverridingDeprecatedMember", "DEPRECATION", "UNCHECKED_CAST", "UNUSED_EXPRESSION")
+
+        package br.com.zup.beagle.android.registrar
+        
+        import kotlin.Pair
+        import kotlin.String
+        import kotlin.Suppress
+        import kotlin.collections.List
+        
+        public final object RegisteredOperationsRegistrarTest {
+          public fun registeredOperations(): List<Pair<String, String>> {
+            val registeredComponents = listOf<Pair<String, String>>(
+               
+            )
+            return registeredComponents
+          }
+        }
     """

@@ -16,4 +16,6 @@
 
 package br.com.zup.beagle.android.networking
 
-interface HttpClientFactory
+interface HttpClientFactory {
+    fun create(): HttpClient
+}

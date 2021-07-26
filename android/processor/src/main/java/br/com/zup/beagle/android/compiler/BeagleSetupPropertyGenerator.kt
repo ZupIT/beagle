@@ -19,8 +19,8 @@ package br.com.zup.beagle.android.compiler
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.PropertyImplementationManager
 import br.com.zup.beagle.android.compiler.beaglesetupmanage.TypeElementImplementationManager
-import br.com.zup.beagle.compiler.shared.error
 import br.com.zup.beagle.compiler.shared.implements
+import br.com.zup.beagle.compiler.shared.multipleDefinitionErrorMessage
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -34,9 +34,36 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
 
     fun generate(
         roundEnvironment: RoundEnvironment,
+        onlyPropertiesRegisteredInsideModule: Boolean = false,
     ): List<PropertySpec> {
-        val propertySpecifications: PropertySpecifications? = PropertySpecifications()
+        val propertySpecifications = PropertySpecifications()
 
+        // Get properties possibly registered in dependency modules
+        if (!onlyPropertiesRegisteredInsideModule) {
+
+            DependenciesRegistrarComponentsProvider
+                .getRegisteredComponentsInDependencies(
+                    processingEnv,
+                    PROPERTIES_REGISTRAR_CLASS_NAME,
+                    PROPERTIES_REGISTRAR_METHOD_NAME,
+                )
+                .forEach { registeredDependency ->
+                    var typeElement =
+                        processingEnv
+                            .elementUtils.getTypeElement(registeredDependency.second.removeSuffix("()"))
+
+                    if (typeElement == null) {
+                        typeElement =
+                            processingEnv
+                                .elementUtils.getTypeElement(registeredDependency.second.substringBefore("::"))
+                    }
+
+                    checkIfHandlersExists(typeElement, propertySpecifications)
+                    checkIfOtherAttributesExists(typeElement, propertySpecifications)
+                }
+        }
+
+        // Get properties registered in current module
         roundEnvironment.getElementsAnnotatedWith(BeagleComponent::class.java).forEach { element ->
             val typeElement = element as TypeElement
             checkIfHandlersExists(typeElement, propertySpecifications)
@@ -59,39 +86,66 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
     ) {
         when {
             typeElement.implements(DESIGN_SYSTEM, processingEnv) -> {
-                if (propertySpecifications?.designSystem == null) {
+                val element = propertySpecifications?.designSystem
+                if (element == null) {
                     propertySpecifications?.designSystem = typeElement
                 } else {
-                    logImplementationErrorMessage(typeElement, "DesignSystem")
+                    logImplementationErrorMessage(
+                        typeElement,
+                        element,
+                        "DesignSystem"
+                    )
                 }
             }
             typeElement.implements(BEAGLE_ACTIVITY, processingEnv) -> {
-                if (propertySpecifications?.defaultBeagleActivity == null) {
+                val element = propertySpecifications?.defaultBeagleActivity
+                if (element == null) {
                     propertySpecifications?.defaultBeagleActivity = typeElement
                 } else {
-                    logImplementationErrorMessage(typeElement, "BeagleActivity")
+                    logImplementationErrorMessage(
+                        typeElement,
+                        element,
+                        "BeagleActivity"
+                    )
                 }
             }
             typeElement.implements(ANALYTICS, processingEnv) -> {
-                if (propertySpecifications?.analytics == null) {
+                val element = propertySpecifications?.analytics
+                if (element == null) {
                     propertySpecifications?.analytics = typeElement
                 } else {
-                    logImplementationErrorMessage(typeElement, "Analytics")
+                    logImplementationErrorMessage(
+                        typeElement,
+                        element,
+                        "Analytics"
+                    )
                 }
             }
             typeElement.implements(ANALYTICS_PROVIDER, processingEnv) -> {
-                if (propertySpecifications?.analyticsProvider == null) {
+                val element = propertySpecifications?.analyticsProvider
+                if (element == null) {
                     propertySpecifications?.analyticsProvider = typeElement
                 } else {
-                    logImplementationErrorMessage(typeElement, "AnalyticsProvider")
+                    logImplementationErrorMessage(
+                        typeElement,
+                        element,
+                        "AnalyticsProvider"
+                    )
                 }
             }
         }
     }
 
-    private fun logImplementationErrorMessage(typeElement: TypeElement, element: String) {
-        processingEnv.messager.error(typeElement, "$element already " +
-            "defined, remove one implementation from the application.")
+    private fun logImplementationErrorMessage(
+        typeElement: TypeElement,
+        propertySpecificationsElement: TypeElement,
+        element: String,
+    ) {
+        processingEnv.messager?.multipleDefinitionErrorMessage(
+            typeElement,
+            propertySpecificationsElement,
+            element,
+        )
     }
 
     private fun createListOfPropertySpec(
@@ -113,7 +167,7 @@ internal class BeagleSetupPropertyGenerator(private val processingEnv: Processin
             Class::class.asClassName().parameterizedBy(
                 ClassName(BEAGLE_ACTIVITY.packageName, BEAGLE_ACTIVITY.className)
             ),
-            KModifier.OVERRIDE
+            KModifier.OVERRIDE,
         ).initializer(initializer).build()
     }
 }
@@ -132,4 +186,5 @@ internal data class PropertySpecifications(
     var analyticsProvider: TypeElement? = null,
     var logger: TypeElement? = null,
     var imageDownloader: TypeElement? = null,
+    var config: TypeElement? = null,
 )

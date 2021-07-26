@@ -18,8 +18,10 @@ package br.com.zup.beagle.android.compiler.generatefunction
 
 import br.com.zup.beagle.android.annotation.RegisterBeagleAdapter
 import br.com.zup.beagle.android.compiler.BEAGLE_CUSTOM_ADAPTER
-import br.com.zup.beagle.android.compiler.BeagleSetupProcessor.Companion.REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED
 import br.com.zup.beagle.compiler.shared.BeagleGeneratorFunction
+import br.com.zup.beagle.compiler.shared.RegisteredComponentFullName
+import br.com.zup.beagle.compiler.shared.RegisteredComponentId
+import br.com.zup.beagle.compiler.shared.RegistrarComponentsProvider
 import br.com.zup.beagle.compiler.shared.elementType
 import br.com.zup.beagle.compiler.shared.error
 import com.squareup.kotlinpoet.ClassName
@@ -29,20 +31,23 @@ import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
+import java.lang.reflect.Type
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.DeclaredType
 import javax.lang.model.type.TypeMirror
 import javax.lang.model.type.WildcardType
-import java.lang.reflect.Type
 
-class GenerateFunctionCustomAdapter(private val processingEnv: ProcessingEnvironment) :
-    BeagleGeneratorFunction<RegisterBeagleAdapter>(
-        BEAGLE_CUSTOM_ADAPTER,
-        REGISTERED_CUSTOM_TYPE_ADAPTER_GENERATED,
-        RegisterBeagleAdapter::class.java
-    ) {
+class GenerateFunctionCustomAdapter(
+    processingEnv: ProcessingEnvironment,
+    registrarComponentsProvider: RegistrarComponentsProvider? = null,
+) : BeagleGeneratorFunction<RegisterBeagleAdapter>(
+    processingEnv,
+    REGISTERED_CUSTOM_ADAPTER,
+    RegisterBeagleAdapter::class.java,
+    registrarComponentsProvider,
+) {
 
     private var allCodeMappedWithAnnotation = ""
 
@@ -51,18 +56,12 @@ class GenerateFunctionCustomAdapter(private val processingEnv: ProcessingEnviron
         if (typeElement.interfaces.isEmpty()) return ""
 
         val declaredType = typeElement.interfaces[0] as DeclaredType
-        val elementParameterizedTypeName =
-            ((typeElement.interfaces[0] as DeclaredType).elementType as DeclaredType).asElement()
 
-        return if ((declaredType.elementType as DeclaredType).toTypeArguments().isEmpty()) {
-            "$elementParameterizedTypeName$JAVA_CLASS -> " +
-                "$element() as $BEAGLE_TYPE_ADAPTER_INTERFACE$BREAK_LINE"
-        } else {
-            val stringBuilder = StringBuilder()
-            createParameterizedType(stringBuilder, (declaredType.elementType as DeclaredType), element)
-            stringBuilder.append(" -> $element() as $BEAGLE_TYPE_ADAPTER_INTERFACE$BREAK_LINE")
-            stringBuilder.toString()
-        }
+        val stringBuilder = StringBuilder()
+        createParameterizedType(stringBuilder, (declaredType.elementType as DeclaredType), element)
+
+        stringBuilder.append(" -> $element() as $BEAGLE_TYPE_ADAPTER_INTERFACE$BREAK_LINE")
+        return stringBuilder.toString()
     }
 
     override fun validationElement(element: Element, annotation: Annotation) {
@@ -91,69 +90,11 @@ class GenerateFunctionCustomAdapter(private val processingEnv: ProcessingEnviron
             TypeVariableName(T_GENERIC)
         ).copy(true) as ParameterizedTypeName
 
-        return FunSpec.builder(REGISTERED_CUSTOM_ADAPTER)
+        return FunSpec.builder(name)
             .addTypeVariable(TypeVariableName(T_GENERIC))
             .addModifiers(KModifier.OVERRIDE)
             .addParameter("type", Type::class.asTypeName().copy(false))
             .returns(returnType)
-    }
-
-    private fun createParameterizedType(
-        adapters: StringBuilder,
-        item: DeclaredType,
-        element: TypeElement? = null,
-    ): StringBuilder {
-        val parameterName = if (element != null) {
-            ((element.interfaces[0] as DeclaredType).elementType as DeclaredType).asElement().toString()
-        } else {
-            item.asElement().toString()
-        }
-
-        adapters.append("$TYPES_INSTANCE${parameterName.removeExtends()}$JAVA_CLASS")
-
-        val parametrizedItems = item.toTypeArguments()
-        var checkedTimes = 0
-
-        if (parametrizedItems.isNotEmpty()) {
-            adapters.append(",$BREAK_LINE")
-        }
-
-        while (checkedTimes < parametrizedItems.size) {
-            createType(adapters, parametrizedItems[checkedTimes])
-
-            if (checkedTimes != parametrizedItems.lastIndex) {
-                adapters.append(",$BREAK_LINE")
-            }
-            checkedTimes++
-        }
-
-        adapters.append(")")
-
-        return adapters
-    }
-
-    private fun createType(adapters: StringBuilder, typeMirror: TypeMirror): StringBuilder {
-        return when {
-            typeMirror is DeclaredType -> {
-                checkDeclaredType(adapters, typeMirror)
-            }
-            ((typeMirror as WildcardType).extendsBound) is DeclaredType -> {
-                checkDeclaredType(adapters, (typeMirror.extendsBound) as DeclaredType)
-            }
-            else -> {
-                adapters.append("$BREAK_LINE${typeMirror.toString().removeExtends()}$JAVA_CLASS")
-            }
-        }
-    }
-
-    private fun checkDeclaredType(adapters: StringBuilder, declaredType: DeclaredType): StringBuilder {
-        val typeArgumentsItem = declaredType.toTypeArguments()
-
-        if (typeArgumentsItem.isEmpty()) {
-            return adapters.append("${declaredType.toString().removeExtends()}$JAVA_CLASS")
-        }
-
-        return createParameterizedType(adapters, declaredType)
     }
 
     companion object {
@@ -163,6 +104,83 @@ class GenerateFunctionCustomAdapter(private val processingEnv: ProcessingEnviron
         const val TYPES_INSTANCE = "ParameterizedTypeFactory.new(\n"
         const val T_GENERIC = "T"
         const val BREAK_LINE = "\n"
+
+        fun createParameterizedType(
+            adapters: StringBuilder,
+            item: DeclaredType,
+            element: TypeElement? = null,
+        ): StringBuilder {
+
+            if (element != null) {
+                val declaredType = element.interfaces[0] as DeclaredType
+                val elementParameterizedTypeName =
+                    ((element.interfaces[0] as DeclaredType).elementType as DeclaredType).asElement()
+
+                if ((declaredType.elementType as DeclaredType).toTypeArguments().isEmpty()) {
+                    return adapters.append("$elementParameterizedTypeName$JAVA_CLASS")
+                }
+            }
+
+
+            val parameterName = if (element != null) {
+                ((element.interfaces[0] as DeclaredType).elementType as DeclaredType).asElement().toString()
+            } else {
+                item.asElement().toString()
+            }
+
+            adapters.append("$TYPES_INSTANCE${parameterName.removeExtends()}$JAVA_CLASS")
+
+            val parametrizedItems = item.toTypeArguments()
+            var checkedTimes = 0
+
+            if (parametrizedItems.isNotEmpty()) {
+                adapters.append(",$BREAK_LINE")
+            }
+
+            while (checkedTimes < parametrizedItems.size) {
+                createType(adapters, parametrizedItems[checkedTimes])
+
+                if (checkedTimes != parametrizedItems.lastIndex) {
+                    adapters.append(",$BREAK_LINE")
+                }
+                checkedTimes++
+            }
+
+            adapters.append(")")
+
+            return adapters
+        }
+
+        private fun createType(adapters: StringBuilder, typeMirror: TypeMirror): StringBuilder {
+            return when {
+                typeMirror is DeclaredType -> {
+                    checkDeclaredType(adapters, typeMirror)
+                }
+                ((typeMirror as WildcardType).extendsBound) is DeclaredType -> {
+                    checkDeclaredType(adapters, (typeMirror.extendsBound) as DeclaredType)
+                }
+                else -> {
+                    adapters.append("$BREAK_LINE${typeMirror.toString().removeExtends()}$JAVA_CLASS")
+                }
+            }
+        }
+
+        private fun checkDeclaredType(adapters: StringBuilder, declaredType: DeclaredType): StringBuilder {
+            val typeArgumentsItem = declaredType.toTypeArguments()
+
+            if (typeArgumentsItem.isEmpty()) {
+                return adapters.append("${declaredType.toString().removeExtends()}$JAVA_CLASS")
+            }
+
+            return createParameterizedType(adapters, declaredType)
+        }
+    }
+
+    override fun buildCodeByDependency(
+        registeredDependency: Pair<RegisteredComponentId, RegisteredComponentFullName>
+    ): String {
+        return "${registeredDependency.first} -> ${registeredDependency.second}() " +
+            "as $BEAGLE_TYPE_ADAPTER_INTERFACE$BREAK_LINE"
     }
 }
 
