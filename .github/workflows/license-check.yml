@@ -1,0 +1,13 @@
+name: Check License Lines
+on: [pull_request]
+jobs:
+  license-header-check:
+    name: License Header Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: "1.12.1"
+      - name: Check License Lines
+        run: bash fastlane/check-license.sh $(pwd)
