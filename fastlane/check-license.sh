@@ -20,6 +20,6 @@
 # Please install deno at https://github.com/denoland/deno to run the command below
 # You can run this file from the root of the repository with: bash fastlane/check-license.sh $(pwd)
 echo "Running check licenses for folder: $1"
-deno run --unstable --allow-read https://deno.land/x/license_checker@v3.1.3/main.ts "$1"
+deno run --unstable --allow-read https://deno.land/x/license_checker@v3.1.4/main.ts "$1"
 
 exit $?

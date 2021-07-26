@@ -1,5 +1,5 @@
 ﻿{
-    "**/*.{yml,yaml,xml,java,kt,kts,pro,swift,dart,cpp,c,h,m,js,ts,properties,gradle,sh,podspec,tsx,jsx,html,less}": [
+    "**/*.*": [
       "Copyright",
       "ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA",
       "Licensed under the Apache License, Version 2.0 (the \"License\");",
@@ -14,14 +14,40 @@
       ],
   "ignore": [
     ".github",
+    ".git",
     "\\.gradle",
     "/.gradle",
-    "\\.idea",
+    "\\*.xcworkspace",
+    "/.xcworkspace",
     ".idea",
     "\\build",
     "/build",
     "local.properties",
     "flutter\\beagle\\assets\\js\\beagle.js",
-    "flutter/beagle/assets/js/beagle.js"
+    "flutter/beagle/assets/js/beagle.js",
+    ".json",
+    ".jpg",
+    ".png",
+    ".resolved",
+    ".jar",
+    ".md",
+    ".MD",
+    ".txt",
+    "gradlew.bat",
+    ".editorconfig",
+    ".plist",
+    ".storyboard",
+    ".pbxproj",
+    ".xcscheme",
+    ".xcworkspacedata",
+    ".xccurrentversion",
+    ".xcconfig",
+    ".xcsettings",
+    ".factories",
+    ".lock",
+    ".metadata",
+    ".gitignore",
+    ".gitkeep",
+    ".sed"
   ]
 }
