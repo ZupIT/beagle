@@ -16,15 +16,23 @@
 
 package br.com.zup.beagle.android.components.utils
 
-import android.graphics.Canvas
-import android.graphics.Path
-import android.graphics.RectF
+import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.core.CornerRadius
 
-internal fun Canvas.applyRadius(radius: Float) {
-    if (radius > FLOAT_ZERO) {
-        val path = Path()
-        val rect = RectF(FLOAT_ZERO, FLOAT_ZERO, this.width.toFloat(), this.height.toFloat())
-        path.addRoundRect(rect, radius, radius, Path.Direction.CW)
-        this.clipPath(path)
-    }
+internal fun CornerRadius.getFloatArray(): FloatArray {
+    val radius = radius?.dp()?.toFloat() ?: 0f
+    val topLeft = topLeft?.dp()?.toFloat() ?: radius
+    val topRight = topRight?.dp()?.toFloat() ?: radius
+    val bottomLeft = bottomLeft?.dp()?.toFloat() ?: radius
+    val bottomRight = bottomRight?.dp()?.toFloat() ?: radius
+    return floatArrayOf(
+        topLeft,
+        topLeft,
+        topRight,
+        topRight,
+        bottomRight,
+        bottomRight,
+        bottomLeft,
+        bottomLeft,
+    )
 }

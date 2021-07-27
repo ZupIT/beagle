@@ -64,12 +64,21 @@ data class Style(
 )
 
 /**
- * The corner radius change the appearance of view
+ * The corner radius apply rounded borders to the widget
  *
- * @param radius define size of radius
+ * @param radius defines the default size of the all corner radius
+ * @param topLeft defines the size of the top left radius
+ * @param topRight defines the size of the top right radius
+ * @param bottomLeft defines the size of the bottom left radius
+ * @param bottomRight defines the size of the bottom right radius
+ *
  */
 data class CornerRadius(
-    var radius: Double? = null
+    var radius: Double? = null,
+    var topLeft: Double? = null,
+    var topRight: Double? = null,
+    var bottomLeft: Double? = null,
+    var bottomRight: Double? = null,
 )
 
 /**

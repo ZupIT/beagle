@@ -19,16 +19,24 @@ package br.com.zup.beagle.android.components.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Path
+import android.graphics.RectF
 import androidx.appcompat.widget.AppCompatImageView
+import br.com.zup.beagle.core.CornerRadius
 
 @SuppressLint("ViewConstructor")
 internal class RoundedImageView(
     context: Context,
-    private val cornerRadius: Double = 0.0
+    private val cornerRadius: CornerRadius,
 ) : AppCompatImageView(context) {
 
+    private val path = Path()
+    private val rect = RectF()
+
     override fun onDraw(canvas: Canvas?) {
-        canvas?.applyRadius(cornerRadius.toFloat())
+        rect.set(FLOAT_ZERO, FLOAT_ZERO, width.toFloat(), height.toFloat())
+        path.addRoundRect(rect, cornerRadius.getFloatArray(), Path.Direction.CW)
+        canvas?.clipPath(path)
         super.onDraw(canvas)
     }
 }

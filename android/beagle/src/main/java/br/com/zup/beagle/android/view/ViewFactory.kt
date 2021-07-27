@@ -38,6 +38,7 @@ import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.view.custom.BeagleTabLayout
 import br.com.zup.beagle.android.view.custom.BeagleView
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 
 internal object ViewFactory {
@@ -93,7 +94,7 @@ internal object ViewFactory {
     //we use the context.applicationContext to prevent a crash on android 21
     fun makeWebView(context: Context) = WebView(context.applicationContext)
 
-    fun makeImageView(context: Context, cornerRadius: Double = 0.0) = RoundedImageView(context, cornerRadius)
+    fun makeImageView(context: Context, cornerRadius: CornerRadius) = RoundedImageView(context, cornerRadius)
 
     fun makeRecyclerView(context: Context) = RecyclerView(context)
 
