@@ -56,7 +56,7 @@ jobs:
 
       - name: S3 upload
         if: contains(github.ref, 'tags')
-        run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ env.BEAGLE_DOCS_AWS_AWS_DOCS_S3_BUCKET }}/ --delete
+        run: aws s3 sync --acl public-read --follow-symlinks fastlane/kdocs/public s3://${{ env.BEAGLE_DOCS_AWS_AWS_DOCS_REFERENCE_S3_BUCKET }}/ --delete
 
       - name: S3 BETA upload
         if: ${{ github.ref == 'refs/heads/main' }}
