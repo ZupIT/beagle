@@ -18,8 +18,7 @@ package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitPercent
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.action.SubmitForm
@@ -27,6 +26,7 @@ import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.form.SimpleForm
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
@@ -78,7 +78,7 @@ object SimpleFormScreenBuilder {
                             onPress = listOf(SubmitForm())
                         ).applyStyle(
                             Style(backgroundColor = "#ffffff",
-                                margin = EdgeValue(top = 10.unitReal())
+                                margin = EdgeValue(top = UnitValue.real(10))
                             )
                         )
                     ),
@@ -90,10 +90,10 @@ object SimpleFormScreenBuilder {
                     )
                 )
             )
-        ).applyStyle(
-            Style(backgroundColor = "#fa7f72",
-                size = Size(height = 100.00.unitPercent()))
-        )
+        ).setStyle {
+            this.backgroundColor = "#fa7f72"
+            this.size = Size(height = UnitValue.percent(100.00))
+        }
     )
 }
 

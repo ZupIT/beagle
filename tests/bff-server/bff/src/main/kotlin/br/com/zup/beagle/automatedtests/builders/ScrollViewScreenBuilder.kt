@@ -16,10 +16,8 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setFlex
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.AlignSelf
@@ -27,6 +25,7 @@ import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScrollView
@@ -61,7 +60,9 @@ object ScrollViewScreenBuilder {
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
-                Text("Beagle ScrollView").applyStyle(Style(margin = EdgeValue(all = 10.unitReal()))),
+                Text("Beagle ScrollView").setStyle {
+                    this.margin = EdgeValue(all = UnitValue.real(10))
+                },
                 getHorizontalScrollView(),
                 getVerticalScrollView(),
                 scrollviewWithinScrollview()
@@ -74,10 +75,15 @@ object ScrollViewScreenBuilder {
         children = listOf(
             ScrollView(
                 children = listOf(
-                    Text("Horizontal").applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
+                    Text("Horizontal")
+                        .setStyle {
+                            this.padding = EdgeValue(right = UnitValue.real(10))
+                        },
                     Touchable(
                         child = Text("@{testScrollHorizontal}")
-                            .applyStyle(Style(padding = EdgeValue(right = 10.unitReal()))),
+                            .setStyle {
+                                this.padding = EdgeValue(right = UnitValue.real(10))
+                            },
                         onPress = listOf(
                             SetContext(contextId = "testScrollHorizontal", value = PARAGRAPH)
                         )
@@ -95,9 +101,13 @@ object ScrollViewScreenBuilder {
                                         )
                                     ),
                                     Button(text = "horizontal scroll")
-                                        .applyStyle(Style(margin = EdgeValue(all = 10.unitReal()),
-                                            size = Size(width = 100.unitReal(), height = 100.unitReal())))
-                                        .applyFlex(flex = Flex(alignSelf = AlignSelf.FLEX_START)),
+                                        .setStyle {
+                                            this.margin = EdgeValue(all = UnitValue.real(10))
+                                            this.size = Size(width = UnitValue.real(100), height = UnitValue.real(100))
+                                        }
+                                        .setStyle {
+                                            this.flex = Flex(alignSelf = AlignSelf.FLEX_START)
+                                        },
                                 ),
                                 scrollDirection = ScrollAxis.HORIZONTAL
                             )
@@ -107,14 +117,14 @@ object ScrollViewScreenBuilder {
                 scrollDirection = ScrollAxis.HORIZONTAL
             )
         )
-    ).applyStyle(Style(padding = EdgeValue(left = 10.unitReal(), right = 10.unitReal())))
+    ).setStyle { this.padding = EdgeValue(left = UnitValue.real(10), right = UnitValue.real(10)) }
 
     private fun getVerticalScrollView() = Container(
         context = ContextData(id = "testScrollVertical", value = "Click to see the new text in vertical"),
         children = listOf(
             ScrollView(
                 children = listOf(
-                    Text("Vertical").applyStyle(Style(margin = EdgeValue(bottom = 10.unitReal()))),
+                    Text("Vertical").setStyle { margin = EdgeValue(bottom = UnitValue.real(10)) },
                     Touchable(
                         child = Text("@{testScrollVertical}"),
                         onPress = listOf(
@@ -145,11 +155,9 @@ object ScrollViewScreenBuilder {
                 scrollDirection = ScrollAxis.VERTICAL
             )
         )
-    ).applyStyle(
-        Style(
-            margin = EdgeValue(left = 10.unitReal())
-        )
-    )
+    ).setStyle {
+        this.margin = EdgeValue(left = UnitValue.real(10))
+    }
 
     private fun scrollviewWithinScrollview() = Container(
         context = ContextData(id = "testScrollWithinScroll", value = "Click to see the new text"),
@@ -158,38 +166,44 @@ object ScrollViewScreenBuilder {
                 scrollDirection = ScrollAxis.VERTICAL,
                 children = listOf(
                     Text("Vertical scroll within scroll")
-                        .applyStyle(Style(margin = EdgeValue(top = 10.unitReal()))),
+                        .setStyle { this.margin = EdgeValue(top = UnitValue.real(10)) },
                     Touchable(
                         onPress = listOf(SetContext(contextId = "testScrollWithinScroll", value = PARAGRAPH)),
                         child = Text("@{testScrollWithinScroll}")
-                            .applyStyle(Style(margin = EdgeValue(bottom = 10.unitReal())))),
+                            .setStyle { this.margin = EdgeValue(bottom = UnitValue.real(10)) }),
                     ScrollView(
                         children = listOf(
                             Text("Horizontal scroll within scroll")
-                                .applyStyle(Style(margin = EdgeValue(right = 10.unitReal()))),
-                            Button(text = "step").applyStyle(Style(margin = EdgeValue(all = 10.unitReal()),
-                                size = Size(width = 100.unitReal(), height = 100.unitReal()))),
+                                .setStyle { this.margin = EdgeValue(right = UnitValue.real(10)) },
+                            Button(text = "step")
+                                .setStyle {
+                                    this.margin = EdgeValue(all = UnitValue.real(10))
+                                    this.size = Size(width = UnitValue.real(100), height = UnitValue.real(100))
+                                },
                             Text("horizontal $PARAGRAPH"),
                             Button(text = "horizontal direction")
-                                .applyStyle(Style(margin = EdgeValue(all = 10.unitReal()),
-                                    size = Size(width = 100.unitReal(), height = 100.unitReal())))
-                                .applyFlex(flex = Flex(alignSelf = AlignSelf.BASELINE))
+                                .setStyle {
+                                    this.margin = EdgeValue(all = UnitValue.real(10))
+                                    this.size = Size(width = UnitValue.real(100), height = UnitValue.real(100))
+                                }
+                                .setFlex {
+                                    this.alignSelf = AlignSelf.BASELINE
+                                }
                         ),
                         scrollDirection = ScrollAxis.HORIZONTAL
                     ),
-                    Button(
-                        text = "vertical direction"
-                    ).applyStyle(Style(margin = EdgeValue(all = 10.unitReal())))
+                    Button(text = "vertical direction")
+                        .setStyle {
+                            this.margin = EdgeValue(all = UnitValue.real(10))
+                        }
                 )
             )
         )
-    ).applyStyle(
-        Style(
-            padding = EdgeValue(
-                bottom = 20.unitReal(), left = 10.unitReal(), right = 10.unitReal()
-            )
+    ).setStyle {
+        this.padding = EdgeValue(
+            bottom = UnitValue.real(20), left = UnitValue.real(10), right = UnitValue.real(10)
         )
-    )
+    }
 
 }
 

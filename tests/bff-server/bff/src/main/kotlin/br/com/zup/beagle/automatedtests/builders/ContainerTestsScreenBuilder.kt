@@ -18,8 +18,8 @@ package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Text
 
 object ContainerTestsScreenBuilder {
@@ -55,8 +55,8 @@ object ContainerTestsScreenBuilder {
 
     private fun containerCallingContexts(): Container = Container(
         children = listOf(
-            Text(text = "@{containerContext}"+"1"),
-            Text(text = "@{containerContext}"+"2"),
+            Text(text = "@{containerContext}" + "1"),
+            Text(text = "@{containerContext}" + "2"),
             Text(text = "@{global.1}"),
             Text(text = "@{global.2}")
         )

@@ -18,6 +18,7 @@ package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
@@ -26,7 +27,7 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Text
 
 object ClickActionScreenBuilder {
-     fun build() = Screen(
+    fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Action Click",
             showBackButton = true
@@ -34,11 +35,11 @@ object ClickActionScreenBuilder {
         child = Text(
             text = "You clicked right",
             styleId = SCREEN_ACTION_CLICK_ENDPOINT
-        ).applyFlex(
-            flex = Flex(
+        ).setStyle {
+            this.flex = Flex(
                 justifyContent = JustifyContent.CENTER,
                 alignItems = AlignItems.CENTER
             )
-        )
+        }
     )
 }

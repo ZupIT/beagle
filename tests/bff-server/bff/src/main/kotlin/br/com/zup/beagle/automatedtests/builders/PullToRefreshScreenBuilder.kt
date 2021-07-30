@@ -16,15 +16,14 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
@@ -75,10 +74,8 @@ object PullToRefreshScreenBuilder {
                 child = Text("PullToRefresh text")
             )
         )
-    ).applyStyle(
-        Style(
-            backgroundColor = "#FF0000",
-            size = Size(width = 500.unitReal(), height = 500.unitReal())
-        )
-    )
+    ).setStyle {
+        this.backgroundColor = "#FF0000"
+        this.size = Size(width = UnitValue.real(500), height = UnitValue.real(500))
+    }
 }

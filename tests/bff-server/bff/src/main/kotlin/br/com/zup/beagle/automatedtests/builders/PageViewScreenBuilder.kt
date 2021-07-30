@@ -18,18 +18,15 @@ package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.BLACK
 import br.com.zup.beagle.automatedtests.constants.LIGHT_GREY
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitPercent
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setFlex
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextAlignment
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.PageView
 import br.com.zup.beagle.widget.layout.Screen
@@ -38,25 +35,22 @@ import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
-data class TextValue(
-    val value: String
-)
-
 object PageViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
         child = Container(
             children = listOf(
-                Text("Beagle PageView").applyStyle(
-                    Style(padding = EdgeValue(bottom = 10.unitReal()))),
-                Text("Context"+"@{context}"),
+                Text("Beagle PageView").setStyle {
+                    padding = EdgeValue(bottom = UnitValue.real(10))
+                },
+                Text("Context" + "@{context}"),
                 Button(
                     "Click to go to page three",
                     onPress = listOf(SetContext("context", 2))
                 ),
                 PageView(
                     context = ContextData(
-                      id = "contextValue",
-                      value = "pageViewContext"
+                        id = "contextValue",
+                        value = "pageViewContext"
                     ),
                     children = listOf(
                         Container(
@@ -81,6 +75,7 @@ object PageViewScreenBuilder : ScreenBuilder {
                 )
             ),
             context = ContextData("context", 0)
-        ).applyFlex(Flex(grow = 1.0)).applyStyle(Style(size = Size(100.00.unitPercent())))
+        ).setFlex { this.grow = 1.0 }
+            .setStyle { this.size = Size(UnitValue.percent(100.00)) }
     )
 }

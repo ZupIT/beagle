@@ -27,10 +27,8 @@ import br.com.zup.beagle.automatedtests.constants.REPRESENTATION_NAVIGATION_BAR_
 import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.TEXT_FONT_MAX
 import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setFlex
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
@@ -38,9 +36,9 @@ import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.AlignItems
-import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.JustifyContent
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -140,12 +138,11 @@ object NavigationBarScreenBuilder {
             )
         ),
         styleId = BUTTON_STYLE_TITLE
-    ).applyStyle(Style(
-            margin = EdgeValue(
-                top = 8.unitReal()
-            )
+    ).setStyle {
+        this.margin = EdgeValue(
+            top = UnitValue.real(8)
         )
-    )
+    }
 
     private fun navigationBarScreenBuilder(
         titleNavigation: String,
@@ -184,11 +181,9 @@ object NavigationBarScreenBuilder {
                 )
             )
         )
-    ).applyFlex(
-        Flex(
-            grow = 1.0,
-            alignItems = AlignItems.CENTER,
-            justifyContent = JustifyContent.CENTER
-        )
-    )
+    ).setFlex {
+        this.grow = 1.0
+        this.alignItems = AlignItems.CENTER
+        this.justifyContent = JustifyContent.CENTER
+    }
 }

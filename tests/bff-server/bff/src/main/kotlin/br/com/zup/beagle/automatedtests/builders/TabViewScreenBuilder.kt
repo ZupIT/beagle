@@ -17,11 +17,10 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.BEACH_NETWORK_IMAGE
-import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.setFlex
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.AlignContent
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -49,7 +48,7 @@ object TabViewScreenBuilder {
                 Image(Remote(BEACH_NETWORK_IMAGE)),
                 Text("This is Tab1's second text")
             )
-        ).applyFlex(Flex(alignContent = AlignContent.CENTER))
+        ).setFlex { this.alignContent = AlignContent.CENTER }
     )
 
     private val tab2 = TabItem(
@@ -59,7 +58,7 @@ object TabViewScreenBuilder {
                 Text("@{tabView.tabTwo}"),
                 Text("This is Tab2's second text")
             )
-        ).applyFlex(Flex(alignContent = AlignContent.CENTER))
+        ).setFlex { this.alignContent = AlignContent.CENTER }
     )
 
     private val tab3 = TabItem(
@@ -69,7 +68,7 @@ object TabViewScreenBuilder {
                 Text("@{tabView.tabThree}"),
                 Text("This is Tab3's second text")
             )
-        ).applyFlex(Flex(alignContent = AlignContent.CENTER))
+        ).setFlex { this.alignContent = AlignContent.CENTER }
     )
 
     private val tab4 = TabItem(
@@ -80,7 +79,7 @@ object TabViewScreenBuilder {
                 Text("@{tabView.tabFour}"),
                 Text("This is Tab4's second text")
             )
-        ).applyFlex(Flex(alignContent = AlignContent.CENTER))
+        ).setFlex { this.alignContent = AlignContent.CENTER }
     )
 
     fun build() = Screen(
