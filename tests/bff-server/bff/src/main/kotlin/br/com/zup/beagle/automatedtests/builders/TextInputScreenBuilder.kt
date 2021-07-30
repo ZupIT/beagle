@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitPercent
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
@@ -27,6 +25,7 @@ import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextInputType
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -84,10 +83,11 @@ object TextInputScreenBuilder {
                         textInputActions(),
                         textInputHidden()
                     )
-                ).applyStyle(Style(
-                    size = Size(height = 100.0.unitPercent()),
-                    backgroundColor = "#82E0AA",
-                    padding = EdgeValue(left = 5.unitReal(), bottom = 5.unitReal())))
+                ).setStyle {
+                    this.size = Size(height = UnitValue.percent(100.0))
+                    this.backgroundColor = "#82E0AA"
+                    this.padding = EdgeValue(left = UnitValue.real(5), bottom = UnitValue.real(5))
+                }
             )
         )
     )

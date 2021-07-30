@@ -25,6 +25,7 @@ import br.com.zup.beagle.automatedtests.builders.NavigateActionsScreenBuilder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
+@Suppress("unused")
 @RestController
 class NavigateActionController {
     @GetMapping(NAVIGATE_ACTIONS_ENDPOINT)

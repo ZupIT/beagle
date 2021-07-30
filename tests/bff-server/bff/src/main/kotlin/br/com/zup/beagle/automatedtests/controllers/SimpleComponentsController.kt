@@ -34,6 +34,7 @@ import br.com.zup.beagle.automatedtests.constants.PULL_TO_REFRESH_ENDPOINT
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
+@Suppress("unused")
 @RestController
 class SimpleComponentsController {
 
