@@ -16,17 +16,19 @@ import br.com.zup.beagle.Dependencies
  * limitations under the License.
  */
 
+
 buildscript {
     repositories {
         maven { url "https://plugins.gradle.org/m2/" }
         google()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21"
         classpath "com.vanniktech:gradle-maven-publish-plugin:0.15.1"
-        classpath "de.mannodermaus.gradle.plugins:android-junit5:1.6.2.0"
-        classpath "com.hiya:jacoco-android:0.2"
+        classpath "de.mannodermaus.gradle.plugins:android-junit5:1.7.1.1"
+
     }
 }
 
@@ -37,6 +39,13 @@ plugins {
     id "br.com.zup.beagle.dependencies"
     id "org.jetbrains.dokka" version "1.4.32"
     id "org.sonarqube" version "3.2.0"
+    id "jacoco"
+}
+
+subprojects {
+    afterEvaluate { project ->
+        project.apply from: "$rootDir/gradle/report/jacoco.gradle"
+    }
 }
 
 allprojects {
@@ -44,6 +53,7 @@ allprojects {
 
     apply plugin: "br.com.zup.beagle.dependencies"
     apply plugin: "org.jetbrains.dokka"
+    apply plugin: "jacoco"
 
     repositories {
         google()
@@ -61,23 +71,12 @@ allprojects {
     }
 
     afterEvaluate {
-
-        sonarqube {
-            properties {
-                property "sonar.projectKey", "ZupIT_beagle_android"
-                property "sonar.projectName", "ZupIT_beagle_android"
-                property "sonar.organization", "t64zgssdey"
-                property "sonar.host.url", "https://sonarcloud.io"
-                property "sonar.exclusions", "sample/**, test/**"
-                property "detekt.sonar.kotlin.config.path", "$rootDir/../config/detekt-default-config.yml"
-                property "sonar.java.coveragePlugin", "jacoco"
-                property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/jacocoTestReportDebug/jacocoTestReportDebug.xml"
-                property "sonar.jacoco.reportPaths", "build/jacoco/testDebugUnitTest.exec,build/jacoco/test.exec"
-            }
-        }
+        apply from: "$rootDir/gradle/report/sonarqube.gradle"
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+apply from: "$rootDir/gradle/report/jacoco-merge.gradle"

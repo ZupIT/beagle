@@ -1,0 +1,83 @@
+/*
+ * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+def allTestCoverageFile = "${rootProject.buildDir}/jacoco/allTestCoverage.exec"
+
+def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', '**/*$*']
+def projectsFound = subprojects.findAll()
+
+task jacocoMerge(type: JacocoMerge) {
+
+    doFirst {
+        delete fileTree("${rootProject.buildDir}/jacoco/") {
+            include '**/allTestCoverage.exec'
+        }
+    }
+
+    destinationFile = file(allTestCoverageFile)
+
+    def classDirs = files().asFileTree
+    projectsFound.each {
+        def projBuildDir = it.buildDir
+        classDirs += fileTree(dir: projBuildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec', 'jacoco/test.exec'
+        ])
+    }
+
+    executionData files([classDirs])
+
+    doLast {
+        projectsFound.each {
+            def projBuildDir = it.buildDir
+            copy {
+                from("${project.buildDir}/jacoco/")
+                into("${projBuildDir}/jacoco/")
+            }
+        }
+    }
+}
+
+task jacocoRootReport(type: JacocoReport, group: 'Coverage reports') {
+    description = 'Generates an aggregate report from all subprojects'
+    def srcDirs = new ArrayList()
+    dependsOn "jacocoMerge"
+    projectsFound.each {
+        def projDir = it.projectDir
+        srcDirs.add("${projDir}/src/main/kotlin")
+    }
+    def classDirs = files().asFileTree
+    projectsFound.each {
+        def projBuildDir = it.buildDir
+        classDirs += fileTree(dir: "$projBuildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+        classDirs += fileTree(dir: "$projBuildDir/classes/kotlin/main", excludes: fileFilter)
+    }
+
+    sourceDirectories.from files([srcDirs])
+    classDirectories.from files([classDirs])
+    executionData fileTree(dir: "${rootProject.buildDir}", includes: [
+        'jacoco/allTestCoverage.exec'
+    ])
+
+    reports {
+        xml.enabled true
+        xml.destination file("${rootProject.buildDir}/reports/jacoco/report.xml")
+        html.enabled false
+    }
+}

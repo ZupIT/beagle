@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 @DisplayName("Given a Flexible")
-internal class FunctionFlexibleTest {
+internal class FlexExtensionTest {
 
     @DisplayName("When call this function")
     @Nested
@@ -39,9 +39,9 @@ internal class FunctionFlexibleTest {
             val grow = 1.0
 
             // When
-            val styleComponent = Flexible(FlexComponentFake(), {
+            val styleComponent = Flexible(FlexComponentFake()) {
                 this.grow = grow
-            })
+            }
 
             // Then
             val expected = FlexComponentFake(

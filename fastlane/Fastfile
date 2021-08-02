@@ -46,8 +46,12 @@ end
 platform :android do
   desc "Pull Request verification"
   lane :pull_request_verification do
-    gradle(project_dir: "android", task: "clean detekt lintDebug jacocoTestReportDebug")
-    gradle(project_dir: "android", task: "sample:assembleDebug sample:assembleDebugAndroidTest")
+    gradle(project_dir: "android", task: "clean")
+    gradle(project_dir: "android", task: "detekt")
+    gradle(project_dir: "android", task: "lintDebug")
+    gradle(project_dir: "android", task: "jacocoDebugTestReport")
+    gradle(project_dir: "android", task: "jacocoRootReport")
+    gradle(project_dir: "android", task: "sample:assembleDebug")
     publish_sonarcloud_gradle(projectDir: "android")
   end
 
@@ -196,7 +200,7 @@ platform :backend do
   desc "Pull Request verification"
   lane :pull_request_verification do
     gradle(project_dir: "backend", task: "detekt")
-    gradle(project_dir: "backend", tasks:["clean", "assemble", "jacocoTestReportDebug"])
+    gradle(project_dir: "backend", tasks:["clean", "assemble", "generateMergedReport"])
     publish_sonarcloud_gradle(projectDir: "backend")
   end
 

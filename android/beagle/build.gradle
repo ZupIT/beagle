@@ -22,7 +22,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'de.mannodermaus.android-junit5'
 apply plugin: 'kotlin-parcelize'
 apply plugin: "org.jetbrains.dokka"
-apply from: "$rootDir/jacoco-android.gradle"
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
@@ -66,6 +65,13 @@ android {
 
     buildFeatures {
         viewBinding true
+    }
+
+    sourceSets {
+        androidTest.java.srcDirs += "src/androidTest/kotlin"
+        debug.java.srcDirs += "src/debug/kotlin"
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
     }
 
 }

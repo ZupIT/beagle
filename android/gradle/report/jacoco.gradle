@@ -14,22 +14,28 @@
  * limitations under the License.
  */
 
-apply plugin: "org.jetbrains.dokka"
+apply plugin: 'jacoco'
 
-import br.com.zup.beagle.Dependencies
+jacoco {
+    toolVersion = "0.8.7"
+}
 
-test {
+tasks.withType(Test) {
     useJUnitPlatform()
+    jacoco.includeNoLocationClasses = true
 }
 
-dependencies {
-    implementation Dependencies.GeneralLibraries.jacksonKotlin
-    api project(Dependencies.Modules.schemaKotlinCore)
+afterEvaluate { project ->
 
-    testImplementation Dependencies.TestLibraries.mockk
-    testImplementation Dependencies.TestLibraries.kotlinTest
-    testImplementation Dependencies.TestLibraries.junit5Api
-    testRuntimeOnly Dependencies.TestLibraries.junit5Engine
+    if (isAndroidModule(project)) {
+        apply from: "$rootDir/gradle/report/jacoco-config-android.gradle"
+    } else {
+        apply from: "$rootDir/gradle/report/jacoco-config-kotlin.gradle"
+    }
 }
 
-apply from: rootProject.file('../maven-publish.gradle')
+private static boolean isAndroidModule(Project project) {
+    def isAndroidLibrary = project.plugins.hasPlugin('com.android.library')
+    def isAndroidApp = project.plugins.hasPlugin('com.android.application')
+    return isAndroidLibrary || isAndroidApp
+}

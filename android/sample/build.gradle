@@ -44,7 +44,6 @@ android {
         debug {
             minifyEnabled false // enable to test config in proguard
             shrinkResources false // enable to test config in proguard
-            testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
@@ -61,6 +60,13 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    sourceSets {
+        androidTest.java.srcDirs += "src/androidTest/kotlin"
+        debug.java.srcDirs += "src/debug/kotlin"
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+    }
 }
 
 dependencies {
@@ -71,7 +77,6 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
     debugImplementation project(Dependencies.Modules.preview)
-
 
     implementation project(Dependencies.Modules.core)
     kapt project(Dependencies.Modules.processor)

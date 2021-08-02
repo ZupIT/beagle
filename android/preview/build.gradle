@@ -19,7 +19,6 @@ import br.com.zup.beagle.Dependencies
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'de.mannodermaus.android-junit5'
-apply from: "$rootDir/jacoco-android.gradle"
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
@@ -39,9 +38,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            testCoverageEnabled true
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -58,6 +54,13 @@ android {
 
     buildFeatures {
         viewBinding true
+    }
+
+    sourceSets {
+        androidTest.java.srcDirs += "src/androidTest/kotlin"
+        debug.java.srcDirs += "src/debug/kotlin"
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
     }
 }
 

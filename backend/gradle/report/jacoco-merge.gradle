@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
-
-dependencies {
-    implementation Dependencies.GeneralLibraries.kotlinPoet
-    implementation project(Dependencies.Modules.commonAnnotation)
-    implementation project(Dependencies.Modules.schemaKotlinCore)
+jacoco {
+    toolVersion = "0.8.7"
 }
 
-apply from: rootProject.file('../maven-publish.gradle')
+task generateMergedReport(type: JacocoReport) {
+    dependsOn = subprojects.test
+
+    additionalSourceDirs.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories.setFrom files(subprojects.sourceSets.main.output)
+
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
