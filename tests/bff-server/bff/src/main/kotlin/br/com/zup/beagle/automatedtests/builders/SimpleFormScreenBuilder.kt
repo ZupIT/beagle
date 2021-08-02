@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.SetContext
@@ -76,11 +74,11 @@ object SimpleFormScreenBuilder {
                         ),
                         Button(text = "Click to Submit",
                             onPress = listOf(SubmitForm())
-                        ).applyStyle(
-                            Style(backgroundColor = "#ffffff",
-                                margin = EdgeValue(top = UnitValue.real(10))
-                            )
-                        )
+                        ).setStyle {
+                            this.backgroundColor = "#ffffff"
+                            this.margin = EdgeValue(top = UnitValue.real(10))
+
+                        }
                     ),
                     onSubmit = listOf(
                         Alert(

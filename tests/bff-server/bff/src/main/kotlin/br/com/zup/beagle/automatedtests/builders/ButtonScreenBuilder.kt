@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.BUTTON_STYLE_APPEARANCE
@@ -148,9 +149,9 @@ object ButtonScreenBuilder {
         val button = Button(
             text = text,
             styleId = styleId,
-            onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
-        )
+            onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true))))
 
+        @Suppress("UNUSED_EXPRESSION")
         if (style != null) {
             button.setStyle { style }
         }

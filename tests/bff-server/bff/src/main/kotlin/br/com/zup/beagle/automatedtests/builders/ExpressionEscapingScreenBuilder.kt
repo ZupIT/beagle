@@ -17,7 +17,6 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
@@ -58,14 +57,12 @@ object ExpressionEscapingScreenBuilder {
                             Text(
                                 text = "Fill the form",
                                 styleId = "DesignSystem.Text.helloWord"
-                            ).applyStyle(
-                                Style(
-                                    margin = EdgeValue(top = UnitValue.real(20), bottom = UnitValue.real(20)),
-                                    flex = Flex(
-                                        alignSelf = AlignSelf.CENTER
-                                    )
+                            ).setStyle {
+                                this.margin = EdgeValue(top = UnitValue.real(20), bottom = UnitValue.real(20))
+                                this.flex = Flex(
+                                    alignSelf = AlignSelf.CENTER
                                 )
-                            ),
+                            },
                             textInputScreen()
                         ),
                         context = ContextData(
