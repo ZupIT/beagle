@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.BUTTON_STYLE_APPEARANCE
@@ -21,8 +22,7 @@ import br.com.zup.beagle.automatedtests.constants.CYAN_BLUE
 import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Navigate
@@ -34,10 +34,10 @@ import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
-import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath
 
@@ -72,7 +72,7 @@ object ButtonScreenBuilder {
                 text = "Button",
                 style = Style(
                     margin = EdgeValue(
-                        top = 15.unitReal()
+                        top = UnitValue.real(15)
                     ),
                     flex = Flex(alignContent = alignContent)
                 )
@@ -83,28 +83,25 @@ object ButtonScreenBuilder {
                 styleId = "DesignSystem.Button.ScreenButton",
                 style = Style(
                     margin = EdgeValue(
-                        top = 15.unitReal()
+                        top = UnitValue.real(15)
                     )
                 )
             ),
 
-            buttonWithAppearanceAndStyle(text = "Button with Appearance").applyStyle(
-                style = Style(
-                    margin = EdgeValue(
-                        top = 15.unitReal()
-                    )
+            buttonWithAppearanceAndStyle(text = "Button with Appearance").setStyle {
+                this.margin = EdgeValue(
+                    top = UnitValue.real(15)
                 )
-            ),
+            },
 
             buttonWithAppearanceAndStyle(
                 text = "Button with Appearance and style",
                 styleId = BUTTON_STYLE_APPEARANCE
-            ).applyStyle(
-                Style(
-                    margin = EdgeValue(
-                        top = marginTop
-                    ))
-            ),
+            ).setStyle {
+                this.margin = EdgeValue(
+                    top = marginTop
+                )
+            },
             Button(
                 text = "Disabled Button",
                 styleId = "DesignSystem.Button.ScreenButton",
@@ -112,7 +109,7 @@ object ButtonScreenBuilder {
                 enabled = false
             ),
             Button(
-                text = valueOf("Disabled Button by context") ,
+                text = valueOf("Disabled Button by context"),
                 styleId = "DesignSystem.Button.ScreenButton",
                 onPress = listOf(Alert(message = "This button must be disabled")),
                 enabled = expressionOf("@{enabled}")
@@ -120,26 +117,29 @@ object ButtonScreenBuilder {
         )
     )
 
-    fun buildButtonAlignCenter() = createButtonScreen(alignContent = AlignContent.CENTER, marginTop = 10.unitReal())
+    fun buildButtonAlignCenter() = createButtonScreen(
+        alignContent = AlignContent.CENTER,
+        marginTop = UnitValue.real(10))
 
-    fun buildButtonAlignLeft() = createButtonScreen(alignContent = AlignContent.FLEX_START, marginTop =  20.unitReal())
+    fun buildButtonAlignLeft() = createButtonScreen(
+        alignContent = AlignContent.FLEX_START,
+        marginTop = UnitValue.real(20))
 
     private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
         text = text,
         styleId = styleId,
         style = Style(
             margin = EdgeValue(
-                left = 25.unitReal(),
-                right = 25.unitReal(),
-                top = 15.unitReal()
+                left = UnitValue.real(25),
+                right = UnitValue.real(25),
+                top = UnitValue.real(15)
             )
         )
-    ).applyStyle(
-        Style(
-            backgroundColor = CYAN_BLUE,
-            cornerRadius = CornerRadius(radius = 16.0)
-        )
-    )
+    ).setStyle {
+        this.backgroundColor = CYAN_BLUE
+        this.cornerRadius = CornerRadius(radius = 16.0)
+    }
+
 
     private fun createButton(
         text: String,
@@ -149,11 +149,11 @@ object ButtonScreenBuilder {
         val button = Button(
             text = text,
             styleId = styleId,
-            onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
-        )
+            onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true))))
 
+        @Suppress("UNUSED_EXPRESSION")
         if (style != null) {
-            button.applyStyle(style)
+            button.setStyle { style }
         }
 
         return button

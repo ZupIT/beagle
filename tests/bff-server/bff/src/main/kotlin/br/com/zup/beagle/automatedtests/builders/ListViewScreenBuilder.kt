@@ -17,13 +17,11 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.model.Genre
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.setFlex
 import br.com.zup.beagle.ext.setId
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.platform.BeaglePlatform
-import br.com.zup.beagle.platform.forPlatform
+import br.com.zup.beagle.platform.setPlatform
 import br.com.zup.beagle.widget.action.Condition
 import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.widget.action.SetContext
@@ -33,17 +31,18 @@ import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.ListDirection
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ListView
+import br.com.zup.beagle.widget.ui.Template
 import br.com.zup.beagle.widget.ui.Text
 
 data class PageResponse(
@@ -98,7 +97,9 @@ object ListViewScreenBuilder {
     private fun firstListView() = Container(
         context = ContextData(id = "changeStatus", value = "status: unread"),
         children = listOf(
-            Text(text = "Characters List View (pagination)").applyStyle(Style(margin = EdgeValue(all = 10.unitReal()))),
+            Text(text = "Characters List View (pagination)").setStyle {
+                this.margin = EdgeValue(all = UnitValue.real(10))
+            },
             Container(
                 children = listOf(
                     Button(text = "prev",
@@ -107,19 +108,25 @@ object ListViewScreenBuilder {
                         )
                     ),
                     Text("@{firstResponse.currentPage}/@{firstResponse.totalPages}")
-                        .applyFlex(flex = Flex(alignSelf = AlignSelf.CENTER)),
+                        .setFlex { this.alignSelf = AlignSelf.CENTER },
                     Button(text = "next",
                         onPress = listOf(
                             createConditionForNextRequest(),
                         )
                     )
                 )
-            ).applyFlex(Flex(flexDirection = FlexDirection.ROW))
-                .applyStyle(Style(padding = EdgeValue(all = 10.unitReal()))),
+            ).setFlex {
+                this.flexDirection = FlexDirection.ROW
+            }
+                .setStyle {
+                    this.padding = EdgeValue(all = UnitValue.real(10))
+                },
             charactersListView(),
             Text(
                 text = "@{changeStatus}"
-            ).applyStyle(style = Style(margin = EdgeValue(all = 10.unitReal())))
+            ).setStyle {
+                this.margin = EdgeValue(all = UnitValue.real(10))
+            }
         )
     )
 
@@ -142,28 +149,24 @@ object ListViewScreenBuilder {
             )
         ),
         dataSource = expressionOf("@{firstResponse.result}"),
-        template = Container(
+        templates = listOf(Template(view = Container(
             children = listOf(
                 Text(text = "Name: @{item.name}"),
                 Text(text = "Book: @{item.book}"),
                 Text(text = "Collection: @{item.collection}"),
             )
-        ).applyStyle(
-            style = Style(
-                padding = EdgeValue(all = 10.unitReal())
-            )
-        ),
+        ).setStyle {
+            this.padding = EdgeValue(all = UnitValue.real(10))
+        })),
         onScrollEnd = listOf(
             SetContext(contextId = "changeStatus", value = "status: read")
         )
     ).setId(
         id = "charactersList"
-    ).applyStyle(
-        Style(
-            margin = EdgeValue(all = 10.unitReal()),
-            backgroundColor = "#EAEAEA"
-        )
-    )
+    ).setStyle {
+        this.margin = EdgeValue(all = UnitValue.real(10))
+        this.backgroundColor = "#EAEAEA"
+    }
 
     private fun createConditionalForPreviousRequest() =
         Condition(
@@ -208,13 +211,12 @@ object ListViewScreenBuilder {
     private fun secondListView() = Container(
         children = listOf(
             Text("Categories List View (nested)")
-                .applyStyle(
-                    Style(
-                        margin = EdgeValue(
-                            top = 8.unitReal(),
-                            bottom = 8.unitReal(),
-                            left = 8.unitReal()))
-                ),
+                .setStyle {
+                    this.margin = EdgeValue(
+                        top = UnitValue.real(8),
+                        bottom = UnitValue.real(8),
+                        left = UnitValue.real(8))
+                },
             categoriesListView()
         )
     )
@@ -224,7 +226,7 @@ object ListViewScreenBuilder {
             key = "id",
             direction = ListDirection.VERTICAL,
             dataSource = valueOf(Genre.createMock()),
-            template = Container(
+            templates = listOf((Template(view = Container(
                 context = ContextData(id = "categoryResponse", value = CategoryResponse()),
                 children = listOf(
                     Text("@{item.name}"),
@@ -232,19 +234,16 @@ object ListViewScreenBuilder {
                 )
             ).setId(
                 id = "category"
-            ).applyStyle(
-                Style(
-                    margin = EdgeValue(all = 8.unitReal())
-                )
-            )
+            ).setStyle {
+                this.margin = EdgeValue(all = UnitValue.real(8))
+            })))
         ).setId(
             id = "categoriesList"
-        ).applyStyle(
-            Style(
-                margin = EdgeValue(all = 10.unitReal()),
-                backgroundColor = "#EAEAEA"
-            )
-        )
+        ).setStyle {
+            this.margin = EdgeValue(all = UnitValue.real(10))
+            this.backgroundColor = "#EAEAEA"
+
+        }
     }
 
     private fun categoriesBooksListView(): ListView {
@@ -265,7 +264,7 @@ object ListViewScreenBuilder {
             ),
             direction = ListDirection.HORIZONTAL,
             dataSource = expressionOf("@{categoryResponse.category}"),
-            template = Container(
+            templates = listOf(Template(view = Container(
                 context = ContextData(
                     id = "cartStatus",
                     value = "BUY",
@@ -286,57 +285,51 @@ object ListViewScreenBuilder {
                     ).setId(id = "cartButton")
                 )
             ).setId(id = "book")
-                .applyStyle(
-                    style = Style(
-                        padding = EdgeValue(all = 8.unitReal()),
-                    )
-                )
+                .setStyle {
+                    this.padding = EdgeValue(all = UnitValue.real(8))
+                }))
         ).setId(id = "categoriesBooksList")
-            .applyStyle(
-                style = Style(
-                    backgroundColor = "#CFCFCF",
-                    margin = EdgeValue(all = 8.unitReal()),
-                )
-            )
+            .setStyle {
+                this.backgroundColor = "#CFCFCF"
+                this.margin = EdgeValue(all = UnitValue.real(8))
+            }
     }
 
     private fun bookCharactersListView(): ListView {
         return ListView(
             direction = ListDirection.VERTICAL,
             dataSource = expressionOf("@{item.characters}"),
-            template = Container(
+            templates = listOf(Template(view = Container(
                 children = listOf(
                     Text(text = "- @{item}").setId("character")
                 )
-            )
-        ).setId(
-            id = "bookCharactersList"
-        )
+            )))
+        ).setId(id = "bookCharactersList")
     }
 
     private fun thirdListView() = Container(
         context = ContextData(id = "initialized", value = 0),
         children = listOf(
             Text("Books List View (infinite scroll): @{initialized} items initialized")
-                .applyStyle(
-                    Style(
-                        margin = EdgeValue(
-                            top = 8.unitReal(),
-                            bottom = 8.unitReal(),
-                            left = 8.unitReal()))
-                ),
-            createThirdListView(null).forPlatform(BeaglePlatform.WEB),
-            createThirdListView(200).forPlatform(BeaglePlatform.MOBILE),
+                .setStyle {
+                    this.margin = EdgeValue(
+                        top = UnitValue.real(8),
+                        bottom = UnitValue.real(8),
+                        left = UnitValue.real(8))
+                },
+            createThirdListView(null).setPlatform(BeaglePlatform.WEB),
+            createThirdListView(200).setPlatform(BeaglePlatform.MOBILE),
         )
     )
 
     private fun createThirdListView(listHeight: Int?): ListView {
+
         val listView = ListView(
             useParentScroll = true,
             scrollEndThreshold = 80,
             direction = ListDirection.VERTICAL,
             dataSource = expressionOf("@{thirdResponse.result}"),
-            template = Container(
+            templates = listOf(Template(view = Container(
                 onInit = listOf(
                     SetContext(
                         contextId = "initialized",
@@ -351,14 +344,12 @@ object ListViewScreenBuilder {
                     Text(text = "Genre: @{item.genre}"),
                     Text(text = "Rating: @{item.rating}")
                 )
-            ).applyStyle(
-                Style(
-                    margin = EdgeValue(
-                        top = 8.unitReal(),
-                        bottom = 8.unitReal(),
-                        left = 8.unitReal())
-                )
-            ),
+            ).setStyle {
+                this.margin = EdgeValue(
+                    top = UnitValue.real(8),
+                    bottom = UnitValue.real(8),
+                    left = UnitValue.real(8))
+            })),
             onScrollEnd = listOf(
                 Condition(
                     condition = expressionOf("@{gt(thirdResponse.totalPages, thirdResponse.currentPage)}"),
@@ -382,11 +373,9 @@ object ListViewScreenBuilder {
         ).setId(id = "booksList")
 
         listHeight?.let { height ->
-            listView.applyStyle(
-                style = Style(
-                    size = Size(height = height.unitReal())
-                )
-            )
+            listView.setStyle {
+                this.size = Size(height = UnitValue.real(height))
+            }
         }
 
         return listView

@@ -19,8 +19,8 @@ package br.com.zup.beagle.automatedtests.builders
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Confirm
 import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
@@ -37,12 +37,12 @@ object ConfirmScreenBuilder {
             children =
             listOf(
                 Text(text = "Confirm Screen"),
-                createButton("JustAMessage", "null" ,"ConfirmMessage"),
-                createButton("JustAMessageViaExpression", "null" ,
+                createButton("JustAMessage", "null", "ConfirmMessage"),
+                createButton("JustAMessageViaExpression", "null",
                     "@{confirmContext.message}"),
-                createButton("TitleAndMessage", "ConfirmTitle" ,
+                createButton("TitleAndMessage", "ConfirmTitle",
                     "ConfirmMessage"),
-                createButton("TitleAndMessageViaExpression", "@{confirmContext.title}" ,
+                createButton("TitleAndMessageViaExpression", "@{confirmContext.title}",
                     "@{confirmContext.message}"),
                 triggerActionConfirm(),
                 customLabelConfirms()
@@ -55,8 +55,8 @@ object ConfirmScreenBuilder {
             text = text,
             onPress = listOf(
                 Confirm(title = titleConfirm, message = confirmMessage)
+            )
         )
-    )
 
     private fun customLabelConfirms(): Container = Container(listOf(
         Button(

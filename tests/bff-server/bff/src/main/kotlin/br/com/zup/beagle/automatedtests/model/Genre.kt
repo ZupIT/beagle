@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.automatedtests.model
 
-import java.util.*
-
 data class Genre(
     val id: Int,
     val name: String = ""

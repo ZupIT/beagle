@@ -29,6 +29,7 @@ import br.com.zup.beagle.automatedtests.constants.SEND_REQUEST_ACTION_ENDPOINT
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
+@Suppress("unused")
 @RestController
 class ActionsScreenController {
 

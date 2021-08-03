@@ -19,18 +19,17 @@ package br.com.zup.beagle.automatedtests.builders
 import br.com.zup.beagle.automatedtests.constants.NAVIGATION_BAR_STYLE_DEFAULT
 import br.com.zup.beagle.automatedtests.constants.PATH_SCREEN_DEEP_LINK_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_ACTION_CLICK_ENDPOINT
-import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.setFlex
 import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.Confirm
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.SendRequest
-import br.com.zup.beagle.widget.action.Confirm
 import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
-import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Button
@@ -74,11 +73,9 @@ object ActionScreenBuilder {
             Text("Action dialog"),
             Touchable(
                 onPress = listOf(createAlert("Some")),
-                child = Text("Click me!").applyFlex(
-                    Flex(
-                        alignSelf = AlignSelf.CENTER
-                    )
-                )
+                child = Text("Click me!").setFlex {
+                    this.alignSelf = AlignSelf.CENTER
+                }
             )
         )
     )

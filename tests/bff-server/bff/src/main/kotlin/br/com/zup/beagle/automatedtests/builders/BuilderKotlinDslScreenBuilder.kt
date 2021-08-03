@@ -16,40 +16,37 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.layout.container
-import br.com.zup.beagle.layout.screen
-import br.com.zup.beagle.ui.text
+import br.com.zup.beagle.ext.setFlex
+import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
 object BuilderKotlinDslScreenBuilder {
-    fun build(): Screen{
-        return screen {
-            navigationBar{
-                title = "Navigation Bar Title"
-                showBackButton = true
-            }
-            child{
-                container {
-                    children{
-                        +text {
-                            text = valueOf("@{kotlinDSL}")
-                        }
-                        +Text("@{kotlinDSL}").applyFlex(Flex(alignSelf = AlignSelf.FLEX_START))
-                        +Button("Beagle Button")
-                    }
-                    context{
-                        id = "kotlinDSL"
-                        value = "Hello There"
-                    }
-                }.applyFlex(Flex(grow = 1.0,justifyContent = JustifyContent.CENTER))
-            }
-        }
+    fun build(): Screen {
+        return Screen(
+            navigationBar = NavigationBar(
+                title = "Navigation Bar Title",
+                showBackButton = true),
+            child = Container(
+                children = listOf(
+                    Text(
+                        text = valueOf("@{kotlinDSL}")
+                    ),
+                    Text("@{kotlinDSL}").setFlex {
+                        this.alignSelf = AlignSelf.FLEX_START
+                    },
+                    Button("Beagle Button")
+                ),
+                context = ContextData(id = "kotlinDSL", value = "Hello There")
+            ).setFlex {
+                this.grow = 1.0
+                this.justifyContent = JustifyContent.CENTER
+            })
     }
 }

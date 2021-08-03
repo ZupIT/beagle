@@ -38,6 +38,7 @@ import br.com.zup.beagle.automatedtests.constants.LAZY_SUCCESS_ENDPOINT
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
+@Suppress("unused")
 @RestController
 class LayoutComponentsController {
 

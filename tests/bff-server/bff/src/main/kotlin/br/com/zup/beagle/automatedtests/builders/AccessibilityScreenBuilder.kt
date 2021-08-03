@@ -17,16 +17,14 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.automatedtests.constants.BUTTON_STYLE_ACCESSIBILITY
-import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyAccessibility
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setAccessibility
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -84,17 +82,15 @@ object AccessibilityScreenBuilder {
     ) =
         Text(
             text = text
-        ).applyAccessibility(
-            accessibility = Accessibility(
-                accessible = accessible,
-                accessibilityLabel = accessibilityLabel
-            )
-        ).applyStyle(Style(
-            margin = EdgeValue(
-                top = 8.unitReal(),
-                bottom = 8.unitReal()),
-            flex = Flex( alignItems = AlignItems.CENTER))
-        )
+        ).setAccessibility {
+            this.accessible = accessible
+            this.accessibilityLabel = accessibilityLabel
+        }.setStyle {
+            this.margin = EdgeValue(
+                top = UnitValue.real(8),
+                bottom = UnitValue.real(8))
+            this.flex = Flex(alignItems = AlignItems.CENTER)
+        }
 
     private fun buttonAccessibility(
         textButton: String,
@@ -104,21 +100,18 @@ object AccessibilityScreenBuilder {
         Button(
             text = textButton,
             styleId = BUTTON_STYLE_ACCESSIBILITY
-        ).applyStyle(Style(
-            margin = EdgeValue(
-                top = 8.unitReal(),
-                bottom = 8.unitReal()
-            ),
-            size = Size(
-                height = 40.unitReal()
-            ),
-            flex = Flex(
-                alignItems = AlignItems.CENTER)
-        )
-        ).applyAccessibility(
-            accessibility = Accessibility(
-                accessible = accessible,
-                accessibilityLabel = accessibilityLabel
+        ).setStyle {
+            this.margin = EdgeValue(
+                top = UnitValue.real(8),
+                bottom = UnitValue.real(8)
             )
-        )
+            this.size = Size(
+                height = UnitValue.real(40)
+            )
+            this.flex = Flex(
+                alignItems = AlignItems.CENTER)
+        }.setAccessibility {
+            this.accessible = accessible
+            this.accessibilityLabel = accessibilityLabel
+        }
 }

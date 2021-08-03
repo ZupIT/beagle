@@ -16,14 +16,13 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
@@ -34,8 +33,9 @@ object SetContextScreenBuilder {
             context = ContextData("setContextid", "ValueExpression"),
             children =
             listOf(
-                Text(text = "SetContext Screen").applyStyle(Style(
-                    margin = EdgeValue(vertical = 20.unitReal()))),
+                Text(text = "SetContext Screen").setStyle {
+                    margin = EdgeValue(vertical = UnitValue.real(20))
+                },
                 hardcodedSetContextButtons(),
                 expressionSectContextButtons()
             )

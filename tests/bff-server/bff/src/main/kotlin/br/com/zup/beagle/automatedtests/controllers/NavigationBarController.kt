@@ -25,6 +25,7 @@ import br.com.zup.beagle.automatedtests.builders.NavigationBarScreenBuilder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
+@Suppress("unused")
 @RestController
 class NavigationBarController {
 

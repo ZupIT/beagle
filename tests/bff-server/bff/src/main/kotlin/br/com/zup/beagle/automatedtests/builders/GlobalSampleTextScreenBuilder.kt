@@ -22,15 +22,14 @@ import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
-import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.Container
-
+import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
 object GlobalSampleTextScreenBuilder {
 
-    val FALLBACK_SCREEN = NavigateActionsResetScreenBuilder.build()
+    private val FALLBACK_SCREEN = NavigateActionsResetScreenBuilder.build()
 
     fun build() = Screen(
         child = Container(

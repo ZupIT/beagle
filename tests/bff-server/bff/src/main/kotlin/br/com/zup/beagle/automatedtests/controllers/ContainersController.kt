@@ -29,6 +29,7 @@ import br.com.zup.beagle.automatedtests.constants.SCROLLVIEW_TABVIEW_ENDPOINT
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
+@Suppress("unused")
 @RestController
 class ContainersController {
 

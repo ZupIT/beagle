@@ -19,9 +19,7 @@ package br.com.zup.beagle.automatedtests.builders
 import br.com.zup.beagle.automatedtests.constants.LOGO_BEAGLE
 import br.com.zup.beagle.automatedtests.constants.SCREEN_SAFE_AREA_FALSE_ENDPOINT
 import br.com.zup.beagle.automatedtests.constants.SCREEN_SAFE_AREA_TRUE_ENDPOINT
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
@@ -29,6 +27,7 @@ import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.SafeArea
@@ -73,29 +72,21 @@ object SafeAreaScreenBuilder {
         ),
         child = Container(
             listOf(
-                Text("Safe area $safeArea").applyStyle(
-                    Style(
-                        margin = EdgeValue(top = 100.unitReal()),
-                        flex = Flex(
-                            alignSelf = AlignSelf.CENTER
-                        )
-                    )
-                ),
-                Image(ImagePath.Local.justMobile(LOGO_BEAGLE)).applyStyle(
-                    Style(
-                        margin = EdgeValue(top = 100.unitReal())
-                    )
-                )
+                Text("Safe area $safeArea").setStyle {
+                    this.margin = EdgeValue(top = UnitValue.real(100))
+                    this.flex = Flex(alignSelf = AlignSelf.CENTER)
+                },
+                Image(ImagePath.Local.justMobile(LOGO_BEAGLE)).setStyle {
+                    this.margin = EdgeValue(top = UnitValue.real(100))
+                }
             )
-        ).applyStyle(
-            Style(
-                backgroundColor = "#b7efcd",
-                flex = Flex(
-                    grow = 1.0,
-                    alignItems = AlignItems.CENTER
-                )
+        ).setStyle {
+            this.backgroundColor = "#b7efcd"
+            this.flex = Flex(
+                grow = 1.0,
+                alignItems = AlignItems.CENTER
             )
-        ),
+        },
         safeArea = SafeArea(
             top = safeArea,
             bottom = safeArea,

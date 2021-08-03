@@ -17,15 +17,14 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.ext.setStyle
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.TextInputType
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.form.SimpleForm
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -50,8 +49,6 @@ object ExpressionEscapingScreenBuilder {
             ),
             child = Container(
                 children = listOf(
-
-
                     SimpleForm(
                         onSubmit = listOf(
 
@@ -60,14 +57,12 @@ object ExpressionEscapingScreenBuilder {
                             Text(
                                 text = "Fill the form",
                                 styleId = "DesignSystem.Text.helloWord"
-                            ).applyStyle(
-                                Style(
-                                    margin = EdgeValue(top = 20.unitReal(), bottom = 20.unitReal()),
-                                    flex = Flex(
-                                        alignSelf = AlignSelf.CENTER
-                                    )
+                            ).setStyle {
+                                this.margin = EdgeValue(top = UnitValue.real(20), bottom = UnitValue.real(20))
+                                this.flex = Flex(
+                                    alignSelf = AlignSelf.CENTER
                                 )
-                            ),
+                            },
                             textInputScreen()
                         ),
                         context = ContextData(
@@ -83,7 +78,7 @@ object ExpressionEscapingScreenBuilder {
 
 
                 )
-            ).applyFlex(Flex(grow = 1.0))
+            ).setStyle { this.flex = Flex(grow = 1.0) }
         )
     }
 
@@ -132,13 +127,13 @@ object ExpressionEscapingScreenBuilder {
                 value = "@{onChange.value}"
             )
         )
-    ).applyStyle(styleMargin)
+    ).setStyle { styleMargin }
 
     var styleMargin = Style(
         margin = EdgeValue(
-            top = 10.unitReal(),
-            left = 25.unitReal(),
-            right = 25.unitReal()
+            top = UnitValue.real(10),
+            left = UnitValue.real(25),
+            right = UnitValue.real(25)
         )
     )
 }

@@ -29,7 +29,8 @@ import br.com.zup.beagle.widget.ui.Text
 
 const val EXPRESSION_OPERATION = "@{lt(2, 4)}"
 const val INVALID_EXPRESSION_OPERATION = "@{lt(context, 4)}"
-data class ConditionValues(val confirmTrue:Boolean = true, val confirmNotTrue:Boolean = false)
+
+data class ConditionValues(val confirmTrue: Boolean = true, val confirmNotTrue: Boolean = false)
 
 object ConditionalScreenBuilder {
     fun build() = Screen(
@@ -55,7 +56,7 @@ object ConditionalScreenBuilder {
         )
     )
 
-    fun conditionButton(text: String, condition: Bind<Boolean>) = Button(
+    private fun conditionButton(text: String, condition: Bind<Boolean>) = Button(
         text = text,
         onPress = listOf(
             Condition(
@@ -66,12 +67,12 @@ object ConditionalScreenBuilder {
         )
     )
 
-    fun alertTrue() = Alert(
+    private fun alertTrue() = Alert(
         title = "TRUE",
         message = "TrueCondition"
     )
 
-    fun alertFalse() = Alert(
+    private fun alertFalse() = Alert(
         title = "FALSE",
         message = "FalseCondition"
     )
