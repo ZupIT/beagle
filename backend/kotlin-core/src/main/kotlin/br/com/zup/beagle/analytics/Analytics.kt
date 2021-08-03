@@ -19,19 +19,28 @@ package br.com.zup.beagle.analytics
 /**
  * Beagle analytics is used to track click events.
  */
+
+@Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+    " Use the new analytics.")
 interface Analytics {
     /**
      * sends the click event had in the view
      */
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     fun trackEventOnClick(event: ClickEvent)
 
     /**
      * sends the event when view appear
      */
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     fun trackEventOnScreenAppeared(event: ScreenEvent)
 
     /**
      * sends the event when view disappear
      */
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     fun trackEventOnScreenDisappeared(event: ScreenEvent)
 }

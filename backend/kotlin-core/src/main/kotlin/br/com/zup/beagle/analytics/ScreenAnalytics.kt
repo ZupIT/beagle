@@ -20,6 +20,11 @@ package br.com.zup.beagle.analytics
  * Component that hold the screen analytics
  * @property screenAnalyticsEvent attribute to define screen name
  */
+@Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+    " Use the new analytics.")
 interface ScreenAnalytics {
+
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     val screenAnalyticsEvent: ScreenEvent?
 }

@@ -24,6 +24,11 @@ import br.com.zup.beagle.core.BeagleJson
  */
 
 @BeagleJson
+@Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+    " Use the new analytics.")
 interface TouchableAnalytics {
+
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     val clickAnalyticsEvent: ClickEvent?
 }

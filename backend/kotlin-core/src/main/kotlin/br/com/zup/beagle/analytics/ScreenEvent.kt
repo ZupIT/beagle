@@ -19,6 +19,11 @@ package br.com.zup.beagle.analytics
 /**
  * Beagle analytics is used to track screen.
  */
+@Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+    " Use the new analytics.")
 data class ScreenEvent(
+
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     val screenName: String
 )

@@ -120,6 +120,27 @@ data class Screen(
     val navigationBar: NavigationBar? = null,
     val child: ServerDrivenComponent,
     val style: Style? = null,
+
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     override val screenAnalyticsEvent: ScreenEvent? = null,
     override val context: ContextData? = null
-) : ScreenAnalytics, ContextComponent
+) : ScreenAnalytics, ContextComponent {
+
+    constructor(
+        identifier: String? = null,
+        safeArea: SafeArea? = null,
+        navigationBar: NavigationBar? = null,
+        style: Style? = null,
+        child: ServerDrivenComponent,
+        context: ContextData? = null
+    ) : this(
+        identifier,
+        safeArea,
+        navigationBar,
+        child,
+        style,
+        null,
+        context,
+    )
+}
