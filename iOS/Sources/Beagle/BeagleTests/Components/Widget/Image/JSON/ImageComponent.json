@@ -7,9 +7,6 @@
   },
   "mode": "CENTER",
   "style": {
-    "backgroundColor": "#0000FF80",
-    "cornerRadius": {
-        "radius": 30.0
-    }
+    "backgroundColor": "#0000FF80"
   }
 }
