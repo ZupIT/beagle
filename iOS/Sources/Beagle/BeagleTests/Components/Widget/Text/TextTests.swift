@@ -94,8 +94,7 @@ class TextTests: XCTestCase {
             alignment: Expression.value(.right),
             textColor: "#579F2B",
             widgetProperties: .init(style: Style(
-                backgroundColor: "#FFFF00",
-                cornerRadius: .init(radius: 30.0)
+                backgroundColor: "#FFFF00"
             ))
         )
 

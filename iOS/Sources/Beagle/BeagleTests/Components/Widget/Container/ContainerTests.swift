@@ -121,7 +121,7 @@ final class ContainerTests: XCTestCase {
             widgetProperties: .init(
                 style: .init(
                     backgroundColor: "#0000FF50",
-                    cornerRadius: .init(radius: 15.0),
+                    cornerRadius: .init(topLeft: 15, topRight: 35, bottomLeft: 25, bottomRight: 50),
                     borderColor: "#FF0000",
                     borderWidth: 4,
                     size: .init(width: 100%, height: 100%),

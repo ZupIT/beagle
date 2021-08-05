@@ -34,18 +34,16 @@ public struct BeagleRenderer {
     /// main function of this class. Call it to transform a Component into a UIView
     public func render(_ component: ServerDrivenComponent) -> UIView {
         let view = component.toView(renderer: self)
-
-        setupView(view, of: component)
-
-        return view
+        return setupView(view, of: component)
     }
 
     public func render(_ children: [ServerDrivenComponent]) -> [UIView] {
         return children.map { render($0) }
     }
 
-    private func setupView(_ view: UIView, of component: ServerDrivenComponent) {
+    private func setupView(_ view: UIView, of component: ServerDrivenComponent) -> UIView {
         view.beagle.setupView(of: component)
+        view.componentType = type(of: component)
         
         if let id = (component as? IdentifiableComponent)?.id {
             controller?.setIdentifier(id, in: view)
@@ -56,11 +54,19 @@ public struct BeagleRenderer {
         if let onInit = (component as? InitiableComponent)?.onInit {
             controller?.addOnInit(onInit, in: view)
         }
-        
         if let style = (component as? StyleComponent)?.style {
             observe(style: style, in: view)
+            if let radius = style.cornerRadius {
+                return BorderView(
+                    content: view,
+                    cornerRadius: radius,
+                    borderWidth: style.borderWidth,
+                    borderColor: style.borderColor,
+                    margin: style.margin
+                )
+            }
         }
-        view.componentType = type(of: component)
+        return view
     }
     
     private func observe(style: Style, in view: UIView) {

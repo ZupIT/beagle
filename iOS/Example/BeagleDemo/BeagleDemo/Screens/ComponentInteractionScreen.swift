@@ -65,7 +65,7 @@ let declarativeScreen: Screen = {
                     ]
                 )
                 MyComponent(person: "@{context1}", personOpt: nil, action: nil, widgetProperties: WidgetProperties())
-                Container(widgetProperties: WidgetProperties(style: Style(cornerRadius: CornerRadius(radius: 16), borderColor: "#000000", borderWidth: 6, size: Size(width: 100, height: 100), padding: EdgeValue().all(8)))) {
+                Container(widgetProperties: WidgetProperties(style: Style(cornerRadius: CornerRadius(topLeft: 10, topRight: 50, bottomLeft: 25, bottomRight: 50), borderColor: "#000000", borderWidth: 6, size: Size(width: 100, height: 100), padding: EdgeValue().all(8)))) {
                     Text("@{context1}")
                 }
             }

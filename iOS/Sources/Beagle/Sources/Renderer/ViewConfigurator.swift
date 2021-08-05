@@ -62,15 +62,13 @@ class ViewConfigurator: ViewConfiguratorProtocol {
         if let hex = style?.backgroundColor {
             view?.backgroundColor = UIColor(hex: hex)
         }
-        if let radius = style?.cornerRadius?.radius {
-            view?.layer.masksToBounds = true
-            view?.layer.cornerRadius = CGFloat(radius)
-        }
-        if let borderWidth = style?.borderWidth {
-            view?.layer.borderWidth = CGFloat(borderWidth)
-        }
-        if let borderColor = style?.borderColor {
-            view?.layer.borderColor = UIColor(hex: borderColor)?.cgColor
+        if style?.cornerRadius == nil {
+            if let borderWidth = style?.borderWidth {
+                view?.layer.borderWidth = CGFloat(borderWidth)
+            }
+            if let borderColor = style?.borderColor {
+                view?.layer.borderColor = UIColor(hex: borderColor)?.cgColor
+            }
         }
     }
 

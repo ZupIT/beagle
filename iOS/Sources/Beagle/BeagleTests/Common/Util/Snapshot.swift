@@ -17,7 +17,7 @@
 import UIKit
 import SnapshotTesting
 
-private let imageDiffPrecision: Float = 0.98
+private let imageDiffPrecision: Float = 0.99
 private let diffTool = "code"
 
 enum ImageSize {

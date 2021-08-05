@@ -38,6 +38,7 @@
 		931B6E32237610B300DE73FD /* FunctiontalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B6E31237610B300DE73FD /* FunctiontalUtils.swift */; };
 		9327116523F1C9D100778B56 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327116423F1C9D100778B56 /* Widget.swift */; };
 		932925E02327E11000A61F01 /* Beagle.h in Headers */ = {isa = PBXBuildFile; fileRef = 932925D22327E11000A61F01 /* Beagle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93308FA126BABF37002A37DD /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93308FA026BABF37002A37DD /* BorderView.swift */; };
 		93369CDB2680DAC100BBDB42 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93369CDA2680DAC100BBDB42 /* PullToRefresh.swift */; };
 		93369CDF2681248000BBDB42 /* PullToRefresh+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93369CDE2681248000BBDB42 /* PullToRefresh+Extensions.swift */; };
 		93369CE2268128A400BBDB42 /* PullToRefreshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93369CE1268128A400BBDB42 /* PullToRefreshTests.swift */; };
@@ -403,6 +404,8 @@
 		932925CF2327E11000A61F01 /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		932925D22327E11000A61F01 /* Beagle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Beagle.h; sourceTree = "<group>"; };
 		932925D32327E11000A61F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93308FA026BABF37002A37DD /* BorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
+		93308FA226BACA45002A37DD /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		93369CDA2680DAC100BBDB42 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		93369CDE2681248000BBDB42 /* PullToRefresh+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PullToRefresh+Extensions.swift"; sourceTree = "<group>"; };
 		93369CE1268128A400BBDB42 /* PullToRefreshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefreshTests.swift; sourceTree = "<group>"; };
@@ -649,8 +652,6 @@
 		9398CB0F255591310003A010 /* RepresentableByParsableString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepresentableByParsableString.swift; sourceTree = "<group>"; };
 		9399377F26248FDA00809705 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		93A2EE1B24EC4BB00085B3CF /* AddChildren+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddChildren+Extensions.swift"; sourceTree = "<group>"; };
-		93A73ADE262E0E30000A01E6 /* listViewWithoutChildren.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = listViewWithoutChildren.json; sourceTree = "<group>"; };
-		93A73AE2262E0E71000A01E6 /* listViewWithTemplate.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = listViewWithTemplate.json; sourceTree = "<group>"; };
 		93B9743F23A2833600B0D1CF /* NetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		93D24A502513DF47005A5CBD /* AutoLayoutWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutWrapper.swift; sourceTree = "<group>"; };
 		93EE0CC2252E56BC0032BE77 /* BindingConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindingConfigurator.swift; sourceTree = "<group>"; };
@@ -1186,6 +1187,7 @@
 		9356CC52262482810021EFC6 /* Submit */ = {
 			isa = PBXGroup;
 			children = (
+				93308FA226BACA45002A37DD /* __Snapshots__ */,
 				9356CC53262482810021EFC6 /* FormSubmitTests.swift */,
 			);
 			path = Submit;
@@ -1459,8 +1461,6 @@
 			isa = PBXGroup;
 			children = (
 				9356CCEE262482810021EFC6 /* ImageComponent.json */,
-				93A73ADE262E0E30000A01E6 /* listViewWithoutChildren.json */,
-				93A73AE2262E0E71000A01E6 /* listViewWithTemplate.json */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -2113,6 +2113,7 @@
 				C862606123B504850084A086 /* BeagleScreenViewModel.swift */,
 				2552F1972502AE7E004055A5 /* BeagleView.swift */,
 				93EE0CC2252E56BC0032BE77 /* BindingConfigurator.swift */,
+				93308FA026BABF37002A37DD /* BorderView.swift */,
 				C8605F6923B5423100FD4C4F /* LayoutManager.swift */,
 				A04B19F923ECA3F7007B4279 /* Screen+Renderable.swift */,
 				A0D608D52448DF8600F7D851 /* ScreenType.swift */,
@@ -2493,6 +2494,7 @@
 				A0EF0AAC238811AA0019BE83 /* LocalFormHandler.swift in Sources */,
 				9398CA862553325E0003A010 /* WebView.swift in Sources */,
 				9398CA8425532F400003A010 /* TabView.swift in Sources */,
+				93308FA126BABF37002A37DD /* BorderView.swift in Sources */,
 				25C762A62510FFF500AB4D33 /* Condition+Extensions.swift in Sources */,
 				93369CDB2680DAC100BBDB42 /* PullToRefresh.swift in Sources */,
 				9398CA3225531E9D0003A010 /* Condition.swift in Sources */,

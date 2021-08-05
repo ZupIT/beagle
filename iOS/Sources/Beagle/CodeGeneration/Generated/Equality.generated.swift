@@ -21,6 +21,10 @@
 extension CornerRadius: Equatable {
      public static func == (lhs: CornerRadius, rhs: CornerRadius) -> Bool {
         guard lhs.radius == rhs.radius else { return false }
+        guard lhs.topLeft == rhs.topLeft else { return false }
+        guard lhs.topRight == rhs.topRight else { return false }
+        guard lhs.bottomLeft == rhs.bottomLeft else { return false }
+        guard lhs.bottomRight == rhs.bottomRight else { return false }
         return true
     }
 }

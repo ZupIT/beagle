@@ -22,7 +22,7 @@ class ViewConfiguratorTests: XCTestCase {
     func testSetupView() {
         // Given
         let view = UIView()
-        let style = Style().borderColor("#000000").borderWidth(2).backgroundColor("#FFFFFF").cornerRadius(.init(radius: 4))
+        let style = Style().borderColor("#000000").borderWidth(2).backgroundColor("#FFFFFF")
         let accessibility = Accessibility(accessibilityLabel: "accessibilityLabel", accessible: true)
         let component = Text("text", widgetProperties: .init(style: style, accessibility: accessibility))
         let viewConfigurator = ViewConfigurator(view: view)
@@ -33,14 +33,29 @@ class ViewConfiguratorTests: XCTestCase {
         // Then
         // swiftlint:disable force_unwrapping
         XCTAssertEqual(view.backgroundColor, UIColor(hex: style.backgroundColor!))
-        XCTAssertTrue(view.layer.masksToBounds)
-        XCTAssertEqual(view.layer.cornerRadius, CGFloat(style.cornerRadius!.radius!))
         XCTAssertEqual(view.layer.borderWidth, CGFloat(style.borderWidth!))
         XCTAssertEqual(view.layer.borderColor, UIColor(hex: style.borderColor!)!.cgColor)
-        
         XCTAssertEqual(view.accessibilityLabel, accessibility
                         .accessibilityLabel)
         XCTAssertTrue(view.isAccessibilityElement)
+        // swiftlint:enable force_unwrapping
+    }
+    
+    func testSetupViewWithCornerRadius() {
+        // Given
+        let view = UIView()
+        let style = Style().borderColor("#000000").borderWidth(2).cornerRadius(.init(radius: 2))
+        let component = Text("text", widgetProperties: .init(style: style))
+        let viewConfigurator = ViewConfigurator(view: view)
+        
+        // When
+        viewConfigurator.setupView(of: component)
+        
+        // Then
+        // swiftlint:disable force_unwrapping
+        XCTAssertNotEqual(view.layer.cornerRadius, CGFloat((style.cornerRadius!.radius!)))
+        XCTAssertNotEqual(view.layer.borderWidth, CGFloat(style.borderWidth!))
+        XCTAssertNotEqual(view.layer.borderColor, UIColor(hex: style.borderColor!)?.cgColor)
         // swiftlint:enable force_unwrapping
     }
 }

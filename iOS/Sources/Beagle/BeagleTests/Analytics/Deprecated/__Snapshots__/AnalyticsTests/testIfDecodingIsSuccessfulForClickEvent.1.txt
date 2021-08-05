@@ -26,8 +26,12 @@
         - borderWidth: Optional<Double>.none
         ▿ cornerRadius: Optional<CornerRadius>
           ▿ some: CornerRadius
+            - bottomLeft: Optional<Double>.none
+            - bottomRight: Optional<Double>.none
             ▿ radius: Optional<Double>
               - some: 30.0
+            - topLeft: Optional<Double>.none
+            - topRight: Optional<Double>.none
         - display: Optional<Expression<Display>>.none
         - flex: Optional<Flex>.none
         - margin: Optional<EdgeValue>.none
