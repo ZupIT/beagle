@@ -42,7 +42,7 @@ void main() {
   final localhost = Platform.isAndroid ? '10.0.2.2' : 'localhost';
 
   BeagleSdk.init(
-    baseUrl: 'http://$localhost:8081',
+    baseUrl: 'http://$localhost:8082',
     environment:
         kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production,
     components: {...defaultComponents, ...myCustomComponents},
