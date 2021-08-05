@@ -43,7 +43,8 @@ void main() {
 
   BeagleSdk.init(
     baseUrl: 'http://$localhost:8080',
-    environment: kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production,
+    environment:
+        kDebugMode ? BeagleEnvironment.debug : BeagleEnvironment.production,
     components: {...defaultComponents, ...myCustomComponents},
     actions: myCustomActions,
     navigationControllers: {
@@ -59,7 +60,6 @@ void main() {
 }
 
 class BeagleSampleApp extends StatelessWidget {
-
   const BeagleSampleApp({Key key}) : super(key: key);
 
   static final _appBarMenuOptions = [
