@@ -34,15 +34,26 @@ extension ServerDrivenComponent {
         let safeArea = screen?.safeArea
             ?? SafeArea(top: true, leading: true, bottom: true, trailing: true)
 
-        return Screen(
-            identifier: screen?.identifier,
-            style: screen?.style,
-            safeArea: safeArea,
-            navigationBar: screen?.navigationBar,
-            screenAnalyticsEvent: screen?.screenAnalyticsEvent,
-            child: screen?.child ?? self,
-            context: screen?.context
-        )
+        if let analytics = screen?.screenAnalyticsEvent {
+            return Screen(
+                identifier: screen?.identifier,
+                style: screen?.style,
+                safeArea: safeArea,
+                navigationBar: screen?.navigationBar,
+                screenAnalyticsEvent: analytics,
+                child: screen?.child ?? self,
+                context: screen?.context
+            )
+        } else {
+            return Screen(
+                identifier: screen?.identifier,
+                style: screen?.style,
+                safeArea: safeArea,
+                navigationBar: screen?.navigationBar,
+                child: screen?.child ?? self,
+                context: screen?.context
+            )
+        }
     }
 }
 

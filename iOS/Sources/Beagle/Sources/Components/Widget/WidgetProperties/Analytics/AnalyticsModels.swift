@@ -16,8 +16,10 @@
 
 import Foundation
 
+@available(*, deprecated, message: "Since version 1.6, a new infrastructure for analytics (Analytics 2.0) was provided, for more info check https://docs.usebeagle.io/v1.9/resources/analytics/")
 public protocol AnalyticsEvent: Codable { }
 
+@available(*, deprecated, message: "Since version 1.6, a new infrastructure for analytics (Analytics 2.0) was provided, for more info check https://docs.usebeagle.io/v1.9/resources/analytics/")
 public struct AnalyticsClick: AnalyticsEvent, AutoInitiable {
     
     public let category: String
@@ -37,6 +39,7 @@ public struct AnalyticsClick: AnalyticsEvent, AutoInitiable {
 // sourcery:end
 }
 
+@available(*, deprecated, message: "Since version 1.6, a new infrastructure for analytics (Analytics 2.0) was provided, for more info check https://docs.usebeagle.io/v1.9/resources/analytics/")
 public struct AnalyticsScreen: AnalyticsEvent, AutoInitiable {
     public let screenName: String
 

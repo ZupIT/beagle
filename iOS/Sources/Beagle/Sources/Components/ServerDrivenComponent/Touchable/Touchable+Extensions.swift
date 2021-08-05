@@ -18,12 +18,17 @@ import UIKit
 
 extension Touchable {
     
+    @available(*, deprecated, message: "Since version 1.6, a new infrastructure for analytics (Analytics 2.0) was provided, for more info check https://docs.usebeagle.io/v1.9/resources/analytics/")
     public init(
         onPress: [Action],
         clickAnalyticsEvent: AnalyticsClick? = nil,
         renderableChild: ServerDrivenComponent
     ) {
-        self = Touchable(onPress: onPress, clickAnalyticsEvent: clickAnalyticsEvent, child: renderableChild)
+        if let analytics = clickAnalyticsEvent {
+            self = Touchable(onPress: onPress, clickAnalyticsEvent: analytics, child: renderableChild)
+        } else {
+            self = Touchable(onPress: onPress, child: renderableChild)
+        }
     }
     
     public func toView(renderer: BeagleRenderer) -> UIView {

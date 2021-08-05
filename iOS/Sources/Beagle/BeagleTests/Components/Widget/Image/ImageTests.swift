@@ -95,7 +95,7 @@ class ImageTests: XCTestCase {
         let imageDownloader = ImageDownloaderStub(imageResult: .success(Data()))
         dependency.imageDownloader = imageDownloader
         let container = Container(children: [image])
-        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
+        let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(container.toScreen()), dependencies: dependency))
         let action = SetContext(contextId: "url", value: "www.com.br")
         let view = image.toView(renderer: controller.renderer)
         
@@ -134,7 +134,7 @@ class ImageTests: XCTestCase {
     func testImageLeak() {
         // Given
         let component = Image(.remote(.init(url: "@{img.path}")), mode: .fitXY)
-        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(component.toScreen()), dependencies: BeagleDependencies()))
+        let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(component.toScreen()), dependencies: BeagleDependencies()))
         
         var view = component.toView(renderer: controller.renderer)
         weak var weakView = view
@@ -154,7 +154,7 @@ class ImageTests: XCTestCase {
         let imageDownloader = ImageDownloaderStub(imageResult: .success(Data()))
         dependency.imageDownloader = imageDownloader
         let container = Container(children: [image])
-        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
+        let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(container.toScreen()), dependencies: dependency))
         let action = SetContext(contextId: "img", path: "path", value: ["_beagleImagePath_": "local", "mobileId": "shuttle"])
         let view = image.toView(renderer: controller.renderer)
         
@@ -177,7 +177,7 @@ class ImageTests: XCTestCase {
         )
         
         //When
-        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependencies))
+        let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(container.toScreen()), dependencies: dependencies))
         
         // Then
         assertSnapshotImage(controller.view, size: ImageSize.custom(CGSize(width: 100, height: 100)))

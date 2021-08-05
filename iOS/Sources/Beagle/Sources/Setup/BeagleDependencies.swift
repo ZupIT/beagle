@@ -55,6 +55,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var localFormHandler: LocalFormHandler?
     public var repository: Repository
     public var imageDownloader: ImageDownloader
+    @available(*, deprecated, message: "Since version 1.6, a new infrastructure for analytics (Analytics 2.0) was provided, for more info check https://docs.usebeagle.io/v1.9/resources/analytics/")
     public var analytics: Analytics?
     public var analyticsProvider: AnalyticsProvider?
     public var navigation: BeagleNavigation

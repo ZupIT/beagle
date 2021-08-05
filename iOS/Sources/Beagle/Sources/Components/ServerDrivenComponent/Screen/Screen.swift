@@ -19,7 +19,7 @@ import Foundation
 /// The screen element will help you define the screen view structure.
 /// By using this component you can define configurations like whether or
 /// not you want to use safe areas or display a tool bar/navigation bar.
-public struct Screen: AutoInitiable, HasContext {
+public struct Screen: HasContext {
     
     /// identifies your screen globally inside your application so that it could have actions set on itself.
     public let identifier: String?
@@ -33,6 +33,7 @@ public struct Screen: AutoInitiable, HasContext {
     /// Enables a action bar/navigation bar into your view. By default it is set as null.
     public let navigationBar: NavigationBar?
     
+    @available(*, deprecated, message: "Since version 1.6, a new infrastructure for analytics (Analytics 2.0) was provided, for more info check https://docs.usebeagle.io/v1.9/resources/analytics/")
     /// Event send event when screen appear/disappear.
     public let screenAnalyticsEvent: AnalyticsScreen?
     
@@ -42,13 +43,13 @@ public struct Screen: AutoInitiable, HasContext {
     /// Defines the context that be set to screen.
     public let context: Context?
 
-// sourcery:inline:auto:Screen.Init
+    @available(*, deprecated, message: "Since version 1.6, a new infrastructure for analytics (Analytics 2.0) was provided, for more info check https://docs.usebeagle.io/v1.9/resources/analytics/")
     public init(
         identifier: String? = nil,
         style: Style? = nil,
         safeArea: SafeArea? = nil,
         navigationBar: NavigationBar? = nil,
-        screenAnalyticsEvent: AnalyticsScreen? = nil,
+        screenAnalyticsEvent: AnalyticsScreen,
         child: ServerDrivenComponent,
         context: Context? = nil
     ) {
@@ -60,7 +61,23 @@ public struct Screen: AutoInitiable, HasContext {
         self.child = child
         self.context = context
     }
-// sourcery:end
+    
+    public init(
+        identifier: String? = nil,
+        style: Style? = nil,
+        safeArea: SafeArea? = nil,
+        navigationBar: NavigationBar? = nil,
+        child: ServerDrivenComponent,
+        context: Context? = nil
+    ) {
+        self.identifier = identifier
+        self.style = style
+        self.safeArea = safeArea
+        self.navigationBar = navigationBar
+        self.child = child
+        self.context = context
+        self.screenAnalyticsEvent = nil
+    }
     
     public init(
         id: String? = nil,
@@ -72,7 +89,11 @@ public struct Screen: AutoInitiable, HasContext {
         @ChildBuilder
         _ child: () -> ServerDrivenComponent
     ) {
-        self.init(identifier: id, style: style, safeArea: safeArea, navigationBar: navigationBar, screenAnalyticsEvent: screenAnalyticsEvent, child: child(), context: context)
+        if let analytics = screenAnalyticsEvent {
+            self.init(identifier: id, style: style, safeArea: safeArea, navigationBar: navigationBar, screenAnalyticsEvent: analytics, child: child(), context: context)
+        } else {
+            self.init(identifier: id, style: style, safeArea: safeArea, navigationBar: navigationBar, child: child(), context: context)
+        }
     }
 
 }
