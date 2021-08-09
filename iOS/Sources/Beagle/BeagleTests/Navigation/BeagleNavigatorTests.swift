@@ -60,7 +60,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let sut = BeagleNavigator()
         let controller = BeagleControllerStub(dependencies: dependencies)
 
-        let resetRemote = Navigate.resetApplication(.remote(.init(url:"https://example.com/screen.json")))
+        let resetRemote = Navigate.resetApplication(.remote(.init(url: "https://example.com/screen.json")))
 
         // When
         sut.navigate(action: resetRemote, controller: controller, origin: nil)
@@ -357,7 +357,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let button = Button(text: "@{url}", onPress: [pushViewRemote])
         let setContext = SetContext(contextId: "url", path: nil, value: url)
         
-        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(button.toScreen()), dependencies: dependencies))
+        let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(button.toScreen()), dependencies: dependencies))
         let view = button.toView(renderer: controller.renderer)
         let navigation = BeagleNavigationController(rootViewController: controller)
 

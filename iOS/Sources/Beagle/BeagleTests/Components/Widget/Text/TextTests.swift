@@ -112,7 +112,7 @@ class TextTests: XCTestCase {
          )
          
          //When
-         let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen())))
+         let controller = BeagleScreenViewController(viewModel: .init(screenType: .declarative(container.toScreen())))
          
          // Then
          assertSnapshotImage(controller.view, size: ImageSize.custom(CGSize(width: 100, height: 100)))

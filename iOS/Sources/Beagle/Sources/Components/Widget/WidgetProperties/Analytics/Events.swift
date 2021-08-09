@@ -17,10 +17,12 @@
 import Foundation
 
 // MARK: - Events
+@available(*, deprecated, message: "Since version 1.6, a new infrastructure for analytics (Analytics 2.0) was provided, for more info check https://docs.usebeagle.io/v1.9/resources/analytics/")
 public protocol ClickedOnComponent {
     var clickAnalyticsEvent: AnalyticsClick? { get }
 }
 
+@available(*, deprecated, message: "Since version 1.6, a new infrastructure for analytics (Analytics 2.0) was provided, for more info check https://docs.usebeagle.io/v1.9/resources/analytics/")
 public protocol ScreenEvent {
     var screenAnalyticsEvent: AnalyticsScreen? { get }
 }

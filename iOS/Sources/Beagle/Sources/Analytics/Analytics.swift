@@ -21,7 +21,7 @@ public protocol DependencyAnalyticsExecutor {
     /// Set this property to receive analytics info when Beagle actions occur
     var analyticsProvider: AnalyticsProvider? { get }
 
-    /// DEPRECATED
+    @available(*, deprecated, message: "Since version 1.6, a new infrastructure for analytics (Analytics 2.0) was provided, for more info check https://docs.usebeagle.io/v1.9/resources/analytics/")
     var analytics: Analytics? { get }
 }
 

@@ -17,28 +17,37 @@
 import Foundation
 
 /// The `Touchable` component defines a click listener.
-public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoInitiableAndDecodable {
+public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoDecodable {
     
     /// Defines an `Action` to be executed when the child component is clicked.
     public let onPress: [Action]
     
+    @available(*, deprecated, message: "Since version 1.6, a new infrastructure for analytics (Analytics 2.0) was provided, for more info check https://docs.usebeagle.io/v1.9/resources/analytics/")
     /// Defines the event that will be triggered when clicked.
     public let clickAnalyticsEvent: AnalyticsClick?
     
     /// Defines the widget that will trigger the `Action`.
     public let child: ServerDrivenComponent
 
-// sourcery:inline:auto:Touchable.Init
+    @available(*, deprecated, message: "Since version 1.6, a new infrastructure for analytics (Analytics 2.0) was provided, for more info check https://docs.usebeagle.io/v1.9/resources/analytics/")
     public init(
         onPress: [Action],
-        clickAnalyticsEvent: AnalyticsClick? = nil,
+        clickAnalyticsEvent: AnalyticsClick,
         child: ServerDrivenComponent
     ) {
         self.onPress = onPress
         self.clickAnalyticsEvent = clickAnalyticsEvent
         self.child = child
     }
-// sourcery:end
+    
+    public init(
+        onPress: [Action],
+        child: ServerDrivenComponent
+    ) {
+        self.onPress = onPress
+        self.child = child
+        self.clickAnalyticsEvent = nil
+    }
     
     public init(
         onPress: [Action],
@@ -46,6 +55,10 @@ public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoInitiabl
         @ChildBuilder
         _ child: () -> ServerDrivenComponent
     ) {
-        self.init(onPress: onPress, clickAnalyticsEvent: clickAnalyticsEvent, child: child())
+        if let analytics = clickAnalyticsEvent {
+            self.init(onPress: onPress, clickAnalyticsEvent: analytics, child: child())
+        } else {
+            self.init(onPress: onPress, child: child())
+        }
     }
 }

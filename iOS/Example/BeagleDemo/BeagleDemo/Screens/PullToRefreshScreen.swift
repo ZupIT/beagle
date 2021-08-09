@@ -53,8 +53,7 @@ let pullToRefreshScreen: Screen = {
                 dataSource: "@{content.list}",
                 templates: [
                     Template(
-                        view: Text("@{item}",
-                        widgetProperties: WidgetProperties(style: .init(margin: .init(all: 5))))
+                        view: Text("@{item}", widgetProperties: WidgetProperties(style: .init(margin: .init(all: 5))))
                     )
                 ],
                 widgetProperties: WidgetProperties(style: .init(size: .init(width: 100%, height: 100%)))
