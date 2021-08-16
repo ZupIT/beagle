@@ -98,6 +98,5 @@ Beagle is Apache 2.0 licensed, as found in the [LICENSE][l] file.
 [l]: https://github.com/ZupIT/beagle/blob/main/LICENSE.txt
 
 ## 🗂 Zup Open Source Forum
-------------
 
 [![Zup forum](/readme/zup-forum-topics.png)](https://forum.zup.com.br/c/en/9)
