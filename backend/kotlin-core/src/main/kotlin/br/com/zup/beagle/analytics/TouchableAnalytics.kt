@@ -20,6 +20,12 @@ package br.com.zup.beagle.analytics
  * Component that hold the click analytics
  * @property clickAnalyticsEvent attribute to define click event name
  */
+
+@Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+    " Use the new analytics.")
 interface TouchableAnalytics {
+
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     val clickAnalyticsEvent: ClickEvent?
 }

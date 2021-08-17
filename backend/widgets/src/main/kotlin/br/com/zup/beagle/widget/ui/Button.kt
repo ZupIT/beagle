@@ -41,6 +41,9 @@ data class Button(
     override val clickAnalyticsEvent: ClickEvent? = null,
     val enabled: Bind<Boolean>? = null
 ) : Widget(), TouchableAnalytics {
+
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     constructor(
         text: String,
         styleId: String? = null,
@@ -52,6 +55,32 @@ data class Button(
         styleId,
         onPress,
         clickAnalyticsEvent,
+        valueOfNullable(enabled)
+    )
+
+    constructor(
+        text: String,
+        styleId: String? = null,
+        onPress: List<Action>? = null,
+        enabled: Boolean? = null
+    ) : this(
+        valueOf(text),
+        styleId,
+        onPress,
+        null,
+        valueOfNullable(enabled)
+    )
+
+    constructor(
+        text: Bind<String>,
+        styleId: String? = null,
+        onPress: List<Action>? = null,
+        enabled: Boolean? = null
+    ) : this(
+        text,
+        styleId,
+        onPress,
+        null,
         valueOfNullable(enabled)
     )
 }

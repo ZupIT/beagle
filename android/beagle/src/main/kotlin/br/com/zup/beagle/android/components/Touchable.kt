@@ -41,6 +41,9 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 data class Touchable(
     val onPress: List<Action>,
     override val child: ServerDrivenComponent,
+
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     val clickAnalyticsEvent: ClickEvent? = null,
 ) : ViewConvertable, GhostComponent {
 

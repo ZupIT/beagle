@@ -24,6 +24,9 @@ package br.com.zup.beagle.analytics
  * @param value
  *
  */
+
+@Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+    " Use the new analytics.")
 data class ClickEvent(
     val category: String,
     val label: String? = null,

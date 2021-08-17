@@ -43,6 +43,8 @@ internal data class ScreenComponent(
     val safeArea: SafeArea? = null,
     val navigationBar: NavigationBar? = null,
     override val child: ServerDrivenComponent,
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     override val screenAnalyticsEvent: ScreenEvent? = null,
     override val context: ContextData? = null,
 ) : WidgetView(), ScreenAnalytics, ContextComponent, SingleChildComponent {

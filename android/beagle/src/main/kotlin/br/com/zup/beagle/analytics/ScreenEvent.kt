@@ -22,6 +22,11 @@ import br.com.zup.beagle.core.BeagleJson
  * Beagle analytics is used to track screen.
  */
 @BeagleJson
+@Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+    " Use the new analytics.")
 data class ScreenEvent(
+
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     val screenName: String
 )

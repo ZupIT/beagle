@@ -46,6 +46,8 @@ data class Button(
     val text: Bind<String>,
     val styleId: String? = null,
     val onPress: List<Action>? = null,
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     val clickAnalyticsEvent: ClickEvent? = null,
     val enabled: Bind<Boolean>? = null,
 ) : WidgetView() {

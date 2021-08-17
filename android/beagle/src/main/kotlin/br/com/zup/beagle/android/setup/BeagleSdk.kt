@@ -62,6 +62,9 @@ interface BeagleSdk {
         " Use @RegisterController with no arguments to register your default BeagleActivity.")
     val serverDrivenActivity: Class<BeagleActivity>
     val urlBuilder: UrlBuilder?
+
+    @Deprecated("It was deprecated in version 1.10.0 and will be removed in a future version." +
+        " Use the new analytics.")
     val analytics: Analytics?
     val logger: BeagleLogger?
 
