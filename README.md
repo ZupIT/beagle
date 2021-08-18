@@ -81,7 +81,7 @@ We have a list of [good first issues][gfi] that contain bugs which have a relati
 
 ### Projects
 
- We decided to create a repository for each of our projects, below are the repositories with their respective links
+ We decided to create a repository for each of our projects. The repositories with their respective links are:
 
  [Android][android]
 
