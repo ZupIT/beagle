@@ -1,6 +1,0 @@
-▿ 5 elements
-  - 3
-  - 5.0
-  - true
-  - name
-  - 

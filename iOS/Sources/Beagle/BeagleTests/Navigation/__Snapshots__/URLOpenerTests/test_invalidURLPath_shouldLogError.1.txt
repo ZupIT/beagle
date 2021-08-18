@@ -1,1 +1,0 @@
-Optional(Beagle.Log.navigation(Beagle.Log.Navigator.invalidExternalUrl(path: "")))

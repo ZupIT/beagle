@@ -1,3 +1,0 @@
-▿ UnitValue
-  - type: UnitType.percent
-  - value: 10.5

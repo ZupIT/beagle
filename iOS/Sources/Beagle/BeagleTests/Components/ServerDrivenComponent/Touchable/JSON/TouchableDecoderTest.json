@@ -1,9 +1,0 @@
-{
-  "_beagleComponent_": "beagle:touchable",
-  "onPress": [{
-      "_beagleAction_": "beagle:popView"
-  }],
-  "child": {
-      "_beagleComponent_" : "custom:beagleschematestscomponent"
-  }
-}

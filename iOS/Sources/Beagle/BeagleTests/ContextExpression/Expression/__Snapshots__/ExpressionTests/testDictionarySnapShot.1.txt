@@ -1,2 +1,0 @@
-▿ Optional<DynamicObject>
-  - some: [[confirmed: 29679834, critical: 60820, deaths: 942947, lastChange: 2020-09-15T22:59:33+02:00, lastUpdate: 2020-09-15T23:00:05+02:00, recovered: 21447313]]

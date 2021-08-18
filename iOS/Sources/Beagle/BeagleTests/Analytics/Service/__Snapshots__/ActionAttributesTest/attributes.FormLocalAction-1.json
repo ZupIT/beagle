@@ -1,7 +1,0 @@
-{
-  "data" : {
-    "B" : "value B",
-    "X Y" : "strange key"
-  },
-  "name" : "my-form-name"
-}

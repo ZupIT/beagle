@@ -8,12 +8,6 @@
   </a>
 </h1>
 
-<div align="center">
-
-| Backend        | Android                      | iOS                                | License                            | PRs                                |
-|-----------     | -----------------------------| ---------------------------------- | ---------------------------------- | ---------------------------------- |
-| [![Coverage Backend](https://sonarcloud.io/api/project_badges/measure?project=ZupIT_beagle_backend&metric=coverage)](https://sonarcloud.io/dashboard?id=ZupIT_beagle_backend) | [![Coverage Android](https://sonarcloud.io/api/project_badges/measure?project=ZupIT_beagle_android&metric=coverage)](https://sonarcloud.io/dashboard?id=ZupIT_beagle_android) | [![Coverage iOS](https://sonarcloud.io/api/project_badges/measure?project=ZupIT_beagle_ios&metric=coverage)](https://sonarcloud.io/dashboard?id=ZupIT_beagle_ios) | [![Beagle is released under the Apache 2.0 license.](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/ZupIT/beagle/blob/main/LICENSE.md) | [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ZupIT/beagle/blob/main/CONTRIBUTING.md) |
-</div>
 
 <h3 align="center">
   <a href="https://docs.usebeagle.io">Getting Started</a>
@@ -38,11 +32,11 @@ It is also possible to create, test and update native application components and
 - [Code of Conduct](#code-of-conduct)
 - [License](#-license)
 
-## 📋 Requirements
+### Requirements
 
 Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. You may use Windows, macOS, or Linux as your development operating system.
 
-## 🎉 Building your first app using Beagle
+### Building your first app using Beagle
 
 Follow the [Getting Started guide](https://docs.usebeagle.io/get-started/installing-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
 
@@ -52,7 +46,7 @@ Follow the [Getting Started guide](https://docs.usebeagle.io/get-started/install
 [new-app]: https://docs.usebeagle.io/get-started/new-project
 [existing]: https://docs.usebeagle.io/get-started/using-beagle
 
-## 📖 Documentation
+### Documentation
 
 The full documentation for Beagle can be found on our [website][site].
 
@@ -62,7 +56,7 @@ The Beagle documentation discusses components, APIs, and topics that are specifi
 [b-docs]: https://docs.usebeagle.io/
 
 
-## 👏 How to Contribute
+### How to Contribute
 
 The main purpose of this repository is to continue evolving Beagle core. We want to make contributing to this project as easy and transparent as possible, and we are grateful to the community for contributing bug fixes and improvements. Read below to learn how you can take part in improving Beagle.
 
@@ -79,19 +73,30 @@ Please read the [code] so that you can understand what actions will and will not
 
 [code]: https://github.com/ZupIT/beagle/blob/main/CODE_OF_CONDUCT.md
 
-### [Open Source Roadmap][roadmap]
-
-You can learn more about our vision for beagle in the [**Roadmap**][roadmap].
-
-[roadmap]: https://github.com/ZupIT/beagle/milestones
-
 ### Good First Issues
 
 We have a list of [good first issues][gfi] that contain bugs which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
 
 [gfi]: https://github.com/ZupIT/beagle/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
 
-## 📄 License
+### Projects
+
+ We decided to create a repository for each of our projects. The repositories with their respective links are:
+
+ [Android][android]
+
+ [iOS][ios] 
+
+ [Backend][backend] 
+
+ [Tests][tests] 
+
+ [android]: https://github.com/ZupIT/beagle-android
+ [ios]: https://github.com/ZupIT/beagle-ios
+ [Backend]: https://github.com/ZupIT/beagle-backend-kotlin
+ [tests]: https://github.com/ZupIT/beagle-tests
+
+### License
 
 Beagle is Apache 2.0 licensed, as found in the [LICENSE][l] file.
 

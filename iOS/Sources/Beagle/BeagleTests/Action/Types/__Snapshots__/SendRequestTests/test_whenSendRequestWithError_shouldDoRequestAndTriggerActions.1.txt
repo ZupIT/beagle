@@ -1,4 +1,0 @@
-▿ Optional<Context>
-  ▿ some: Context
-    - id: "onError"
-    - value: [data: [error: errorString], message: The operation couldn’t be completed. (Beagle.NetworkError error 1.), status: 0, statusText: The operation couldn’t be completed. (Beagle.NetworkError error 1.)]

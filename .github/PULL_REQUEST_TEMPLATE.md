@@ -10,7 +10,7 @@
 
 <!--
 - if related issues don't already describe the problem you are trying to solve (and why it's important), please say it here
-- try to give a small example of the most imporant thing you actually changed (code snippets, screenshots, file name, and others are welcomed)
+- try to give a small example of the most important thing you actually changed (code snippets, screenshots, file name, and others are welcomed)
 -->
 
 ### Checklist
