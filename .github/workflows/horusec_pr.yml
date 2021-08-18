@@ -1,4 +1,20 @@
-name: Horusec Pull Request
+#
+  # Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+  # You may obtain a copy of the License at
+  #
+  #  http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS,
+  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  # See the License for the specific language governing permissions and
+  # limitations under the License.
+#
+
+name: Horusec Validation
 
 on:
   pull_request:
@@ -7,8 +23,8 @@ on:
       - release/*
 
 jobs:
-  horusec:
-    name: horusec
+  horusec-validation:
+    name: Horusec Validation
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -25,10 +41,8 @@ jobs:
           parse-json: true
           
       - name: Running Horusec
-        #we need to ignore sample, automatedTests, automated-tests and .gradle because they are not being shipped the Beagle sdk
-        #The two hash was added because we have False Positive on TextInput.swift, we have an enum called PASSWORD, and UrlBuilderDefault.kt, we have a base64 failure but we don't use the base64 on this code
         env:
           HORUSEC_CLI_REPOSITORY_AUTHORIZATION: ${{ env.BEAGLE_CORE_SECURITY_HORUSEC_CLI_REPOSITORY_AUTHORIZATION }}
         run: |
-          curl -fsSL https://horusec.io/bin/install.sh | bash
-          horusec start -p ./ --ignore="**/sample/**,**/.gradle/**,**/automatedTests/**,**/automated-tests/**,**/iOS/Tests/**,**/flutter/beagle/assets/**,**/tests/appium/**,**/**/gradlew.bat,**/flutter/tests.sh,**/Gemfile.lock" -a "$HORUSEC_CLI_REPOSITORY_AUTHORIZATION" -n "${GITHUB_REPOSITORY}_${GITHUB_REF##*/}" -e true -u "https://api-horusec.zup.com.br" -G true
+          curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/master/deployments/scripts/install.sh | bash -s latest
+          horusec start -p="./" -e="true"

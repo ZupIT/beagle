@@ -1,9 +1,0 @@
-▿ FormData
-  - method: Method.post
-  ▿ values: 2 key/value pairs
-    ▿ (2 elements)
-      - key: "id"
-      - value: "123123"
-    ▿ (2 elements)
-      - key: "name"
-      - value: "John Doe"

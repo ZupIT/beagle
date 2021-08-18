@@ -1,9 +1,0 @@
-▿ 8 elements
-  - [first: John, last: Doe]
-  - John
-  - 
-  - 111-1111-1111
-  - 1
-  - 5.5
-  - true
-  - 

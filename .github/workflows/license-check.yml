@@ -10,4 +10,4 @@ jobs:
         with:
           deno-version: "1.12.1"
       - name: Check License Lines
-        run: bash fastlane/check-license.sh $(pwd)
+        run: bash scripts/check-license.sh $(pwd)
