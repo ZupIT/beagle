@@ -17,11 +17,11 @@
   <a href="https://github.com/ZupIT/beagle/blob/main/CONTRIBUTING.md">Contribute</a>
 </h3>
 
-Beagle is an **open source framework** for **cross-platform** development using the concept of Server-Driven UI.
+Beagle is an **open-source framework** for **cross-platform** development using the concept of Server-Driven UI.
 
-This framework allow teams to build and alter layouts and data directly through a backend but yet displaying its contents natively in a mobile application and / or through web.
+This framework allows teams to build and alter layouts and data directly through a backend but yet displaying its contents natively in a mobile application and/or through a web one.
 
-It is also possible to create, test and update native application components and screen paths without the need update the mobile application at the store (App Store or Play Store).
+It is also possible to create, test and update native application components and screen paths without the need to update the mobile application at the store (App Store or Play Store).
 
 ## Contents
 
@@ -75,7 +75,7 @@ Please read the [code] so that you can understand what actions will and will not
 
 ### Good First Issues
 
-We have a list of [good first issues][gfi] that contain bugs which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
+We have a list, of [good first issues][gfi], that contains bugs, which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
 
 [gfi]: https://github.com/ZupIT/beagle/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
 
