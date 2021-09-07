@@ -75,7 +75,7 @@ Please read the [code] so that you can understand what actions will and will not
 
 ### Good First Issues
 
-We have a list, of [good first issues][gfi], that contains bugs, which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
+We have a list of [good first issues][gfi] that contains bugs, which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
 
 [gfi]: https://github.com/ZupIT/beagle/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
 
