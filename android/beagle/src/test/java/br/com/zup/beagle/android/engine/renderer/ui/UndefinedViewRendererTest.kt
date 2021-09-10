@@ -18,7 +18,7 @@
 package br.com.zup.beagle.android.engine.renderer.ui
 
 import android.graphics.Color
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test
 
 class UndefinedViewRendererTest : BaseComponentTest() {
 
-    private val textView: TextView = mockk()
+    private val textView: AppCompatTextView = mockk()
 
     private val textSlot = slot<String>()
     private val textColorSlot = slot<Int>()
@@ -63,7 +63,7 @@ class UndefinedViewRendererTest : BaseComponentTest() {
     fun build_should_create_a_TexView_with_a_undefinedWidget_text() {
         val actual = undefinedViewRenderer.buildView(rootView)
 
-        assertTrue(actual is TextView)
+        assertTrue(actual is AppCompatTextView)
         assertEquals("undefined component", textSlot.captured)
     }
 
