@@ -19,8 +19,8 @@ package br.com.zup.beagle.android.components
 
 import android.graphics.Color
 import android.view.Gravity
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.extensions.once
@@ -42,7 +42,7 @@ class BeagleTextViewExtensionsKtTest : BaseComponentTest() {
 
     private val designSystem: DesignSystem = mockk()
     private val activity: AppCompatActivity = mockk(relaxed = true)
-    private val textView: TextView = mockk(relaxed = true)
+    private val textView: AppCompatTextView = mockk(relaxed = true)
     private val styleManager: StyleManager = mockk(relaxed = true)
 
     private val textValueSlot = slot<String>()

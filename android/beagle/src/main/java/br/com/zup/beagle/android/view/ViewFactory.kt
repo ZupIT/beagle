@@ -20,13 +20,13 @@ import android.content.Context
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.webkit.WebView
-import android.widget.Button
-import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
 import android.widget.ScrollView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.BeagleRecyclerView
@@ -57,17 +57,17 @@ internal class ViewFactory {
         isFillViewport = true
     }
 
-    fun makeButton(context: Context, id: Int) = Button(ContextThemeWrapper(context, id), null, 0)
+    fun makeButton(context: Context, id: Int) = AppCompatButton(ContextThemeWrapper(context, id), null, 0)
 
-    fun makeButton(context: Context) = Button(context)
+    fun makeButton(context: Context) = AppCompatButton(context)
 
-    fun makeTextView(context: Context) = TextView(context)
+    fun makeTextView(context: Context) = AppCompatTextView(context)
 
-    fun makeTextView(context: Context, id: Int) = TextView(ContextThemeWrapper(context, id), null, 0)
+    fun makeTextView(context: Context, id: Int) = AppCompatTextView(ContextThemeWrapper(context, id), null, 0)
 
-    fun makeInputText(context: Context, id: Int) = EditText(ContextThemeWrapper(context, id), null, 0)
+    fun makeInputText(context: Context, id: Int) = AppCompatEditText(ContextThemeWrapper(context, id), null, 0)
 
-    fun makeInputText(context: Context) = EditText(context)
+    fun makeInputText(context: Context) = AppCompatEditText(context)
 
     fun makeAlertDialogBuilder(context: Context) = AlertDialog.Builder(context)
 

@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.components
 
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import br.com.zup.beagle.android.view.ViewFactory
 import io.mockk.every
 import io.mockk.mockk
@@ -30,7 +30,7 @@ private const val DEFAULT_STYLE = "DummyStyle"
 
 class TextTest : BaseComponentTest() {
 
-    private val textView: TextView = mockk(relaxed = true)
+    private val textView: AppCompatTextView = mockk(relaxed = true)
 
     private lateinit var text: Text
 
@@ -50,7 +50,7 @@ class TextTest : BaseComponentTest() {
         val view = text.buildView(rootView)
 
         // Then
-        assertTrue(view is TextView)
+        assertTrue(view is AppCompatTextView)
         verify(exactly = 1) { textView.text = DEFAULT_TEXT }
     }
 }

@@ -20,7 +20,7 @@ import android.content.Context
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
@@ -60,7 +60,7 @@ internal class TextInputTest : BaseComponentTest() {
 
     private val focusCapture = slot<View.OnFocusChangeListener>()
     private val textWatcherCapture = slot<TextWatcher>()
-    private val editText: EditText = mockk(relaxed = true, relaxUnitFun = true)
+    private val editText: AppCompatEditText = mockk(relaxed = true, relaxUnitFun = true)
     private val styleManager: StyleManager = mockk(relaxed = true)
     private val context: Context = mockk()
     private val textWatcher: TextWatcher = mockk()
@@ -126,7 +126,7 @@ internal class TextInputTest : BaseComponentTest() {
             val view = textInput.buildView(rootView)
 
             // Then
-            assertTrue(view is EditText)
+            assertTrue(view is AppCompatEditText)
             verify(exactly = once()) {
                 editText.error = ERROR
             }
@@ -142,7 +142,7 @@ internal class TextInputTest : BaseComponentTest() {
             val view = textInput.buildView(rootView)
 
             // Then
-            assertTrue(view is EditText)
+            assertTrue(view is AppCompatEditText)
             verify(exactly = 0) {
                 editText.error = ERROR
             }
@@ -163,7 +163,7 @@ internal class TextInputTest : BaseComponentTest() {
             val view = textInput.buildView(rootView)
 
             // Then
-            assertTrue(view is EditText)
+            assertTrue(view is AppCompatEditText)
             verify(exactly = 0) {
                 editText.error = ERROR
             }
@@ -184,7 +184,7 @@ internal class TextInputTest : BaseComponentTest() {
             val view = textInput.buildView(rootView)
 
             // Then
-            assertTrue(view is EditText)
+            assertTrue(view is AppCompatEditText)
             verify(exactly = once()) {
                 anyConstructed<ViewFactory>().makeInputText(any())
                 editText.setText(VALUE_KEY)
@@ -204,7 +204,7 @@ internal class TextInputTest : BaseComponentTest() {
             val view = textInput.buildView(rootView)
 
             // Then
-            assertTrue(view is EditText)
+            assertTrue(view is AppCompatEditText)
             verify(exactly = once()) {
                 anyConstructed<ViewFactory>().makeInputText(any(), any())
                 editText.setText(VALUE_KEY)
@@ -258,7 +258,7 @@ internal class TextInputTest : BaseComponentTest() {
             textWatcherCapture.captured.onTextChanged(newValue, 0, 0, 0)
 
             // Then
-            assertTrue(view is EditText)
+            assertTrue(view is AppCompatEditText)
             verify {
                 textInput.notifyChanges()
                 textInput.handleEvent(rootView, view, textInput.onChange!!, valueWithContext, "onChange")
@@ -278,7 +278,7 @@ internal class TextInputTest : BaseComponentTest() {
             focusCapture.captured.onFocusChange(view, true)
 
             // Then
-            assertTrue(view is EditText)
+            assertTrue(view is AppCompatEditText)
             verify {
                 textInput.handleEvent(rootView, view, textInput.onFocus!!, valueWithContext, "onFocus")
             }
@@ -297,7 +297,7 @@ internal class TextInputTest : BaseComponentTest() {
             focusCapture.captured.onFocusChange(view, false)
 
             // Then
-            assertTrue(view is EditText)
+            assertTrue(view is AppCompatEditText)
             verify {
                 textInput.handleEvent(rootView, view, textInput.onBlur!!, valueWithContext, "onBlur")
             }
