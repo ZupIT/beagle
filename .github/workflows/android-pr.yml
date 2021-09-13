@@ -3,7 +3,7 @@ name: Beagle Android Pull Request
 on:
     push:
         branches:
-            - master
+            - main
         paths:
             - 'android/**'
             - 'common/**'
