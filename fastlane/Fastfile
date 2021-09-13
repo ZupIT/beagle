@@ -157,14 +157,13 @@ lane :deploy do
     sh "fastlane ios release_pods version:#{versionNumber} tag:#{tagName}"
   end
 
-  release_notes = versionNumber
   sh "bash ./delete_release.sh " + tagName
   set_github_release(
     repository_name: ENV["REPO"],
     api_token: ENV["REPO_TOKEN"],
     name: tagName,
     tag_name: tagName,
-    description: releaseNotes,
+    description: tagName,
     commitish: ENV["COMMITISH"]
   )
 end
