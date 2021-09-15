@@ -9,7 +9,7 @@ Here are a few resources to guide you through contributing to Beagle.
 1. Fork the ZupIT/beagle repo.
 1. Make your changes in a new git branch.
 1. Follow our [Coding Rules](https://github.com/ZupIT/beagle/blob/main/doc/contributing/coding_rules.md).
-1. Commit your changes using a descriptive commit message, and make sure to **include appropriate test cases**.
+1. Commit your changes using a descriptive commit message, [Signing all your commits](https://github.com/ZupIT/beagle/blob/main/doc/contributing/dco_rules.md) and making sure to **include appropriate test cases**.
 1. Push your branch to GitHub.
 1. In GitHub, send a pull request to `beagle:main`.
 
