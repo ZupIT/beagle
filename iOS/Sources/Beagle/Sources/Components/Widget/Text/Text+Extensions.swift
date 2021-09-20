@@ -28,7 +28,9 @@ extension Text {
         textView.textContainer.lineBreakMode = .byTruncatingTail
         textView.font = .systemFont(ofSize: 16)
         textView.backgroundColor = .clear
-
+        //In order to make it behave like the Android component and the UILabel UIKit component, we removed the `accessibilityValue` from the UITextView.
+        textView.accessibilityValue = String()
+        
         // the order of `observe` here is important (`textColor`should be set before `text`) to avoid a weird UIKit behavior when setting `textColor` to nil (issue: #766)
         renderer.observe(textColor, andUpdate: \.textColor, in: textView) {
             $0.flatMap { UIColor(hex: $0) }
