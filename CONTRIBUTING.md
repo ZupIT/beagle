@@ -53,7 +53,7 @@ meaningful changes, consider using `feat:` of `fix:` instead.
 
 ### Following changes
 
-After we analyse your contibution, we may comment some questions and suggestions, make sure to:
+After we analyse your contribution, we may comment some questions and suggestions, make sure to:
 
 - Consider making the required updates.
 - Re-run the Beagle test suites to ensure tests are still passing.
