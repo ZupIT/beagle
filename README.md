@@ -17,87 +17,126 @@
   <a href="https://github.com/ZupIT/beagle/blob/main/CONTRIBUTING.md">Contribute</a>
 </h3>
 
+## **Table of contents**
+1. [**About**](#About)
+2. [**Getting started**](#Getting-started)
+    1. [**Requirements**](#Requirements)
+    2. [**Installing Beagle**](#Installing-Beagle)
+3. [**Usage**](#Usage)
+    1. [**Building your first app using Beagle**](#Building-your-first-app-using-Beagle)
+4. [**Documentation**](#-documentation)
+5. [**Contributing**](#Contributing)
+    1. [**Good First Issues**](#Good-First-Issues)
+    2. [**Developer Certificate of Origin - DCO**](#Developer-Certificate-of-Origin-DCO)
+6. [**Projects**](#Projects)
+7. [**Code of Conduct**](#code-of-conduct)
+8. [**License**](#License)
+
+
+## **About**
 Beagle is an **open-source framework** for **cross-platform** development using the concept of Server-Driven UI.
 
 This framework allows teams to build and alter layouts and data directly through a backend but yet displaying its contents natively in a mobile application and/or through a web one.
 
-It is also possible to create, test and update native application components and screen paths without the need to update the mobile application at the store (App Store or Play Store).
+You can also create, test and update native application components and screen paths without updating the mobile application at the store (App Store or Play Store).
 
-## Contents
+# **Getting started**
 
-- [Requirements](#-requirements)
-- [Building your first app using Beagle](#-building-your-first-app-using-beagle)
-- [Documentation](#-documentation)
-- [How to Contribute](#-how-to-contribute)
-- [Code of Conduct](#code-of-conduct)
-- [License](#-license)
+## **Requirements**
 
-### Requirements
+- Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. 
+- You may use Windows, macOS, or Linux as your development operating system.
 
-Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. You may use Windows, macOS, or Linux as your development operating system.
+## **Installing Beagle**
+The recommended way to install Beagle depends on your project.
+Follow the [**Getting Started guide**](https://docs.usebeagle.io/get-started/installing-beagle):
 
-### Building your first app using Beagle
+- [**Android**](https://docs.usebeagle.io/v1.10/android/getting-started/)
+- [**iOS**](https://docs.usebeagle.io/v1.10/ios/getting-started/)
+- [**Web - Supporting libs**](https://docs.usebeagle.io/v1.10/web/libs/beagle-grpc-web/) 
 
-Follow the [Getting Started guide](https://docs.usebeagle.io/get-started/installing-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
+- [**Backend**](https://docs.usebeagle.io/v1.10/backend/get-started/installing-beagle/)
+- [**Flutter**](https://docs.usebeagle.io/v1.10/flutter/getting-started/)
+- [**React Native**](https://docs.usebeagle.io/v1.10/react-native/react-native-installing/)
 
-- [Creating a New Application][new-app]
-- [Adding Beagle to an Existing Application][existing]
+## **Usage**
+### **Building your first app using Beagle**
+You can find short guides for the most common scenarios:
+
+- [**Creating a New Application**][new-app]
+- [**Adding Beagle to an Existing Application**][existing]
 
 [new-app]: https://docs.usebeagle.io/get-started/new-project
 [existing]: https://docs.usebeagle.io/get-started/using-beagle
 
-### Documentation
+## **Documentation**
 
-The full documentation for Beagle can be found on our [website][site].
-
-The Beagle documentation discusses components, APIs, and topics that are specific to Beagle. [Beagle documentation][b-docs].
+You can find Beagle's documentation on our [website][site].
+[**Beagle's documentation**][b-docs] discusses components, APIs, and topics that are specific to Beagle. 
 
 [site]: https://usebeagle.io/
 [b-docs]: https://docs.usebeagle.io/
 
+## **Contributing**
 
-### How to Contribute
+The main purpose of this repository is to continue evolving Beagle core. We want to make contributing to this project as easy and transparent as possible, and we are grateful to the community for contributing to bug fixes and improvements. 
 
-The main purpose of this repository is to continue evolving Beagle core. We want to make contributing to this project as easy and transparent as possible, and we are grateful to the community for contributing bug fixes and improvements. Read below to learn how you can take part in improving Beagle.
-
-### [Contributing Guide][contribute]
-
-Read our [**Contributing Guide**][contribute] to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Beagle.
+Check out our [**Contributing Guide**][contribute] to learn about our development process, how to propose bug fixes and improvements, build and test your changes to Beagle.
 
 [contribute]: https://github.com/ZupIT/beagle/blob/main/CONTRIBUTING.md
 
-### [Code of Conduct][code]
+### **Good First Issues**
 
-Beagle has adopted a Code of Conduct that we expect project participants to adhere to.
-Please read the [code] so that you can understand what actions will and will not be tolerated.
-
-[code]: https://github.com/ZupIT/beagle/blob/main/CODE_OF_CONDUCT.md
-
-### Good First Issues
-
-We have a list of [good first issues][gfi] that contains bugs, which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
+We have a list of [**good first issues**][gfi] that contains bugs, which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
 
 [gfi]: https://github.com/ZupIT/beagle/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
 
-### Projects
+### **Developer Certificate of Origin - DCO**
 
- We decided to create a repository for each of our projects. The repositories with their respective links are:
+ This is a security layer for the project and for the developers. It is mandatory.
+ 
+ There are two ways to use DCO, see them below: 
+ 
+**1. Command line**
+ Follow the steps: 
+ **Step 1:** Check out your local git:
 
- [Android][android]
+ ```
+git config --global user.name “Name”
+git config --global user.email “email@domain.com.br”
+```
+**Step 2:** When you commit, add the sigoff via `-s` flag:
 
- [iOS][ios] 
+```
+$ git commit -s -m "This is my commit message"
+```
+**2. GitHub website**
 
- [Backend][backend] 
+**Step 1:** When the commit changes box opens, add 
+```
+$ git commit -m “My signed commit” Signed-off-by: username <email address>
+```
+Note: For this option, your e-mail must be the same in registered in GitHub. 
 
- [Tests][tests] 
+## **Projects**
+
+Beagle has a repository for each one of our projects. Check them below: 
+- [**Android**][android]
+- [**iOS**][ios] 
+- [**Backend**][backend] 
+- [**Tests**][tests] 
 
  [android]: https://github.com/ZupIT/beagle-android
  [ios]: https://github.com/ZupIT/beagle-ios
  [Backend]: https://github.com/ZupIT/beagle-backend-kotlin
  [tests]: https://github.com/ZupIT/beagle-tests
 
-### License
+## **Code of Conduct**
 
-Beagle is Apache 2.0 licensed, as found in the [LICENSE][l] file.
+Beagle has adopted a Code of Conduct that we expect project participants to adhere to.
+Please read the [**code**] so that you can understand what actions will and will not be tolerated.
 
-[l]: https://github.com/ZupIT/beagle/blob/main/LICENSE.txt
+[code]: https://github.com/ZupIT/beagle/blob/main/CODE_OF_CONDUCT.md
+
+## **License**
+[**Apache License 2.0**](https://github.com/ZupIT/beagle/blob/main/LICENSE.txt).
