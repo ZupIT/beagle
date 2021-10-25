@@ -18,19 +18,19 @@
 </h3>
 
 ## **Table of contents**
-1. [**About**](#About)
-2. [**Getting started**](#Getting-started)
-    1. [**Requirements**](#Requirements)
-    2. [**Installing Beagle**](#Installing-Beagle)
-3. [**Usage**](#Usage)
-    1. [**Building your first app using Beagle**](#Building-your-first-app-using-Beagle)
-4. [**Documentation**](#-documentation)
-5. [**Contributing**](#Contributing)
-    1. [**Good First Issues**](#Good-First-Issues)
-    2. [**Developer Certificate of Origin - DCO**](#Developer-Certificate-of-Origin-DCO)
-6. [**Projects**](#Projects)
-7. [**Code of Conduct**](#code-of-conduct)
-8. [**License**](#License)
+### 1. [**About**](#About)
+### 2. [**Getting started**](#Getting-started)
+>#### ii. [**Requirements**](#Requirements)
+>#### ii. [**Installation**](#Installing-Beagle)
+>#### iii. [**Usage**](#Usage)
+### 4. [**Documentation**](#-documentation)
+### 5. [**Contributing**](#Contributing)
+>#### i. [**Good First Issues**](#Good-First-Issues)
+>#### ii. [**Developer Certificate of Origin - DCO**](#Developer-Certificate-of-Origin-DCO)
+### 6. [**Projects**](#Projects)
+### 7. [**Code of Conduct**](#code-of-conduct)
+### 8. [**License**](#License)
+
 
 
 ## **About**
@@ -47,7 +47,7 @@ You can also create, test and update native application components and screen pa
 - Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. 
 - You may use Windows, macOS, or Linux as your development operating system.
 
-## **Installing Beagle**
+## **Installation**
 The recommended way to install Beagle depends on your project.
 Follow the [**Getting Started guide**](https://docs.usebeagle.io/get-started/installing-beagle):
 

@@ -2,17 +2,18 @@
 This is Beagle's contributing guide. You will find here some resources to help you contribute.
 
 ## **Table of contents**
-1. [**Before you contribute**](#Before-you-contribute)
-   1. [**Code of Conduct**](#Code-of-Conduct)
-   2. [**Legal**](#Legal)
-2. [**Prerequisites**](#Prerequisites)
-   1. [**Pull Request title**](#Pull-Request-title)
-   2. [**Developer Certificate of Origin**](#Developer-Certificate-of-Origin)
-3. [**How to contribute?**](#How-to-contribute?)
-      1. [**What can you contribute?**](#What-can-you-contribute?)
-      2. [**Contribution Guideline**](#Contribution-Guideline)
-      4. [**Pull Request's approval**](#Pull-Request's-approval)
-4. [**Community**](#Community)
+### 1. [**Before you contribute**](#Before-you-contribute)
+> #### i. [**Code of Conduct**](#Code-of-Conduct)
+> #### ii. [**Legal**](#Legal)
+### 2. [**Prerequisites**](#Prerequisites)
+>#### i. [**Pull Request title**](#Pull-Request-title)
+> #### ii. [**Developer Certificate of Origin**](#Developer-Certificate-of-Origin)
+### 3. [**How to contribute?**](#How-to-contribute?)
+>#### i. [**What can you contribute?**](#What-can-you-contribute?)
+>#### ii. [**Contribution Guideline**](#Contribution-Guideline)
+>#### iii [**Pull Request's approval**](#Pull-Request's-approval)
+### 4. [**Community**](#Community)
+
 
 ## **Before you contribute**
 
