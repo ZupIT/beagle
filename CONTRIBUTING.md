@@ -21,7 +21,7 @@ This is Beagle's contributing guide. You will find here some resources to help y
 Please follow the [**Code of Conduct**](https://github.com/ZupIT/beagle/blob/main/CODE_OF_CONDUCT.md) in all your interactions with our project.
 
 ### **Legal**
-- Beagle is licensed over [**ASL - Apache License**](https://github.com/ZupIT/charlescd/blob/main/LICENSE), version 2, so new files must have the ASL version 2 header. For more information, please check out [**Apache license**](https://www.apache.org/licenses/LICENSE-2.0).
+- Beagle is licensed over [**ASF - Apache License**](https://github.com/ZupIT/charlescd/blob/main/LICENSE), version 2, so new files must have the ASL version 2 header. For more information, please check out [**Apache license**]( https://www.apache.org/licenses/LICENSE-2.0).
 
 - All contributions are subject to the [**Developer Certificate of Origin (DCO)**](https://developercertificate.org). 
 When you commit, use the ```**-s** ``` option to include the Signed-off-by line at the end of the commit log message.
@@ -43,35 +43,39 @@ For more information, please read the [**official specifications**](https://www.
 
 ### **Developer Certificate of Origin - DCO**
 
- This is a security layer for the project and for the developers. It is mandatory.
+This is a security layer for the project and for the developers. It is mandatory.
  
- There are two ways to use DCO, see them below: 
+ Follow one of these two methods to add DCO to your commits:
  
 **1. Command line**
  Follow the steps: 
- **Step 1:** Check out your local git:
+ **Step 1:** Configure your local git environment adding the same name and e-mail configured at your GitHub account. It helps to sign commits manually during reviews and suggestions.
 
  ```
 git config --global user.name “Name”
 git config --global user.email “email@domain.com.br”
 ```
-**Step 2:** When you commit, add the sigoff via `-s` flag:
+**Step 2:** Add the Signed-off-by line with the `'-s'` flag in the git commit command:
 
 ```
 $ git commit -s -m "This is my commit message"
 ```
 **2. GitHub website**
+You can also manually sign your commits during GitHub reviews and suggestions, follow the steps below: 
 
-**Step 1:** When the commit changes box opens, add 
+**Step 1:** When the commit changes box opens, manually type or paste your signature in the comment box, see the examples:
+```
+e.g: Signed-off-by: Name < e-mail address >
+```
 ```
 $ git commit -m “My signed commit” Signed-off-by: username <email address>
 ```
-Note: For this option, your e-mail must be the same in registered in GitHub. 
+For this method, your name and e-mail must be the same registered to your GitHub account.
 
 ## **How to contribute?** 
-See the guidelines to submit your changes: 
+See the guidelines to submit your changes. 
 
-### **What can you contribute?**
+### **How can you contribute?**
 You can contibute with a new feature, bug fix, documentation and more, check out below:
 
 - **feat:** A new feature (adding a new component, providing new variants for an existing component, etc.).
@@ -94,7 +98,7 @@ You can contibute with a new feature, bug fix, documentation and more, check out
 ### **Contribution Guideline**
 Follow the Pull Request submission guidelines below: 
 
-**Step 1.** Search for issues and PRs that relates to your submission. You don't want to duplicate effort;
+**Step 1.** Search for issues and PRs that relate to your submission to avoid duplication;
 
 **Step 2.** Make sure that the issue describes the problem you're fixing, or documents the design for the feature you'd like to add. Discussing the design upfront helps to ensure that we're ready to accept your work.
 
@@ -114,7 +118,7 @@ Follow the Pull Request submission guidelines below:
 After Beagle's team analyze your contribution, we may add some questions and suggestions, you should:
 
 - Make the required updates.
-- Re-run Beagle's test suites to ensure tests are still passing.
+- Re-run Beagle's test suites and CI workflows to ensure everything is still working properly.
 - Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
 
   ```shell

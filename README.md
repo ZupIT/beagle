@@ -95,28 +95,32 @@ We have a list of [**good first issues**][gfi] that contains bugs, which have a 
 
  This is a security layer for the project and for the developers. It is mandatory.
  
- There are two ways to use DCO, see them below: 
+ Follow one of these two methods to add DCO to your commits:
  
 **1. Command line**
  Follow the steps: 
- **Step 1:** Check out your local git:
+ **Step 1:** Configure your local git environment adding the same name and e-mail configured at your GitHub account. It helps to sign commits manually during reviews and suggestions.
 
  ```
 git config --global user.name “Name”
 git config --global user.email “email@domain.com.br”
 ```
-**Step 2:** When you commit, add the sigoff via `-s` flag:
+**Step 2:** Add the Signed-off-by line with the `'-s'` flag in the git commit command:
 
 ```
 $ git commit -s -m "This is my commit message"
 ```
 **2. GitHub website**
+You can also manually sign your commits during GitHub reviews and suggestions, follow the steps below: 
 
-**Step 1:** When the commit changes box opens, add 
+**Step 1:** When the commit changes box opens, manually type or paste your signature in the comment box, see the examples:
+```
+e.g: Signed-off-by: Name < e-mail address >
+```
 ```
 $ git commit -m “My signed commit” Signed-off-by: username <email address>
 ```
-Note: For this option, your e-mail must be the same in registered in GitHub. 
+For this method, your name and e-mail must be the same registered to your GitHub account.
 
 ## **Projects**
 
