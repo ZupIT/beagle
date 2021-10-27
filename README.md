@@ -110,16 +110,16 @@ git config --global user.email “email@domain.com.br”
 ```
 $ git commit -s -m "This is my commit message"
 ```
+
 **2. GitHub website**
 You can also manually sign your commits during GitHub reviews and suggestions, follow the steps below: 
 
-**Step 1:** When the commit changes box opens, manually type or paste your signature in the comment box, see the examples:
+**Step 1:** When the commit changes box opens, manually type or paste your signature in the comment box, see the example:
+
 ```
-e.g: Signed-off-by: Name < e-mail address >
+Signed-off-by: Name < e-mail address >
 ```
-```
-$ git commit -m “My signed commit” Signed-off-by: username <email address>
-```
+
 For this method, your name and e-mail must be the same registered to your GitHub account.
 
 ## **Projects**

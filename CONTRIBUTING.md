@@ -9,7 +9,7 @@ This is Beagle's contributing guide. You will find here some resources to help y
 >#### i. [**Pull Request title**](#Pull-Request-title)
 > #### ii. [**Developer Certificate of Origin**](#Developer-Certificate-of-Origin)
 ### 3. [**How to contribute?**](#How-to-contribute?)
->#### i. [**What can you contribute?**](#What-can-you-contribute?)
+>#### i. [**How can you contribute?**](#What-can-you-contribute?)
 >#### ii. [**Contribution Guideline**](#Contribution-Guideline)
 >#### iii [**Pull Request's approval**](#Pull-Request's-approval)
 ### 4. [**Community**](#Community)
@@ -60,16 +60,16 @@ git config --global user.email “email@domain.com.br”
 ```
 $ git commit -s -m "This is my commit message"
 ```
+
 **2. GitHub website**
 You can also manually sign your commits during GitHub reviews and suggestions, follow the steps below: 
 
-**Step 1:** When the commit changes box opens, manually type or paste your signature in the comment box, see the examples:
+**Step 1:** When the commit changes box opens, manually type or paste your signature in the comment box, see the example:
+
 ```
-e.g: Signed-off-by: Name < e-mail address >
+Signed-off-by: Name < e-mail address >
 ```
-```
-$ git commit -m “My signed commit” Signed-off-by: username <email address>
-```
+
 For this method, your name and e-mail must be the same registered to your GitHub account.
 
 ## **How to contribute?** 
