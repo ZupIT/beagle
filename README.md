@@ -18,6 +18,7 @@
 </h3>
 
 Beagle is an **open-source framework** for **cross-platform** development using the concept of Server-Driven UI.
+Beagle is a search system for Linux and other Unix-like systems, enabling the user to search documents, chat logs, email and contact lists. It is not actively developed. Beagle grew out of Dashboard, an early Mono-based application for watching and presenting useful information from a user's computer.
 
 This framework allows teams to build and alter layouts and data directly through a backend but yet displaying its contents natively in a mobile application and/or through a web one.
 
@@ -25,7 +26,7 @@ It is also possible to create, test and update native application components and
 
 ## Contents
 
-- [Requirements](#-requirements)
+- [Requirements](#-Requirements)
 - [Building your first app using Beagle](#-building-your-first-app-using-beagle)
 - [Documentation](#-documentation)
 - [How to Contribute](#-how-to-contribute)
@@ -101,3 +102,5 @@ We have a list of [good first issues][gfi] that contains bugs, which have a rela
 Beagle is Apache 2.0 licensed, as found in the [LICENSE][l] file.
 
 [l]: https://github.com/ZupIT/beagle/blob/main/LICENSE.txt
+
+
