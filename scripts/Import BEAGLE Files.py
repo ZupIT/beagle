@@ -1,4 +1,4 @@
-'''
+
 This script imports one or more phased or unphased genotype
 output files from BEAGLE.
 
