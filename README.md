@@ -18,18 +18,16 @@
 </h3>
 
 ## **Table of contents**
-### 1. [**About**](#About)
-### 2. [**Getting started**](#Getting-started)
->#### ii. [**Requirements**](#Requirements)
->#### ii. [**Installation**](#Installing-Beagle)
->#### iii. [**Usage**](#Usage)
-### 4. [**Documentation**](#-documentation)
-### 5. [**Contributing**](#Contributing)
->#### i. [**Good First Issues**](#Good-First-Issues)
->#### ii. [**Developer Certificate of Origin - DCO**](#Developer-Certificate-of-Origin-DCO)
-### 6. [**Projects**](#Projects)
-### 7. [**Code of Conduct**](#code-of-conduct)
-### 8. [**License**](#License)
+### 1. [**About**](#about)
+### 2. [**Getting started**](#getting-started)
+>#### 2.1. [**Requirements**](#requirements)
+>#### 2.2 [**Installation**](#installation)
+>#### 2.3 [**Usage**](#usage)
+### 3. [**Documentation**](#documentation)
+### 4. [**Contributing**](#contributing)
+### 5. [**Projects**](#projects)
+### 6. [**Code of Conduct**](#code-of-conduct)
+### 7. [**License**](#license)
 
 
 
@@ -81,15 +79,10 @@ You can find Beagle's documentation on our [website][site].
 
 The main purpose of this repository is to continue evolving Beagle core. We want to make contributing to this project as easy and transparent as possible, and we are grateful to the community for contributing to bug fixes and improvements. 
 
-Check out our [**Contributing Guide**][contribute] to learn about our development process, how to propose bug fixes and improvements, build and test your changes to Beagle.
+Check out our [**Contributing Guide**][contribute] to learn about our development process, how to suggest bugfixes and improvements.
 
 [contribute]: https://github.com/ZupIT/beagle/blob/main/CONTRIBUTING.md
 
-### **Good First Issues**
-
-We have a list of [**good first issues**][gfi] that contains bugs, which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
-
-[gfi]: https://github.com/ZupIT/beagle/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
 
 ### **Developer Certificate of Origin - DCO**
 
@@ -120,7 +113,7 @@ You can also manually sign your commits during GitHub reviews and suggestions, f
 Signed-off-by: Name < e-mail address >
 ```
 
-For this method, your name and e-mail must be the same registered to your GitHub account.
+For this method, your name and e-mail must be the same registered on your GitHub account.
 
 ## **Projects**
 
@@ -137,10 +130,11 @@ Beagle has a repository for each one of our projects. Check them below:
 
 ## **Code of Conduct**
 
-Beagle has adopted a Code of Conduct that we expect project participants to adhere to.
-Please read the [**code**] so that you can understand what actions will and will not be tolerated.
-
-[code]: https://github.com/ZupIT/beagle/blob/main/CODE_OF_CONDUCT.md
+Please follow the [**Code of Conduct**](https://github.com/ZupIT/beagle/blob/main/CODE_OF_CONDUCT.md) in all your interactions with our project
 
 ## **License**
 [**Apache License 2.0**](https://github.com/ZupIT/beagle/blob/main/LICENSE.txt).
+
+## **Community**
+
+- Do you have any question about Beagle? Let's chat in our [**forum**](https://forum.zup.com.br/).
