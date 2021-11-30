@@ -14,23 +14,17 @@
   # limitations under the License.
 #
 
-name: DCO-CHECK
+name: DCO GPG VALIDATOR
 on:
   pull_request:
-    branches:
-      - main
+    types: [opened, synchronize]
+    branches: [main]
+
 jobs:
-  check:
+  dco-gpg-validator:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.x
-      uses: actions/setup-python@v1
-      with:
-        python-version: '3.x'
-    - name: Check DCO
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        pip3 install -U dco-check
-        dco-check
+      - uses: ZupIT/zup-dco-validator@3835528a8d571e90fa9f0f93effccd6cbe6182c6 #v1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_GPG: false
