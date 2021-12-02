@@ -22,13 +22,11 @@
 ### 2. [**Getting started**](#getting-started)
 >#### 2.1. [**Requirements**](#requirements)
 >#### 2.2 [**Installation**](#installation)
->#### 2.3 [**Usage**](#usage)
 ### 3. [**Documentation**](#documentation)
 ### 4. [**Contributing**](#contributing)
 ### 5. [**Projects**](#projects)
 ### 6. [**Code of Conduct**](#code-of-conduct)
 ### 7. [**License**](#license)
-
 
 
 ## **About**
@@ -51,21 +49,12 @@ Follow the [**Getting Started guide**](https://docs.usebeagle.io/get-started/ins
 
 - [**Android**](https://docs.usebeagle.io/v1.10/android/getting-started/)
 - [**iOS**](https://docs.usebeagle.io/v1.10/ios/getting-started/)
-- [**Web - Supporting libs**](https://docs.usebeagle.io/v1.10/web/libs/beagle-grpc-web/) 
+- [**Web React**](https://docs.usebeagle.io/v1.10/web/react/react-installing/)
+- [**Web Angular**](https://docs.usebeagle.io/v1.10/web/angular/angular-installing/)
 
 - [**Backend**](https://docs.usebeagle.io/v1.10/backend/get-started/installing-beagle/)
 - [**Flutter**](https://docs.usebeagle.io/v1.10/flutter/getting-started/)
 - [**React Native**](https://docs.usebeagle.io/v1.10/react-native/react-native-installing/)
-
-## **Usage**
-### **Building your first app using Beagle**
-You can find short guides for the most common scenarios:
-
-- [**Creating a New Application**][new-app]
-- [**Adding Beagle to an Existing Application**][existing]
-
-[new-app]: https://docs.usebeagle.io/get-started/new-project
-[existing]: https://docs.usebeagle.io/get-started/using-beagle
 
 ## **Documentation**
 
