@@ -23,7 +23,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  license-header-check:
     name: PR Check
     runs-on: ubuntu-latest
 

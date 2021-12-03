@@ -21,7 +21,7 @@ on:
     branches: [main]
 
 jobs:
-  dco-gpg-validator:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: ZupIT/zup-dco-validator@3835528a8d571e90fa9f0f93effccd6cbe6182c6 #v1.0

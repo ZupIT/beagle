@@ -14,7 +14,7 @@
   # limitations under the License.
 #
 
-name: Horusec Pull Request
+name: Horusec Validation
 
 on:
   pull_request:
@@ -24,8 +24,8 @@ on:
       - release/*
 
 jobs:
-  horusec:
-    name: horusec
+  horusec-validation:
+    name: Horusec Validation
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
