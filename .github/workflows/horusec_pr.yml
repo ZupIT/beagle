@@ -14,22 +14,23 @@
   # limitations under the License.
 #
 
-name: Horusec Validation
+name: Horusec Pull Request
 
 on:
   pull_request:
     branches:
       - main
+      - horusec
       - release/*
 
 jobs:
-  horusec-validation:
-    name: Horusec Validation
+  horusec:
+    name: horusec
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-        
+
       - name: Read secrets from AWS Secrets Manager into environment variables
         uses: abhilash1in/aws-secrets-manager-action@v1.0.1
         with:
@@ -39,10 +40,8 @@ jobs:
           secrets: |
               beagle/core/security
           parse-json: true
-          
+
       - name: Running Horusec
-        env:
-          HORUSEC_CLI_REPOSITORY_AUTHORIZATION: ${{ env.BEAGLE_CORE_SECURITY_HORUSEC_CLI_REPOSITORY_AUTHORIZATION }}
         run: |
-          curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/master/deployments/scripts/install.sh | bash -s latest
-          horusec start -p="./" -e="true"
+          curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest
+          horusec start -p . -e true -u "https://api-horusec.zup.com.br" -G true -n "${GITHUB_REPOSITORY}_${GITHUB_REF##*/}"
