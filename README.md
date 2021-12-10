@@ -27,7 +27,7 @@
 ### 5. [**Projects**](#projects)
 ### 6. [**Code of Conduct**](#code-of-conduct)
 ### 7. [**License**](#license)
-### 8. [**Community**](#comumnity)
+### 8. [**Community**](#community)
 
 
 ## **About**
