@@ -27,6 +27,7 @@
 ### 5. [**Projects**](#projects)
 ### 6. [**Code of Conduct**](#code-of-conduct)
 ### 7. [**License**](#license)
+### 8. [**Community**](#comumnity)
 
 
 ## **About**
@@ -125,5 +126,6 @@ Please follow the [**Code of Conduct**](https://github.com/ZupIT/beagle/blob/mai
 [**Apache License 2.0**](https://github.com/ZupIT/beagle/blob/main/LICENSE.txt).
 
 ## **Community**
-
-- Do you have any question about Beagle? Let's chat in our [**forum**](https://forum.zup.com.br/).
+We have a forum were you can list doubts and check the current discussions about Beagle.
+Do you have any question about Beagle? 
+Let's chat in our [**forum**](https://forum.zup.com.br/).
