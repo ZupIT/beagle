@@ -1,5 +1,5 @@
 #
-  # Copyright 2020, 2021 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+  # Copyright 2020, 2022 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
   #
   # Licensed under the Apache License, Version 2.0 (the "License");
   # you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Check License and license year on Pull Requests
-        uses: ZupIT/header-license-checker@37c8ae54d54581f1bef0bdf1efefaaf854bda857
+        uses: ZupIT/header-license-checker@635176fe2d08208c8256fd96cebae5c9a47e633c
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
