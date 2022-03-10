@@ -61,7 +61,7 @@ For more information, please read the [**official specifications**](https://www.
 
 ### **Issues**
 
-If you have a bug or an idea, check out the following sections before submitting your contribution.
+If you found a bug or have an idea, check out the following sections before submitting your contribution.
 
 #### **Check the issue tracker**
 
