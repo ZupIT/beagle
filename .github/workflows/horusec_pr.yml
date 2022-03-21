@@ -30,16 +30,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-
-      - name: Read secrets from AWS Secrets Manager into environment variables
-        uses: abhilash1in/aws-secrets-manager-action@v1.0.1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-          secrets: |
-              beagle/core/security
-          parse-json: true
+          depth: 0
 
       - name: Running Horusec
         env:
@@ -47,4 +39,4 @@ jobs:
         run: |
           echo "Repository Owner is: ${{env.REPOSITORY_OWNER}}"
           curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest-rc 
-          horusec start -p . -e=$(if [ "${{env.REPOSITORY_OWNER}}" == "ZupIT/beagle" ]; then echo "true"; else echo "false"; fi) -u "https://api-horusec.zup.com.br" -G true -n "${GITHUB_REPOSITORY}_${GITHUB_REF##*/} -a "${{secrets.HORUSEC_TOKEN}}"
+          horusec start -p . -e=$(if [ "${{env.REPOSITORY_OWNER}}" == "ZupIT/beagle" ]; then echo "true"; else echo "false"; fi) -u "https://api-horusec.zup.com.br" -G true -n "${GITHUB_REPOSITORY}_${GITHUB_REF##*/} -a="${{secrets.HORUSEC_TOKEN}}"
