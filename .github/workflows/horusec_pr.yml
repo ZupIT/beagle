@@ -25,7 +25,7 @@ on:
 
 jobs:
   horusec-validation:
-    name: Horusec validation
+    name: Horusec Validation
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
