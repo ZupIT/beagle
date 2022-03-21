@@ -43,4 +43,4 @@ jobs:
         run: |
           echo "Repository Owner is: ${{env.REPOSITORY_OWNER}}"
           curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest-rc 
-          horusec start -p . -e=$(if [ "${{env.REPOSITORY_OWNER}}" == "ZupIT/horusec" ]; then echo "true"; else echo "false"; fi) -G true
+          horusec start -p . -e=$(if [ "${{env.REPOSITORY_OWNER}}" == "ZupIT/beagle" ]; then echo "true"; else echo "false"; fi) -G true
