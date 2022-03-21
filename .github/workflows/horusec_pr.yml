@@ -38,7 +38,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HORUSEC_CLI_REPOSITORY_AUTHORIZATION: ${{secrets.HORUSEC_TOKEN}}
           HORUSEC_CLI_HORUSEC_API_URI: "https://api-horusec.zup.com.br"
-          HORUSEC_CLI_REPOSITORY_NAME: "${GITHUB_REPOSITORY}_${GITHUB_REF##*/}"
+          HORUSEC_CLI_REPOSITORY_NAME: ${{ github.event.pull_request.head.repo.full_name }}
           REPOSITORY_OWNER: ${{ github.event.pull_request.head.repo.full_name }}
         run: |
           echo "Repository Owner is: ${{env.REPOSITORY_OWNER}}"
