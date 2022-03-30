@@ -56,21 +56,21 @@ You can also create, test and update native application components and screen pa
 
 ## **Requirements**
 
-- Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. 
+- Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. If you're using Beagle Flutter, than the requirement for Android is version 5.0 (API 21).
 - You may use Windows, macOS, or Linux as your development operating system.
 
 ## **Installation**
 The recommended way to install Beagle depends on your project.
 Follow the [**Getting Started guide**](https://docs.usebeagle.io/get-started/installing-beagle):
 
-- [**Android**](https://docs.usebeagle.io/v1.10/android/getting-started/)
-- [**iOS**](https://docs.usebeagle.io/v1.10/ios/getting-started/)
-- [**Web React**](https://docs.usebeagle.io/v1.10/web/react/react-installing/)
-- [**Web Angular**](https://docs.usebeagle.io/v1.10/web/angular/angular-installing/)
+- [**Android**](https://docs.usebeagle.io/v2.0/android/getting-started/)
+- [**iOS**](https://docs.usebeagle.io/v2.0/ios/getting-started/)
+- [**Flutter**](https://docs.usebeagle.io/v2.0/flutter/getting-started/)
+- [**Web React**](https://docs.usebeagle.io/v2.0/web/react/react-installing/)
+- [**Web Angular**](https://docs.usebeagle.io/v2.0/web/angular/angular-installing/)
 
-- [**Backend**](https://docs.usebeagle.io/v1.10/backend/get-started/installing-beagle/)
-- [**Flutter**](https://docs.usebeagle.io/v1.10/flutter/getting-started/)
-- [**React Native**](https://docs.usebeagle.io/v1.10/react-native/react-native-installing/)
+- [**Backend Kotlin**](https://docs.usebeagle.io/v2.0/backend/get-started/installing-beagle/)
+- [**Backend Typescript**](https://github.com/ZupIT/beagle-backend-ts/wiki/Getting-started)
 
 ## **Documentation**
 
@@ -95,12 +95,22 @@ The main purpose of this repository is to continue evolving Beagle core. We want
 Beagle has a repository for each one of our projects. Check them below: 
 - [**Android**][android]
 - [**iOS**][ios] 
-- [**Backend**][backend] 
+- [**Flutter**][flutter] 
+- [**Web (core)**][web-core] 
+- [**Angular**][angular]
+- [**React**][react]
+- [**Backend Kotlin**][backend-kt]
+- [**Backend Typescript**][backend-ts] 
 - [**Tests**][tests] 
 
  [android]: https://github.com/ZupIT/beagle-android
  [ios]: https://github.com/ZupIT/beagle-ios
- [Backend]: https://github.com/ZupIT/beagle-backend-kotlin
+ [flutter]: https://github.com/ZupIT/beagle-flutter
+ [web-core]: https://github.com/ZupIT/beagle-web-core
+ [angular]: https://github.com/ZupIT/beagle-web-angular
+ [react]: https://github.com/ZupIT/beagle-web-react
+ [backend-kt]: https://github.com/ZupIT/beagle-backend-kotlin
+ [backend-ts]: https://github.com/ZupIT/beagle-backend-ts
  [tests]: https://github.com/ZupIT/beagle-tests
 
 ## **Code of Conduct**
