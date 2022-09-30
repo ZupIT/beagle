@@ -56,7 +56,7 @@ You can also create, test and update native application components and screen pa
 
 ## **Requirements**
 
-- Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. If you're using Beagle Flutter, than the requirement for Android is version 5.0 (API 21).
+- Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer.
 - You may use Windows, macOS, or Linux as your development operating system.
 
 ## **Installation**
@@ -65,7 +65,6 @@ Follow the [**Getting Started guide**](https://docs.usebeagle.io/get-started/ins
 
 - [**Android**](https://docs.usebeagle.io/v2.0/android/getting-started/)
 - [**iOS**](https://docs.usebeagle.io/v2.0/ios/getting-started/)
-- [**Flutter**](https://docs.usebeagle.io/v2.0/flutter/getting-started/)
 - [**Web React**](https://docs.usebeagle.io/v2.0/web/react/react-installing/)
 - [**Web Angular**](https://docs.usebeagle.io/v2.0/web/angular/angular-installing/)
 
@@ -95,7 +94,6 @@ The main purpose of this repository is to continue evolving Beagle core. We want
 Beagle has a repository for each one of our projects. Check them below: 
 - [**Android**][android]
 - [**iOS**][ios] 
-- [**Flutter**][flutter] 
 - [**Web (core)**][web-core] 
 - [**Angular**][angular]
 - [**React**][react]
@@ -105,7 +103,6 @@ Beagle has a repository for each one of our projects. Check them below:
 
  [android]: https://github.com/ZupIT/beagle-android
  [ios]: https://github.com/ZupIT/beagle-ios
- [flutter]: https://github.com/ZupIT/beagle-flutter
  [web-core]: https://github.com/ZupIT/beagle-web-core
  [angular]: https://github.com/ZupIT/beagle-web-angular
  [react]: https://github.com/ZupIT/beagle-web-react
@@ -119,8 +116,3 @@ Please follow the [**Code of Conduct**](https://github.com/ZupIT/beagle/blob/mai
 
 ## **License**
 [**Apache License 2.0**](https://github.com/ZupIT/beagle/blob/main/LICENSE.txt).
-
-## **Community**
-We have a forum were you can list doubts and check the current discussions about Beagle.
-Do you have any question about Beagle? 
-Let's chat in our [**forum**](https://forum.zup.com.br/).
