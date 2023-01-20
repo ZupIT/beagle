@@ -1,0 +1,20 @@
+on:
+  fork:
+  push:
+    branches: [main]
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+
+jobs:
+  auto-reply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: EddieHubCommunity/gh-action-community/src/welcome@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: "Thank you for contributing to this project, your support is much appreciated. Right now the team is on vacations, but they will take a look into it as soon as they're available (Feb 06)."
+          pr-message: "Thank you for contributing to this project, your support is much appreciated. Right now the team is on vacations, but they will take a look into it as soon as they're available (Feb 06)."
+          footer: "Stay awesome!"
